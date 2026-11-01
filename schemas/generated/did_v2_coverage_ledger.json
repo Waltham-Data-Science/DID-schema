@@ -10596,7 +10596,10 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "opaque_body",
+        "term"
+      ],
       "decided_targets": [
         "term",
         "sampled_body",
@@ -10605,7 +10608,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "decided",
+      "target_source": "emitted",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -10706,7 +10709,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (nothing). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`opaque_body`, `term`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10732,7 +10735,13 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "directed_relation",
+        "logical",
+        "opaque_body",
+        "score",
+        "undirected_relation"
+      ],
       "decided_targets": [
         "directed_relation",
         "score",
@@ -10740,7 +10749,7 @@
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "decided",
+      "target_source": "emitted",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
@@ -10840,7 +10849,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (nothing). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`directed_relation`, `logical`, `opaque_body`, `score`, `undirected_relation`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,

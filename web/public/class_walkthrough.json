@@ -9,12 +9,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 531,
+        "line": 534,
         "spelling": "SpikeInterfaceSortingOutputs",
         "text": "'SpikeInterfaceSortingOutputs', ..."
        },
        {
-        "line": 591,
+        "line": 594,
         "spelling": "SpikeInterfaceSortingOutputs",
         "text": "'SpikeInterfaceSortingOutputs', 'spike_interface_sorting_outputs'; ..."
        }
@@ -325,6 +325,30 @@
       ]
      },
      {
+      "pass": "migrationRecord",
+      "path": "src/did/+did2/+convert/migrationRecord.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 167,
+        "spelling": "base",
+        "text": "if ~isstruct(s) || ~isfield(s, 'base') || ~isfield(s.base, 'id')"
+       }
+      ]
+     },
+     {
+      "pass": "migrationReport",
+      "path": "src/did/+did2/+convert/migrationReport.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 321,
+        "spelling": "base",
+        "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base) && isfield(s.base, 'id')"
+       }
+      ]
+     },
+     {
       "pass": "mintKey",
       "path": "src/did/+did2/+convert/mintKey.m",
       "site_count": 1,
@@ -533,37 +557,37 @@
       "site_count": 7,
       "sites": [
        {
-        "line": 1105,
+        "line": 1126,
         "spelling": "base",
         "text": "if isstruct(body) && isscalar(body) && isfield(body, 'base') ..."
        },
        {
-        "line": 1147,
+        "line": 1168,
         "spelling": "base",
         "text": "skip = {'base', 'document_class', 'depends_on', 'files', 'file', 'statement'};"
        },
        {
-        "line": 1178,
+        "line": 1199,
         "spelling": "base",
         "text": "if isstruct(b) && isscalar(b) && isfield(b, 'base') && isstruct(b.base) ..."
        },
        {
-        "line": 1201,
+        "line": 1222,
         "spelling": "base",
         "text": "&& isfield(body, 'base') && ~did2.convert.isEmptyBlock(body.ndi_document);"
        },
        {
-        "line": 1388,
+        "line": 1409,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        },
        {
-        "line": 1845,
+        "line": 1866,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'session_id')"
        },
        {
-        "line": 1854,
+        "line": 1875,
         "spelling": "base",
         "text": "if ~isfield(m, 'base') || ~isstruct(m.base) || ~isfield(m.base, 'session_id') ..."
        }
@@ -608,7 +632,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 554,
+        "line": 557,
         "spelling": "binaryseries_parameters",
         "text": "'binaryseries_parameters', ..."
        }
@@ -693,7 +717,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 570,
+        "line": 573,
         "spelling": "binnedspikeratevm",
         "text": "'binnedspikeratevm', ..."
        }
@@ -825,12 +849,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 536,
+        "line": 539,
         "spelling": "cellTypeLabels",
         "text": "'cellTypeLabels', ..."
        },
        {
-        "line": 592,
+        "line": 595,
         "spelling": "cellTypeLabels",
         "text": "'cellTypeLabels',           'cell_type_labels'; ..."
        }
@@ -905,7 +929,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 587,
+        "line": 590,
         "spelling": "contrast_sensitivity_calc",
         "text": "'contrastsensitivity_calc', 'contrast_sensitivity_calc'; ..."
        }
@@ -947,7 +971,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 548,
+        "line": 551,
         "spelling": "contrast_tuning",
         "text": "'contrast_tuning', ..."
        }
@@ -989,7 +1013,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 586,
+        "line": 589,
         "spelling": "contrast_tuning_calc",
         "text": "'contrasttuning_calc',      'contrast_tuning_calc'; ..."
        }
@@ -1055,7 +1079,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 571,
+        "line": 574,
         "spelling": "control_stimulus_ids",
         "text": "'control_stimulus_ids', ..."
        }
@@ -1079,7 +1103,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1702,
+        "line": 1723,
         "spelling": "control_stimulus_ids",
         "text": "'control_stimulus_ids'};"
        }
@@ -1151,7 +1175,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 512,
+        "line": 515,
         "spelling": "daqmetadatareader",
         "text": "'daqmetadatareader', ..."
        }
@@ -1241,7 +1265,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 506,
+        "line": 509,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1265,7 +1289,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1701,
+        "line": 1722,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1331,7 +1355,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 510,
+        "line": 513,
         "spelling": "daqreader",
         "text": "'daqreader', ..."
        }
@@ -1378,7 +1402,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 532,
+        "line": 535,
         "spelling": "daqreader_epochdata_ingested",
         "text": "'daqreader_epochdata_ingested', ..."
        }
@@ -1448,7 +1472,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 533,
+        "line": 536,
         "spelling": "daqreader_image_epochdata_ingested",
         "text": "'daqreader_image_epochdata_ingested', ..."
        }
@@ -1518,7 +1542,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 503,
+        "line": 506,
         "spelling": "daqreader_mfdaq_epochdata_ingested",
         "text": "'daqreader_mfdaq_epochdata_ingested', ..."
        }
@@ -1651,7 +1675,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 511,
+        "line": 514,
         "spelling": "daqreader_ndr",
         "text": "'daqreader_ndr', ..."
        }
@@ -1734,7 +1758,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 508,
+        "line": 511,
         "spelling": "daqsystem",
         "text": "'daqsystem', ..."
        }
@@ -1797,7 +1821,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 559,
+        "line": 562,
         "spelling": "dataset_remote",
         "text": "'dataset_remote', ..."
        }
@@ -1864,7 +1888,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 573,
+        "line": 576,
         "spelling": "dataset_session_info",
         "text": "'dataset_session_info', ..."
        }
@@ -1876,17 +1900,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1836,
+        "line": 1857,
         "spelling": "dataset_session_info",
         "text": "isList = cellfun(@(c) ischar(c) && strcmp(c, 'dataset_session_info'), cls);"
        },
        {
-        "line": 1840,
+        "line": 1861,
         "spelling": "dataset_session_info",
         "text": "if isfield(body, 'dataset_session_info') && isstruct(body.dataset_session_info) ..."
        },
        {
-        "line": 1841,
+        "line": 1862,
         "spelling": "dataset_session_info",
         "text": "&& isfield(body.dataset_session_info, 'dataset_session_info')"
        }
@@ -1951,12 +1975,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 552,
+        "line": 555,
         "spelling": "demoNDI",
         "text": "'demoNDI', ..."
        },
        {
-        "line": 599,
+        "line": 602,
         "spelling": "demoNDI",
         "text": "'demoNDI',                  'demo_ndi'; ..."
        }
@@ -2022,12 +2046,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 553,
+        "line": 556,
         "spelling": "demoNDIMock",
         "text": "'demoNDIMock', ..."
        },
        {
-        "line": 600,
+        "line": 603,
         "spelling": "demoNDIMock",
         "text": "'demoNDIMock',              'demo_ndi_mock'; ..."
        }
@@ -2173,7 +2197,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 522,
+        "line": 525,
         "spelling": "distance_metadata",
         "text": "'distance_metadata', ..."
        }
@@ -2272,7 +2296,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 525,
+        "line": 528,
         "spelling": "electrode_offset_voltage",
         "text": "'electrode_offset_voltage', ..."
        }
@@ -2402,7 +2426,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 498,
+        "line": 501,
         "spelling": "element",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -2426,7 +2450,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1642,
+        "line": 1663,
         "spelling": "element",
         "text": "e = find(done & strcmp(ids, elementId) & strcmp(cls, 'element'), 1);"
        }
@@ -2515,7 +2539,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 498,
+        "line": 501,
         "spelling": "element_epoch",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -2790,7 +2814,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 504,
+        "line": 507,
         "spelling": "epochfiles_ingested",
         "text": "'epochfiles_ingested', ..."
        }
@@ -3087,12 +3111,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 564,
+        "line": 567,
         "spelling": "fileReference",
         "text": "'fileReference', ..."
        },
        {
-        "line": 602,
+        "line": 605,
         "spelling": "fileReference",
         "text": "'fileReference',            'file_reference'; ..."
        }
@@ -3161,7 +3185,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 509,
+        "line": 512,
         "spelling": "filenavigator",
         "text": "'filenavigator', ..."
        }
@@ -3266,7 +3290,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 574,
+        "line": 577,
         "spelling": "fitcurve",
         "text": "'fitcurve', ..."
        }
@@ -3359,12 +3383,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 537,
+        "line": 540,
         "spelling": "geneExpression",
         "text": "'geneExpression', ..."
        },
        {
-        "line": 593,
+        "line": 596,
         "spelling": "geneExpression",
         "text": "'geneExpression',           'gene_expression'; ..."
        }
@@ -3415,12 +3439,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 538,
+        "line": 541,
         "spelling": "geneList",
         "text": "'geneList', ..."
        },
        {
-        "line": 594,
+        "line": 597,
         "spelling": "geneList",
         "text": "'geneList',                 'gene_list'; ..."
        }
@@ -3483,12 +3507,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 539,
+        "line": 542,
         "spelling": "geneListMapping",
         "text": "'geneListMapping', ..."
        },
        {
-        "line": 595,
+        "line": 598,
         "spelling": "geneListMapping",
         "text": "'geneListMapping',          'gene_list_mapping'; ..."
        }
@@ -3654,7 +3678,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 518,
+        "line": 521,
         "spelling": "hartley_calc",
         "text": "'hartley_calc', ..."
        }
@@ -3684,7 +3708,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 572,
+        "line": 575,
         "spelling": "image",
         "text": "'image', ..."
        }
@@ -3845,12 +3869,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 507,
+        "line": 510,
         "spelling": "imageStack",
         "text": "'imageStack', ..."
        },
        {
-        "line": 588,
+        "line": 591,
         "spelling": "imageStack",
         "text": "'imageStack',               'image_stack'; ..."
        }
@@ -4020,7 +4044,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 517,
+        "line": 520,
         "spelling": "jrclust_clusters",
         "text": "'jrclust_clusters', ..."
        }
@@ -4032,7 +4056,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1137,
+        "line": 1158,
         "spelling": "jrclust_clusters",
         "text": "tf = any(strcmp(className, {'jrclust_clusters'})) && strcmp(name, 'jrclust.prm');"
        }
@@ -4105,7 +4129,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 530,
+        "line": 533,
         "spelling": "kiasort_clusters",
         "text": "'kiasort_clusters', ..."
        }
@@ -4163,7 +4187,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 529,
+        "line": 532,
         "spelling": "kilosort_clusters",
         "text": "'kilosort_clusters', ..."
        }
@@ -4221,12 +4245,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 566,
+        "line": 569,
         "spelling": "lightsheetZarrLevel",
         "text": "'lightsheetZarrLevel', ..."
        },
        {
-        "line": 604,
+        "line": 607,
         "spelling": "lightsheetZarrLevel",
         "text": "'lightsheetZarrLevel',      'lightsheet_zarr_level'; ..."
        }
@@ -4325,12 +4349,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 565,
+        "line": 568,
         "spelling": "lightsheetZarrPyramid",
         "text": "'lightsheetZarrPyramid', ..."
        },
        {
-        "line": 603,
+        "line": 606,
         "spelling": "lightsheetZarrPyramid",
         "text": "'lightsheetZarrPyramid',    'lightsheet_zarr_pyramid'; ..."
        }
@@ -4419,7 +4443,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 543,
+        "line": 546,
         "spelling": "measurement",
         "text": "'measurement', ..."
        }
@@ -4540,7 +4564,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 560,
+        "line": 563,
         "spelling": "metadata_editor",
         "text": "'metadata_editor', ..."
        }
@@ -4630,7 +4654,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 516,
+        "line": 519,
         "spelling": "neuron_extracellular",
         "text": "'neuron_extracellular', ..."
        }
@@ -4844,7 +4868,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 555,
+        "line": 558,
         "spelling": "oneepoch",
         "text": "'oneepoch', ..."
        }
@@ -4909,12 +4933,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 556,
+        "line": 559,
         "spelling": "ontologyImage",
         "text": "'ontologyImage', ..."
        },
        {
-        "line": 601,
+        "line": 604,
         "spelling": "ontologyImage",
         "text": "'ontologyImage',            'ontology_image'; ..."
        }
@@ -5057,12 +5081,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 562,
+        "line": 565,
         "spelling": "ontologyLabel",
         "text": "'ontologyLabel', ..."
        },
        {
-        "line": 590,
+        "line": 593,
         "spelling": "ontologyLabel",
         "text": "'ontologyLabel',            'ontology_label'; ..."
        }
@@ -5150,12 +5174,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 577,
+        "line": 580,
         "spelling": "ontologyTableRow",
         "text": "'ontologyTableRow', ..."
        },
        {
-        "line": 605,
+        "line": 608,
         "spelling": "ontologyTableRow",
         "text": "'ontologyTableRow',         'ontology_table_row'};"
        }
@@ -5228,7 +5252,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 578,
+        "line": 581,
         "spelling": "openminds",
         "text": "'openminds', ..."
        }
@@ -5331,7 +5355,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 580,
+        "line": 583,
         "spelling": "openminds_element",
         "text": "'openminds_element', ..."
        }
@@ -5383,7 +5407,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 581,
+        "line": 584,
         "spelling": "openminds_stimulus",
         "text": "'openminds_stimulus', ..."
        }
@@ -5436,7 +5460,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 579,
+        "line": 582,
         "spelling": "openminds_subject",
         "text": "'openminds_subject', ..."
        }
@@ -5488,7 +5512,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 499,
+        "line": 502,
         "spelling": "oridirtuning_calc",
         "text": "'tuningcurve_calc', 'contrasttuning_calc', 'oridirtuning_calc', ..."
        }
@@ -5518,7 +5542,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 547,
+        "line": 550,
         "spelling": "orientation_direction_tuning",
         "text": "'orientation_direction_tuning', ..."
        }
@@ -5606,7 +5630,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 521,
+        "line": 524,
         "spelling": "position_metadata",
         "text": "'position_metadata', ..."
        }
@@ -5715,7 +5739,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 523,
+        "line": 526,
         "spelling": "probe_geometry",
         "text": "'probe_geometry', ..."
        }
@@ -5857,7 +5881,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 515,
+        "line": 518,
         "spelling": "probe_location",
         "text": "'probe_location', ..."
        }
@@ -6023,7 +6047,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 563,
+        "line": 566,
         "spelling": "pyraview",
         "text": "'pyraview', ..."
        }
@@ -6136,6 +6160,38 @@
       ]
      },
      {
+      "pass": "migrationRecord",
+      "path": "src/did/+did2/+convert/migrationRecord.m",
+      "site_count": 5,
+      "sites": [
+       {
+        "line": 173,
+        "spelling": "session",
+        "text": "elseif strcmp(kind, 'session')"
+       },
+       {
+        "line": 200,
+        "spelling": "session",
+        "text": "% 'dataset' or 'session' for an entity (or a pre-#88 dataset/session class)"
+       },
+       {
+        "line": 206,
+        "spelling": "session",
+        "text": "if any(strcmp(cls, {'dataset', 'session'}))"
+       },
+       {
+        "line": 219,
+        "spelling": "session",
+        "text": "elseif did2.build.isVocabulary(t, 'entity_type', 'session')"
+       },
+       {
+        "line": 220,
+        "spelling": "session",
+        "text": "kind = 'session';"
+       }
+      ]
+     },
+     {
       "pass": "mintSessionDuring",
       "path": "src/did/+did2/+convert/mintSessionDuring.m",
       "site_count": 3,
@@ -6163,7 +6219,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 557,
+        "line": 560,
         "spelling": "session",
         "text": "'session', ..."
        }
@@ -6306,7 +6362,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 558,
+        "line": 561,
         "spelling": "session_in_a_dataset",
         "text": "'session_in_a_dataset', ..."
        }
@@ -6318,12 +6374,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1850,
+        "line": 1871,
         "spelling": "session_in_a_dataset",
         "text": "if ~strcmp(cls{j}, 'session_in_a_dataset')"
        },
        {
-        "line": 1856,
+        "line": 1877,
         "spelling": "session_in_a_dataset",
         "text": "|| ~isfield(m, 'session_in_a_dataset') || ~isstruct(m.session_in_a_dataset)"
        }
@@ -6410,7 +6466,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 567,
+        "line": 570,
         "spelling": "simple_calc",
         "text": "'simple_calc', ..."
        }
@@ -6520,7 +6576,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 524,
+        "line": 527,
         "spelling": "site2channelmap",
         "text": "'site2channelmap', ..."
        }
@@ -6607,7 +6663,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 528,
+        "line": 531,
         "spelling": "sorting_parameters",
         "text": "'sorting_parameters', ..."
        }
@@ -6676,12 +6732,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 540,
+        "line": 543,
         "spelling": "spatialGeneExpressionCells",
         "text": "'spatialGeneExpressionCells', ..."
        },
        {
-        "line": 596,
+        "line": 599,
         "spelling": "spatialGeneExpressionCells",
         "text": "'spatialGeneExpressionCells',   'spatial_gene_expression_cells'; ..."
        }
@@ -6767,12 +6823,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 541,
+        "line": 544,
         "spelling": "spatialGeneExpressionPyramid",
         "text": "'spatialGeneExpressionPyramid', ..."
        },
        {
-        "line": 597,
+        "line": 600,
         "spelling": "spatialGeneExpressionPyramid",
         "text": "'spatialGeneExpressionPyramid', 'spatial_gene_expression_pyramid'; ..."
        }
@@ -6864,12 +6920,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 542,
+        "line": 545,
         "spelling": "spatialGeneExpressionTiles",
         "text": "'spatialGeneExpressionTiles', ..."
        },
        {
-        "line": 598,
+        "line": 601,
         "spelling": "spatialGeneExpressionTiles",
         "text": "'spatialGeneExpressionTiles',   'spatial_gene_expression_tiles'; ..."
        }
@@ -6972,7 +7028,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 549,
+        "line": 552,
         "spelling": "spatial_frequency_tuning",
         "text": "'spatial_frequency_tuning', ..."
        }
@@ -7002,7 +7058,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 500,
+        "line": 503,
         "spelling": "spatial_frequency_tuning_calc",
         "text": "'spatial_frequency_tuning_calc', 'temporal_frequency_tuning_calc', ..."
        }
@@ -7032,7 +7088,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 551,
+        "line": 554,
         "spelling": "speed_tuning",
         "text": "'speed_tuning', ..."
        }
@@ -7062,7 +7118,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 589,
+        "line": 592,
         "spelling": "speed_tuning_calc",
         "text": "'speedtuning_calc',         'speed_tuning_calc'; ..."
        }
@@ -7092,7 +7148,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 569,
+        "line": 572,
         "spelling": "spike_clusters",
         "text": "'spike_clusters', ..."
        }
@@ -7198,7 +7254,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 526,
+        "line": 529,
         "spelling": "spike_extraction_parameters",
         "text": "'spike_extraction_parameters', ..."
        }
@@ -7300,7 +7356,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 527,
+        "line": 530,
         "spelling": "spike_extraction_parameters_modification",
         "text": "'spike_extraction_parameters_modification', ..."
        }
@@ -7433,7 +7489,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 568,
+        "line": 571,
         "spelling": "spikewaves",
         "text": "'spikewaves', ..."
        }
@@ -7527,7 +7583,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 520,
+        "line": 523,
         "spelling": "stimulus_bath",
         "text": "'stimulus_bath', ..."
        }
@@ -7633,7 +7689,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 545,
+        "line": 548,
         "spelling": "stimulus_parameter",
         "text": "'stimulus_parameter', ..."
        }
@@ -7795,7 +7851,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 561,
+        "line": 564,
         "spelling": "stimulus_presentation",
         "text": "'stimulus_presentation', ..."
        }
@@ -7851,7 +7907,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1701,
+        "line": 1722,
         "spelling": "stimulus_presentation",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -8026,7 +8082,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 501,
+        "line": 504,
         "spelling": "stimulus_response_scalar",
         "text": "'contrastsensitivity_calc', 'stimulus_response_scalar', ..."
        }
@@ -8158,7 +8214,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 502,
+        "line": 505,
         "spelling": "stimulus_response_scalar_parameters_basic",
         "text": "'stimulus_response_scalar_parameters_basic', ..."
        }
@@ -8258,7 +8314,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 546,
+        "line": 549,
         "spelling": "stimulus_tuningcurve",
         "text": "'stimulus_tuningcurve', ..."
        }
@@ -8403,7 +8459,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 497,
+        "line": 500,
         "spelling": "subject",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -8452,7 +8508,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 497,
+        "line": 500,
         "spelling": "subject_group",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -8527,7 +8583,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 544,
+        "line": 547,
         "spelling": "subjectmeasurement",
         "text": "'subjectmeasurement', ..."
        }
@@ -8586,7 +8642,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 514,
+        "line": 517,
         "spelling": "syncgraph",
         "text": "'syncgraph', ..."
        }
@@ -8656,7 +8712,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 513,
+        "line": 516,
         "spelling": "syncrule",
         "text": "'syncrule', ..."
        }
@@ -8759,7 +8815,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 505,
+        "line": 508,
         "spelling": "syncrule_mapping",
         "text": "'syncrule_mapping', ..."
        }
@@ -8847,7 +8903,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 550,
+        "line": 553,
         "spelling": "temporal_frequency_tuning",
         "text": "'temporal_frequency_tuning', ..."
        }
@@ -8877,7 +8933,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 500,
+        "line": 503,
         "spelling": "temporal_frequency_tuning_calc",
         "text": "'spatial_frequency_tuning_calc', 'temporal_frequency_tuning_calc', ..."
        }
@@ -8907,7 +8963,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 497,
+        "line": 500,
         "spelling": "treatment",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -8976,7 +9032,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 497,
+        "line": 500,
         "spelling": "treatment_drug",
         "text": "names = {'subject', 'subject_group', 'treatment', 'treatment_drug', ..."
        }
@@ -9081,7 +9137,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 498,
+        "line": 501,
         "spelling": "treatment_transfer",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -9162,7 +9218,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 499,
+        "line": 502,
         "spelling": "tuningcurve_calc",
         "text": "'tuningcurve_calc', 'contrasttuning_calc', 'oridirtuning_calc', ..."
        }
@@ -9333,7 +9389,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 498,
+        "line": 501,
         "spelling": "virus_injection",
         "text": "'treatment_transfer', 'virus_injection', 'element', 'element_epoch', ..."
        }
@@ -9440,7 +9496,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 534,
+        "line": 537,
         "spelling": "vmneuralresponseresiduals",
         "text": "'vmneuralresponseresiduals', ..."
        }
@@ -9539,7 +9595,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 576,
+        "line": 579,
         "spelling": "vmspikefilteringparameters",
         "text": "'vmspikefilteringparameters', ..."
        }
@@ -9629,7 +9685,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 575,
+        "line": 578,
         "spelling": "vmspikefit",
         "text": "'vmspikefit', ..."
        }
@@ -9718,7 +9774,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 535,
+        "line": 538,
         "spelling": "vmspikesummary",
         "text": "'vmspikesummary', ..."
        }
@@ -9840,7 +9896,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 54,
+  "convert_package_files_scanned": 57,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 115,
