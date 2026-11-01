@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 667 decision line(s) accepted, 2 rejected; 44 cited by a class, 623 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 670 decision line(s) accepted, 2 rejected; 44 cited by a class, 626 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -915,10 +915,13 @@ field). If one decides a class's disposition, that class should cite it.
 - orthology mapping has no method term. "Decided by Jess Haley, 2026-11-01 [orthology mapping has no" (did_v2_go_forward_class_audit.md:1840).
 - gene list as a term, file kept. "Decided by Jess Haley, 2026-11-01 [gene list as a term" (did_v2_go_forward_class_audit.md:1842).
 - mapping rows counted, indices 0-based. "Decided by Jess Haley, 2026-11-01 [mapping rows counted" (did_v2_go_forward_class_audit.md:1844).
-- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1846).
-- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1848).
-- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1850).
-- key covariate index. "Decided by Jess Haley, 2026-11-01 [key covariate index]: (" (did_v2_go_forward_class_audit.md:1852).
+- undirected relation widened. "Decided by Jess Haley, 2026-11-01 [undirected relation" (did_v2_go_forward_class_audit.md:1846).
+- undirected ends are relata. "Decided by Jess Haley, 2026-11-01 [undirected ends are" (did_v2_go_forward_class_audit.md:1848).
+- undirected registry columns are relata. "Decided by Jess Haley, 2026-11-01 [undirected registry" (did_v2_go_forward_class_audit.md:1850).
+- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1852).
+- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1854).
+- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1856).
+- key covariate index. "Decided by Jess Haley, 2026-11-01 [key covariate index]: (" (did_v2_go_forward_class_audit.md:1858).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

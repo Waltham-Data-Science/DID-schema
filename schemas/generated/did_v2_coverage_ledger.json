@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 655,
+          "accepted_lines": 670,
           "accepted_lines_by_kind": {
-            "Decided by": 535,
+            "Decided by": 550,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4488,13 +4488,29 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 1784,
               "kind": "Decided by",
+              "tag": "ensemble and generic_file checked as v1",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ensemble and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1786,
+              "kind": "Decided by",
+              "tag": "last rename-pass classes",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [last rename-pass"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1788,
+              "kind": "Decided by",
               "tag": "UTC treatment time is absolute",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [UTC treatment time is"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1786,
+              "line": 1790,
               "kind": "Decided by",
               "tag": "postnatal day 0 not stated",
               "date": "2026-11-01",
@@ -4502,7 +4518,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1788,
+              "line": 1792,
               "kind": "Decided by",
               "tag": "percent volume per volume converted",
               "date": "2026-11-01",
@@ -4510,7 +4526,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1790,
+              "line": 1794,
               "kind": "Decided by",
               "tag": "breeding type and disease model text not stored",
               "date": "2026-11-01",
@@ -4518,7 +4534,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1792,
+              "line": 1796,
               "kind": "Decided by",
               "tag": "relations get notes",
               "date": "2026-11-01",
@@ -4526,7 +4542,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1794,
+              "line": 1798,
               "kind": "Decided by",
               "tag": "hartley implied by its class",
               "date": "2026-11-01",
@@ -4534,7 +4550,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1796,
+              "line": 1800,
               "kind": "Decided by",
               "tag": "study link without a dataset document",
               "date": "2026-11-01",
@@ -4542,7 +4558,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1798,
+              "line": 1802,
               "kind": "Decided by",
               "tag": "redeclarations left need no merge",
               "date": "2026-11-01",
@@ -4550,7 +4566,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1800,
+              "line": 1804,
               "kind": "Decided by",
               "tag": "binding catalogue gap reports only",
               "date": "2026-11-01",
@@ -4558,7 +4574,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1802,
+              "line": 1806,
               "kind": "Decided by",
               "tag": "compression terms registered",
               "date": "2026-11-01",
@@ -4566,7 +4582,15 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1804,
+              "line": 1808,
+              "kind": "Decided by",
+              "tag": "compression term definitions approved",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [compression term"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1810,
               "kind": "Decided by",
               "tag": "unit lists widened then armed",
               "date": "2026-11-01",
@@ -4574,7 +4598,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1806,
+              "line": 1812,
               "kind": "Decided by",
               "tag": "CLAUDE.md layout corrections drafted",
               "date": "2026-11-01",
@@ -4582,7 +4606,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1808,
+              "line": 1814,
               "kind": "Decided by",
               "tag": "migration record",
               "date": "2026-11-01",
@@ -4590,7 +4614,47 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1818,
+              "line": 1824,
+              "kind": "Decided by",
+              "tag": "gap accepted when the report lists it",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gap accepted when the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1826,
+              "kind": "Decided by",
+              "tag": "migration report is an attached file",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [migration report is an"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1828,
+              "kind": "Decided by",
+              "tag": "migration record points at the dataset",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [migration record points"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1830,
+              "kind": "Decided by",
+              "tag": "migration record writer",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [migration record"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1832,
+              "kind": "Decided by",
+              "tag": "migration method is conversion",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [migration method is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1834,
               "kind": "Decided by",
               "tag": "gene list mapping value shape",
               "date": "2026-11-01",
@@ -4598,7 +4662,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1820,
+              "line": 1836,
               "kind": "Decided by",
               "tag": "gene list mapping value kind",
               "date": "2026-11-01",
@@ -4606,7 +4670,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1822,
+              "line": 1838,
               "kind": "Decided by",
               "tag": "gene list mapping method text",
               "date": "2026-11-01",
@@ -4614,7 +4678,55 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1824,
+              "line": 1840,
+              "kind": "Decided by",
+              "tag": "orthology mapping has no method term",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [orthology mapping has no"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1842,
+              "kind": "Decided by",
+              "tag": "gene list as a term, file kept",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list as a term"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1844,
+              "kind": "Decided by",
+              "tag": "mapping rows counted, indices 0-based",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [mapping rows counted"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1846,
+              "kind": "Decided by",
+              "tag": "undirected relation widened",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [undirected relation"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1848,
+              "kind": "Decided by",
+              "tag": "undirected ends are relata",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [undirected ends are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1850,
+              "kind": "Decided by",
+              "tag": "undirected registry columns are relata",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [undirected registry"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1852,
               "kind": "Decided by",
               "tag": "gene list mapping leftovers",
               "date": "2026-11-01",
@@ -4622,7 +4734,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1826,
+              "line": 1854,
               "kind": "Decided by",
               "tag": "gene list mapping other types carried",
               "date": "2026-11-01",
@@ -4630,11 +4742,19 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1828,
+              "line": 1856,
               "kind": "Decided by",
               "tag": "no per-pair orthology variable",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [no per-pair orthology"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1858,
+              "kind": "Decided by",
+              "tag": "key covariate index",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [key covariate index]: ("
             },
             {
               "document": "did_v2_image_model_plan.md",
