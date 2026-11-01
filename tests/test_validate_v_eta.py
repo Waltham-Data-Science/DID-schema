@@ -278,34 +278,36 @@ def test_an_unrecorded_amount_written_as_nan_counts_as_stated():
     assert V.value_inline_or_body(lost)
 
 
-def test_a_blank_value_that_needs_info_names_passes():
-    # [formulation amount needs info] (Jess Haley, 2026-10-31,
-    # did_v2_go_forward_class_audit.md): a blank value is accepted when the
-    # document's needs_info names it or a field within it -- a formulation in
-    # which no ingredient states an amount.
+def test_a_blank_value_that_a_reported_gap_names_passes():
+    # [formulation amount needs info] (Jess Haley, 2026-10-31) and [gap accepted
+    # when the report lists it] (2026-11-01, did_v2_go_forward_class_audit.md):
+    # a blank value is accepted when the run's migration report lists it, or a
+    # field within it, as a gap of the document -- a formulation in which no
+    # ingredient states an amount.
     doc = {"document_class": {"class_name": "formulation"},
-           "value": {"ingredients": [{}, {}]},
-           "base": {"needs_info": [
-               {"field": "formulation.value.ingredients(1).concentration",
-                "reason": "the source lists this ingredient but states no amount"},
-               {"field": "formulation.value.ingredients(2).concentration",
-                "reason": "the source lists this ingredient but states no amount"}]}}
-    assert V.value_inline_or_body(doc) == []
-    # the value itself, named whole, passes too
-    doc["base"]["needs_info"] = [{"field": "formulation.value", "reason": "not stated"}]
-    assert V.value_inline_or_body(doc) == []
+           "value": {"ingredients": [{}, {}]}}
+    gaps = [{"field": "formulation.value.ingredients(1).concentration",
+             "reason": "the source lists this ingredient but states no amount"},
+            {"field": "formulation.value.ingredients(2).concentration",
+             "reason": "the source lists this ingredient but states no amount"}]
+    assert V.value_inline_or_body(doc, gaps) == []
+    # the value itself, listed whole, passes too
+    assert V.value_inline_or_body(doc, [{"field": "formulation.value",
+                                         "reason": "not stated"}]) == []
+    # the document no longer says it: a base.needs_info entry is not read
+    doc["base"] = {"needs_info": gaps}
+    assert V.value_inline_or_body(doc)
 
 
-def test_a_blank_value_that_needs_info_does_not_name_is_refused():
+def test_a_blank_value_that_no_reported_gap_names_is_refused():
     doc = {"document_class": {"class_name": "formulation"},
            "value": {"ingredients": [{}]}}
-    for entries in ([],
-                    [{"field": "formulation.notes", "reason": "not stated"}],
-                    [{"field": "formulation.values", "reason": "not stated"}],
-                    [{"field": "formulation.value.ingredients(1).concentration",
-                      "reason": ""}]):
-        doc["base"] = {"needs_info": entries}
-        assert V.value_inline_or_body(doc), entries
+    for gaps in (None, [],
+                 [{"field": "formulation.notes", "reason": "not stated"}],
+                 [{"field": "formulation.values", "reason": "not stated"}],
+                 [{"field": "formulation.value.ingredients(1).concentration",
+                   "reason": ""}]):
+        assert V.value_inline_or_body(doc, gaps), gaps
 
 
 def test_a_required_inline_value_is_refused(tree):

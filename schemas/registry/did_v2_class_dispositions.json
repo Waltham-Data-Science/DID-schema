@@ -330,10 +330,6 @@
         "undirected_relation": {
             "disposition": "persist"
         },
-        "valid_interval": {
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator → delete)"
-        },
         "value": {
             "disposition": "persist"
         },

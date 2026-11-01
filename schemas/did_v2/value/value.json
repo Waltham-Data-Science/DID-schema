@@ -86,7 +86,7 @@
                 "data_body",
                 "value_id"
             ],
-            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: did_v2_data_body_model_plan.md AMENDMENT 5 and its clarification). A blank `value` is also accepted when the document's `base.needs_info` names it or a field within it (`<block>.value...`): a fact the source never stated, such as a formulation in which no ingredient states an amount (Jess Haley, 2026-10-31, did_v2_go_forward_class_audit.md [formulation amount needs info])."
+            "statement": "A value is inline (its `value` field filled) or in data bodies (`data_body` true), never neither; a statement may instead take its value from a shared value document through a non-empty `value_id` edge (statement.json), which is itself inline or in bodies. This one rule replaces a per-class required `value` (Jess Haley, 2026-10-21, signed: did_v2_data_body_model_plan.md AMENDMENT 5 and its clarification). A blank `value` is also accepted when the run's migration report lists it, or a field within it (`<block>.value...`), as a gap of the document: a fact the source never stated, such as a formulation in which no ingredient states an amount (Jess Haley, 2026-10-31, did_v2_go_forward_class_audit.md [formulation amount needs info]; listed in the report, not the document, since [gap accepted when the report lists it], 2026-11-01)."
         }
     ]
 }

@@ -45,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical fraction, as a plain ratio: 1 is the whole, 0.25 a quarter (om:one). Not bounded above: a part may exceed its reference whole. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Canonical fraction, as a plain ratio: 1 is the whole, 0.25 a quarter (om:one). Not bounded above: a part may exceed its reference whole. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {

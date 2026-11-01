@@ -717,7 +717,16 @@ def test_the_two_stranding_classes_have_a_tombstone():
     content_hash to hold the MD5 `checksum`, which is checked here so that the day
     it gains one, this test says so."""
     disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
-    for name in ("generic_file", "valid_interval"):
+    # valid_interval LEFT THE TREE 2026-11-01 ([one folder, final classes
+    # only]): DID-matlab V2 161f3d40 carries every v1 valid_interval whole as
+    # v1 (did2.convert.noMigratorCarryRows, carry-164, [classes without a
+    # migrator carry as v1]), stamped did_v1 and never validated against V2, so
+    # it is no longer stranded and needs no tombstone. What must hold for it
+    # now: it is not in the tree and its name is retired.
+    import veta_record
+    assert "valid_interval" not in RECORDS
+    assert "valid_interval" in veta_record.RETIRED_CLASSES
+    for name in ("generic_file",):
         assert name in RECORDS, (
             f"{name} has no V_eta schema; a document of this class reaches validation "
             "as an undeclared class and is lost")
@@ -794,28 +803,6 @@ def test_the_two_stranding_classes_have_a_tombstone():
         "`compression` exists, so content_hash's documentation must say whether "
         "it hashes the compressed or the decompressed bytes "
         "(did_v2_data_body_model_plan.md, open question 3)")
-
-    # valid_interval, from markgarbage.m:55-58,93-95. `session_ID` is the
-    # writer-vs-template divergence: ndi_timereference_struct returns it
-    # (timereference.m:110) and NO NDI template has ever declared it, so an
-    # undeclared it would be `undeclaredField` on every real document. It keeps its
-    # CAMEL spelling because universalRenames snake_cases only a block's immediate
-    # field names and this one is nested (universalRenames.m:302-347).
-    vi = RECORDS["valid_interval"][1]
-    assert {f["name"] for f in vi["fields"]} == {
-        "timeref_structt0", "t0", "timeref_structt1", "t1"}
-    for blk in ("timeref_structt0", "timeref_structt1"):
-        subs = next(f for f in vi["fields"] if f["name"] == blk)["fields"]
-        assert {s["name"] for s in subs} == {
-            "referent_epochsetname", "referent_classname", "clocktypestring",
-            "epoch", "session_ID", "time"}
-        # NDI's clocktype vocabulary is NINE values (clocktype.m:69-71); the V_zeta
-        # shape this replaces enumerated SIX, so approx_exp_global_time,
-        # approx_dev_global_time and inherited would each have quarantined a real
-        # document on a constraint DID invented. A tombstone enumerates nothing.
-        ct = next(s for s in subs if s["name"] == "clocktypestring")
-        assert ct["constraints"] == {}, \
-            "a tombstone must not enumerate a vocabulary it cannot bound"
 
 
 def test_timeseries_encoding_subtypes_dissolved():

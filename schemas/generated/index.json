@@ -1147,18 +1147,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "valid_interval",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/retiring/valid_interval.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "value",
             "family": "value",
             "class_version": "1.0.0",

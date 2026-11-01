@@ -139,14 +139,6 @@
             ],
             "decision": "",
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "valid_interval",
-            "replaced_by": [
-                "observation + time"
-            ],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
         }
     ]
 }

@@ -639,6 +639,16 @@ whose DID-matlab build waits on GL1-GL7.
   - **G76. The ingest's data file names (parked by Jess, 2026-11-01).** Name the
     pieces `body_data_0, 1, ...` (the schema's names, from 0), instead of NDI's
     `ai_group1_seg.nbf_1, ...`? [the schema's names]
+  - **G77. Which dataset a migration record points at (from build A,
+    2026-11-01).** [migration record points at the dataset] covers a run with
+    one dataset or one session. When one run holds two or more datasets, or
+    two or more sessions and no dataset, DID-matlab stops with
+    `did2:convert:migrationAnchor` and writes no record. Which should it point
+    at? [one record per dataset, each with its own report]
+  - **G78. The migration record's source and target formats (from build A).**
+    Its `source format` and `target format` parameters are plain text
+    ("did_v1", "did_v2"), [migration record details] (b) Proposed. Keep plain
+    text, or find or mint terms? [plain text: these are our own format names]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
