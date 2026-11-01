@@ -299,16 +299,25 @@
       }
     },
     "gene_list": {
-      "targets": [],
+      "targets": [
+        "opaque_body",
+        "term"
+      ],
       "target_completeness": {
-        "state": "carry_forward",
+        "state": "full",
         "unresolved_sites": []
       }
     },
     "gene_list_mapping": {
-      "targets": [],
+      "targets": [
+        "directed_relation",
+        "logical",
+        "opaque_body",
+        "score",
+        "undirected_relation"
+      ],
       "target_completeness": {
-        "state": "carry_forward",
+        "state": "full",
         "unresolved_sites": []
       }
     },
