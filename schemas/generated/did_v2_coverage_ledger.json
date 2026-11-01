@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 624,
+          "accepted_lines": 628,
           "accepted_lines_by_kind": {
-            "Decided by": 504,
+            "Decided by": 508,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4387,6 +4387,38 @@
               "tag": "UTC acquisition time is absolute",
               "date": "2026-10-31",
               "anchor": "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1764,
+              "kind": "Decided by",
+              "tag": "ndi_document read as base",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [ndi_document read as"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1766,
+              "kind": "Decided by",
+              "tag": "rename clashes are malformed",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [rename clashes are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1768,
+              "kind": "Decided by",
+              "tag": "ensemble and generic_file keep their conversions",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ensemble and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1770,
+              "kind": "Decided by",
+              "tag": "UTC treatment time is absolute",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [UTC treatment time is"
             },
             {
               "document": "did_v2_image_model_plan.md",
