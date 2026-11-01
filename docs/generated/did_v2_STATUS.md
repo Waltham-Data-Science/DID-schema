@@ -354,8 +354,8 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `filter` | no V_eta home, no migrator -- UNVERIFIED | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (did_v2_frequency_filter_model_plan.md:5).; [filters are methods]. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (did_v2_frequency_filter_model_plan.md:201). |
 | `fitcurve` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `geneExpression` | consumed by migrator (no tombstone) | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
-| `geneList` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
-| `geneListMapping` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `geneList` | consumed by migrator (no tombstone) | 2 of 2 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `geneListMapping` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:823). |
 | `hartley_calc` | consumed by migrator (no tombstone) | 5 of 5 | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (did_v2_ngrid_family_findings.md:358). |
 | `image` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |

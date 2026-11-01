@@ -649,6 +649,63 @@ whose DID-matlab build waits on GL1-GL7.
     Its `source format` and `target format` parameters are plain text
     ("did_v1", "did_v2"), [migration record details] (b) Proposed. Keep plain
     text, or find or mint terms? [plain text: these are our own format names]
+  - **G79. Keep accepting `V_eta` as a target name? (from build N,
+    2026-11-01.)** [schema set renamed did_v2] planned: accept both, switch the
+    defaults, then stop accepting `V_eta`. The defaults are switched
+    (DID-matlab #352, NDI-matlab #1132). Keep accepting `V_eta` for good, or
+    stop? [keep it: a harmless alias, already normalised to `did_v2`]
+  - **G80. A probe listed in several rows of one probe map (from build O,
+    2026-11-01).** A stimulator is listed once per marker channel (mk1..mk7,
+    seven rows; 1,242 epochs in corpus B, the same in Dab). Wire it as (a) ONE
+    `connected to` relation holding all its channels, with the per-row
+    duplicate manipulations merged into one (how NDI reads such a probe; the
+    rebuilt v1 probe-map text changes), or (b) one relation per row, numbered
+    by its row (`order`), so the v1 text rebuilds exactly? Until answered
+    those epochs are carried whole as v1 (lossless). [(a), if the v1 text
+    may be rebuilt in NDI's merged form]
+  - **G81. Carry what the batch passes leave, at the end (from build J,
+    2026-11-01).** Five retire classes stay because pass 1 hands their
+    documents to a later batch pass (epochMint, resolveResponseParameters,
+    resolveClockAlignment, resolveEpochProbemap). Carry whatever those passes
+    leave unconverted at the end of the batch, instead of in pass 1, so the
+    tombstones can go? A design change; not built. [yes, once each batch pass
+    is checked to tolerate the missing class]
+  - **G82. Old-kind databases for new sessions (from build G2, 2026-11-01).**
+    Five NDI writers now write V2 into a V2 database and v1 into a v1 one
+    (NDI-matlab #1126, #1130, #1131, #1133, #1136). A new session folder
+    still gets the old kind of database. Keep writing v1 into old databases,
+    and decide separately when new sessions get the V2 database by default?
+    [addSessionV2 folded back] waits on this. [yes: keep v1 for old
+    databases; make V2 the default for new sessions as its own decision]
+  - **G83. Writers that don't know their session (from build G2).**
+    `subjectMaker` and the other NDIMaker classes, `openMINDSobj2ndi_document`
+    and the `+fun/+doc` makers build documents before they know the session.
+    Pass the session to them (as `ndi.subject/newdocument(S)` now does), or a
+    "write V2" switch? [pass the session]
+  - **G84. Element and ingested-epoch writers vs the ingest (from build G2).**
+    [ingest waits on native V2 records] makes the ingest wait for the probe
+    (element) to be written as V2, but a V2 element is built by the batch pass
+    from several v1 documents, which is the ingest's own work. Build the
+    native element writer together with the V2 ingest, as one build? [yes]
+  - **G85. `element_epoch` for new writers (from build G2).** It has no
+    decided V2 home (ledger `decided_targets: []`); the migrator writes
+    `acquisition_epoch`. Is that what new writers write? [yes, decide it as
+    the home]
+  - **G86. Subject lookup by name checks the type (from build G2).**
+    `does_subjectstring_match_session_document` now matches a V2 subject by
+    `entity.local_identifier` alone. Also require type organism? [yes]
+  - **G87. Gene-list facts that are not converted (from build C,
+    2026-11-01).** A v1 gene list's genome assembly, annotation source, gene
+    ID namespace and gene symbol namespace are not converted; today they are
+    notes in the run summary. The migration report holds gaps and carries
+    only. Add a third list, "source facts not converted", or put them
+    elsewhere (e.g. method parameters of the gene list)? [method parameters:
+    they say how the list was made]
+  - **G88. The gene-list mapping's two proposed terms (from build C).**
+    The migrator writes SIO:000752 "row" for the mapping's one dimension and
+    NCIT:C150832 "Software Name" for the method text's parameter
+    ([gene list mapping terms], Proposed). Approve both? Each is a one-line
+    change if not.
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

@@ -777,6 +777,19 @@
                     "constraints": {}
                 },
                 {
+                    "name": "index",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's private copy of the covariate entry, and the class declares no `key_id` edge for its `key` to name. (Added 2026-11-01 with `data`'s, [key covariate index].)",
+                    "constraints": {}
+                },
+                {
                     "name": "cyclic",
                     "type": "boolean",
                     "blank_value": false,
