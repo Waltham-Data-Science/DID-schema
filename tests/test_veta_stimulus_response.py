@@ -571,7 +571,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # THIRTY-NINTH MOVEMENT, re-derived not bumped: 108 -> 107 on 2026-11-01,
     # [one folder, final classes only]: valid_interval deleted (carried as v1
     # by noMigratorCarryRows, carry-164). It was not in the INERT list.
-    assert walked == 107, f"schema count moved; re-derive the inert set ({walked})"
+    # FORTIETH MOVEMENT, re-derived not bumped: 107 -> 106 on 2026-11-01,
+    # [one folder, final classes only]: openminds_stimulus deleted (carried as
+    # v1, carry-165). It was not in the INERT list.
+    assert walked == 106, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

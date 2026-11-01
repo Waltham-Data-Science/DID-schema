@@ -582,12 +582,12 @@
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        },
        {
-        "line": 1866,
+        "line": 1868,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'session_id')"
        },
        {
-        "line": 1875,
+        "line": 1877,
         "spelling": "base",
         "text": "if ~isfield(m, 'base') || ~isstruct(m.base) || ~isfield(m.base, 'session_id') ..."
        }
@@ -1103,9 +1103,9 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1723,
+        "line": 1725,
         "spelling": "control_stimulus_ids",
-        "text": "'control_stimulus_ids'};"
+        "text": "'control_stimulus_ids', 'openminds_stimulus'};"
        }
       ]
      }
@@ -1289,7 +1289,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1722,
+        "line": 1724,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1900,17 +1900,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1857,
+        "line": 1859,
         "spelling": "dataset_session_info",
         "text": "isList = cellfun(@(c) ischar(c) && strcmp(c, 'dataset_session_info'), cls);"
        },
        {
-        "line": 1861,
+        "line": 1863,
         "spelling": "dataset_session_info",
         "text": "if isfield(body, 'dataset_session_info') && isstruct(body.dataset_session_info) ..."
        },
        {
-        "line": 1862,
+        "line": 1864,
         "spelling": "dataset_session_info",
         "text": "&& isfield(body.dataset_session_info, 'dataset_session_info')"
        }
@@ -5412,6 +5412,18 @@
         "text": "'openminds_stimulus', ..."
        }
       ]
+     },
+     {
+      "pass": "v1_to_v2",
+      "path": "src/did/+did2/+convert/v1_to_v2.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 1725,
+        "spelling": "openminds_stimulus",
+        "text": "'control_stimulus_ids', 'openminds_stimulus'};"
+       }
+      ]
      }
     ],
     "per_class_migrators": [
@@ -6374,12 +6386,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1871,
+        "line": 1873,
         "spelling": "session_in_a_dataset",
         "text": "if ~strcmp(cls{j}, 'session_in_a_dataset')"
        },
        {
-        "line": 1877,
+        "line": 1879,
         "spelling": "session_in_a_dataset",
         "text": "|| ~isfield(m, 'session_in_a_dataset') || ~isstruct(m.session_in_a_dataset)"
        }
@@ -7907,7 +7919,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1722,
+        "line": 1724,
         "spelling": "stimulus_presentation",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }

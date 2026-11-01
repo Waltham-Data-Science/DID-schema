@@ -312,9 +312,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 84,
+      "consumed by migrator (no tombstone)": 85,
       "dissolved \u2192 subject": 1,
-      "retire": 18,
+      "retire": 17,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 2,
@@ -636,8 +636,8 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 18,
-            "no decision citation names this class": 26
+            "no citation names this class, and the row has no V_eta class and no target either": 19,
+            "no decision citation names this class": 25
           },
           "unmoved_rows_by_cause": {
             "no citation names this class, and the row has no V_eta class and no target either": [
@@ -652,6 +652,7 @@
               "oneepoch",
               "ontologyLabel",
               "ontologyTableRow",
+              "openminds_stimulus",
               "simple_calc",
               "site2channelmap",
               "spike_clusters",
@@ -672,7 +673,6 @@
               "measurement",
               "metadata_editor",
               "openminds_element",
-              "openminds_stimulus",
               "openminds_subject",
               "orientation_direction_tuning",
               "position_metadata",
@@ -13598,15 +13598,13 @@
     },
     {
       "v1_class": "openminds_stimulus",
-      "veta_class": "openminds_stimulus",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "openminds_stimulus"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
@@ -13640,11 +13638,11 @@
       "target_flags": "guarded passthrough: a body carrying a `stimulus_id` dependency is rejected by name",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no decision citation names this class",
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,

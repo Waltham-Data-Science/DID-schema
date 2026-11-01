@@ -182,6 +182,12 @@ CARRIED_AS_V1 = {
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
     # retire class deleted 2026-11-01 ([one folder, final classes only]): in
+    # DID-matlab V2 (#355) every openminds_stimulus that passes its guards is
+    # carried whole as v1 with a note (carry-165, [v1 passthroughs accepted]),
+    # stamped did_v1 and never validated against V2; NDI's second pass reads it
+    # from the v1 input (sliceTetanus). No sibling reads its file.
+    "openminds_stimulus",
+    # retire class deleted 2026-11-01 ([one folder, final classes only]): in
     # DID-matlab V2 161f3d40 a v1 valid_interval has no migrator and is carried
     # whole as v1 by did2.convert.noMigratorCarryRows (carry-164), stamped
     # did_v1 and never validated against V2. DID-matlab #353 removed the one

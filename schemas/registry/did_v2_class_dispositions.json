@@ -220,10 +220,6 @@
             "disposition": "retire",
             "disposition_note": "Phase-8 source (migrator → delete)"
         },
-        "openminds_stimulus": {
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator → delete)"
-        },
         "orientation_direction_tuning_calculation": {
             "disposition": "persist"
         },

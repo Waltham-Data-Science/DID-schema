@@ -2,18 +2,18 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is docs/generated/did_v2_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 74,
+    "classes": 73,
     "classes_citing": 73,
     "citations": 86,
     "citations_unresolved": 0,
-    "open_classes": 19,
+    "open_classes": 18,
     "by_state": {
       "decided": 73,
-      "proposed (not decided)": 1
+      "proposed (not decided)": 0
     },
     "open_by_state": {
       "decided": 18,
-      "proposed (not decided)": 1
+      "proposed (not decided)": 0
     },
     "state_labels": {
       "decided": "decided: cites a decision line that exists",
@@ -1093,16 +1093,6 @@
         }
       ]
     },
-    "openminds_stimulus": {
-      "class_name": "openminds_stimulus",
-      "disposition": "retire",
-      "open": true,
-      "state": "proposed (not decided)",
-      "state_label": "Proposed (not decided): awaiting review",
-      "decided_in": null,
-      "decision": null,
-      "citations": []
-    },
     "oridirtuning_calc": {
       "class_name": "oridirtuning_calc",
       "disposition": "consumed by migrator (no tombstone)",
@@ -1899,8 +1889,8 @@
         ],
         "packages_missing": [],
         "files_read": 446,
-        "lines_read": 84795,
-        "classes_queried": 19,
+        "lines_read": 84876,
+        "classes_queried": 18,
         "classes_emitted_as_document_class": 4,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -1955,8 +1945,8 @@
           "batch_post_pass": 231
         },
         "lines_read_by_group": {
-          "per_document_migrator": 46436,
-          "batch_post_pass": 38359
+          "per_document_migrator": 46452,
+          "batch_post_pass": 38424
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 3,
@@ -2052,7 +2042,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 19
+        "classes_queried": 18
       },
       "batch_consumers": {
         "files_scanned": 53,
@@ -2067,7 +2057,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 17,
+      "b_built_awaiting_corpus_proof": 16,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2106,7 +2096,7 @@
         "n_named_refs": 2,
         "named_refs": [
           "DID-matlab:convert/+roundtrip/element_epoch.m:45 (named)",
-          "DID-matlab:convert/v1_to_v2.m:2001 (named)"
+          "DID-matlab:convert/v1_to_v2.m:2003 (named)"
         ],
         "n_comment_mentions": 71,
         "comment_mentions": [
@@ -2161,7 +2151,7 @@
             "n_named_refs": 2,
             "named_refs": [
               "DID-matlab:convert/+roundtrip/element_epoch.m:45 (named)",
-              "DID-matlab:convert/v1_to_v2.m:2001 (named)"
+              "DID-matlab:convert/v1_to_v2.m:2003 (named)"
             ],
             "n_comment_mentions": 40,
             "comment_mentions": [
@@ -3413,102 +3403,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "openminds_stimulus",
-        "decision": "proposed (not decided)",
-        "decided_in": null,
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "migrator `DID-matlab:migrators_j/openminds_stimulus.m`",
-          "1 consuming reference(s) (1 per-document migrator)"
-        ],
-        "migrator_file": "DID-matlab:migrators_j/openminds_stimulus.m",
-        "n_consuming_refs": 1,
-        "consuming_refs": [
-          "NDI-matlab:ndi_second_pass/sliceTetanus.m:531 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 5,
-        "named_refs": [
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:24 (named)",
-          "DID-matlab:convert/rawV1Classes.m:584 (named)",
-          "DID-matlab:migrators_j/openminds_stimulus.m:112 (named)",
-          "DID-matlab:migrators_j/openminds_stimulus.m:115 (named)",
-          "NDI-matlab:ndi_second_pass/subjectStrainAssembly.m:998 (named)"
-        ],
-        "n_comment_mentions": 25,
-        "comment_mentions": [
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:18 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:2 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:5 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:6 (comment_mention)",
-          "DID-matlab:convert/+roundtrip/openminds_stimulus.m:8 (comment_mention)",
-          "DID-matlab:convert/rawV1Classes.m:476 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/sliceTetanus.m:531 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:migrators_j/openminds_stimulus.m:112 (named)",
-              "DID-matlab:migrators_j/openminds_stimulus.m:115 (named)",
-              "NDI-matlab:ndi_second_pass/subjectStrainAssembly.m:998 (named)"
-            ],
-            "n_comment_mentions": 18,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:834 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:835 (comment_mention)",
-              "DID-matlab:migrators_j/element.m:73 (comment_mention)",
-              "DID-matlab:migrators_j/filenavigator.m:64 (comment_mention)",
-              "DID-matlab:migrators_j/openminds_stimulus.m:2 (comment_mention)",
-              "DID-matlab:migrators_j/openminds_stimulus.m:20 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:24 (named)",
-              "DID-matlab:convert/rawV1Classes.m:584 (named)"
-            ],
-            "n_comment_mentions": 7,
-            "comment_mentions": [
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:18 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:2 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:5 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:6 (comment_mention)",
-              "DID-matlab:convert/+roundtrip/openminds_stimulus.m:8 (comment_mention)",
-              "DID-matlab:convert/rawV1Classes.m:476 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [],
-        "decided_targets_built": [],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "stimulus_presentation",
         "decision": "decided",
         "decided_in": "did_v2_stimulus_model_plan.md:258 [stimulus]",
@@ -3541,10 +3435,10 @@
           "DID-matlab:convert/rawV1Classes.m:564 (named)",
           "DID-matlab:convert/stimulusPresentationSpecs.m:49 (named)",
           "DID-matlab:convert/tuningBatchIndex.m:112 (named)",
-          "DID-matlab:convert/v1_to_v2.m:1722 (named)",
+          "DID-matlab:convert/v1_to_v2.m:1724 (named)",
           "DID-matlab:migrators_j/stimulus_presentation.m:191 (named)"
         ],
-        "n_comment_mentions": 56,
+        "n_comment_mentions": 57,
         "comment_mentions": [
           "DID-matlab:convert/+roundtrip/stimulus_presentation.m:14 (comment_mention)",
           "DID-matlab:convert/+roundtrip/stimulus_presentation.m:2 (comment_mention)",
@@ -3570,7 +3464,7 @@
             "named_refs": [
               "DID-matlab:migrators_j/stimulus_presentation.m:191 (named)"
             ],
-            "n_comment_mentions": 41,
+            "n_comment_mentions": 42,
             "comment_mentions": [
               "DID-matlab:migrators_j/Contents.m:967 (comment_mention)",
               "DID-matlab:migrators_j/Contents.m:968 (comment_mention)",
@@ -3598,7 +3492,7 @@
               "DID-matlab:convert/rawV1Classes.m:564 (named)",
               "DID-matlab:convert/stimulusPresentationSpecs.m:49 (named)",
               "DID-matlab:convert/tuningBatchIndex.m:112 (named)",
-              "DID-matlab:convert/v1_to_v2.m:1722 (named)"
+              "DID-matlab:convert/v1_to_v2.m:1724 (named)"
             ],
             "n_comment_mentions": 15,
             "comment_mentions": [

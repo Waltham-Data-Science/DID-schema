@@ -791,19 +791,6 @@
             "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
-            "class_name": "openminds_stimulus",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "openminds",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/retiring/openminds_stimulus.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
-        },
-        {
             "class_name": "orientation_direction_tuning_calculation",
             "family": "calculation",
             "class_version": "1.0.0",
