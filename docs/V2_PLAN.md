@@ -649,6 +649,27 @@ whose DID-matlab build waits on GL1-GL7.
     Its `source format` and `target format` parameters are plain text
     ("did_v1", "did_v2"), [migration record details] (b) Proposed. Keep plain
     text, or find or mint terms? [plain text: these are our own format names]
+  - **G79. Keep accepting `V_eta` as a target name? (from build N,
+    2026-11-01.)** [schema set renamed did_v2] planned: accept both, switch the
+    defaults, then stop accepting `V_eta`. The defaults are switched
+    (DID-matlab #352, NDI-matlab #1132). Keep accepting `V_eta` for good, or
+    stop? [keep it: a harmless alias, already normalised to `did_v2`]
+  - **G80. A probe listed in several rows of one probe map (from build O,
+    2026-11-01).** A stimulator is listed once per marker channel (mk1..mk7,
+    seven rows; 1,242 epochs in corpus B, the same in Dab). Wire it as (a) ONE
+    `connected to` relation holding all its channels, with the per-row
+    duplicate manipulations merged into one (how NDI reads such a probe; the
+    rebuilt v1 probe-map text changes), or (b) one relation per row, numbered
+    by its row (`order`), so the v1 text rebuilds exactly? Until answered
+    those epochs are carried whole as v1 (lossless). [(a), if the v1 text
+    may be rebuilt in NDI's merged form]
+  - **G81. Carry what the batch passes leave, at the end (from build J,
+    2026-11-01).** Five retire classes stay because pass 1 hands their
+    documents to a later batch pass (epochMint, resolveResponseParameters,
+    resolveClockAlignment, resolveEpochProbemap). Carry whatever those passes
+    leave unconverted at the end of the batch, instead of in pass 1, so the
+    tombstones can go? A design change; not built. [yes, once each batch pass
+    is checked to tolerate the missing class]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
