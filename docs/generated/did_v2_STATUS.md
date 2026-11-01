@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 624 decision line(s) accepted, 2 rejected; 44 cited by a class, 580 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 635 decision line(s) accepted, 2 rejected; 44 cited by a class, 591 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -856,26 +856,37 @@ field). If one decides a class's disposition, that class should cite it.
 - assay labels batch 4. "Decided by Jess Haley, 2026-10-30 [assay labels batch 4]: (" (did_v2_go_forward_class_audit.md:1718).
 - assay labels batch 5. "Decided by Jess Haley, 2026-10-30 [assay labels batch 5]: (" (did_v2_go_forward_class_audit.md:1720).
 - assay labels batch 6. "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: (" (did_v2_go_forward_class_audit.md:1722).
-- raw v1 switch finished in batches. "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished" (did_v2_go_forward_class_audit.md:1724).
-- stimulator is SNOMED CT Stimulator. "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT" (did_v2_go_forward_class_audit.md:1726).
-- global-clock oneepoch carried with its element. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1728).
-- differing stimulator epoch is malformed. "Decided by Jess Haley, 2026-10-30 [differing stimulator" (did_v2_go_forward_class_audit.md:1730).
-- response unit slot settles 110. "Decided by Jess Haley, 2026-10-30 [response unit slot" (did_v2_go_forward_class_audit.md:1732).
-- schema folders by family. "Decided by Jess Haley, 2026-10-30 [schema folders by" (did_v2_go_forward_class_audit.md:1734).
-- family roots and relation folder. "Decided by Jess Haley, 2026-10-31 [family roots and" (did_v2_go_forward_class_audit.md:1736).
-- retire check now. "Decided by Jess Haley, 2026-10-31 [retire check now]: (" (did_v2_go_forward_class_audit.md:1738).
-- purpose renamed now. "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: (" (did_v2_go_forward_class_audit.md:1740).
-- acquisition folder. "Decided by Jess Haley, 2026-10-31 [acquisition folder]: (" (did_v2_go_forward_class_audit.md:1742).
-- clock alignment in time_reference. "Decided by Jess Haley, 2026-10-31 [clock alignment in" (did_v2_go_forward_class_audit.md:1744).
-- reference papers as v2 guidance. "Decided by Jess Haley, 2026-10-31 [reference papers as v2" (did_v2_go_forward_class_audit.md:1746).
-- gene list mapping is built. "Decided by Jess Haley, 2026-10-31 [gene list mapping is" (did_v2_go_forward_class_audit.md:1748).
-- gene list mapping in the generic stage. "Decided by Jess Haley, 2026-10-31 [gene list mapping in the" (did_v2_go_forward_class_audit.md:1750).
-- daqreader_ndr confirmed set. "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed" (did_v2_go_forward_class_audit.md:1752).
-- layout calls stand. "Decided by Jess Haley, 2026-10-31 [layout calls stand]: (" (did_v2_go_forward_class_audit.md:1754).
-- om day registered. "Decided by Jess Haley, 2026-10-31 [om day registered]: (" (did_v2_go_forward_class_audit.md:1756).
-- formulation amount needs info. "Decided by Jess Haley, 2026-10-31 [formulation amount needs" (did_v2_go_forward_class_audit.md:1758).
-- virus dilution needs info. "Decided by Jess Haley, 2026-10-31 [virus dilution needs" (did_v2_go_forward_class_audit.md:1760).
-- UTC acquisition time is absolute. "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is" (did_v2_go_forward_class_audit.md:1762).
+- assay relabels become new terms. "Decided by Jess Haley, 2026-11-01 [assay relabels become" (did_v2_go_forward_class_audit.md:1724).
+- assay term definitions drafted. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1726).
+- obsolete assay terms without replacement. "Decided by Jess Haley, 2026-11-01 [obsolete assay terms" (did_v2_go_forward_class_audit.md:1728).
+- assay dictionaries look up by id. "Decided by Jess Haley, 2026-11-01 [assay dictionaries look" (did_v2_go_forward_class_audit.md:1730).
+- assay ontology cleanup now. "Decided by Jess Haley, 2026-11-01 [assay ontology cleanup" (did_v2_go_forward_class_audit.md:1732).
+- assay term definitions approved. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1734).
+- obsolete labels in v1 importers accepted. "Decided by Jess Haley, 2026-11-01 [obsolete labels in v1" (did_v2_go_forward_class_audit.md:1736).
+- raw v1 switch finished in batches. "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished" (did_v2_go_forward_class_audit.md:1738).
+- stimulator is SNOMED CT Stimulator. "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT" (did_v2_go_forward_class_audit.md:1740).
+- global-clock oneepoch carried with its element. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1742).
+- differing stimulator epoch is malformed. "Decided by Jess Haley, 2026-10-30 [differing stimulator" (did_v2_go_forward_class_audit.md:1744).
+- response unit slot settles 110. "Decided by Jess Haley, 2026-10-30 [response unit slot" (did_v2_go_forward_class_audit.md:1746).
+- schema folders by family. "Decided by Jess Haley, 2026-10-30 [schema folders by" (did_v2_go_forward_class_audit.md:1748).
+- family roots and relation folder. "Decided by Jess Haley, 2026-10-31 [family roots and" (did_v2_go_forward_class_audit.md:1750).
+- retire check now. "Decided by Jess Haley, 2026-10-31 [retire check now]: (" (did_v2_go_forward_class_audit.md:1752).
+- purpose renamed now. "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: (" (did_v2_go_forward_class_audit.md:1754).
+- acquisition folder. "Decided by Jess Haley, 2026-10-31 [acquisition folder]: (" (did_v2_go_forward_class_audit.md:1756).
+- clock alignment in time_reference. "Decided by Jess Haley, 2026-10-31 [clock alignment in" (did_v2_go_forward_class_audit.md:1758).
+- reference papers as v2 guidance. "Decided by Jess Haley, 2026-10-31 [reference papers as v2" (did_v2_go_forward_class_audit.md:1760).
+- gene list mapping is built. "Decided by Jess Haley, 2026-10-31 [gene list mapping is" (did_v2_go_forward_class_audit.md:1762).
+- gene list mapping in the generic stage. "Decided by Jess Haley, 2026-10-31 [gene list mapping in the" (did_v2_go_forward_class_audit.md:1764).
+- daqreader_ndr confirmed set. "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed" (did_v2_go_forward_class_audit.md:1766).
+- layout calls stand. "Decided by Jess Haley, 2026-10-31 [layout calls stand]: (" (did_v2_go_forward_class_audit.md:1768).
+- om day registered. "Decided by Jess Haley, 2026-10-31 [om day registered]: (" (did_v2_go_forward_class_audit.md:1770).
+- formulation amount needs info. "Decided by Jess Haley, 2026-10-31 [formulation amount needs" (did_v2_go_forward_class_audit.md:1772).
+- virus dilution needs info. "Decided by Jess Haley, 2026-10-31 [virus dilution needs" (did_v2_go_forward_class_audit.md:1774).
+- UTC acquisition time is absolute. "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is" (did_v2_go_forward_class_audit.md:1776).
+- ndi_document read as base. "Decided by Jess Haley, 2026-10-31 [ndi_document read as" (did_v2_go_forward_class_audit.md:1778).
+- rename clashes are malformed. "Decided by Jess Haley, 2026-11-01 [rename clashes are" (did_v2_go_forward_class_audit.md:1780).
+- ensemble and generic_file keep their conversions. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1782).
+- UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1784).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

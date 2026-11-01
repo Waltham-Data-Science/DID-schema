@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 624,
+          "accepted_lines": 635,
           "accepted_lines_by_kind": {
-            "Decided by": 504,
+            "Decided by": 515,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4232,13 +4232,69 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 1724,
               "kind": "Decided by",
+              "tag": "assay relabels become new terms",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [assay relabels become"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1726,
+              "kind": "Decided by",
+              "tag": "assay term definitions drafted",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [assay term definitions"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1728,
+              "kind": "Decided by",
+              "tag": "obsolete assay terms without replacement",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [obsolete assay terms"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1730,
+              "kind": "Decided by",
+              "tag": "assay dictionaries look up by id",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [assay dictionaries look"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1732,
+              "kind": "Decided by",
+              "tag": "assay ontology cleanup now",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [assay ontology cleanup"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1734,
+              "kind": "Decided by",
+              "tag": "assay term definitions approved",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [assay term definitions"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1736,
+              "kind": "Decided by",
+              "tag": "obsolete labels in v1 importers accepted",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [obsolete labels in v1"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1738,
+              "kind": "Decided by",
               "tag": "raw v1 switch finished in batches",
               "date": "2026-10-30",
               "anchor": "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1726,
+              "line": 1740,
               "kind": "Decided by",
               "tag": "stimulator is SNOMED CT Stimulator",
               "date": "2026-10-30",
@@ -4246,7 +4302,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1728,
+              "line": 1742,
               "kind": "Decided by",
               "tag": "global-clock oneepoch carried with its element",
               "date": "2026-10-30",
@@ -4254,7 +4310,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1730,
+              "line": 1744,
               "kind": "Decided by",
               "tag": "differing stimulator epoch is malformed",
               "date": "2026-10-30",
@@ -4262,7 +4318,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1732,
+              "line": 1746,
               "kind": "Decided by",
               "tag": "response unit slot settles 110",
               "date": "2026-10-30",
@@ -4270,7 +4326,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1734,
+              "line": 1748,
               "kind": "Decided by",
               "tag": "schema folders by family",
               "date": "2026-10-30",
@@ -4278,7 +4334,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1736,
+              "line": 1750,
               "kind": "Decided by",
               "tag": "family roots and relation folder",
               "date": "2026-10-31",
@@ -4286,7 +4342,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1738,
+              "line": 1752,
               "kind": "Decided by",
               "tag": "retire check now",
               "date": "2026-10-31",
@@ -4294,7 +4350,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1740,
+              "line": 1754,
               "kind": "Decided by",
               "tag": "purpose renamed now",
               "date": "2026-10-31",
@@ -4302,7 +4358,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1742,
+              "line": 1756,
               "kind": "Decided by",
               "tag": "acquisition folder",
               "date": "2026-10-31",
@@ -4310,7 +4366,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1744,
+              "line": 1758,
               "kind": "Decided by",
               "tag": "clock alignment in time_reference",
               "date": "2026-10-31",
@@ -4318,7 +4374,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1746,
+              "line": 1760,
               "kind": "Decided by",
               "tag": "reference papers as v2 guidance",
               "date": "2026-10-31",
@@ -4326,7 +4382,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1748,
+              "line": 1762,
               "kind": "Decided by",
               "tag": "gene list mapping is built",
               "date": "2026-10-31",
@@ -4334,7 +4390,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1750,
+              "line": 1764,
               "kind": "Decided by",
               "tag": "gene list mapping in the generic stage",
               "date": "2026-10-31",
@@ -4342,7 +4398,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1752,
+              "line": 1766,
               "kind": "Decided by",
               "tag": "daqreader_ndr confirmed set",
               "date": "2026-10-31",
@@ -4350,7 +4406,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1754,
+              "line": 1768,
               "kind": "Decided by",
               "tag": "layout calls stand",
               "date": "2026-10-31",
@@ -4358,7 +4414,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1756,
+              "line": 1770,
               "kind": "Decided by",
               "tag": "om day registered",
               "date": "2026-10-31",
@@ -4366,7 +4422,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1758,
+              "line": 1772,
               "kind": "Decided by",
               "tag": "formulation amount needs info",
               "date": "2026-10-31",
@@ -4374,7 +4430,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1760,
+              "line": 1774,
               "kind": "Decided by",
               "tag": "virus dilution needs info",
               "date": "2026-10-31",
@@ -4382,11 +4438,43 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1762,
+              "line": 1776,
               "kind": "Decided by",
               "tag": "UTC acquisition time is absolute",
               "date": "2026-10-31",
               "anchor": "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1778,
+              "kind": "Decided by",
+              "tag": "ndi_document read as base",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [ndi_document read as"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1780,
+              "kind": "Decided by",
+              "tag": "rename clashes are malformed",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [rename clashes are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1782,
+              "kind": "Decided by",
+              "tag": "ensemble and generic_file keep their conversions",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ensemble and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1784,
+              "kind": "Decided by",
+              "tag": "UTC treatment time is absolute",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [UTC treatment time is"
             },
             {
               "document": "did_v2_image_model_plan.md",
