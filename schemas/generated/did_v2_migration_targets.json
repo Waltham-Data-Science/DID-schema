@@ -334,7 +334,8 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "absolute_time_reference"
       ],
       "target_completeness": {
         "state": "full",
@@ -348,7 +349,8 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "absolute_time_reference"
       ],
       "target_completeness": {
         "state": "full",

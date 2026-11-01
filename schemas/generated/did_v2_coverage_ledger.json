@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 670,
+          "accepted_lines": 679,
           "accepted_lines_by_kind": {
-            "Decided by": 550,
+            "Decided by": 559,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4755,6 +4755,78 @@
               "tag": "key covariate index",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [key covariate index]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1867,
+              "kind": "Decided by",
+              "tag": "recording mode terms",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [recording mode terms]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1869,
+              "kind": "Decided by",
+              "tag": "imaging mode terms",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [imaging mode terms]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1871,
+              "kind": "Decided by",
+              "tag": "ingest writes no v1 ingested document",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ingest writes no v1"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1873,
+              "kind": "Decided by",
+              "tag": "ingest observation per probe",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ingest observation per"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1875,
+              "kind": "Decided by",
+              "tag": "Haley phase, pick and encounter as written",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [Haley phase, pick and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1877,
+              "kind": "Decided by",
+              "tag": "EMPTY:0000129 retired",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [EMPTY:0000129 retired]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1879,
+              "kind": "Decided by",
+              "tag": "ingest waits on native V2 records",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ingest waits on native"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1881,
+              "kind": "Decided by",
+              "tag": "V2 database file renamed",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [V2 database file"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1883,
+              "kind": "Decided by",
+              "tag": "V2 is the build target for the siblings",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [V2 is the build target"
             },
             {
               "document": "did_v2_image_model_plan.md",
