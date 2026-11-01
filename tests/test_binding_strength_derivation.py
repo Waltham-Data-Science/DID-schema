@@ -393,7 +393,9 @@ def test_the_live_derivation_reports_its_denominator_first():
     # `Technique` (NCIT:C16847) and `Scientific Data Type` (NCIT:C175886).
     # 64 -> 69 on 2026-10-29 (Jess Haley [allowed units are source units]): the
     # new `unit_bindings` list, five rows (time, position, X/Y/Z-Coordinate).
-    assert total == 69, f'registry row count moved: {total}'
+    # 69 -> 71 on 2026-11-01 (Jess Haley [undirected relation widened]): relation
+    # 31 -> 33, undirected rows for the two gene mappings (a symmetric mapping).
+    assert total == 71, f'registry row count moved: {total}'
     assert f'{total} row(s)' in lines[0]
 
 
@@ -404,7 +406,7 @@ def test_the_live_derivation_reports_its_denominator_first():
     ("subject_statement_bindings", 13),   # 6 -> 11, 2026-10-08 (see above); 11 -> 12, 2026-10-21: `culture type`; 12 -> 11 the same day: `study design` dropped; 11 -> 13, 2026-10-26: technique and data type ([dataset form terms])
     # 26 -> 29, #73 audit 2 D5: -observes, +2 gene mappings, +2 undirected rows.
     # 29 -> 30 on 2026-09-30 (jess): `instance_of`; 30 -> 31: `awarded_to`.
-    ("relation_bindings", 31),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20; 34 -> 31, 2026-10-22 (-4 retired, +clock_alignment)
+    ("relation_bindings", 33),            # 31 -> 30, 2026-10-08; 30 -> 33, 2026-10-15; 33 -> 34, 2026-10-20; 34 -> 31, 2026-10-22 (-4 retired, +clock_alignment); 31 -> 33, 2026-11-01 (+2 undirected gene mappings, [undirected relation widened])
     ("entity_field_bindings", 1),         # 3 -> 1: only entity.type, 2026-10-08
     ("entity_type_bindings", 19),         # new 2026-10-08
 ])

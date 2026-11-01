@@ -512,7 +512,8 @@ whose DID-matlab build waits on GL1-GL7.
     `body_data_k` from 0: rename, or map with 'Files'? (5) How the reader finds
     an epoch's bodies, and where the epochtable's t0/t1 and clocks go. (6) Is
     the v1 ingested document still written? (NDI-matlab agent report; nothing
-    built.)
+    built.) (6) ANSWERED 2026-11-01: [ingest writes no v1 ingested
+    document]. (1) ANSWERED 2026-11-01: [ingest observation per probe].
   - **G60. A dataset with no single `dataset` document ([linked session link
     details]).** NDI-matlab #1103 puts the link's method on the session's
     relation to its study when there is no dataset document, and makes a linked
@@ -527,7 +528,8 @@ whose DID-matlab build waits on GL1-GL7.
   - **G62. The remaining mode terms ([element type is a device kind term],
     [imaging mode is a method term]).** Recording modes voltage (-Vm) and
     current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
-    which terms? (Claude to bring candidates from OLS4.)
+    which terms? (Claude to bring candidates from OLS4.) ANSWERED 2026-11-01: [recording mode terms],
+    [imaging mode terms].
   - **G63. The four NDI clock types (did-schema #97).** ANSWERED earlier (my
     mistake to ask): [clock terms get nodes] (Jess Haley, 2026-10-26) decided
     them, and the terms are registered (wikidata:Q1536, EMPTY:0000403-0000405).
@@ -623,6 +625,20 @@ whose DID-matlab build waits on GL1-GL7.
     becomes report-only. The other nine stay fail-on-growth, and the five that
     sit above today's count (B1, B3, B6, B8, B9) are lowered to it. [as listed]
     ANSWERED 2026-11-01: [binding catalogue gap reports only].
+  - **G74. A patch, sharp or imaging probe with no recording (from build K,
+    2026-11-01).** The recording mode lives on each recording observation
+    ([recording mode terms]). An element with no ingested epoch has no
+    observation, so no mode, and stopping its `element type` statement would
+    lose its v1 word (`patch-Vm`). Keep the statement only where no observation
+    carries the mode? [yes: the same "retires only where its replacement is
+    present" rule as `observes`] Proposed (not decided).
+  - **G75. The ingest's events file (parked by Jess, 2026-11-01: "ask me again
+    later").** Keep NDI's events/markers/text file whole as one opaque body
+    (format EMPTY:0000367), as migrated data does, rather than a table of
+    events? [keep it whole]
+  - **G76. The ingest's data file names (parked by Jess, 2026-11-01).** Name the
+    pieces `body_data_0, 1, ...` (the schema's names, from 0), instead of NDI's
+    `ai_group1_seg.nbf_1, ...`? [the schema's names]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

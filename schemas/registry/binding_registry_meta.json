@@ -2679,8 +2679,8 @@
                 "name": "paired with"
             },
             "class": "undirected_relation",
-            "member_role": "an entity in a pair (e.g. littermates, a bilateral pair of sites)",
-            "member_types": [
+            "relatum_role": "an entity in a pair (e.g. littermates, a bilateral pair of sites)",
+            "relatum_types": [
                 "entity"
             ],
             "timed": false,
@@ -2693,9 +2693,37 @@
                 "name": "sameAs"
             },
             "class": "undirected_relation",
-            "member_role": "entities that are the same thing recorded twice (e.g. one animal under two local identifiers)",
-            "member_types": [
+            "relatum_role": "entities that are the same thing recorded twice (e.g. one animal under two local identifiers)",
+            "relatum_types": [
                 "entity"
+            ],
+            "timed": false,
+            "ordered": false,
+            "passes": "nothing"
+        },
+        {
+            "relation": {
+                "node": "EMPTY:0000386",
+                "name": "orthologous gene mapping"
+            },
+            "class": "undirected_relation",
+            "relatum_role": "one of the two gene lists of a symmetric mapping (v1 geneListMapping with symmetric true; [undirected relation widened])",
+            "relatum_types": [
+                "term"
+            ],
+            "timed": false,
+            "ordered": false,
+            "passes": "nothing"
+        },
+        {
+            "relation": {
+                "node": "EMPTY:0000381",
+                "name": "gene alias mapping"
+            },
+            "class": "undirected_relation",
+            "relatum_role": "one of the two gene lists of a symmetric mapping (v1 geneListMapping with symmetric true; [undirected relation widened])",
+            "relatum_types": [
+                "term"
             ],
             "timed": false,
             "ordered": false,
@@ -2809,7 +2837,7 @@
             "strength": "required"
         }
     ],
-    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the statement class that carries it: its direction (assertion, observation, manipulation, calculation; a list where more than one is allowed) and `value_kind`. There is no separately-named value_set. Only a term-valued row carries an admissible-set spec (values or ontology+root_node); a dimensional row needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term assertion whose variable matches a subject_defining binding (checked at ingest). relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric member_types (matching its single entities dep). Endpoint types may be entity, statement or value classes (#73 items 22, 27). The abstract type `entity` means 'any entity'; [] = unconstrained. The undirected rows (paired_with, same_as; #73 audit 2 D5) carry member_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is its ontology term (Jess Haley 2026-10-22 [vocabulary nodes]; \"\" only where no node is decided). ordered marks terms where the membership's `order` field is meaningful (T20); timed marks event edges that may carry a method/time anchor. A `clock_alignment` row binds clock_alignment.relation (Jess Haley 2026-10-22 [clock alignment relation bound]): the one kind did2.convert.resolveClockAlignment's bodies write, passing nothing. A subject_statement_bindings row may name more than one subtree: `ontology` + `root_node`, plus `additional_roots` [{ontology, root_node}].",
+    "notes": "subject_statement_bindings are keyed on the variable (+ method on interactions) and name the statement class that carries it: its direction (assertion, observation, manipulation, calculation; a list where more than one is allowed) and `value_kind`. There is no separately-named value_set. Only a term-valued row carries an admissible-set spec (values or ontology+root_node); a dimensional row needs none. Rows flagged subject_defining make the subject-kind ingestion invariant precise: a subject is expected to carry >=1 term assertion whose variable matches a subject_defining binding (checked at ingest). relation_bindings enumerate the admissible relation terms (D6): the value carried on directed_relation.relation / undirected_relation.relation is a member of this set. class pins the term to its carrier and thus its endpoint symmetry: a directed_relation carries child_types -> parent_types (matching the schema child/parent deps), an undirected_relation carries a symmetric relatum_types and relatum_role (matching its single relatum_id dep; `member_types`/`member_role` until Jess Haley 2026-11-01 [undirected registry columns are relata]). Endpoint types may be entity, statement or value classes (#73 items 22, 27). The abstract type `entity` means 'any entity'; [] = unconstrained. The undirected rows (paired_with, same_as, #73 audit 2 D5; the symmetric orthologous and alias gene mappings, [undirected relation widened]) carry relatum_types. directed_relation.relation and undirected_relation.relation declare a binding whose values are GENERATED from these rows at build time, so the field and the registry cannot disagree. A relation `node` is its ontology term (Jess Haley 2026-10-22 [vocabulary nodes]; \"\" only where no node is decided). ordered marks terms where the membership's `order` field is meaningful (T20); timed marks event edges that may carry a method/time anchor. A `clock_alignment` row binds clock_alignment.relation (Jess Haley 2026-10-22 [clock alignment relation bound]): the one kind did2.convert.resolveClockAlignment's bodies write, passing nothing. A subject_statement_bindings row may name more than one subtree: `ontology` + `root_node`, plus `additional_roots` [{ontology, root_node}].",
     "entity_type_bindings": [
         {
             "type": "organism",

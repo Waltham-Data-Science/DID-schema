@@ -11174,6 +11174,75 @@
       ]
     },
     {
+      "name": "Blosc",
+      "node": "EMPTY:0000426",
+      "definition": "A meta-compressor that splits data into blocks, optionally rearranges each block with a shuffle filter, and compresses each block with a chosen inner compressor.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: the codec term of a data body's `compression` (v1 spelling 'blosc-zstd': Blosc, with the inner compressor zstd as a parameter); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression (a v1 lightsheetZarrLevel's codec 'blosc-zstd'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "compression level",
+      "node": "EMPTY:0000427",
+      "definition": "A setting of a compressor that trades speed for compressed size: a higher level compresses more and runs slower.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `clevel`); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'clevel'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "clevel"
+      ]
+    },
+    {
+      "name": "compression block size",
+      "node": "EMPTY:0000428",
+      "definition": "The amount of uncompressed data that a block compressor compresses as one independent unit.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `blocksize`); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'blocksize'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "blocksize",
+        "block size"
+      ]
+    },
+    {
+      "name": "shuffle filter",
+      "node": "EMPTY:0000429",
+      "definition": "A transformation applied before compression that regroups the bytes, or the bits, of fixed-size elements so that those of equal significance are stored together.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `shuffle`); its setting (none, byte or bit) is plain text, not a term; minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'shuffle'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "shuffle"
+      ]
+    },
+    {
+      "name": "inner compressor",
+      "node": "EMPTY:0000430",
+      "definition": "The compression algorithm that a meta-compressor applies to each block of data.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `cname`); its value is a codec term (wikidata:Q26737171 Zstandard); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'cname'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "cname"
+      ]
+    },
+    {
       "name": "Conversion",
       "node": "EDAM:operation_3434",
       "definition": "Convert a data set from one form to another.",
@@ -11252,6 +11321,66 @@
       "status": "decided",
       "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the method parameter holding a v1 geneListMapping's `method` text ([gene list mapping terms], did_v2_go_forward_class_audit.md); T19: an existing NCIT term (OLS4)",
       "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Transfer",
+      "node": "NCIT:C48167",
+      "definition": "The act of conveying or transporting from one place to another.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [Haley phase, pick and encounter as written], did_v2_go_forward_class_audit.md: the term of the move in the Haley import's transfer manipulations (the pick)",
+      "first_used_in": "no dataset yet: the Haley import's transfer manipulations (NDI-matlab ndi.setup.conv.haley, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "current clamp assay",
+      "node": "OBI:0002185",
+      "definition": "The current clamp technique records the membrane potential by injecting current into a cell through the recording electrode. Unlike in the voltage clamp mode, where the membrane potential is held at a level determined by the experimenter, in \"current clamp\" mode the membrane potential is free to vary, and the amplifier records whatever voltage the cell generates on its own or as a result of stimulation. This technique is used to study how a cell responds when electric current enters a cell; this is important for instance for understanding how neurons respond to neurotransmitters that act by opening membrane ion channels.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [recording mode terms], did_v2_go_forward_class_audit.md: the current-clamp recording mode (v1 element type suffix `-Vm`), the `method.term` of the element's per-epoch recording observation",
+      "first_used_in": "no dataset yet: v1 element types `patch-Vm`, `sharp-Vm` (DID-matlab element migration, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "voltage clamp assay",
+      "node": "OBI:0002182",
+      "definition": "An cellular electrophysiology assay where the membrane potential of a cell is controlled by the experimentalist. This is accomplished through a feedback mechanism where any change in membrane potential is countered by permitting electrical current to flow into or out of the cell.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [recording mode terms], did_v2_go_forward_class_audit.md: the voltage-clamp recording mode (v1 element type suffixes `-I`, `-Im`), the `method.term` of the element's per-epoch recording observation",
+      "first_used_in": "no dataset yet: v1 element types `patch-I`, `sharp-Im` (and other `-I`/`-Im` types) (DID-matlab element migration, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "widefield microscopy assay",
+      "node": "OBI:0002437",
+      "definition": "A fluorescence microscopy technique where the specimen under investigation is fully bathed in light, as opposed to confocal microscopy in which only a small portion of the specimen is illuminated.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [imaging mode terms], did_v2_go_forward_class_audit.md: the wide-field imaging mode (v1 element type `wide-field-imaging`), the `method.term` of the element's per-epoch recording observation",
+      "first_used_in": "no dataset yet: v1 element type `wide-field-imaging` (DID-matlab element migration, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "two-photon laser scanning microscopy",
+      "node": "FBbi:00000254",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [imaging mode terms], did_v2_go_forward_class_audit.md: the two-photon imaging mode (v1 element type `two-photon-imaging`), the `method.term` of the element's per-epoch recording observation",
+      "first_used_in": "no dataset yet: v1 element type `two-photon-imaging` (DID-matlab element migration, build pending)",
       "obsolete": false,
       "number_unit": false,
       "equivalent": [],

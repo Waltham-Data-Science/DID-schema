@@ -329,7 +329,7 @@ def test_relation_branch():
     assert "subject_relation" not in RECORDS
     assert RECORDS["relation"][1]["document_class"].get("abstract") is True
     for cls, endpoints in (("directed_relation", {"child_id", "parent_id"}),
-                           ("undirected_relation", {"entity_id"})):
+                           ("undirected_relation", {"relatum_id"})):   # entity_id until [undirected ends are relata]
         assert "relation" in _chain(cls)
         assert endpoints <= _flat_dep_names(cls), f"{cls} endpoints {endpoints}"
         assert _flat_field_types(cls).get("relation") == "ontology_term"
@@ -1577,10 +1577,22 @@ def test_relation_bindings_present():
     # keyed by NAME for the checks on names, and by NODE for the rest: since
     # 2026-10-22 the stored name is the ontology label of the node and code
     # matches relations by node (Jess Haley [vocabulary nodes] L1)
-    vocab = {r["relation"]["name"]: r for r in rows}
-    by_node = {r["relation"]["node"]: r for r in rows if r["relation"]["node"]}
-    assert len(vocab) == len(rows), "two relation rows share a name"
-    assert len(by_node) == len(rows) - 1, "two relation rows share a node"
+    # A relation may have a row on each carrier: the gene mappings are directed
+    # and, when symmetric, undirected (Jess Haley 2026-11-01 [undirected
+    # relation widened]). So names and nodes are unique per carrier `class`, and
+    # the maps below keep a relation's FIRST row (its directed one).
+    vocab, by_node = {}, {}
+    for r in rows:
+        vocab.setdefault(r["relation"]["name"], r)
+        if r["relation"]["node"]:
+            by_node.setdefault(r["relation"]["node"], r)
+    per_class_names = {(r["class"], r["relation"]["name"]) for r in rows}
+    per_class_nodes = {(r["class"], r["relation"]["node"]) for r in rows if r["relation"]["node"]}
+    assert len(per_class_names) == len(rows), "two relation rows of one class share a name"
+    assert len(per_class_nodes) == len(rows) - 1, "two relation rows of one class share a node"
+    both = sorted(n for c, n in per_class_nodes if c == "undirected_relation"
+                  and ("directed_relation", n) in per_class_nodes)
+    assert both == ["EMPTY:0000381", "EMPTY:0000386"], both
     # the subject-side terms the migrators already emit + the new entity-layer terms
     # `observes` left with #73 audit 2 D5 (replaced by the statement's instrument_id).
     assert "observes" not in vocab
@@ -1604,22 +1616,26 @@ def test_relation_bindings_present():
     assert all({"node", "name"} <= set(r["relation"]) for r in rows)
     # directed endpoints are child/parent, matching the schema directed_relation
     # child/parent deps (not the old advisory `category`).
-    # (undirected rows carry a symmetric `member_types` instead, #73 audit 2 D5)
+    # (undirected rows carry a symmetric `relatum_types` instead, #73 audit 2 D5;
+    # `member_types` until Jess Haley 2026-11-01 [undirected registry columns are relata])
     assert all({"relation", "class", "child_types", "parent_types"} <= set(r)
                for r in rows if r["class"] == "directed_relation")
-    assert all({"relation", "class", "member_types"} <= set(r)
+    assert all({"relation", "class", "relatum_types", "relatum_role"} <= set(r)
                for r in rows if r["class"] == "undirected_relation")
+    assert not any(k.startswith("member_") for r in rows for k in r), \
+        "a member_* column is back ([undirected registry columns are relata])"
     # clock_alignment.relation is bound to its own rows since 2026-10-22
     # (Jess Haley [clock alignment relation bound])
     assert all(r["class"] in ("directed_relation", "undirected_relation", "clock_alignment")
                for r in rows)
     assert [n for n, r in vocab.items() if r["class"] == "clock_alignment"] == [
         "temporally aligned with"]
-    # #73 audit 2 D5: the first undirected rows exist, and only they carry
-    # member_types (paired_with, same_as)
-    assert {n for n, r in by_node.items() if r["class"] == "undirected_relation"} == {
-        "EMPTY:0000380", "owl:sameAs"}
-    assert all("member_types" not in r for r in rows
+    # #73 audit 2 D5: the first undirected rows (paired_with, same_as), and the
+    # symmetric gene mappings ([undirected relation widened]); only they carry
+    # relatum_types
+    assert {r["relation"]["node"] for r in rows if r["class"] == "undirected_relation"} == {
+        "EMPTY:0000380", "owl:sameAs", "EMPTY:0000386", "EMPTY:0000381"}
+    assert all("relatum_types" not in r for r in rows
                if r["class"] == "directed_relation")
     # written as the registry entry's `spelling` since 2026-10-19 (signed,
     # did_v2_prefix_spelling_plan.md); it was lowercase from 2026-10-08
@@ -1644,7 +1660,7 @@ def test_relation_bindings_present():
             "constraints"]["binding"]["values"]}
     for r in rows:
         for t in r.get("child_types", []) + r.get("parent_types", []) + \
-                r.get("member_types", []):
+                r.get("relatum_types", []):
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
     # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints])
     assert by_node["RO:0002350"]["parent_types"] == ["Group"]
@@ -1697,7 +1713,7 @@ def test_stored_vocabulary_names_are_the_labels_of_their_nodes():
     classes = {r[1]["document_class"]["class_name"] for r in RECORDS.values()}
     for r in reg["relation_bindings"]:
         for t in r.get("child_types", []) + r.get("parent_types", []) + \
-                r.get("member_types", []):
+                r.get("relatum_types", []):
             assert t in types or t in classes, (r["relation"]["name"], t)
 
 

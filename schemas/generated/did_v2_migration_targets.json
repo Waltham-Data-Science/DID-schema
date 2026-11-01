@@ -62,9 +62,7 @@
       }
     },
     "control_stimulus_ids": {
-      "targets": [
-        "control_stimulus_ids"
-      ],
+      "targets": [],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -334,7 +332,8 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "absolute_time_reference"
       ],
       "target_completeness": {
         "state": "full",
@@ -348,7 +347,8 @@
       "targets": [
         "sampled_body",
         "observation + intensity",
-        "relative_time_reference"
+        "relative_time_reference",
+        "absolute_time_reference"
       ],
       "target_completeness": {
         "state": "full",

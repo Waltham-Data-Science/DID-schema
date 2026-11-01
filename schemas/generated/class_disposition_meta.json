@@ -25,12 +25,6 @@
             "note": "D-C analysis-tier decompose"
         },
         {
-            "class_name": "control_stimulus_ids",
-            "replaced_by": [],
-            "decision": "",
-            "note": "consumed → item.control_item (#73 item 67; was timed_sequence)"
-        },
-        {
             "class_name": "daqreader",
             "replaced_by": [
                 "entity (software)"
