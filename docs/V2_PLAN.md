@@ -510,7 +510,7 @@ whose DID-matlab build waits on GL1-GL7.
     fragment's definition and synonyms (read back from the term). Apply the
     same to breeding-type and disease-model fragments? (Reverted from NDI-matlab
     #1104 until decided.) ANSWERED 2026-11-01: [breeding type and disease model
-    text not stored] (NDI-matlab #1120).
+    text not stored] (built, NDI-matlab #1120).
   - **G62. The remaining mode terms ([element type is a device kind term],
     [imaging mode is a method term]).** Recording modes voltage (-Vm) and
     current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
@@ -555,7 +555,7 @@ whose DID-matlab build waits on GL1-GL7.
     template, and #306 writes 0 as age 0 days, because no decision treats it
     as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
     info)? [needs info: the template default is indistinguishable from a
-    recorded 0] ANSWERED 2026-11-01: [postnatal day 0 not stated] (DID-matlab
+    recorded 0] ANSWERED 2026-11-01: [postnatal day 0 not stated] (built, DID-matlab
     #332).
   - **G69. Building G53 ([assay labels batch 1]..[6]).** A read-only plan,
     docs/v2_working/G53_BUILD_PLAN.md, finds 91 EMPTY terms touched, none in the
@@ -603,7 +603,7 @@ whose DID-matlab build waits on GL1-GL7.
     Register NCIT:C48571 and convert, or keep the source only? (No fixture is
     affected today: every Babu treatment is carried by location.) [register and
     convert] ANSWERED 2026-11-01: [percent volume per volume converted]
-    (DID-matlab #332).
+    (built, DID-matlab #332).
   - **G73. #119 part 2, the growth ratchets.** All ten `BASELINE_*` ratchets
     are listed in docs/v2_working/RATCHETS_119.md. Only B6 (bound fields with
     no catalogue row; 116, today 95) grows with normal decided work, so it
