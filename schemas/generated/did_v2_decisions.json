@@ -6,13 +6,13 @@
     "classes_citing": 73,
     "citations": 86,
     "citations_unresolved": 0,
-    "open_classes": 20,
+    "open_classes": 19,
     "by_state": {
       "decided": 73,
       "proposed (not decided)": 1
     },
     "open_by_state": {
-      "decided": 19,
+      "decided": 18,
       "proposed (not decided)": 1
     },
     "state_labels": {
@@ -1809,8 +1809,8 @@
     },
     "valid_interval": {
       "class_name": "valid_interval",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1900,7 +1900,7 @@
         "packages_missing": [],
         "files_read": 446,
         "lines_read": 84795,
-        "classes_queried": 20,
+        "classes_queried": 19,
         "classes_emitted_as_document_class": 4,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2052,7 +2052,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 20
+        "classes_queried": 19
       },
       "batch_consumers": {
         "files_scanned": 53,
@@ -2067,7 +2067,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 18,
+      "b_built_awaiting_corpus_proof": 17,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -4123,103 +4123,6 @@
         ],
         "decided_targets_built": [
           "clock_alignment_configuration"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "valid_interval",
-        "decision": "decided",
-        "decided_in": "did_v2_logical_observation_plan.md:365 [logical_observation]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "2 consuming reference(s) (2 batch post-pass)",
-          "decided target(s) built: `observation + time`"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 2,
-        "consuming_refs": [
-          "DID-matlab:convert/resolveValidIntervals.m:637 (guard)",
-          "DID-matlab:convert/resolveValidIntervals.m:662 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 3,
-        "named_refs": [
-          "DID-matlab:convert/noMigratorCarryRows.m:47 (named)",
-          "DID-matlab:convert/resolveValidIntervals.m:640 (named)",
-          "DID-matlab:convert/resolveValidIntervals.m:665 (named)"
-        ],
-        "n_comment_mentions": 25,
-        "comment_mentions": [
-          "DID-matlab:convert/resolveValidIntervals.m:1104 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:1111 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:1165 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:1167 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:129 (comment_mention)",
-          "DID-matlab:convert/resolveValidIntervals.m:144 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 8,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:398 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:404 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:412 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:432 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:434 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:461 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "DID-matlab:convert/resolveValidIntervals.m:637 (guard)",
-              "DID-matlab:convert/resolveValidIntervals.m:662 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 3,
-            "named_refs": [
-              "DID-matlab:convert/noMigratorCarryRows.m:47 (named)",
-              "DID-matlab:convert/resolveValidIntervals.m:640 (named)",
-              "DID-matlab:convert/resolveValidIntervals.m:665 (named)"
-            ],
-            "n_comment_mentions": 17,
-            "comment_mentions": [
-              "DID-matlab:convert/resolveValidIntervals.m:1104 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:1111 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:1165 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:1167 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:129 (comment_mention)",
-              "DID-matlab:convert/resolveValidIntervals.m:144 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "observation + time"
-        ],
-        "decided_targets_built": [
-          "observation + time"
         ],
         "decided_targets_missing": [],
         "survivors": null,

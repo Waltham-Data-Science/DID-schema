@@ -14,23 +14,23 @@ else is **Proposed (not decided)**, whatever any prose says.
 
 | | count |
 |---|---|
-| target classes | 115 |
+| target classes | 114 |
 | settled (persist) | 95 |
-| `retire`, file still in the tree (open: delete it once nothing passes through it, [one folder, final classes only]) | 20 |
+| `retire`, file still in the tree (open: delete it once nothing passes through it, [one folder, final classes only]) | 19 |
 | **still open (`in_progress`)** | **0** |
 | **`retire` with no migrator YET** | **1** |
-| **open classes in all** | **20** |
-| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 19 |
+| **open classes in all** | **19** |
+| &nbsp;&nbsp;decided (cites a decision line), awaiting build | 18 |
 | &nbsp;&nbsp;**proposed (not decided), awaiting review** | **1** |
 
 | open-class BUILD/PROOF state (derived, see below) | count |
 |---|---|
 | (a) nothing built (the decision state is a separate column) | 2 |
-| (b) built, awaiting corpus proof | 18 |
+| (b) built, awaiting corpus proof | 17 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
-## What is actually left on the 20 open classes
+## What is actually left on the 19 open classes
 
 `in_progress` is a HAND-WRITTEN DECLARATION: every one of these classes is
 open because its hand-written `disposition` in `schemas/registry/did_v2_class_dispositions.json` is
@@ -53,7 +53,7 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: migrator lines inspected | 84795 |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 46436 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 38359 |
-| build: classes queried | 20 |
+| build: classes queried | 19 |
 | build: open classes MINTED as a document class | 4 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 3 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 1 |
@@ -72,12 +72,12 @@ an `unconverted_count`, so **state (c) cannot be reached by any class in**
 key measured nothing; its silence is not a zero. Point `--census` at a
 directory of corpus reports, or run the DID-matlab corpus gate.
 
-### Where the 20 open classes sit
+### Where the 19 open classes sit
 
 | state | classes |
 |---|---|
 | (a) nothing built (the decision state is a separate column) | 2 |
-| (b) built, awaiting corpus proof | 18 |
+| (b) built, awaiting corpus proof | 17 |
 | (c) corpus: 0 survivors in the corpora read | 0 |
 | (?) UNMEASURED -- no build evidence was ever taken | 0 |
 
@@ -264,14 +264,13 @@ post-pass -- so no cell in this table is an undifferentiated count.
 | `stimulus_response_scalar_parameters` | decided | (a) | *none* | - | - | - | 3 (1+2) | n/a -- not measured |
 | `stimulus_response_scalar_parameters_basic` | decided | (b) | migrator `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m`; decided target(s) built: `method` | - | - | 5 (2+3) | 19 (5+14) | n/a -- not measured |
 | `syncrule` | decided | (b) | migrator `DID-matlab:migrators_j/syncrule.m`; 8 consuming reference(s) (3 per-document migrator, 5 batch post-pass); decided target(s) built: `clock_alignment_configuration` | - | 1 (0+1) | 7 (5+2) | 64 (42+22) | n/a -- not measured |
-| `valid_interval` | decided | (b) | 2 consuming reference(s) (2 batch post-pass); decided target(s) built: `observation + time` | - | - | 3 (0+3) | 25 (8+17) | n/a -- not measured |
 
 #### (a) nothing built (the decision state is a separate column) -- 2
 
 - `calculator` (decided) -- NAMED as a string value at 2 site(s), per-document migrator: `DID-matlab:migrators_j/private/jCalculation.m:524 (named)`, `DID-matlab:migrators_j/private/jCalculation.m:553 (named)`; mentioned in 79 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:1016 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:1034 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:500 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:591 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:608 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:756 (comment_mention)` ...; mentioned in 50 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:17 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:5 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:17 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:5 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)` ...
 - `stimulus_response_scalar_parameters` (decided) -- mentioned in 1 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:130 (comment_mention)`; mentioned in 2 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:9 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:90 (comment_mention)`
 
-#### (b) built, awaiting corpus proof -- 18
+#### (b) built, awaiting corpus proof -- 17
 
 - `acquisition_epoch` (decided) -- consumed at 2 site(s), per-document migrator: `NDI-matlab:ndi_second_pass/ensembleMembership.m:574 (guard)`, `NDI-matlab:ndi_second_pass/ensembleMembership.m:681 (guard)`; consumed at 16 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/element_epoch.m:33 (guard)`, `DID-matlab:convert/epochMint.m:3381 (guard)`, `DID-matlab:convert/epochMint.m:3382 (field_read)`, `DID-matlab:convert/epochMint.m:3383 (field_read)`, `DID-matlab:convert/epochMint.m:3386 (field_read)`, `DID-matlab:convert/epochMint.m:876 (guard)` ...; MINTED as a document class at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:199 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/element_epoch.m:201 (field_write)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/element_epoch.m:45 (named)`, `DID-matlab:convert/v1_to_v2.m:2001 (named)`; mentioned in 31 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:714 (comment_mention)`, `DID-matlab:migrators_j/daqreader_image_epochdata_ingested.m:168 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:111 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:113 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:117 (comment_mention)`, `DID-matlab:migrators_j/element_epoch.m:121 (comment_mention)` ...; mentioned in 40 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/element_epoch.m:3 (comment_mention)`, `DID-matlab:convert/epochMint.m:25 (comment_mention)`, `DID-matlab:convert/epochMint.m:27 (comment_mention)`, `DID-matlab:convert/epochMint.m:3370 (comment_mention)`, `DID-matlab:convert/epochMint.m:3459 (comment_mention)`, `DID-matlab:convert/epochMint.m:3578 (comment_mention)` ...
 - `app` (decided) -- consumed at 12 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:110 (guard)`, `DID-matlab:migrators_j/private/jMethodParameters.m:112 (field_read)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:124 (guard)`, `DID-matlab:migrators_j/private/jSoftwareFromApp.m:125 (field_read)`, `NDI-matlab:ndi_second_pass/appSoftware.m:42 (guard)`, `NDI-matlab:ndi_second_pass/appSoftware.m:43 (field_read)` ...; consumed at 8 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:13 (guard)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:14 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:43 (guard)`, `DID-matlab:convert/+v1read/readApp.m:44 (field_read)`, `DID-matlab:convert/+v1read/readApp.m:48 (field_read)`, `DID-matlab:convert/resolveValidIntervals.m:666 (guard)` ...; a block of this name is WRITTEN at 1 site(s), per-document migrator: `DID-matlab:migrators_j/private/jMethodParameters.m:137 (field_write)`; a block of this name is WRITTEN at 4 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/calcParts.m:167 (field_write)`, `DID-matlab:convert/+roundtrip/private/methodDocParts.m:101 (field_write)`, `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:21 (field_write)`, `DID-matlab:convert/universalRenames.m:315 (field_write)`; NAMED as a string value at 11 site(s), per-document migrator: `DID-matlab:migrators_j/fitcurve.m:83 (named)`, `DID-matlab:migrators_j/jrclust_clusters.m:170 (named)`, `DID-matlab:migrators_j/kiasort_clusters.m:50 (named)`, `DID-matlab:migrators_j/kilosort_clusters.m:51 (named)`, `DID-matlab:migrators_j/neuron_extracellular.m:719 (named)`, `DID-matlab:migrators_j/private/jCalculation.m:524 (named)` ...; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/private/parkedMethodBlocks.m:22 (named)`, `DID-matlab:convert/resolveValidIntervals.m:1121 (named)`; mentioned in 256 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:1047 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:143 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:159 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:405 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:406 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:493 (comment_mention)` ...; mentioned in 171 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/contrast_tuning.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrast_tuning.m:8 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrastsensitivity_calc.m:9 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:12 (comment_mention)`, `DID-matlab:convert/+roundtrip/contrasttuning_calc.m:9 (comment_mention)` ...; target(s) BUILT: `entity (software)`
@@ -290,11 +289,10 @@ post-pass -- so no cell in this table is an undifferentiated count.
 - `stimulus_response_scalar` (decided) -- migrator `DID-matlab:migrators_j/stimulus_response_scalar.m`; consumed at 10 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:75 (guard)`, `DID-matlab:convert/epochMint.m:1378 (guard)`, `DID-matlab:convert/epochMint.m:2375 (field_read)`, `DID-matlab:convert/tuningBatchIndex.m:156 (guard)`, `DID-matlab:convert/tuningBatchIndex.m:157 (field_read)`, `DID-matlab:convert/tuningBatchIndex.m:158 (field_read)` ...; MINTED as a document class at 1 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:168 (emitted_class)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:193 (field_write)`; NAMED as a string value at 7 site(s), per-document migrator: `DID-matlab:migrators_j/stimulus_response_scalar.m:152 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:157 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:165 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:196 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:309 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:325 (named)` ...; NAMED as a string value at 5 site(s), batch post-pass: `DID-matlab:convert/epochMint.m:1401 (named)`, `DID-matlab:convert/epochMint.m:2374 (named)`, `DID-matlab:convert/rawV1Classes.m:504 (named)`, `DID-matlab:convert/resolveResponseParameters.m:297 (named)`, `DID-matlab:convert/tuningBatchIndex.m:111 (named)`; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:971 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:972 (comment_mention)`, `DID-matlab:migrators_j/control_stimulus_ids.m:118 (comment_mention)`, `DID-matlab:migrators_j/stimulus_presentation.m:38 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:103 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar.m:114 (comment_mention)` ...; mentioned in 35 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:2 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:3 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:40 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:42 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:49 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar.m:5 (comment_mention)` ...; target(s) BUILT: `calculation + harmonic_component`
 - `stimulus_response_scalar_parameters_basic` (decided) -- migrator `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m`; NAMED as a string value at 2 site(s), per-document migrator: `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:154 (named)`, `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:163 (named)`; NAMED as a string value at 3 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:66 (named)`, `DID-matlab:convert/rawV1Classes.m:505 (named)`, `DID-matlab:convert/resolveResponseParameters.m:296 (named)`; mentioned in 5 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:976 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:129 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:140 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:18 (comment_mention)`, `DID-matlab:migrators_j/stimulus_response_scalar_parameters_basic.m:98 (comment_mention)`; mentioned in 14 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:13 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:3 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:58 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:6 (comment_mention)`, `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:8 (comment_mention)`, `DID-matlab:convert/rawV1Classes.m:89 (comment_mention)` ...; target(s) BUILT: `method`
 - `syncrule` (decided) -- migrator `DID-matlab:migrators_j/syncrule.m`; consumed at 3 site(s), per-document migrator: `DID-matlab:migrators_j/syncrule.m:170 (guard)`, `DID-matlab:migrators_j/syncrule.m:171 (field_read)`, `DID-matlab:migrators_j/syncrule.m:273 (field_read)`; consumed at 5 site(s), batch post-pass: `DID-matlab:convert/resolveClockAlignment.m:355 (guard)`, `DID-matlab:convert/resolveClockAlignment.m:359 (guard)`, `DID-matlab:convert/resolveClockAlignment.m:363 (field_read)`, `DID-matlab:convert/resolveClockAlignment.m:420 (field_read)`, `DID-matlab:convert/resolveClockAlignment.m:421 (guard)`; a block of this name is WRITTEN at 1 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/syncrule.m:136 (field_write)`; NAMED as a string value at 5 site(s), per-document migrator: `DID-matlab:migrators_j/private/jAcquisitionChannels.m:115 (named)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:117 (named)`, `DID-matlab:migrators_j/syncrule.m:162 (named)`, `DID-matlab:migrators_j/syncrule.m:164 (named)`, `DID-matlab:migrators_j/syncrule.m:291 (named)`; NAMED as a string value at 2 site(s), batch post-pass: `DID-matlab:convert/+roundtrip/syncrule.m:61 (named)`, `DID-matlab:convert/rawV1Classes.m:516 (named)`; mentioned in 42 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:1003 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:1004 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:504 (comment_mention)`, `DID-matlab:migrators_j/daqsystem.m:99 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:104 (comment_mention)`, `DID-matlab:migrators_j/private/jAcquisitionChannels.m:15 (comment_mention)` ...; mentioned in 22 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/+roundtrip/syncrule.m:19 (comment_mention)`, `DID-matlab:convert/+roundtrip/syncrule.m:2 (comment_mention)`, `DID-matlab:convert/+roundtrip/syncrule.m:20 (comment_mention)`, `DID-matlab:convert/+roundtrip/syncrule.m:4 (comment_mention)`, `DID-matlab:convert/+roundtrip/syncrule.m:41 (comment_mention)`, `DID-matlab:convert/+roundtrip/syncrule.m:5 (comment_mention)` ...; target(s) BUILT: `clock_alignment_configuration`
-- `valid_interval` (decided) -- consumed at 2 site(s), batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:637 (guard)`, `DID-matlab:convert/resolveValidIntervals.m:662 (guard)`; NAMED as a string value at 3 site(s), batch post-pass: `DID-matlab:convert/noMigratorCarryRows.m:47 (named)`, `DID-matlab:convert/resolveValidIntervals.m:640 (named)`, `DID-matlab:convert/resolveValidIntervals.m:665 (named)`; mentioned in 8 COMMENT(s) -- prose, counts toward nothing, per-document migrator: `DID-matlab:migrators_j/Contents.m:398 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:404 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:412 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:432 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:434 (comment_mention)`, `DID-matlab:migrators_j/Contents.m:461 (comment_mention)` ...; mentioned in 17 COMMENT(s) -- prose, counts toward nothing, batch post-pass: `DID-matlab:convert/resolveValidIntervals.m:1104 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1111 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1165 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:1167 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:129 (comment_mention)`, `DID-matlab:convert/resolveValidIntervals.m:144 (comment_mention)` ...; target(s) BUILT: `observation + time`
 
 ## Proposed (not decided) -- awaiting review
 
-DENOMINATOR: 20 open class(es); 1 cite no decision line that resolves.
+DENOMINATOR: 19 open class(es); 1 cite no decision line that resolves.
 
 | class | citations that did not resolve |
 |---|---|
@@ -302,7 +300,7 @@ DENOMINATOR: 20 open class(es); 1 cite no decision line that resolves.
 
 ## Decided, awaiting build -- the open classes
 
-DENOMINATOR: 20 open class(es); 19 cite a decision line that exists. The decision column is the line's own text, not a summary.
+DENOMINATOR: 19 open class(es); 18 cite a decision line that exists. The decision column is the line's own text, not a summary.
 
 | class | targets built | decided in | decision |
 |---|---|---|---|
@@ -324,7 +322,6 @@ DENOMINATOR: 20 open class(es); 19 cite a decision line that exists. The decisio
 | `stimulus_response_scalar_parameters` | no target recorded | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (did_v2_stimulus_response_model_plan.md:541). | jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scala... |
 | `stimulus_response_scalar_parameters_basic` | 1 of 1 | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (did_v2_stimulus_response_model_plan.md:541). | jess@walthamdatascience.com / 2026-08-08 -- four classes to TWO: `harmonic_component` (data_type) + `harmonic_component_calculation` (⊂ subject_calculation, id PRESERVED); stimulus_response and stimulus_response_scala... |
 | `syncrule` | 1 of 1 | [sync configuration]. "TEAM-SIGN-OFF [sync configuration]" (did_v2_clock_alignment_cluster_plan.md:506). | jess@walthamdatascience.com / 2026-08-08 -- syncrule -> `clock_alignment_configuration` (parameters DECLARED not bagged, devices become `acquisition_channels_#` edges, EXACTLY 2 and UNORDERED); syncgraph -> `clock_ali...` |
-| `valid_interval` | 1 of 1 | [logical_observation]. "TEAM-SIGN-OFF [logical_observation]" (did_v2_logical_observation_plan.md:365). | jess@walthamdatascience.com / 2026-08-12 -- `validity` and `validity_observation` are replaced by `logical` + `logical_observation`; the semantic moves to `subject_statement.variable`, since a data_type names the KIND... |
 
 ## Every decision citation
 
@@ -402,7 +399,7 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `syncrule_mapping` | consumed by migrator (no tombstone) | 1 of 1 | [sync mapping]. "TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com /" (did_v2_clock_alignment_cluster_plan.md:508). |
 | `treatment` | consumed by migrator (no tombstone) | 7 of 7 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
 | `tuningcurve_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
-| `valid_interval` | retire | 1 of 1 | [logical_observation]. "TEAM-SIGN-OFF [logical_observation]" (did_v2_logical_observation_plan.md:365).; [logical_observation amendment 1]. "TEAM-SIGN-OFF [logical_observation amendment 1]" (did_v2_logical_observation_plan.md:425). |
+| `valid_interval` | no V_eta home, no migrator -- UNVERIFIED | 1 of 1 | [logical_observation]. "TEAM-SIGN-OFF [logical_observation]" (did_v2_logical_observation_plan.md:365).; [logical_observation amendment 1]. "TEAM-SIGN-OFF [logical_observation amendment 1]" (did_v2_logical_observation_plan.md:425). |
 | `vmspikefilteringparameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `vmspikefit` | consumed by migrator (no tombstone) | 1 of 1 | [#73 audit 2, D1-D13]. "TEAM-SIGN-OFF [#73 audit 2, D1-D13]" (did_v2_spatial_transcriptomics_plan.md:578). |
 
@@ -1064,8 +1061,8 @@ field). If one decides a class's disposition, that class should cite it.
 | disposition | count |
 |---|---|
 | consumed by migrator (no tombstone) | 84 |
-| retire | 19 |
-| no V_eta home, no migrator -- UNVERIFIED | 6 |
+| retire | 18 |
+| no V_eta home, no migrator -- UNVERIFIED | 7 |
 | test/demo fixture (non-production) | 2 |
 | UNMAPPED (needs a V_eta home) | 2 |
 | dissolved → subject | 1 |
@@ -1106,4 +1103,5 @@ DENOMINATOR: 1 row(s), each searched for its BARE CLASS NAME as a quoted literal
 - `imageStack_parameters`
 - `projectvar`
 - `stimulus_parameter_table`
+- `valid_interval`
 
