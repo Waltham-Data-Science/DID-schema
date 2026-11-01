@@ -550,7 +550,7 @@ def test_conditions_and_method_parameters_are_one_entry():
     assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
     # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
-        "along", "cyclic", "origin", "spacing", "key"}, sorted(ks)
+        "along", "cyclic", "origin", "spacing", "key", "index"}, sorted(ks)
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
@@ -4049,7 +4049,7 @@ def test_a6_covariate_entry_shape():
     _cov, sub = _a6_fields("data", "covariates")
     assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
                          "origin", "spacing", "quantity", "count", "term", "text",
-                         "logical", "matrix", "key", "cyclic"]
+                         "logical", "matrix", "key", "index", "cyclic"]
     assert sub["variable"]["mustBeNonEmpty"] is True
     assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
     along = sub["along"]
@@ -4081,7 +4081,9 @@ def test_a6_rules_replace_the_key_rules():
         f"dimensions.{k}" for k in dim}
     for r in rules.values():
         assert set(r["fields"]) <= declared, (r["name"], set(r["fields"]) - declared)
-    assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing"} == set(
+    # `index` is named because it goes only beside `key` ([key covariate index])
+    assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing",
+                                                          "covariates.index"} == set(
         rules["covariate_one_value_form"]["fields"])
     assert "exactly one" in rules["covariate_single_dimension_forms"]["statement"]
     assert "non-empty" in rules["covariate_along"]["statement"]
@@ -4098,6 +4100,10 @@ def _covariate_problems(dimensions, covariate):
         out.append("origin without spacing")
     if len(forms) != 1:
         out.append(f"value forms {forms}")
+    # [key covariate index] (Jess Haley, 2026-11-01): `index` only beside `key`
+    index = covariate.get("index")
+    if index is not None and forms != ["key"]:
+        out.append("index without key")
     along = covariate.get("along") or []
     if not along:
         out.append("along empty")
@@ -4111,7 +4117,12 @@ def _covariate_problems(dimensions, covariate):
     if covariate.get("cyclic") and (
             len(along) != 1 or not {"origin", "quantity"} & set(forms)):
         out.append("cyclic not origin+spacing or quantity along one")
-    # rule `covariate_shape` ([covariate rules named] 6.1a)
+    # rule `covariate_shape` ([covariate rules named] 6.1a); a key's `index`:
+    # n integers >= 0 ([key covariate index])
+    if forms == ["key"] and index is not None and not out:
+        n = dimensions[along[0]]["n"]
+        if len(index) != n or any(not isinstance(i, int) or i < 0 for i in index):
+            out.append(f"index {index}, along extent {n}")
     if len(forms) == 1 and not out and forms[0] not in ("origin", "key"):
         form = forms[0]
         v = covariate[form]["value"] if form == "quantity" else covariate[form]
@@ -4213,6 +4224,35 @@ def test_a6_rule_counterexamples_are_refused():
     assert _covariate_problems(two, {"variable": {}, "along": [1], "key": 0}) == []
     assert _covariate_problems(two, {"variable": {}, "along": [1], "key": -1}) == [
         "value forms []"]
+
+
+def test_key_covariate_index():
+    """Jess Haley, 2026-11-01 [key covariate index] ("2. Ok"): a `key` covariate
+    may carry `index`, one 0-based entry number per position of its dimension;
+    position k is entry index[k] of the keyed document's value. Without it,
+    position k is entry k."""
+    _cov, sub = _a6_fields("data", "covariates")
+    ix = sub["index"]
+    assert (ix["type"], ix["mustBeScalar"], ix["mustBeNonEmpty"], ix["blank_value"]) == (
+        "integer", False, False, [])
+    assert "[key covariate index]" in ix["documentation"]
+    assert "[key covariate index]" in sub["key"]["documentation"]
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    for name in ("covariate_one_value_form", "covariate_shape"):
+        assert "covariates.index" in rules[name]["fields"], name
+        assert "[key covariate index]" in rules[name]["statement"], name
+    rows = [{"n": 3}]
+    gene = {"node": "NCIT:C16612", "name": "Gene"}
+    # the sketch Jess approved
+    a = {"variable": gene, "along": [0], "key": 0, "index": [5, 5, 9]}
+    b = {"variable": gene, "along": [0], "key": 1, "index": [12, 30, 4]}
+    assert _covariate_problems(rows, a) == [] and _covariate_problems(rows, b) == []
+    assert _variable_once_problems([], [a, b], []) == []
+    assert _covariate_problems(rows, {"variable": gene, "along": [0], "key": 0}) == []
+    assert _covariate_problems(rows, dict(a, index=[5, 5])) != []
+    assert _covariate_problems(rows, dict(a, index=[5, -1, 9])) != []
+    assert _covariate_problems(rows, {"variable": gene, "along": [0], "count": [1, 2, 3],
+                                      "index": [0, 1, 2]}) != []
 
 
 def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():

@@ -340,24 +340,24 @@
     "gene_list": {
       "carried": [],
       "second_pass": [],
-      "how": "#73 review (items 21-23): a STANDALONE `term` document (content, not a claim) whose body holds the index/node/name table; derived_from the genome annotation `dataset`, itself derived_from the assembly `dataset`.",
-      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
+      "how": "Jess Haley, 2026-11-01 [gene list as a term, file kept] (did_v2_go_forward_class_audit.md), refining #73 review item 21: a STANDALONE `term` document (content, not a claim), base.id the v1 id, `data_body` true; its `opaque_body` holds genes.tsv unchanged, `format` EDAM:format_3475 \"TSV\", `dimensions` [{NCIT:C16612 \"Gene\", n_genes}], `notes` the v1 label. genome_assembly, annotation_source and gene_id_namespace are listed in the run's migration report; item 22's derived_from links are a per-dataset import's work.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). Built in DID-matlab by the gene-list PRs of 2026-11-01 (#343 gene_list, #348 gene_list_mapping); the targets above stay authored until the sibling lock reaches them.",
       "decided_targets": [
         "term",
-        "sampled_body",
-        "directed_relation",
-        "entity (dataset)"
+        "opaque_body"
       ]
     },
     "gene_list_mapping": {
       "carried": [],
       "second_pass": [],
-      "how": "#73 review (item 24): a directed_relation list A -> list B (relation 'orthologous gene mapping' | 'gene alias mapping', method = tool + version) with `value_id` to a standalone `score` (or `logical`) document whose keys are [gene of A, gene of B].",
-      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
+      "how": "Jess Haley, 2026-11-01 (did_v2_go_forward_class_audit.md [gene list mapping value shape], [gene list mapping value kind], [gene list mapping method text], [orthology mapping has no method term], [gene list mapping leftovers], [gene list mapping other types carried], [mapping rows counted, indices 0-based], [key covariate index], [undirected relation widened]), amending #73 review item 24: a `directed_relation` list A -> list B (v1 symmetric 0) or an `undirected_relation` over [A, B] (symmetric 1), relation EMPTY:0000381 \"gene alias mapping\" | EMPTY:0000386 \"orthologous gene mapping\", `notes` the label, `value_id` to a standalone `logical` (has_score 0) or `score` (has_score 1) with one `row` dimension and two gene covariates (`key` 0 / 1 with `index` from mapping.tsv's gene index columns); mapping.tsv unchanged is that value's `opaque_body` (EDAM:format_3475). Other mapping types are carried as v1.",
+      "flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). Built in DID-matlab by the gene-list PRs of 2026-11-01 (#343 gene_list, #348 gene_list_mapping); the targets above stay authored until the sibling lock reaches them.",
       "decided_targets": [
         "directed_relation",
+        "undirected_relation",
+        "logical",
         "score",
-        "sampled_body"
+        "opaque_body"
       ]
     },
     "generic_file": {

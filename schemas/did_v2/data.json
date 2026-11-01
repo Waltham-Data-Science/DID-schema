@@ -542,7 +542,20 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this covariate's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along the covariate's ONE dimension is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). The dimension's `n` must equal the number of entries; only along exactly one dimension (rule `covariate_single_dimension_forms`). -1 (the blank) = not used: 0 is a real position. One value form (rule `covariate_one_value_form`). (`document` until 2026-11-01, Jess Haley [covariate key]: \"Yes, rename document to key\", after \"Does document always refer to key?\"; `positions_from` on a key until 2026-10-22, `labels_from` until 2026-10-05; [along by index]: \"Why isn't it just 'document'?\")",
+                    "documentation": "Take this covariate's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along the covariate's ONE dimension is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list), unless the covariate carries `index`: then position k is entry `index[k]` ([key covariate index]). Without `index`, the dimension's `n` must equal the number of entries; only along exactly one dimension (rule `covariate_single_dimension_forms`). -1 (the blank) = not used: 0 is a real position. One value form (rule `covariate_one_value_form`). (`document` until 2026-11-01, Jess Haley [covariate key]: \"Yes, rename document to key\", after \"Does document always refer to key?\"; `positions_from` on a key until 2026-10-22, `labels_from` until 2026-10-05; [along by index]: \"Why isn't it just 'document'?\")",
+                    "constraints": {}
+                },
+                {
+                    "name": "index",
+                    "type": "integer",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "With `key` only: one 0-based entry number per position of the covariate's ONE dimension; position k is entry `index[k]` of the keyed document's value, so a position may name any entry, and an entry may be named twice or not at all (the two gene columns of a gene-list mapping, copied from `mapping.tsv`'s gene index columns). Absent: position k is entry k. Integers >= 0, as many as the dimension's `n` (rule `covariate_shape`); each below the keyed document's number of entries (a batch check); only beside `key` (rule `covariate_one_value_form`). (Jess Haley, 2026-11-01 [key covariate index]: \"2. Ok\".)",
                     "constraints": {}
                 },
                 {
@@ -591,9 +604,10 @@
                 "covariates.text",
                 "covariates.logical",
                 "covariates.matrix",
-                "covariates.key"
+                "covariates.key",
+                "covariates.index"
             ],
-            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `key` (0 or more; -1 is not used; `document` until 2026-11-01, [covariate key]). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.)"
+            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `key` (0 or more; -1 is not used; `document` until 2026-11-01, [covariate key]). `index` is not a form: it is given only beside `key` (Jess Haley 2026-11-01 [key covariate index]). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.)"
         },
         {
             "name": "covariate_along",
@@ -641,9 +655,10 @@
                 "covariates.term",
                 "covariates.text",
                 "covariates.logical",
-                "covariates.matrix"
+                "covariates.matrix",
+                "covariates.index"
             ],
-            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `key` covariate's document has exactly `n` entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
+            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `key` covariate's document has exactly `n` entries, unless the covariate carries `index`: then `index` holds `n` integers >= 0, each below that document's number of entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; `index` 2026-11-01 [key covariate index])."
         },
         {
             "name": "variable_once",
