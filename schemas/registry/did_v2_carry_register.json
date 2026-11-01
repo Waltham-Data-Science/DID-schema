@@ -190,22 +190,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-010",
-      "v1_class": "lightsheetZarrLevel",
-      "fields": [
-        "lightsheetZarrLevel.codec_params"
-      ],
-      "when": "the level's codec settings go beyond the codec name",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "compression block and empty levels"
-      },
-      "open_work": 132,
-      "home": "data_body.compression as a {term, parameters} block (field type change; DID-matlab and NDI-matlab first)",
-      "kind_basis": "stated"
-    },
-    {
       "id": "carry-011",
       "v1_class": "image",
       "fields": [

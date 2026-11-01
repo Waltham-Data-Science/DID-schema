@@ -34,6 +34,10 @@ NOT_VALUES = {
     # `method` is the same {term, parameters} block, so its parameter entries take
     # the condition's `approximate` and, like it, no tolerance.
     "migration.method.parameters",
+    # 2026-11-01 ([compression block and empty levels] (1), Jess Haley,
+    # 2026-10-26): a body's `compression` is the same {term, parameters} block,
+    # so its setting entries take the condition's `approximate` and no tolerance.
+    "data_body.compression.parameters",
 }
 
 

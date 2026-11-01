@@ -11174,6 +11174,75 @@
       ]
     },
     {
+      "name": "Blosc",
+      "node": "EMPTY:0000426",
+      "definition": "A meta-compressor that splits data into blocks, optionally rearranges each block with a shuffle filter, and compresses each block with a chosen inner compressor.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: the codec term of a data body's `compression` (v1 spelling 'blosc-zstd': Blosc, with the inner compressor zstd as a parameter); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression (a v1 lightsheetZarrLevel's codec 'blosc-zstd'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "compression level",
+      "node": "EMPTY:0000427",
+      "definition": "A setting of a compressor that trades speed for compressed size: a higher level compresses more and runs slower.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `clevel`); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'clevel'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "clevel"
+      ]
+    },
+    {
+      "name": "compression block size",
+      "node": "EMPTY:0000428",
+      "definition": "The amount of uncompressed data that a block compressor compresses as one independent unit.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `blocksize`); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'blocksize'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "blocksize",
+        "block size"
+      ]
+    },
+    {
+      "name": "shuffle filter",
+      "node": "EMPTY:0000429",
+      "definition": "A transformation applied before compression that regroups the bytes, or the bits, of fixed-size elements so that those of equal significance are stored together.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `shuffle`); its setting (none, byte or bit) is plain text, not a term; minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'shuffle'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "shuffle"
+      ]
+    },
+    {
+      "name": "inner compressor",
+      "node": "EMPTY:0000430",
+      "definition": "The compression algorithm that a meta-compressor applies to each block of data.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [compression terms registered], [compression term definitions approved], did_v2_go_forward_class_audit.md: a parameter variable of a data body's `compression` block (numcodecs.Blosc key `cname`); its value is a codec term (wikidata:Q26737171 Zstandard); minted in empty-ontology #35 (merged into V2 as 89c949ee)",
+      "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's codec_params key 'cname'; DID-matlab +build/private/compressionTable.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "cname"
+      ]
+    },
+    {
       "name": "Conversion",
       "node": "EDAM:operation_3434",
       "definition": "Convert a data set from one form to another.",
