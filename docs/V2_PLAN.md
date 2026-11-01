@@ -513,8 +513,7 @@ whose DID-matlab build waits on GL1-GL7.
     an epoch's bodies, and where the epochtable's t0/t1 and clocks go. (6) Is
     the v1 ingested document still written? (NDI-matlab agent report; nothing
     built.) (6) ANSWERED 2026-11-01: [ingest writes no v1 ingested
-    document]. (1) asked again 2026-11-01 (per probe or per acquisition-system
-    epoch; Claude recommends per probe, shared blocks shared).
+    document]. (1) ANSWERED 2026-11-01: [ingest observation per probe].
   - **G60. A dataset with no single `dataset` document ([linked session link
     details]).** NDI-matlab #1103 puts the link's method on the session's
     relation to its study when there is no dataset document, and makes a linked
