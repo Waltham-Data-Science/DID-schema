@@ -577,11 +577,11 @@ def _has_edge(doc, name):
 _VALUE_PATH = re.compile(r"^(?:[A-Za-z]\w*\.)?value(?:$|[.(])")
 
 
-def _value_named_in_needs_info(doc):
-    """True when a `needs_info` entry (with a reason) names the value or a field
-    within it: `value`, `<block>.value`, `<block>.value.<field>...`."""
-    base = doc.get("base") if isinstance(doc.get("base"), dict) else {}
-    entries = base.get("needs_info", doc.get("needs_info")) or []
+def _value_named_in_gaps(gaps):
+    """True when a gap (a {field, reason} the run's migration report lists for
+    the document, with a reason) names the value or a field within it:
+    `value`, `<block>.value`, `<block>.value.<field>...`."""
+    entries = gaps or []
     if isinstance(entries, dict):
         entries = [entries]
     for e in entries:
@@ -594,7 +594,7 @@ def _value_named_in_needs_info(doc):
     return False
 
 
-def value_inline_or_body(doc):
+def value_inline_or_body(doc, gaps=None):
     """THE DOCUMENT CHECK for rule `value_inline_or_body` (Jess Haley,
     2026-10-21, signed; data_body AMENDMENT 5 and its clarification): a value
     document is inline (its `value` filled) or in data bodies (`data_body`
@@ -606,14 +606,16 @@ def value_inline_or_body(doc):
     validator is DID-matlab's; this is the reference statement of the rule
     that the tests pin.
 
-    A blank `value` that the document's `needs_info` names -- the value or a
-    field within it, `<block>.value...` -- also passes: the source never
-    stated it (Jess Haley, 2026-10-31, did_v2_go_forward_class_audit.md
-    [formulation amount needs info]). `needs_info` is read from `base`, else
-    the top level."""
+    A blank `value` that a gap names -- the value or a field within it,
+    `<block>.value...` -- also passes: the source never stated it (Jess Haley,
+    2026-10-31, did_v2_go_forward_class_audit.md [formulation amount needs
+    info]). GAPS is the list of {field, reason} the run's migration report
+    lists for this document ([gap accepted when the report lists it], Jess
+    Haley, 2026-11-01: the document no longer carries them, `base.needs_info`
+    being dropped by [migration record]); none given, none are listed."""
     if doc.get("data_body") is True or _has_edge(doc, "value_id"):
         return []
-    if _is_blank(doc.get("value")) and not _value_named_in_needs_info(doc):
+    if _is_blank(doc.get("value")) and not _value_named_in_gaps(gaps):
         return [(f"rule {VALUE_RULE}: `value` is empty, `data_body` is not true and "
                  "there is no `value_id` edge -- the value is nowhere")]
     return []

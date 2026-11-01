@@ -51,7 +51,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The score (double, so half-integer steps are legal). Named for the quantity, not `value` (#73 audit 2 D10). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "The score (double, so half-integer steps are legal). Named for the quantity, not `value` (#73 audit 2 D10). Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -70,7 +70,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The scoring rubric (e.g. Murine Body Condition Score). Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "The scoring rubric (e.g. Murine Body Condition Score). Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {},
                     "fields": [
                         {
@@ -111,7 +111,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Lower bound of the scale. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Lower bound of the scale. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -124,7 +124,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Upper bound of the scale. Absent only when `base.needs_info` names it (the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Upper bound of the scale. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
