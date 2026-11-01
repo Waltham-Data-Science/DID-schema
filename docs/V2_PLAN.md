@@ -43,9 +43,14 @@ whose DID-matlab build waits on GL1-GL7.
   `DID_ENFORCE_UNIT_BINDINGS=1`. Writers give units outside the lists today
   (NDI Haley video time in `frame`; probe_geometry cm/nm; light-sheet axes).
   Widen the lists, carry those, or make the binding `preferred`?
+  ANSWERED 2026-11-01: [unit lists widened then armed] (lists widened in
+  did-schema; DID-matlab #333 arms the check once they reach main).
 - L4. Compression block (DID-matlab #319): codec terms gzip (EDAM:format_3989),
   LZW and Blosc (new EMPTY), and parameter variables (inner compressor,
   compression level, shuffle, block size).
+  ANSWERED 2026-11-01: [compression terms registered] (LZW and the inner
+  compressors have existing terms; the five EMPTY terms are in
+  empty-ontology draft #35 for approval).
 - L5. #325 open points: more baths now carried in DID-only runs; an n-trode
   whose epochs disagree gets no count and no carry row; counts only from
   ingested epochs.
@@ -378,7 +383,7 @@ whose DID-matlab build waits on GL1-GL7.
     the seven `name` ones? How does the validator know which are held: a list
     mirroring did-schema's `NARROW_ONLY_EXEMPT`, or a marker in the schema? Is a
     merged field then hosted only in the parent's block (a shape change)?
-    [hold pyraview.label too; a schema marker; yes, parent's block only] MOOT 2026-10-30 [redeclaration merge moot]. Claude (2026-10-29) proposed it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess.
+    [hold pyraview.label too; a schema marker; yes, parent's block only] MOOT 2026-10-30 [redeclaration merge moot]. Claude (2026-10-29) proposed it is moot, since every remaining redeclaration is a `name` over `base.name` and pyraview.label goes with pyraview; awaiting Jess. ANSWERED 2026-11-01: [redeclarations left need no merge] (did-schema #99 can close).
   - **G42. A round trip for v1 `image` (DID-matlab #288).** `image` is read on
     the renamed path, so there is no raw-v1 inverse to carry the label back.
     Build one (it must rebuild `format` 'tiff' from EDAM:format_3591)? [yes,
@@ -499,11 +504,13 @@ whose DID-matlab build waits on GL1-GL7.
     details]).** NDI-matlab #1103 puts the link's method on the session's
     relation to its study when there is no dataset document, and makes a linked
     session with neither an error (`ndi:setup:V2:noLinkParent`). Right?
+    ANSWERED 2026-11-01: [study link without a dataset document].
   - **G61. openMINDS fragment text beyond Species ([openMINDS strain
     leftovers]).** The decision stops storing a Species or GeneticStrainType
     fragment's definition and synonyms (read back from the term). Apply the
     same to breeding-type and disease-model fragments? (Reverted from NDI-matlab
-    #1104 until decided.)
+    #1104 until decided.) ANSWERED 2026-11-01: [breeding type and disease model
+    text not stored] (NDI-matlab #1120).
   - **G62. The remaining mode terms ([element type is a device kind term],
     [imaging mode is a method term]).** Recording modes voltage (-Vm) and
     current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
@@ -535,7 +542,7 @@ whose DID-matlab build waits on GL1-GL7.
     "Hartley" is implied by the method term ndi.calc.vis.hartley; G29 replaces
     that term with EDAM "Data analysis", so DID-matlab #306's round trip infers
     Hartley from the `receptive_field_calculation` class instead. Amend the
-    line to say so? [yes]
+    line to say so? [yes] ANSWERED 2026-11-01: [hartley implied by its class].
   - **G67. A formulation with no amount stated ([canonical absent only as
     needs info]).** When no ingredient states an amount, the value is blank and
     `value_inline_or_body` refuses it, so DID-matlab #305 keeps the old NaN
@@ -548,7 +555,8 @@ whose DID-matlab build waits on GL1-GL7.
     template, and #306 writes 0 as age 0 days, because no decision treats it
     as unrecorded (unlike dilution). Keep, or treat 0 as not stated (needs
     info)? [needs info: the template default is indistinguishable from a
-    recorded 0]
+    recorded 0] ANSWERED 2026-11-01: [postnatal day 0 not stated] (DID-matlab
+    #332).
   - **G69. Building G53 ([assay labels batch 1]..[6]).** A read-only plan,
     docs/v2_working/G53_BUILD_PLAN.md, finds 91 EMPTY terms touched, none in the
     term registry, 73 v1 dictionary entries (Dab, Hunsberger, Babu, Haley)
@@ -594,12 +602,14 @@ whose DID-matlab build waits on GL1-GL7.
     (NCIT:C48571, 11 rows); x0.01 to `concentration.liters_per_liter` is exact.
     Register NCIT:C48571 and convert, or keep the source only? (No fixture is
     affected today: every Babu treatment is carried by location.) [register and
-    convert]
+    convert] ANSWERED 2026-11-01: [percent volume per volume converted]
+    (DID-matlab #332).
   - **G73. #119 part 2, the growth ratchets.** All ten `BASELINE_*` ratchets
     are listed in docs/v2_working/RATCHETS_119.md. Only B6 (bound fields with
     no catalogue row; 116, today 95) grows with normal decided work, so it
     becomes report-only. The other nine stay fail-on-growth, and the five that
     sit above today's count (B1, B3, B6, B8, B9) are lowered to it. [as listed]
+    ANSWERED 2026-11-01: [binding catalogue gap reports only].
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

@@ -156,10 +156,14 @@ CURIE = re.compile(CURIE_PATTERN)
 # meta-schema, while build_v_eta.py emits them on 8 fields -- the two halves of
 # the repository disagree about what a binding is, and additionalProperties
 # (B2) is what lets both stand.
-BASELINE_UNDECLARED_KEY_USES = 15
+BASELINE_UNDECLARED_KEY_USES = 0
+# 15 -> 0 (2026-11-01, Jess Haley [binding catalogue gap reports only],
+# did_v2_go_forward_class_audit.md; docs/v2_working/RATCHETS_119.md): lowered
+# to the count measured that day, so the ratchet keeps the ground it won.
 
 # B3: `did_clocktype`, defined 4 places with 2 distinct member lists.
-BASELINE_VALUE_SET_DISAGREEMENTS = 1
+BASELINE_VALUE_SET_DISAGREEMENTS = 0
+# 1 -> 0 (2026-11-01, Jess Haley [binding catalogue gap reports only]): today's count.
 
 # B4: three ontology_term-typed fields carry BARE STRINGS in `values`
 # (frequency_filter.algorithm, frequency_filter.band,
@@ -212,7 +216,13 @@ BASELINE_STRENGTH_DISAGREEMENTS = 0
 # `harmonic_component.response_unit`, bound like tuning_curve's.
 # 115 -> 116 (2026-10-26, Jess Haley [fraction value kind]): the `fraction`
 # cell's `source_unit`, bound like every dimensioned value's.
-BASELINE_UNCATALOGUED_BOUND_FIELDS = 116
+BASELINE_UNCATALOGUED_BOUND_FIELDS = 95
+# REPORT ONLY since 2026-11-01 (Jess Haley [binding catalogue gap reports only],
+# did_v2_go_forward_class_audit.md; docs/V2_PLAN.md G73; #119 part 2): every
+# binding the team decides (a `source_unit`, a `variable`, a `unit`) adds one,
+# so growth is normal work. The count is printed with its denominator on every
+# run and never fails; 116 -> 95 is the count measured that day, kept as the
+# reference the report prints. It is in REPORT_ONLY, not in BASELINES.
 # 11 -> 15, #73 audit 2 (2026-09-29, jess): SIX fields were bound by decision --
 # tuning_curve / contrast_sensitivity `value.response_type` (D3), directed_ /
 # undirected_relation `relation` and acquisition_channels `channels.type` (D5), and
@@ -226,7 +236,8 @@ BASELINE_UNCATALOGUED_BOUND_FIELDS = 116
 # reading signed 2026-10-19, did_v2_prefix_spelling_plan.md). The 5 it was set to
 # (NCBITaxon, CL, CHEBI, BFO, RO) were all registered by section 6 on
 # 2026-10-08; it reads 0 today and the ceiling is left where it was.
-BASELINE_UNREGISTERED_PREFIXES = 5
+BASELINE_UNREGISTERED_PREFIXES = 0
+# 5 -> 0 (2026-11-01, Jess Haley [binding catalogue gap reports only]): today's count.
 
 # B9: bindings an ontology-aware validator would have nothing to resolve
 # against, as declared. LOWERED 7 -> 4 by #32 increment 2, and the drop is the
@@ -245,7 +256,9 @@ BASELINE_UNREGISTERED_PREFIXES = 5
 # VH-Lab/ndi-ontology-matlab (commit 2c19bf24c) -- a repository this session
 # could not attach -- so the membership half of #32 is untouched and these three
 # would still resolve nothing against a value set.
-BASELINE_UNENFORCEABLE = 4
+BASELINE_UNENFORCEABLE = 1
+# 4 -> 1 (2026-11-01, Jess Haley [binding catalogue gap reports only]): today's
+# count; the one left is `term.value` (keyed_by subject_statement_bindings).
 
 
 def load(path):
@@ -719,9 +732,15 @@ BASELINES = {
     "B3_value_set_definitions_disagree": BASELINE_VALUE_SET_DISAGREEMENTS,
     "B4_value_shape_vs_field_type": BASELINE_VALUE_SHAPE_MISMATCHES,
     "B5_strength_stored_twice": BASELINE_STRENGTH_DISAGREEMENTS,
-    "B6_bound_fields_not_in_registry": BASELINE_UNCATALOGUED_BOUND_FIELDS,
     "B8_unregistered_curie_prefixes": BASELINE_UNREGISTERED_PREFIXES,
     "B9_unenforceable_as_declared": BASELINE_UNENFORCEABLE,
+}
+
+# Counts printed with their denominator on every run that never fail on growth
+# (Jess Haley, 2026-11-01 [binding catalogue gap reports only]). The value is
+# the count measured when the finding became report-only, printed for reference.
+REPORT_ONLY = {
+    "B6_bound_fields_not_in_registry": BASELINE_UNCATALOGUED_BOUND_FIELDS,
 }
 
 TITLES = {
@@ -787,6 +806,8 @@ def report(r):
     for key, f in r["findings"].items():
         base = BASELINES.get(key)
         tag = "" if base is None else f'  (baseline {base})'
+        if key in REPORT_ONLY:
+            tag = f'  (report only, never fails; {REPORT_ONLY[key]} on 2026-11-01)'
         flag = ""
         if base is not None and f["count"] > base:
             flag = "   <-- GREW"
