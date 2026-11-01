@@ -1927,22 +1927,6 @@
       "kind_basis": "stated"
     },
     {
-      "id": "carry-117",
-      "v1_class": "openminds_subject",
-      "fields": [
-        "openminds.openminds_id"
-      ],
-      "when": "a lab-made strain's openminds_id, whose decided home is the strain entity's `global_identifier`, which pass 1 does not mint yet",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "openMINDS subject leftovers"
-      },
-      "open_work": 159,
-      "home": "the strain entity's `global_identifier` as `openminds:<id>` (decided; strain entity not built)",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-118",
       "v1_class": "dataset_session_info",
       "fields": [
