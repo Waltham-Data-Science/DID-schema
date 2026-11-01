@@ -538,9 +538,7 @@
       }
     },
     "openminds_stimulus": {
-      "targets": [
-        "openminds_stimulus"
-      ],
+      "targets": [],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -895,7 +893,6 @@
     },
     "syncrule": {
       "targets": [
-        "acquisition_channels",
         "clock_alignment_configuration",
         "assertion + text",
         "entity"

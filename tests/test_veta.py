@@ -3076,39 +3076,24 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     Nothing else watches this: `check_tombstones.py` compares against the NDI
     template, which cannot express "this shape is what the deferred pass needs",
     and no MATLAB fixture pins the superclass chain."""
+    # INVERTED 2026-11-01 ([one folder, final classes only]), not deleted. This
+    # pinned the TOMBSTONE's shape (one `stimulus_element_id` edge, the `epochid`
+    # superclass, no fields) because pass 1 passed every document through
+    # under it. DID-matlab #355 carries each one whole as v1 instead
+    # (carry-165, [v1 passthroughs accepted]): stamped did_v1, never validated
+    # against V_eta, and checked against NDI's own v1 template. The join keys
+    # points 1 and 2 protect now travel on the untouched v1 document itself, so
+    # the tombstone is deleted. What must hold: it is gone, its name is retired,
+    # and its carry row exists.
+    import veta_record
     assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
-    assert "openminds_stimulus" in RECORDS, (
-        "the openminds_stimulus tombstone was deleted; migrators_j/"
-        "openminds_stimulus.m passes every document through, so there would be "
-        "no schema left to validate them against")
-
-    tomb = RECORDS["openminds_stimulus"][1]
-
-    deps = {d["name"]: d for d in tomb.get("depends_on", [])}
-    assert set(deps) == {"stimulus_element_id"}, (
-        f"openminds_stimulus declares exactly NDI's one edge; got {sorted(deps)!r}")
-    assert "stimulus_id" not in deps, (
-        "`stimulus_id` is the invented name that emptied 635 subjects (#71) -- "
-        "NDI names this edge `stimulus_element_id` in template, schema and writer")
-    assert deps["stimulus_element_id"]["mustBeNonEmpty"] is True, (
-        "NDI's schema marks it `mustbenotempty: 1`, and the second pass needs it "
-        "as the join key that crosses the epoch-id namespace gap (#76a)")
-
-    chain = _chain("openminds_stimulus")
-    assert "epochid" in chain, (
-        "openminds_stimulus must keep the `epochid` superclass. The epoch is why "
-        "these documents route to interaction_purpose instead of the timeless "
-        "assertion tier; without it the deferred second pass has no epoch to "
-        "resolve and the loss is silent")
-    assert "openminds" in chain, "the openMINDS payload mixin is NDI's own"
-    epoch_fields = {f["name"] for f in RECORDS["epochid"][1].get("fields", [])}
-    assert "epochid" in epoch_fields, (
-        "the epochid mixin must still declare the epochid field -- the superclass "
-        "alone carries nothing")
-
-    assert tomb.get("fields", []) == [], (
-        "openminds_stimulus is a passthrough tombstone; a field here means pass 1 "
-        "started emitting a statement again")
+    assert "openminds_stimulus" not in RECORDS
+    assert "openminds_stimulus" in veta_record.RETIRED_CLASSES
+    with open(os.path.join(REPO_ROOT, "schemas", "registry",
+                           "did_v2_carry_register.json")) as fh:
+        rows = {r["id"]: r for r in json.load(fh)["rows"]}
+    assert rows["carry-165"]["v1_class"] == "openminds_stimulus", (
+        "carry-165 is the row that carries every openminds_stimulus as v1")
 
     # The destination the sign-off names must exist, and must not be emittable
     # with a blank required edge -- which is the standing reason the build stays

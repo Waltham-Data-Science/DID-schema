@@ -706,6 +706,32 @@ whose DID-matlab build waits on GL1-GL7.
     NCIT:C150832 "Software Name" for the method text's parameter
     ([gene list mapping terms], Proposed). Approve both? Each is a one-line
     change if not.
+  - **G89. Offset and scale units on ingested blocks (from build P,
+    2026-11-01).** NDI computes value = (raw + offset) x scale: the offset is
+    in raw counts, and the scale turns counts into whatever the reader outputs
+    (microvolts for Intan analog, volts for its auxiliary channels); v1 records
+    no unit. Store both with no unit (as built), or work out a unit per
+    reader? [no unit for the offset; a unit per reader for the scale, where the
+    reader's output unit is known]
+  - **G90. The observation that owns an unevenly spaced time channel (from
+    build P).** [evenly spaced time is a covariate] gives an uneven time
+    channel its own body owned by a time observation. Which entity is it about
+    (the acquisition system?) and what is its variable (time)? Until decided,
+    such archives stay as pass 1 wrote them. [about the acquisition system;
+    variable time]
+  - **G91. What still keeps `channel_list.bin` (from build P).** The time
+    channel's row, event/marker/text rows, a non-standard channel name and
+    each channel's link to its time channel have no home on the blocks, so the
+    file is kept when any exist (usually). Give them covariates (new terms) so
+    the file can always go? [yes]
+  - **G92. Terms for the ingested blocks (from build P).** Offset: AFO
+    "signal offset configuration" (AFO:AFQ_0000202); scale: NCIT "Unit
+    Conversion Factor" (NCIT:C70774), or AFO "gain"; no term found for
+    "channel number" (mint EMPTY "channel number"?); and NDI's four
+    compressors plus the "data format" and "bit size" parameters of
+    [ingested compression settings] need terms (likely new EMPTY terms).
+    [the two existing terms; mint "channel number" and the compressor terms
+    with definitions for approval]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

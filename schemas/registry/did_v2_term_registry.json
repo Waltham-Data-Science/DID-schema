@@ -11397,6 +11397,30 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "signal offset configuration",
+      "node": "AFO:AFQ_0000202",
+      "definition": "A signal offset configuration is a signal processing configuration, that adds/subtracts a fixed amount of magnitude to the signal strength or amplitude to move the zero reference.",
+      "status": "decided",
+      "decided": "Proposed (not decided): term chosen by Claude per T19 (OLS4, 2026-11-01) for the v1 channel_list.bin offset covariate of Jess Haley, 2026-11-01 [ingested archives are sampled bodies], did_v2_go_forward_class_audit.md",
+      "first_used_in": "NDI-matlab ndi.migrate.internal.ingestedArchiveBodies (v1 ingested mfdaq channel_list.bin `offset`)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Unit Conversion Factor",
+      "node": "NCIT:C70774",
+      "definition": "An operator used to convert units from one scale to another.",
+      "status": "decided",
+      "decided": "Proposed (not decided): term chosen by Claude per T19 (OLS4, 2026-11-01) for the v1 channel_list.bin scale covariate of Jess Haley, 2026-11-01 [ingested archives are sampled bodies], did_v2_go_forward_class_audit.md",
+      "first_used_in": "NDI-matlab ndi.migrate.internal.ingestedArchiveBodies (v1 ingested mfdaq channel_list.bin `scale`)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

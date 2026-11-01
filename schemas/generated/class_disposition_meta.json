@@ -93,12 +93,6 @@
             "note": "Phase-8 source (migrator → delete)"
         },
         {
-            "class_name": "openminds_stimulus",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
-        },
-        {
             "class_name": "stimulus_presentation",
             "replaced_by": [],
             "decision": "",

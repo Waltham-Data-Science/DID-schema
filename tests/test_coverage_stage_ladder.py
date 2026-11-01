@@ -710,8 +710,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         # 2026-10-28: the three classes CARRIED WHOLE AS v1 by decision
         # (tools/veta_record.py CARRIED_AS_V1) join the two dissolutions:
         # nothing is built for them, and the record says nothing is to be.
+        # 2026-11-01: `ngrid` joins them. DID-matlab #351 (dac31a67) deleted
+        # `+migrators/ngrid.m`, whose whole job was to carry a standalone
+        # `ngrid` (carry-123); `did2.convert.noMigratorCarryRows` now carries
+        # it, so no migrator is built for it, by decision.
         self.assertEqual(cap["nothing_built_but_excused_rows"],
-                         ["imageCollection", "projectvar",
+                         ["imageCollection", "ngrid", "projectvar",
                           "stimulus_parameter_table", "stimulus_response",
                           "stimulus_response_scalar_parameters"])
         for name in cap["nothing_built_but_excused_rows"]:
