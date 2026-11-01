@@ -120,7 +120,7 @@
             "constraints": {}
         },
         {
-            "name": "description",
+            "name": "notes",
             "type": "char",
             "blank_value": "",
             "default_value": "",
@@ -129,7 +129,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "Human description of the payload.",
+            "documentation": "Optional free text about the payload: V2's one free-text field, a last resort after every place a term can go ([one free-text field: notes], [notes on three classes], Jess Haley 2026-10-25, did_v2_go_forward_class_audit.md). Text a migration writes here keeps its labelled form (e.g. 'NGFF multiscales type \"...\"'). Was `description` until 2026-11-01.",
             "constraints": {}
         },
         {

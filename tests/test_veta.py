@@ -192,7 +192,9 @@ def test_subject_is_bare_identity():
     every entity kind; the finer kind stays an assertion."""
     assert "subject" not in RECORDS
     fields = {f["name"] for f in RECORDS["entity"][1]["fields"]}
-    assert fields == {"type", "name", "local_identifier", "description",
+    # `description` became `notes` (Jess Haley, 2026-10-25, [one free-text
+    # field: notes], did_v2_go_forward_class_audit.md)
+    assert fields == {"type", "name", "local_identifier", "notes",
                       "global_identifier"}, fields
     assert [d["name"] for d in RECORDS["entity"][1]["depends_on"]] == ["time_reference_id"]
 
@@ -539,7 +541,7 @@ def test_conditions_and_method_parameters_are_one_entry():
     assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
     # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
-        "along", "cyclic", "origin", "spacing", "document"}, sorted(ks)
+        "along", "cyclic", "origin", "spacing", "key"}, sorted(ks)
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
@@ -683,7 +685,7 @@ def test_data_body_classes():
     # about -- it cares that an opaque body can describe its payload, not where
     # the declaration sits.
     of = set(_flat_field_types("opaque_body"))
-    assert {"format", "filename", "description"} <= of
+    assert {"format", "filename", "notes"} <= of   # `description` until [one free-text field: notes]
 
 
 def test_the_two_stranding_classes_have_a_tombstone():
@@ -766,7 +768,7 @@ def test_the_two_stranding_classes_have_a_tombstone():
     # Lightsheet L1/L3 (2026-09-25) moved `keys` + `complete` up from sampled_body
     # and added `conditions` (a one-value fact true of one body's values).
     assert {"format", "compression", "filename", "content_hash",
-            "description", "hash_algorithm", "size_bytes", "file_created",
+            "notes", "hash_algorithm", "size_bytes", "file_created",
             "file_modified", "redundant",
             "conditions"} == db_fields, db_fields
     # #73 item 65: `keys` + `complete` moved on up to `data` (shared with value).
@@ -3977,11 +3979,12 @@ def test_key_id_takes_positions_from_one_data_type():
     assert edge["must_refer_to_document_class"] == "value"
     assert edge["multiple"] and edge["ordered"]
     # AMENDMENT 6 (2026-10-22): the key's `positions_from` is the covariate's
-    # `document` value form ([along by index]); the `key_id` edge stays.
+    # `document` value form ([along by index]), renamed `key` (Jess Haley,
+    # 2026-11-01, [covariate key]); the `key_id` edge stays.
     cov = next(f for f in RECORDS["data"][1]["fields"] if f["name"] == "covariates")
     names = {f["name"] for f in cov["fields"]}
-    assert "document" in names and "positions_from" not in names
-    doc = next(f for f in cov["fields"] if f["name"] == "document")
+    assert "key" in names and "positions_from" not in names and "document" not in names
+    doc = next(f for f in cov["fields"] if f["name"] == "key")
     assert doc["type"] == "integer" and doc["blank_value"] == -1
     assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
     for cls, (_tier, d) in RECORDS.items():
@@ -4011,7 +4014,7 @@ def test_a_matrix_covariate_holds_an_array_at_each_position():
 # ---------------------------------------------------------------------------
 
 _VALUE_FORMS = ("origin", "quantity", "count", "term", "text", "logical", "matrix",
-                "document")
+                "key")
 
 
 def _a6_fields(cls, name):
@@ -4034,7 +4037,7 @@ def test_a6_covariate_entry_shape():
     _cov, sub = _a6_fields("data", "covariates")
     assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
                          "origin", "spacing", "quantity", "count", "term", "text",
-                         "logical", "matrix", "document", "cyclic"]
+                         "logical", "matrix", "key", "cyclic"]
     assert sub["variable"]["mustBeNonEmpty"] is True
     assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
     along = sub["along"]
@@ -4044,9 +4047,9 @@ def test_a6_covariate_entry_shape():
     for pair in ("origin", "spacing", "quantity"):
         assert [x["name"] for x in sub[pair]["fields"]] == ["value", "source_value"], pair
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is False
-    assert sub["document"]["type"] == "integer" and sub["document"]["blank_value"] == -1
-    # removed with the key entry
-    for gone in ("n", "regular", "positions_from", "chunk"):
+    assert sub["key"]["type"] == "integer" and sub["key"]["blank_value"] == -1
+    # removed with the key entry; `document` renamed `key` ([covariate key])
+    for gone in ("n", "regular", "positions_from", "chunk", "document"):
         assert gone not in sub, gone
 
 
@@ -4076,9 +4079,9 @@ def test_a6_rules_replace_the_key_rules():
 def _covariate_problems(dimensions, covariate):
     """The AMENDMENT 6 rules, transcribed, applied to one covariate entry."""
     out = []
-    forms = [f for f in _VALUE_FORMS if f in covariate and f != "document"]
-    if "document" in covariate and covariate["document"] >= 0:
-        forms.append("document")
+    forms = [f for f in _VALUE_FORMS if f in covariate and f != "key"]
+    if "key" in covariate and covariate["key"] >= 0:
+        forms.append("key")
     if ("origin" in covariate) != ("spacing" in covariate):
         out.append("origin without spacing")
     if len(forms) != 1:
@@ -4090,14 +4093,14 @@ def _covariate_problems(dimensions, covariate):
         out.append("along repeats")
     if any(not 0 <= k < len(dimensions) for k in along):
         out.append("along out of range")
-    if ("origin" in forms or "document" in forms) and len(along) != 1:
+    if ("origin" in forms or "key" in forms) and len(along) != 1:
         out.append("single-dimension form along several")
     # [covariate details] 5.1a: `cyclic` only on origin+spacing or quantity
     if covariate.get("cyclic") and (
             len(along) != 1 or not {"origin", "quantity"} & set(forms)):
         out.append("cyclic not origin+spacing or quantity along one")
     # rule `covariate_shape` ([covariate rules named] 6.1a)
-    if len(forms) == 1 and not out and forms[0] not in ("origin", "document"):
+    if len(forms) == 1 and not out and forms[0] not in ("origin", "key"):
         form = forms[0]
         v = covariate[form]["value"] if form == "quantity" else covariate[form]
         want = [dimensions[k]["n"] for k in along]
@@ -4119,15 +4122,26 @@ def _nested_shape(v):
 
 def _variable_once_problems(conditions, value_covariates, bodies_covariates):
     """Rule `variable_once`: a variable at most once across a statement's conditions,
-    its value's covariates and any ONE body's covariates."""
+    its value's covariates and any ONE body's covariates. RELAXED for covariates
+    (Jess Haley, 2026-11-01, [covariate variable may repeat], "Yes, relax it"): a
+    covariate is identified by its variable, its `along` and its `key`, so two
+    covariates may share a variable when they differ in either; a condition's
+    variable still appears nowhere else."""
     def key(v):
         return (v.get("node") or "").lower() or ("name", (v.get("name") or "").lower())
+
+    def ident(c):
+        k = c.get("key", -1)
+        return (key(c["variable"]), tuple(sorted(c.get("along") or [])),
+                -1 if k is None else k)
     out = []
-    shared = [key(c["variable"]) for c in conditions] + [
-        key(c["variable"]) for c in value_covariates]
+    conds = [key(c["variable"]) for c in conditions]
     for body in bodies_covariates or [[]]:
-        seen = shared + [key(c["variable"]) for c in body]
-        dup = sorted({str(k) for k in seen if seen.count(k) > 1})
+        covs = list(value_covariates) + list(body)
+        idents = [ident(c) for c in covs]
+        cov_vars = {i[0] for i in idents}
+        dup = sorted({str(i[0]) for i in idents if idents.count(i) > 1}
+                     | {str(k) for k in conds if conds.count(k) > 1 or k in cov_vars})
         if dup:
             out.append(f"variable more than once: {dup}")
     return out
@@ -4183,9 +4197,9 @@ def test_a6_rule_counterexamples_are_refused():
            "cyclic": True}]
     for c in ok:
         assert _covariate_problems(two, c) == [], c
-    # a document form along one dimension is fine; -1 is "not used"
-    assert _covariate_problems(two, {"variable": {}, "along": [1], "document": 0}) == []
-    assert _covariate_problems(two, {"variable": {}, "along": [1], "document": -1}) == [
+    # a key form along one dimension is fine; -1 is "not used"
+    assert _covariate_problems(two, {"variable": {}, "along": [1], "key": 0}) == []
+    assert _covariate_problems(two, {"variable": {}, "along": [1], "key": -1}) == [
         "value forms []"]
 
 
@@ -4198,7 +4212,7 @@ def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():
     _e, ep_dims = _a6_fields("acquisition_epoch", "dimensions")
     assert "chunk" not in ep_dims
     _e, ep = _a6_fields("acquisition_epoch", "covariates")
-    assert ep["document"]["documentation"].startswith("NOT USABLE HERE")
+    assert ep["key"]["documentation"].startswith("NOT USABLE HERE")   # `document` until [covariate key]
     names = {f["name"] for f in RECORDS["acquisition_epoch"][1]["fields"]}
     assert not {"keys", "complete"} & names, names
     assert "key_id" not in {e["name"] for e in RECORDS["acquisition_epoch"][1]["depends_on"]}
@@ -4266,7 +4280,7 @@ def test_a6_covariate_shape_and_variable_once_are_named_rules():
     assert "covariates.matrix" in shape["fields"]
     assert "in `along` order" in shape["statement"]
     assert "followed by the array's own shape" in shape["statement"]
-    assert once["fields"] == ["covariates.variable"]
+    assert once["fields"] == ["covariates.variable", "covariates.along", "covariates.key"]
     assert "at most once" in once["statement"] and "`conditions`" in once["statement"]
     assert "any one of its bodies' `covariates`" in once["statement"]
 
@@ -4282,6 +4296,30 @@ def test_a6_variable_once_counterexamples():
     # a label and a node are different keys; two labels of one name are one
     assert _variable_once_problems([{"variable": {"name": "x"}}], [{"variable": {"name": "X"}}],
                                    []) != []
+
+
+def test_variable_once_is_relaxed_for_covariates():
+    """Jess Haley, 2026-11-01 [covariate variable may repeat] ("Yes, relax it", to
+    "Why can't covariates use the same variable?"): two covariates may share a
+    variable when they differ in `along` (a channel x channel matrix) or in `key`
+    (the two gene columns of a gene-list mapping). Conditions still allow each
+    variable once, and never beside a covariate of the same variable."""
+    gene = {"node": "", "name": "gene"}
+    chan = {"node": "", "name": "channel"}
+    a = {"variable": gene, "along": [0], "key": 0}
+    b = {"variable": gene, "along": [0], "key": 1}
+    assert _variable_once_problems([], [a, b], []) == []
+    assert _variable_once_problems([], [a, dict(a)], []) != []
+    rows = {"variable": chan, "along": [0], "term": [{"name": "A"}, {"name": "B"}]}
+    cols = {"variable": chan, "along": [1], "term": [{"name": "A"}, {"name": "B"}]}
+    assert _variable_once_problems([], [rows, cols], []) == []
+    assert _variable_once_problems([], [rows, dict(rows)], []) != []
+    # a condition stays once, and never beside a covariate of its variable
+    assert _variable_once_problems([{"variable": chan}], [rows, cols], []) != []
+    assert _variable_once_problems([{"variable": gene}, {"variable": gene}], [], []) != []
+    once = {r["name"]: r for r in RECORDS["data"][1]["rules"]}["variable_once"]
+    assert "differ in `along` or in `key`" in once["statement"]
+    assert "[covariate variable may repeat]" in once["statement"]
 
 
 def test_a6_presentation_onset_offset_terms_are_registered():

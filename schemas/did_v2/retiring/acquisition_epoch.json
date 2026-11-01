@@ -341,7 +341,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `document` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
+                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `key` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
                     "constraints": {}
                 }
             ]
@@ -356,7 +356,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What is known about the epoch's positions along one or more of its `dimensions` (the sample times along the time dimension, a channel's label along the channel dimension). The same entry as `data.covariates` (data_body plan AMENDMENT 6, [epoch covariates]): {variable, along, unit, source_unit, approximate, cyclic}} plus EXACTLY ONE value form; `along` lists 0-based dimension indices, never empty. `document` is NOT usable here (no `key_id` edge).",
+            "documentation": "What is known about the epoch's positions along one or more of its `dimensions` (the sample times along the time dimension, a channel's label along the channel dimension). The same entry as `data.covariates` (data_body plan AMENDMENT 6, [epoch covariates]): {variable, along, unit, source_unit, approximate, cyclic}} plus EXACTLY ONE value form; `along` lists 0-based dimension indices, never empty. `key` is NOT usable here (no `key_id` edge).",
             "constraints": {},
             "fields": [
                 {
@@ -375,7 +375,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). UNIQUE within the list, and a variable appears at most once across a statement's conditions, its value's covariates and any one of its bodies' (a batch check).",
+                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). A covariate is identified by its variable, its `along` and its `key`: two covariates may share a variable when they differ in `along` or in `key` (rule `variable_once`, relaxed by Jess Haley 2026-11-01 [covariate variable may repeat]; a batch check).",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -764,7 +764,7 @@
                     "constraints": {}
                 },
                 {
-                    "name": "document",
+                    "name": "key",
                     "type": "integer",
                     "blank_value": -1,
                     "default_value": -1,
@@ -773,7 +773,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's private copy of the covariate entry, and the class declares no `key_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13). (`positions_from` until 2026-10-22.)",
+                    "documentation": "NOT USABLE HERE: this is acquisition_epoch's private copy of the covariate entry, and the class declares no `key_id` edge for it to name. Deriving the class from `data` waits for the epoch-family re-walk (#73 audit 2 D13). (`document` until 2026-11-01, [covariate key]; `positions_from` until 2026-10-22.)",
                     "constraints": {}
                 },
                 {

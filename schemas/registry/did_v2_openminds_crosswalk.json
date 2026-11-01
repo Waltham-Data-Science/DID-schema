@@ -27,7 +27,7 @@
         },
         "description": {
           "target_kind": "field",
-          "ndi_target": "description"
+          "ndi_target": "notes"
         },
         "howToCite": {
           "target_kind": "assertion",

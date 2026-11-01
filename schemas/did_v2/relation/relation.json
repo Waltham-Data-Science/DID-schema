@@ -409,6 +409,21 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "notes",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": false,
+            "ontology": null,
+            "documentation": "Optional: irreducible human prose about this relation (a gene-list mapping's label, \"mouse\u2192human orthologs\"). Documentation, not queryable structured data; V2's one free-text field ([one free-text field: notes]), given to relations by Jess Haley 2026-11-01 [relations get notes] (\"Give relations notes\"), did_v2_go_forward_class_audit.md. Declared on `relation`, so directed and undirected relations have it.",
+            "constraints": {
+                "maxLength": 4096
+            }
         }
     ]
 }
