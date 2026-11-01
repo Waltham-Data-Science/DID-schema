@@ -372,8 +372,8 @@ export interface Binding {
 // undirected_relation.relation, pinned to its carrier `class` with typed endpoints.
 // `relation` is a {node, name} NodeRef (same shape as a binding's variable/method).
 // A directed_relation carries child_types/parent_types (matching the schema
-// child/parent deps); an undirected_relation carries a symmetric member_types
-// (reserved — no undirected term exists yet).
+// child/parent deps); an undirected_relation carries a symmetric relatum_types
+// (its relatum_id dep; `member_types` until [undirected registry columns are relata]).
 export interface RelationTerm {
   relation: NodeRef;
   class: string; // "directed_relation" | "undirected_relation"
@@ -381,7 +381,8 @@ export interface RelationTerm {
   parent_role?: string;
   child_types?: string[];
   parent_types?: string[];
-  member_types?: string[];
+  relatum_role?: string;
+  relatum_types?: string[];
   ordered?: boolean;
   timed?: boolean;
   [k: string]: unknown;

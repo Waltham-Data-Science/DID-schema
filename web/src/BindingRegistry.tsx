@@ -303,7 +303,7 @@ function RelationRow({ term }: { term: RelationTerm }) {
             {typeChips(term.parent_types)}
           </span>
         ) : (
-          typeChips(term.member_types)
+          typeChips(term.relatum_types)
         )}
       </td>
       <td>

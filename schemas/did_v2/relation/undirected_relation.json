@@ -10,10 +10,10 @@
     },
     "depends_on": [
         {
-            "name": "entity_id",
+            "name": "relatum_id",
             "mustBeNonEmpty": false,
-            "documentation": "The unordered pair of entities (exactly two); order is meaningless.",
-            "must_refer_to_document_class": "entity",
+            "documentation": "The relation's two ends, its relata (exactly two); order is meaningless. Each is an entity, a statement or a standalone value document, as `directed_relation`'s `child_id` and `parent_id` may be (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md [undirected relation widened]; e.g. the two gene lists of a symmetric gene mapping). Named `entity_id` until [undirected ends are relata] (2026-11-01). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values.",
+            "must_refer_to_document_class": "entity,statement,value",
             "multiple": true,
             "min_count": 2,
             "max_count": 2,
@@ -51,6 +51,14 @@
                         {
                             "node": "owl:sameAs",
                             "name": "sameAs"
+                        },
+                        {
+                            "node": "EMPTY:0000386",
+                            "name": "orthologous gene mapping"
+                        },
+                        {
+                            "node": "EMPTY:0000381",
+                            "name": "gene alias mapping"
                         }
                     ],
                     "strength": "preferred",
