@@ -2643,6 +2643,22 @@
       "open_work": 136,
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-165",
+      "v1_class": "openminds_stimulus",
+      "fields": [
+        "the whole document"
+      ],
+      "when": "always in DID's pass 1 (DID-matlab openminds_stimulus.m), past its guards: the document is carried whole as v1 and handed on to NDI's second pass (ndi.migrate.internal.sliceTetanus), which reads it toward interaction_purpose. Until DID-matlab #355 it passed through with no note, stamped did_v2 and validated against the V_eta tombstone.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "v1 passthroughs accepted"
+      },
+      "open_work": 164,
+      "home": "none decided in pass 1: NDI's second pass reads it toward interaction_purpose",
+      "kind_basis": "proposed"
     }
   ]
 }
