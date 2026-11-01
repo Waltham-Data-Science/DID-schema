@@ -181,6 +181,12 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # retire class deleted 2026-11-01 ([one folder, final classes only]): in
+    # DID-matlab V2 a78299d8 (the lock) every path of control_stimulus_ids
+    # carries the document whole as v1 with a note (carry-152), stamped did_v1
+    # and never validated against V2. No DID-matlab or NDI-matlab code reads
+    # its file.
+    "control_stimulus_ids",
     # retire classes deleted 2026-10-31 ([retire check now]): no v1 document
     # passes through under them in DID-matlab V2 a78299d8 (hartley_calc converts,
     # carries with a note or quarantines; a standalone ngrid is carried; the

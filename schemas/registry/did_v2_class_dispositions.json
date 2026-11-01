@@ -79,10 +79,6 @@
         "contrast_tuning_calculation": {
             "disposition": "persist"
         },
-        "control_stimulus_ids": {
-            "disposition": "retire",
-            "disposition_note": "consumed → item.control_item (#73 item 67; was timed_sequence)"
-        },
         "coordinate_system": {
             "disposition": "persist"
         },

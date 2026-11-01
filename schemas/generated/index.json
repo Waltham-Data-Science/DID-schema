@@ -337,18 +337,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "control_stimulus_ids",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/retiring/control_stimulus_ids.json",
-            "disposition": "retire",
-            "disposition_note": "consumed \u2192 item.control_item (#73 item 67; was timed_sequence)"
-        },
-        {
             "class_name": "coordinate_system",
             "family": "core",
             "class_version": "1.0.0",

@@ -565,7 +565,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # THIRTY-SEVENTH MOVEMENT, re-derived not bumped: 108 -> 109 on 2026-11-01,
     # `migration` added ([migration record], Jess Haley). Its only field is a
     # `method` block, which declares no min/max, so the INERT list is unchanged.
-    assert walked == 109, f"schema count moved; re-derive the inert set ({walked})"
+    # THIRTY-EIGHTH MOVEMENT, re-derived not bumped: 109 -> 108 on 2026-11-01,
+    # [one folder, final classes only]: control_stimulus_ids deleted (carried
+    # as v1 in DID-matlab pass 1, carry-152). It was not in the INERT list.
+    assert walked == 108, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

@@ -334,7 +334,6 @@
             "description": "Stimulus descriptions, presentations, and stimulus-locked responses.",
             "classes": [
                 "contrast_tuning",
-                "control_stimulus_ids",
                 "orientation_direction_tuning",
                 "spatial_frequency_tuning",
                 "speed_tuning",

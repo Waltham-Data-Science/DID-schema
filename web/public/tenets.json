@@ -64,7 +64,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 27,
+  "classes_in_the_built_set": 26,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -852,7 +852,6 @@
    "class_registers": {
     "control_stimulus_ids": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "item": [
