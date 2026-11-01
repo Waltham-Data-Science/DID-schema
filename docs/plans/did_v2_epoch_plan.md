@@ -1540,3 +1540,5 @@ RE-DERIVED 2026-10-31 (four retire classes deleted, Jess Haley [retire check now
 RE-DERIVED 2026-11-01 (the `migration` class added, Jess Haley [migration record], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **109 distinct V_eta class names** (was 108; +1: migration). Re-derive with `check_prose_counts`, do not quote.
 
 RE-DERIVED 2026-11-01 (one retire class deleted, Jess Haley [one folder, final classes only], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **108 distinct V_eta class names** (was 109; -1: control_stimulus_ids); tombstone classes compared: 17 (was 18). Re-derive with `check_prose_counts`, do not quote these directly.
+
+RE-DERIVED 2026-11-01 (one retire class deleted, Jess Haley [one folder, final classes only], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **107 distinct V_eta class names** (was 108; -1: valid_interval); tombstone classes compared: 16 (was 17). Re-derive with `check_prose_counts`, do not quote these directly.

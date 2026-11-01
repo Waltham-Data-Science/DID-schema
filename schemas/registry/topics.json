@@ -36,13 +36,6 @@
             ],
             "children": [
                 {
-                    "name": "markgarbage",
-                    "description": "Valid-interval annotations from the markgarbage app.",
-                    "classes": [
-                        "valid_interval"
-                    ]
-                },
-                {
                     "name": "vhlab_voltage2firingrate",
                     "description": "Vm-to-firing-rate fitting and residuals (vhlab voltage2firingrate app).",
                     "classes": [
@@ -113,7 +106,6 @@
                 "measurement",
                 "ontology_table_row",
                 "position_metadata",
-                "valid_interval",
                 "zarr"
             ],
             "topics": []
