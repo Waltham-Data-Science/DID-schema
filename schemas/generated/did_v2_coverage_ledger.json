@@ -378,8 +378,8 @@
       "by_stage_reached": {
         "0": 14,
         "1": 25,
-        "2": 16,
-        "3": 60,
+        "2": 14,
+        "3": 62,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -399,8 +399,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 57,
-          "no": 18,
+          "yes": 59,
+          "no": 16,
           "n/a": 8
         },
         "4": {
@@ -410,7 +410,7 @@
       "per_stage_satisfied_independently": {
         "1": 101,
         "2": 75,
-        "3": 57,
+        "3": 59,
         "4": 0
       },
       "capped": {
@@ -423,8 +423,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 12,
           "1": 28,
-          "2": 18,
-          "3": 57,
+          "2": 16,
+          "3": 59,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -10602,9 +10602,7 @@
       ],
       "decided_targets": [
         "term",
-        "sampled_body",
-        "directed_relation",
-        "entity (dataset)"
+        "opaque_body"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -10615,15 +10613,13 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 4,
+        "schema_targets_named": 2,
         "schema_targets_built": [
-          "directed_relation",
-          "entity (dataset)",
-          "sampled_body",
+          "opaque_body",
           "term"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10637,8 +10633,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "#73 review (items 21-23): a STANDALONE `term` document (content, not a claim) whose body holds the index/node/name table; derived_from the genome annotation `dataset`, itself derived_from the assembly `dataset`.",
-      "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
+      "how": "Jess Haley, 2026-11-01 [gene list as a term, file kept] (did_v2_go_forward_class_audit.md), refining #73 review item 21: a STANDALONE `term` document (content, not a claim), base.id the v1 id, `data_body` true; its `opaque_body` holds genes.tsv unchanged, `format` EDAM:format_3475 \"TSV\", `dimensions` [{NCIT:C16612 \"Gene\", n_genes}], `notes` the v1 label. genome_assembly, annotation_source and gene_id_namespace are listed in the run's migration report; item 22's derived_from links are a per-dataset import's work.",
+      "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). Built in DID-matlab 2026-11-01: gene_list d1e63f2 (#343), gene_list_mapping 24fa129 (#348); the targets above stay authored until the sibling lock reaches them.",
       "decided_by_citation": {
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
@@ -10688,10 +10684,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -10703,13 +10699,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 4 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `term`, `sampled_body`, `directed_relation`, `entity (dataset)` are not all among what the migrator emits today (`opaque_body`, `term`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -10719,7 +10715,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -10744,8 +10740,10 @@
       ],
       "decided_targets": [
         "directed_relation",
+        "undirected_relation",
+        "logical",
         "score",
-        "sampled_body"
+        "opaque_body"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -10756,14 +10754,16 @@
       "no_target_signoff": null,
       "target_gap": false,
       "build_state": {
-        "schema_targets_named": 3,
+        "schema_targets_named": 5,
         "schema_targets_built": [
           "directed_relation",
-          "sampled_body",
-          "score"
+          "logical",
+          "opaque_body",
+          "score",
+          "undirected_relation"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10777,8 +10777,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "#73 review (item 24): a directed_relation list A -> list B (relation 'orthologous gene mapping' | 'gene alias mapping', method = tool + version) with `value_id` to a standalone `score` (or `logical`) document whose keys are [gene of A, gene of B].",
-      "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). DID-matlab migrators today (PR #151 / 932d653) are 1:1 passthroughs into the retired copy -- a follow-up.",
+      "how": "Jess Haley, 2026-11-01 (did_v2_go_forward_class_audit.md [gene list mapping value shape], [gene list mapping value kind], [gene list mapping method text], [orthology mapping has no method term], [gene list mapping leftovers], [gene list mapping other types carried], [mapping rows counted, indices 0-based], [key covariate index], [undirected relation widened]), amending #73 review item 24: a `directed_relation` list A -> list B (v1 symmetric 0) or an `undirected_relation` over [A, B] (symmetric 1), relation EMPTY:0000381 \"gene alias mapping\" | EMPTY:0000386 \"orthologous gene mapping\", `notes` the label, `value_id` to a standalone `logical` (has_score 0) or `score` (has_score 1) with one `row` dimension and two gene covariates (`key` 0 / 1 with `index` from mapping.tsv's gene index columns); mapping.tsv unchanged is that value's `opaque_body` (EDAM:format_3475). Other mapping types are carried as v1.",
+      "target_flags": "The 2026-09-22 Corrected Option C decision (persist as a verbatim copy) is SUPERSEDED by the #73 review (jess, 2026-09-24/25; did_v2_spatial_transcriptomics_plan.md item 18): the v1 copy is retired and migrated into the design above. The review is signed: the [spatial_transcriptomics_family] sign-off in did_v2_spatial_transcriptomics_plan.md, jess 2026-09-29 (items 1-71, item 18 among them). Built in DID-matlab 2026-11-01: gene_list d1e63f2 (#343), gene_list_mapping 24fa129 (#348); the targets above stay authored until the sibling lock reaches them.",
       "decided_by_citation": {
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
@@ -10828,10 +10828,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -10843,13 +10843,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "yes",
-            "why": "all 3 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+            "why": "all 5 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `directed_relation`, `score`, `sampled_body` are not all among what the migrator emits today (`directed_relation`, `logical`, `opaque_body`, `score`, `undirected_relation`). 1 of 80 shared helper(s) declare; 18 MINT a document while declaring nothing (jAbsoluteReference, jAcquisitionChannels, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jEpochClockReferences, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -10859,7 +10859,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
