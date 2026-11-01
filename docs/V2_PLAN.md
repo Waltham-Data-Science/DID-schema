@@ -694,6 +694,18 @@ whose DID-matlab build waits on GL1-GL7.
   - **G86. Subject lookup by name checks the type (from build G2).**
     `does_subjectstring_match_session_document` now matches a V2 subject by
     `entity.local_identifier` alone. Also require type organism? [yes]
+  - **G87. Gene-list facts that are not converted (from build C,
+    2026-11-01).** A v1 gene list's genome assembly, annotation source, gene
+    ID namespace and gene symbol namespace are not converted; today they are
+    notes in the run summary. The migration report holds gaps and carries
+    only. Add a third list, "source facts not converted", or put them
+    elsewhere (e.g. method parameters of the gene list)? [method parameters:
+    they say how the list was made]
+  - **G88. The gene-list mapping's two proposed terms (from build C).**
+    The migrator writes SIO:000752 "row" for the mapping's one dimension and
+    NCIT:C150832 "Software Name" for the method text's parameter
+    ([gene list mapping terms], Proposed). Approve both? Each is a one-line
+    change if not.
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
