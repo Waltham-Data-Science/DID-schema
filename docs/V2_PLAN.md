@@ -84,6 +84,25 @@ whose DID-matlab build waits on GL1-GL7.
     does Q2's answer replace them?
     ANSWERED 2026-11-01: they keep their conversions ([ensemble and
     generic_file keep their conversions]).
+  - Q5 (found 2026-11-01 while building the deletion; Proposed, not
+    decided). Without `universalRenames`, a raw v1 `ensemble` and a raw v1
+    `generic_file` reach pass 1's V_eta validation against their `retiring/`
+    tombstones, which spell the renamed fields (`app.app_name`,
+    `generic_file.format_ontology`, `date_created`, `date_updated`); the raw
+    `app.name` and `formatOntology` are undeclared fields there
+    (`did2:validation:undeclaredField`), so both would quarantine and never
+    reach NDI's `ensembleMembership` or DID-matlab's `foldGenericFiles` (both
+    already read either spelling). Options: (a) a raw-v1 `+migrators_j`
+    migrator for each that emits today's shape; (b) pass 1 leaves both to their
+    later pass unvalidated against V_eta; (c) rewrite the two tombstones in v1
+    spelling. The same applies to a superclass-only template written as a
+    leaf (`app`, `calculator`, `epochid`, `stimulus_response`,
+    `stimulus_response_scalar_parameters` have `retiring/` tombstones; no
+    writer writes them as leaves) and to NDIcalc-vis
+    `hartley_reverse_correlation` / `reverse_correlation` (no V_eta class: a
+    raw leaf passes through counted as no-schema, as today): carry them as v1
+    with rows under [classes without a migrator carry as v1], or leave them on
+    the identity fallback?
   - Not in Q2's list, still on the renamed path at DID-matlab V2 (#324): the
     superclass-only templates (app, base, calculator, epochclocktimes,
     epochid, filter, imageStack_parameters, mock, ngrid, stimulus_response,
@@ -548,6 +567,11 @@ whose DID-matlab build waits on GL1-GL7.
     [obsolete all five; `consider` as listed there, none for B13]; Q14(a),
     A61's UO:0000031 "minute" clashes with the registered `om:minute-Time`
     [use om:minute-Time].
+    ANSWERED 2026-11-01: [assay relabels become new terms] (Q1, Q2: new
+    general terms; the old ones obsolete with `consider`), [assay term
+    definitions drafted] (Q4), [obsolete assay terms without replacement]
+    (Q11), [assay dictionaries look up by id] (Q9), [assay ontology cleanup
+    now].
   - **G70. #119 part 1 (skip OPEN_WORK's dated RE-DERIVED log in
     `check_prose_counts`).** Built and reverted the same hour: with the 64 log
     paragraphs skipped, OPEN_WORK keeps 4 older in-row counts that only the
