@@ -11174,20 +11174,16 @@
       ]
     },
     {
-      "name": "Data formatting",
-      "node": "EDAM:operation_0335",
-      "definition": "Reformat a file of data (or equivalent entity in memory).",
+      "name": "Conversion",
+      "node": "EDAM:operation_3434",
+      "definition": "Convert a data set from one form to another.",
       "status": "decided",
-      "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for [migration record] (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md), whose method is \"the term for format conversion\"; T19: an existing EDAM term, whose EDAM synonyms include \"Format conversion\" (OLS4, edam)",
-      "first_used_in": "the `migration` document's method.term (DID-matlab +did2/+convert, Build pending)",
+      "decided": "Jess Haley, 2026-11-01 [migration method is conversion] (did_v2_go_forward_class_audit.md): a `migration` document's method term is EDAM:operation_3434 \"Conversion\"; T19: an existing EDAM term (OLS4, edam)",
+      "first_used_in": "the `migration` document's method.term (DID-matlab, NDI-matlab: Build pending)",
       "obsolete": false,
       "number_unit": false,
       "equivalent": [],
-      "synonyms": [
-        "Format conversion",
-        "File format conversion",
-        "Data reformatting"
-      ]
+      "synonyms": []
     },
     {
       "name": "JSON",
