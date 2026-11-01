@@ -141,10 +141,11 @@ COV = _load("_rmt_coverage", os.path.join(HERE, "coverage.py"))
 DIDM = COV.DIDM
 CONVERT = os.path.join(DIDM or "", "src/did/+did2/+convert")
 
-# Under TargetVersion 'V_eta', `v1_to_v2.runConcreteMigrator` (v1_to_v2.m:393-403)
+# Under TargetVersion 'did_v2' (the V2 set; DID-matlab still accepts its earlier
+# name 'V_eta', `did2.convert.isV2Set`), `v1_to_v2.runConcreteMigrator`
 # routes a class to +migrators_j when a file of that name exists there, and
 # otherwise falls back to `lookupMigrator` in +migrators. +migrators_i is the
-# V_zeta package and never runs under V_eta, so it is NOT a source of V_eta
+# V_zeta package and never runs under the V2 set, so it is NOT a source of V2
 # targets. The superclass pass may additionally run +migrators_j/+super/<name>.m,
 # which by contract returns exactly ONE body and mints nothing.
 PACKAGE_ORDER = ("migrators_j", "migrators")

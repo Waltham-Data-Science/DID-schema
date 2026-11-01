@@ -919,7 +919,7 @@ def d4_ndi_stamp(t, report, overrides):
     stamp = _load_module("_veta_ndi_required_stamp", "ndi_required_stamp.py")
     tmp = tempfile.mkdtemp(prefix="veta-stamp-")
     try:
-        scratch = os.path.join(tmp, "V_eta")
+        scratch = os.path.join(tmp, "did_v2")
         os.makedirs(scratch)
         for _, p, d in t.classes.values():
             d = json.loads(overrides[p]) if p in overrides else copy.deepcopy(d)
