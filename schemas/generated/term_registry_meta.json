@@ -11259,6 +11259,18 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "Transfer",
+            "node": "NCIT:C48167",
+            "definition": "The act of conveying or transporting from one place to another.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [Haley phase, pick and encounter as written], did_v2_go_forward_class_audit.md: the term of the move in the Haley import's transfer manipulations (the pick)",
+            "first_used_in": "no dataset yet: the Haley import's transfer manipulations (NDI-matlab ndi.setup.conv.haley, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
