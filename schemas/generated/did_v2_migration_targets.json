@@ -893,7 +893,6 @@
     },
     "syncrule": {
       "targets": [
-        "acquisition_channels",
         "clock_alignment_configuration",
         "assertion + text",
         "entity"
