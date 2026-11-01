@@ -11385,6 +11385,18 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "connected to",
+      "node": "RO:0002170",
+      "definition": "a is connected to b if and only if a and b are discrete structure, and there exists some connecting structure c, such that c connects a and b",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [wiring relation term], did_v2_go_forward_class_audit.md: the relation of [probe wiring is a relation], a probe wired to an acquisition system's channels",
+      "first_used_in": "did-schema binding_registry_meta relation_bindings (probe wiring, directed_relation probe -> acquisition_system)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

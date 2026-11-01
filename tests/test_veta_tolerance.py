@@ -22,6 +22,9 @@ NOT_VALUES = {
     "data.covariates",
     "data_body.conditions",
     "statement.conditions",
+    # 2026-11-01 ([probe wiring is a relation], Jess Haley): a probe's wiring
+    # relation carries one condition per channel type, the same entry.
+    "directed_relation.conditions",
     # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,
     # so it takes the condition's `approximate` and, like it, no tolerance.
     # Since 2026-10-21 the list is `method.parameters` (one `method` block,

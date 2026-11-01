@@ -69,7 +69,13 @@ def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
     ac = _load(SP.class_path("acquisition_channels"))
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
-    assert "acquisition_system_id" not in si_edges
+    # Jess Haley 2026-11-01 [probe wiring is a relation]: a recording's system is
+    # pointed at straight (`acquisition_system_id`, optional); the probe's
+    # channels are its `connected to` relation. `acquisition_channels_id` stays
+    # until DID-matlab and NDI-matlab write and read the new shape.
+    assert si_edges["acquisition_system_id"]["must_refer_to_document_class"] == \
+        "acquisition_system"
+    assert si_edges["acquisition_system_id"]["mustBeNonEmpty"] is False
     assert si_edges["acquisition_channels_id"]["must_refer_to_document_class"] == \
         "acquisition_channels"
     assert si_edges["acquisition_channels_id"]["mustBeNonEmpty"] is False
@@ -353,9 +359,12 @@ def test_entity_genus():
     assert t["mustBeNonEmpty"] is True
     # directed_relation endpoints: entities, statements and standalone values (#73)
     dr = {d["name"]: d for d in RECORDS["directed_relation"][1]["depends_on"]}
-    for end in ("child_id", "parent_id"):
-        assert dr[end]["must_refer_to_document_class"].split(",") == [
-            "entity", "statement", "value"], dr[end]
+    assert dr["child_id"]["must_refer_to_document_class"].split(",") == [
+        "entity", "statement", "value"], dr["child_id"]
+    # ... and, as a parent only, the acquisition system a probe is wired to
+    # (Jess Haley 2026-11-01 [probe wiring is a relation], `connected to`)
+    assert dr["parent_id"]["must_refer_to_document_class"].split(",") == [
+        "entity", "statement", "value", "acquisition_system"], dr["parent_id"]
     # acquisition_system is configuration, not an entity (sec. 8)
     assert "entity" not in _chain("acquisition_system")
 

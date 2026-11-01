@@ -2803,6 +2803,24 @@
         },
         {
             "relation": {
+                "node": "RO:0002170",
+                "name": "connected to"
+            },
+            "class": "directed_relation",
+            "child_role": "the probe (an element entity of type device) wired to the acquisition system's channels; one condition per channel type (variable: the channel-type term of [channel types]; value: that type's channel numbers, as a matrix) says which channels (Jess Haley 2026-11-01 [probe wiring is a relation], [wiring relation term])",
+            "parent_role": "the acquisition system (an `acquisition_system` document, not an entity) whose channels the probe is wired to",
+            "child_types": [
+                "device"
+            ],
+            "parent_types": [
+                "acquisition_system"
+            ],
+            "timed": true,
+            "ordered": false,
+            "passes": "nothing"
+        },
+        {
+            "relation": {
                 "node": "",
                 "name": "temporally aligned with"
             },
