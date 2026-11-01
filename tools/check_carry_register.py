@@ -18,8 +18,13 @@ missing a field". This checks, and fails on any of:
         malformed      nothing more
       and no other keys.
   C2  a row's `v1_class` that is not a v1 source class of the coverage ledger
-      (schemas/generated/did_v2_coverage_ledger.json); `*` is allowed for a reason that can hit any
-      class ([renames carry is temporary])
+      (schemas/generated/did_v2_coverage_ledger.json), nor an NDIcalc-vis-matlab
+      template class the ground truth read at the locked commit
+      (schemas/generated/did_v2_ndi_ground_truth.json `ndicalc_vis_classes`;
+      the ledger has no row for `hartley_reverse_correlation` or
+      `reverse_correlation`, which [last rename-pass classes] carries with
+      rows of their own); `*` is allowed for a reason that can hit any class
+      ([renames carry is temporary])
   C3  a row's decision that does not resolve to an accepted decision line
       (tools/decision_citations.py resolve(): a `Decided by` line by a team
       member, or a TEAM-SIGN-OFF line, carrying the tag)
@@ -49,6 +54,7 @@ import decision_citations as dc  # noqa: E402
 
 REGISTER = os.path.join(ROOT, "schemas", "registry", "did_v2_carry_register.json")
 LEDGER = os.path.join(ROOT, "schemas", "generated", "did_v2_coverage_ledger.json")
+GROUND_TRUTH = os.path.join(ROOT, "schemas", "generated", "did_v2_ndi_ground_truth.json")
 OPEN_WORK = os.path.join(ROOT, "docs", "did_v2_OPEN_WORK.md")
 VETA = os.path.join(ROOT, "schemas", "did_v2")
 INDEX = os.path.join(ROOT, "schemas", "generated", "index.json")
@@ -255,7 +261,13 @@ def main():
     print("  by kind: " + ", ".join(f"{k} {n}" for k, n in by_kind.items()))
     ledger = _load(LEDGER)
     v1 = {r.get("v1_class") for r in ledger.get("rows", [])}
-    print(f"C2: {len(rows)} v1_class value(s) compared with {len(v1)} ledger v1 class(es)")
+    n_ledger = len(v1)
+    calc = _load(GROUND_TRUTH).get("ndicalc_vis_classes") or {}
+    calc_only = set(calc) - v1
+    v1 |= calc_only
+    print(f"C2: {len(rows)} v1_class value(s) compared with {n_ledger} ledger v1 class(es) "
+          f"and {len(calc)} NDIcalc-vis template class(es) from the ground truth "
+          f"({len(calc_only)} not in the ledger)")
     failures += check_v1_classes(rows, v1)
     dfail, ok = check_decisions(rows)
     print(f"C3: {len(rows)} decision citation(s), {ok} resolved")
