@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 649,
+          "accepted_lines": 655,
           "accepted_lines_by_kind": {
-            "Decided by": 529,
+            "Decided by": 535,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4589,6 +4589,54 @@
               "anchor": "Decided by Jess Haley, 2026-11-01 [migration record]: ("
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1818,
+              "kind": "Decided by",
+              "tag": "gene list mapping value shape",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list mapping value"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1820,
+              "kind": "Decided by",
+              "tag": "gene list mapping value kind",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list mapping value"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1822,
+              "kind": "Decided by",
+              "tag": "gene list mapping method text",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list mapping method"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1824,
+              "kind": "Decided by",
+              "tag": "gene list mapping leftovers",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list mapping"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1826,
+              "kind": "Decided by",
+              "tag": "gene list mapping other types carried",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [gene list mapping other"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1828,
+              "kind": "Decided by",
+              "tag": "no per-pair orthology variable",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [no per-pair orthology"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -4926,7 +4974,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 286,
+              "line": 290,
               "kind": "Decided by",
               "tag": "calculation-os-optional",
               "date": "2026-10-21",
@@ -4934,7 +4982,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 602,
+              "line": 606,
               "kind": "TEAM-SIGN-OFF",
               "tag": "formulation strain ingredient",
               "date": "2026-10-02",
@@ -4942,7 +4990,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 604,
+              "line": 608,
               "kind": "Decided by",
               "tag": "ontology image is an observation of its region",
               "date": "2026-10-21",
@@ -4950,7 +4998,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 606,
+              "line": 610,
               "kind": "Decided by",
               "tag": "non-area image node",
               "date": "2026-10-21",
@@ -4958,7 +5006,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 610,
+              "line": 614,
               "kind": "Decided by",
               "tag": "calculation-software-optional decided",
               "date": "2026-10-22",
@@ -4966,7 +5014,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 612,
+              "line": 616,
               "kind": "Decided by",
               "tag": "non-area image node, revisited",
               "date": "2026-10-22",
@@ -4974,7 +5022,7 @@
             },
             {
               "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 614,
+              "line": 618,
               "kind": "Decided by",
               "tag": "coordinate system names",
               "date": "2026-10-22",
@@ -6392,7 +6440,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -6406,7 +6454,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -6423,7 +6471,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -6432,7 +6480,7 @@
           "matched_name": "cellTypeLabels",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `cellTypeLabels`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `cellTypeLabels`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -9678,7 +9726,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -9692,7 +9740,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -9709,7 +9757,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -9718,7 +9766,7 @@
           "matched_name": "fileReference",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `fileReference`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `fileReference`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10092,7 +10140,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10106,7 +10154,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10123,7 +10171,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10132,7 +10180,7 @@
           "matched_name": "fitcurve",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `fitcurve`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `fitcurve`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10218,7 +10266,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10232,7 +10280,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10249,7 +10297,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10258,7 +10306,7 @@
           "matched_name": "geneExpression",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneExpression`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneExpression`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10354,7 +10402,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10368,7 +10416,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10385,7 +10433,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10394,7 +10442,7 @@
           "matched_name": "geneList",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneList`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneList`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10488,7 +10536,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10502,7 +10550,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10519,7 +10567,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10528,7 +10576,7 @@
           "matched_name": "geneListMapping",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneListMapping`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `geneListMapping`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -10913,7 +10961,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10927,7 +10975,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10944,7 +10992,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -10953,7 +11001,7 @@
           "matched_name": "image",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `image`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `image`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -11188,7 +11236,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -11202,7 +11250,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -11219,7 +11267,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -11228,7 +11276,7 @@
           "matched_name": "imageStack",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `imageStack`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `imageStack`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -12446,7 +12494,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12460,7 +12508,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12477,7 +12525,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12486,7 +12534,7 @@
           "matched_name": "neuron_extracellular",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `neuron_extracellular`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `neuron_extracellular`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -12799,7 +12847,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12813,7 +12861,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12830,7 +12878,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -12839,7 +12887,7 @@
           "matched_name": "ontologyImage",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `ontologyImage`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `ontologyImage`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -13884,7 +13932,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -13898,7 +13946,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -13915,7 +13963,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -13924,7 +13972,7 @@
           "matched_name": "probe_geometry",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `probe_geometry`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `probe_geometry`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -14980,7 +15028,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -14994,7 +15042,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15011,7 +15059,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15020,7 +15068,7 @@
           "matched_name": "spatialGeneExpressionCells",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionCells`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionCells`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -15118,7 +15166,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15132,7 +15180,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15149,7 +15197,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15158,7 +15206,7 @@
           "matched_name": "spatialGeneExpressionPyramid",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionPyramid`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionPyramid`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -15248,7 +15296,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "spatial_transcriptomics_family",
         "resolved": true,
-        "line": 572,
+        "line": 576,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
         "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15262,7 +15310,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15279,7 +15327,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "spatial_transcriptomics_family",
           "resolved": true,
-          "line": 572,
+          "line": 576,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the #73 review decisions recorded above as items 1 through 71 are agreed as recorded, among them the spatial-transcriptomics design (item 18: nothing carried forward; the eight v1 classes are tombstones replaced by the review's design), including their later corrections and supersessions (item 43 supersedes 38; items 50-53, 59, 61, 67 and 68 as written).",
           "anchor": "TEAM-SIGN-OFF [spatial_transcriptomics_family]",
@@ -15288,7 +15336,7 @@
           "matched_name": "spatialGeneExpressionTiles",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionTiles`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:572. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial_transcriptomics_family] (as `spatialGeneExpressionTiles`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:576. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -19370,7 +19418,7 @@
         "document": "did_v2_spatial_transcriptomics_plan.md",
         "tag": "#73 audit 2, D1-D13",
         "resolved": true,
-        "line": 574,
+        "line": 578,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
         "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
@@ -19384,7 +19432,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "#73 audit 2, D1-D13",
           "resolved": true,
-          "line": 574,
+          "line": 578,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
           "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
@@ -19401,7 +19449,7 @@
           "document": "did_v2_spatial_transcriptomics_plan.md",
           "tag": "#73 audit 2, D1-D13",
           "resolved": true,
-          "line": 574,
+          "line": 578,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-09-29 -- the audit 2 decisions D1 through D13 are agreed as recorded in docs/history/review/73/audit2_SUMMARY.md's decision log, with its two revisions (canonical pressure stays `mmhg`; `NDICloud` is a `global_identifier` scheme) and the build note's four stated differences (D8 edges required where the v1 template requires them; `scheme` is a term; `pyraview` via the confirmation amendment; 12 infra tombstones retired).",
           "anchor": "TEAM-SIGN-OFF [#73 audit 2, D1-D13]",
@@ -19410,7 +19458,7 @@
           "matched_name": "vmspikefit",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [#73 audit 2, D1-D13] (as `vmspikefit`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:574. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [#73 audit 2, D1-D13] (as `vmspikefit`), which resolves to the TEAM-SIGN-OFF line at `did_v2_spatial_transcriptomics_plan.md`:578. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,

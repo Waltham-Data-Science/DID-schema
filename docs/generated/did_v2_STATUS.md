@@ -338,7 +338,7 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `app` | retire | 1 of 1 | [software]. "TEAM-SIGN-OFF [software]: jess, 2026-08-06 -- the" (did_v2_tenet_audit.md:16). |
 | `binaryseries_parameters` | consumed by migrator (no tombstone) | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9). |
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (did_v2_subject_calculation_plan.md:371). |
-| `cellTypeLabels` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `cellTypeLabels` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `control_stimulus_ids` | retire | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (did_v2_stimulus_response_model_plan.md:620). |
 | `daqmetadatareader` | consumed by migrator (no tombstone) | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (did_v2_daq_family_decisions.md:489). |
 | `daqmetadatareader_epochdata_ingested` | consumed by migrator (no tombstone) | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (did_v2_ingested_payload_findings.md:276). |
@@ -354,39 +354,39 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `epochclocktimes` | no V_eta home, no migrator -- UNVERIFIED | 1 of 1 | [epochclocktimes]. "TEAM-SIGN-OFF [epochclocktimes]" (did_v2_time_reference_family_plan.md:181).; [epoch extent -- row #113]. "TEAM-SIGN-OFF [epoch extent -- row #113]" (did_v2_OPEN_WORK.md:865). |
 | `epochfiles_ingested` | retire | 1 of 1 | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (did_v2_epoch_plan.md:884).; [epoch files as data bodies]. "Decided by Jess Haley, 2026-10-21 [epoch files as data" (did_v2_recording_observation_plan.md:115). |
 | `epochid` | retire | no target recorded | [epoch]. "TEAM-SIGN-OFF [epoch]: jess@walthamdatascience.com /" (did_v2_epoch_plan.md:884). |
-| `fileReference` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `fileReference` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `filenavigator` | retire | 1 of 1 | [file navigation]. "TEAM-SIGN-OFF [file navigation]: jess, 2026-08-06" (did_v2_daq_family_decisions.md:343). |
 | `filter` | no V_eta home, no migrator -- UNVERIFIED | 1 of 1 | [2026-07-30]. "TEAM-SIGN-OFF: jess, 2026-07-30" (did_v2_frequency_filter_model_plan.md:5).; [filters are methods]. "Decided by Jess Haley, 2026-10-22 [filters are methods]" (did_v2_frequency_filter_model_plan.md:201). |
-| `fitcurve` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
-| `geneExpression` | consumed by migrator (no tombstone) | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
-| `geneList` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
-| `geneListMapping` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `fitcurve` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `geneExpression` | consumed by migrator (no tombstone) | no target recorded | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `geneList` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `geneListMapping` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `generic_file` | retire | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:823). |
 | `hartley_calc` | consumed by migrator (no tombstone) | 5 of 5 | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (did_v2_ngrid_family_findings.md:358). |
-| `image` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `image` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `imageCollection` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:823).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1496). |
-| `imageStack` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `imageStack` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `imageStack_parameters` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (did_v2_image_model_plan.md:154). |
 | `jrclust_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kiasort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `kilosort_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
 | `lightsheetZarrLevel` | consumed by migrator (no tombstone) | 1 of 1 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (OPEN_ITEMS.md:317). |
 | `lightsheetZarrPyramid` | consumed by migrator (no tombstone) | 3 of 3 | [lightsheet migrator points 1-11]. "TEAM-SIGN-OFF [lightsheet migrator points 1-11]" (OPEN_ITEMS.md:317). |
-| `neuron_extracellular` | consumed by migrator (no tombstone) | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `neuron_extracellular` | consumed by migrator (no tombstone) | 7 of 7 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `ngrid` | consumed by migrator (no tombstone) | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (did_v2_image_model_plan.md:154). |
-| `ontologyImage` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `ontologyImage` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `openminds` | retire | no target recorded | [2026-08-08]. "TEAM-SIGN-OFF: jess, 2026-08-08 -- Part 7: the 3 unattached" (did_v2_openminds_family_record.md:10). |
 | `oridirtuning_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
-| `probe_geometry` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `probe_geometry` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `probe_location` | consumed by migrator (no tombstone) | 2 of 2 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
 | `projectvar` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1496). |
 | `purpose` | persist | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [purpose class]. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (did_v2_go_forward_class_audit.md:1552). |
 | `pyraview` | consumed by migrator (no tombstone) | 1 of 1 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (did_v2_recording_observation_plan.md:99).; [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]. "TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13" (did_v2_recording_observation_plan.md:111). |
 | `session` | consumed by migrator (no tombstone) | 1 of 1 | [session]. "TEAM-SIGN-OFF [session]: jess@walthamdatascience.com /" (did_v2_go_forward_class_audit.md:664). |
 | `sorting_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
-| `spatialGeneExpressionCells` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
-| `spatialGeneExpressionPyramid` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
-| `spatialGeneExpressionTiles` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:572). |
+| `spatialGeneExpressionCells` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `spatialGeneExpressionPyramid` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
+| `spatialGeneExpressionTiles` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:576). |
 | `spike_extraction_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `spike_extraction_parameters_modification` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `stimulus_bath` | consumed by migrator (no tombstone) | 2 of 2 | [bath is a manipulation]. "Decided by Jess Haley, 2026-10-21 [bath is a manipulation]" (did_v2_go_forward_class_audit.md:727). |
@@ -406,14 +406,14 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `tuningcurve_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
 | `valid_interval` | retire | 1 of 1 | [logical_observation]. "TEAM-SIGN-OFF [logical_observation]" (did_v2_logical_observation_plan.md:365).; [logical_observation amendment 1]. "TEAM-SIGN-OFF [logical_observation amendment 1]" (did_v2_logical_observation_plan.md:425). |
 | `vmspikefilteringparameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
-| `vmspikefit` | consumed by migrator (no tombstone) | 1 of 1 | [#73 audit 2, D1-D13]. "TEAM-SIGN-OFF [#73 audit 2, D1-D13]" (did_v2_spatial_transcriptomics_plan.md:574). |
+| `vmspikefit` | consumed by migrator (no tombstone) | 1 of 1 | [#73 audit 2, D1-D13]. "TEAM-SIGN-OFF [#73 audit 2, D1-D13]" (did_v2_spatial_transcriptomics_plan.md:578). |
 
 Every decided target these classes name is present in the built set, so
 what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 649 decision line(s) accepted, 2 rejected; 44 cited by a class, 605 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 655 decision line(s) accepted, 2 rejected; 44 cited by a class, 611 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -901,6 +901,12 @@ field). If one decides a class's disposition, that class should cite it.
 - unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1804).
 - CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1806).
 - migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1808).
+- gene list mapping value shape. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1818).
+- gene list mapping value kind. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1820).
+- gene list mapping method text. "Decided by Jess Haley, 2026-11-01 [gene list mapping method" (did_v2_go_forward_class_audit.md:1822).
+- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1824).
+- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1826).
+- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1828).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -943,13 +949,13 @@ field). If one decides a class's disposition, that class should cite it.
 - lawn in plate. "Decided by Jess Haley, 2026-10-22 [lawn in plate]: a" (did_v2_relation_inheritance_plan.md:133).
 - source unit. "TEAM-SIGN-OFF [source unit]: jess / 2026-10-21" (did_v2_source_unit_plan.md:69).
 - source unit amendment 1. "TEAM-SIGN-OFF [source unit amendment 1]: jess / 2026-10-21" (did_v2_source_unit_plan.md:84).
-- calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (did_v2_spatial_transcriptomics_plan.md:286).
-- formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (did_v2_spatial_transcriptomics_plan.md:602).
-- ontology image is an observation of its region. "Decided by Jess Haley, 2026-10-21 [ontology image is an" (did_v2_spatial_transcriptomics_plan.md:604).
-- non-area image node. "Decided by Jess Haley, 2026-10-21 [non-area image node]: on" (did_v2_spatial_transcriptomics_plan.md:606).
-- calculation-software-optional decided. "Decided by Jess Haley, 2026-10-22" (did_v2_spatial_transcriptomics_plan.md:610).
-- non-area image node, revisited. "Decided by Jess Haley, 2026-10-22 [non-area image node" (did_v2_spatial_transcriptomics_plan.md:612).
-- coordinate system names. "Decided by Jess Haley, 2026-10-22 [coordinate system names]" (did_v2_spatial_transcriptomics_plan.md:614).
+- calculation-os-optional. "Decided by Jess Haley, 2026-10-21 [calculation-os-optional]" (did_v2_spatial_transcriptomics_plan.md:290).
+- formulation strain ingredient. "TEAM-SIGN-OFF [formulation strain ingredient]" (did_v2_spatial_transcriptomics_plan.md:606).
+- ontology image is an observation of its region. "Decided by Jess Haley, 2026-10-21 [ontology image is an" (did_v2_spatial_transcriptomics_plan.md:608).
+- non-area image node. "Decided by Jess Haley, 2026-10-21 [non-area image node]: on" (did_v2_spatial_transcriptomics_plan.md:610).
+- calculation-software-optional decided. "Decided by Jess Haley, 2026-10-22" (did_v2_spatial_transcriptomics_plan.md:614).
+- non-area image node, revisited. "Decided by Jess Haley, 2026-10-22 [non-area image node" (did_v2_spatial_transcriptomics_plan.md:616).
+- coordinate system names. "Decided by Jess Haley, 2026-10-22 [coordinate system names]" (did_v2_spatial_transcriptomics_plan.md:618).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

@@ -105,6 +105,10 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `value_id` to a standalone `score` (or `logical`) document keyed [gene of A, gene of
     B]. `method` moved up to `relation`. An earlier draft (pairs as the relation's body,
     undirected) was rejected: unordered endpoints, and an untyped score.
+    Amended 2026-11-01 by [gene list mapping value shape] (Jess Haley,
+    did_v2_go_forward_class_audit.md): the value has one `row` dimension, one
+    position per row of `mapping.tsv`, and two covariates whose variable is "gene"
+    (`key` 0 into list A, `key` 1 into list B); `mapping.tsv` is its `opaque_body`.
 25. **An external file not held in the database** (the source `.gef`) is an UNHELD body
     of the statement whose value it stores — recorded by location, not ingested.
     `data_body` gained `hash_algorithm`, `size_bytes`, `file_created`, `file_modified`.
