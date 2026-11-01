@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 655 decision line(s) accepted, 2 rejected; 44 cited by a class, 611 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 670 decision line(s) accepted, 2 rejected; 44 cited by a class, 626 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -888,25 +888,40 @@ field). If one decides a class's disposition, that class should cite it.
 - ndi_document read as base. "Decided by Jess Haley, 2026-10-31 [ndi_document read as" (did_v2_go_forward_class_audit.md:1778).
 - rename clashes are malformed. "Decided by Jess Haley, 2026-11-01 [rename clashes are" (did_v2_go_forward_class_audit.md:1780).
 - ensemble and generic_file keep their conversions. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1782).
-- UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1784).
-- postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1786).
-- percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1788).
-- breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1790).
-- relations get notes. "Decided by Jess Haley, 2026-11-01 [relations get notes]: (" (did_v2_go_forward_class_audit.md:1792).
-- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1794).
-- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1796).
-- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1798).
-- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1800).
-- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1802).
-- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1804).
-- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1806).
-- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1808).
-- gene list mapping value shape. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1818).
-- gene list mapping value kind. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1820).
-- gene list mapping method text. "Decided by Jess Haley, 2026-11-01 [gene list mapping method" (did_v2_go_forward_class_audit.md:1822).
-- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1824).
-- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1826).
-- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1828).
+- ensemble and generic_file checked as v1. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1784).
+- last rename-pass classes. "Decided by Jess Haley, 2026-11-01 [last rename-pass" (did_v2_go_forward_class_audit.md:1786).
+- UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1788).
+- postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1790).
+- percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1792).
+- breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1794).
+- relations get notes. "Decided by Jess Haley, 2026-11-01 [relations get notes]: (" (did_v2_go_forward_class_audit.md:1796).
+- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1798).
+- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1800).
+- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1802).
+- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1804).
+- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1806).
+- compression term definitions approved. "Decided by Jess Haley, 2026-11-01 [compression term" (did_v2_go_forward_class_audit.md:1808).
+- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1810).
+- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1812).
+- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1814).
+- gap accepted when the report lists it. "Decided by Jess Haley, 2026-11-01 [gap accepted when the" (did_v2_go_forward_class_audit.md:1824).
+- migration report is an attached file. "Decided by Jess Haley, 2026-11-01 [migration report is an" (did_v2_go_forward_class_audit.md:1826).
+- migration record points at the dataset. "Decided by Jess Haley, 2026-11-01 [migration record points" (did_v2_go_forward_class_audit.md:1828).
+- migration record writer. "Decided by Jess Haley, 2026-11-01 [migration record" (did_v2_go_forward_class_audit.md:1830).
+- migration method is conversion. "Decided by Jess Haley, 2026-11-01 [migration method is" (did_v2_go_forward_class_audit.md:1832).
+- gene list mapping value shape. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1834).
+- gene list mapping value kind. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1836).
+- gene list mapping method text. "Decided by Jess Haley, 2026-11-01 [gene list mapping method" (did_v2_go_forward_class_audit.md:1838).
+- orthology mapping has no method term. "Decided by Jess Haley, 2026-11-01 [orthology mapping has no" (did_v2_go_forward_class_audit.md:1840).
+- gene list as a term, file kept. "Decided by Jess Haley, 2026-11-01 [gene list as a term" (did_v2_go_forward_class_audit.md:1842).
+- mapping rows counted, indices 0-based. "Decided by Jess Haley, 2026-11-01 [mapping rows counted" (did_v2_go_forward_class_audit.md:1844).
+- undirected relation widened. "Decided by Jess Haley, 2026-11-01 [undirected relation" (did_v2_go_forward_class_audit.md:1846).
+- undirected ends are relata. "Decided by Jess Haley, 2026-11-01 [undirected ends are" (did_v2_go_forward_class_audit.md:1848).
+- undirected registry columns are relata. "Decided by Jess Haley, 2026-11-01 [undirected registry" (did_v2_go_forward_class_audit.md:1850).
+- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1852).
+- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1854).
+- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1856).
+- key covariate index. "Decided by Jess Haley, 2026-11-01 [key covariate index]: (" (did_v2_go_forward_class_audit.md:1858).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

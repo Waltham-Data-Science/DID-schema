@@ -11177,20 +11177,16 @@
             ]
         },
         {
-            "name": "Data formatting",
-            "node": "EDAM:operation_0335",
-            "definition": "Reformat a file of data (or equivalent entity in memory).",
+            "name": "Conversion",
+            "node": "EDAM:operation_3434",
+            "definition": "Convert a data set from one form to another.",
             "status": "decided",
-            "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for [migration record] (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md), whose method is \"the term for format conversion\"; T19: an existing EDAM term, whose EDAM synonyms include \"Format conversion\" (OLS4, edam)",
-            "first_used_in": "the `migration` document's method.term (DID-matlab +did2/+convert, Build pending)",
+            "decided": "Jess Haley, 2026-11-01 [migration method is conversion] (did_v2_go_forward_class_audit.md): a `migration` document's method term is EDAM:operation_3434 \"Conversion\"; T19: an existing EDAM term (OLS4, edam)",
+            "first_used_in": "the `migration` document's method.term (DID-matlab, NDI-matlab: Build pending)",
             "obsolete": false,
             "number_unit": false,
             "equivalent": [],
-            "synonyms": [
-                "Format conversion",
-                "File format conversion",
-                "Data reformatting"
-            ]
+            "synonyms": []
         },
         {
             "name": "JSON",
@@ -11258,18 +11254,6 @@
             "definition": "The literal identifier of the software program.",
             "status": "decided",
             "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the method parameter holding a v1 geneListMapping's `method` text ([gene list mapping terms], did_v2_go_forward_class_audit.md); T19: an existing NCIT term (OLS4)",
-            "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
-            "obsolete": false,
-            "number_unit": false,
-            "equivalent": [],
-            "synonyms": []
-        },
-        {
-            "name": "Symmetric Relationship",
-            "node": "NCIT:C75919",
-            "definition": "A binary relation such that if a is related to b then b is related to a.",
-            "status": "decided",
-            "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the logical method parameter holding a v1 geneListMapping's `symmetric` ([gene list mapping terms], did_v2_go_forward_class_audit.md); T19: an existing NCIT term (OLS4)",
             "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
             "obsolete": false,
             "number_unit": false,
