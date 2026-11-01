@@ -2659,6 +2659,41 @@
       "open_work": 164,
       "home": "none decided in pass 1: NDI's second pass reads it toward interaction_purpose",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-166",
+      "v1_class": "geneListMapping",
+      "fields": [
+        "geneListMapping.mapping_type"
+      ],
+      "when": "`mapping_type` is neither `alias` nor `ortholog`: only those two have a relation term (EMPTY:0000381 \"gene alias mapping\", EMPTY:0000386 \"orthologous gene mapping\"), so the whole document is carried as v1 (DID-matlab +migrators_j/gene_list_mapping.m)",
+      "kind": "not_modelled",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "gene list mapping other types carried"
+      },
+      "do_not": {
+        "line": "do not give a relation a `mapping_type` field: a gene-list mapping's type is its `relation` term, and a type with no term keeps the whole document as v1 ([gene list mapping other types carried])",
+        "class": "directed_relation",
+        "fields": [
+          "mapping_type"
+        ]
+      },
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-167",
+      "v1_class": "geneListMapping",
+      "fields": [
+        "files mapping.tsv"
+      ],
+      "when": "the `mapping.tsv` the document attaches cannot be read in this run (did2.convert.v1Files: the v1 file reader NDI passes cannot return it, or, with no reader, no local `file` location exists), so its gene indices and row count cannot be read (DID-matlab +migrators_j/gene_list_mapping.m). NDI's template declares `mapping.tsv` in its `file_list` (NDI-matlab ndi_common/database_documents/data/geneListMapping.json at the locked main) and no NDI writer makes the class, so a stored document whose file cannot be returned is input no writer produces. A DID-only run given no reader carries every mapping this way; that is a property of the run, not of the document.",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "values no writer produces are malformed"
+      },
+      "kind_basis": "proposed"
     }
   ]
 }
