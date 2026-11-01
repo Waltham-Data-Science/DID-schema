@@ -395,12 +395,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2617,
+        "line": 2635,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 2694,
+        "line": 2712,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1253,7 +1253,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 409,
+        "line": 411,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if strcmp(classOf{k}, 'daqmetadatareader_epochdata_ingested')"
        }
@@ -2631,7 +2631,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 835,
+        "line": 837,
         "spelling": "ensemble",
         "text": "if strcmp(elType, 'ensemble')"
        }
@@ -2802,22 +2802,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 551,
+        "line": 553,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 1655,
+        "line": 1673,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1898,
+        "line": 1916,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 1917,
+        "line": 1935,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -2997,17 +2997,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1921,
+        "line": 1939,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2569,
+        "line": 2587,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2570,
+        "line": 2588,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -6204,12 +6204,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 496,
+        "line": 498,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 2684,
+        "line": 2702,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }

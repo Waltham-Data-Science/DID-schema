@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 680,
+          "accepted_lines": 685,
           "accepted_lines_by_kind": {
-            "Decided by": 560,
+            "Decided by": 565,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4835,6 +4835,46 @@
               "tag": "evenly spaced time is a covariate",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [evenly spaced time is a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1887,
+              "kind": "Decided by",
+              "tag": "ingested archives are sampled bodies",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ingested archives are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1889,
+              "kind": "Decided by",
+              "tag": "ingested compression settings",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [ingested compression"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1891,
+              "kind": "Decided by",
+              "tag": "probe wiring is a relation",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [probe wiring is a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1893,
+              "kind": "Decided by",
+              "tag": "clock only on the time reference",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [clock only on the time"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1895,
+              "kind": "Decided by",
+              "tag": "wiring relation term",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [wiring relation term]: ("
             },
             {
               "document": "did_v2_image_model_plan.md",
