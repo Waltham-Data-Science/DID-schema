@@ -11340,6 +11340,54 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "current clamp assay",
+            "node": "OBI:0002185",
+            "definition": "The current clamp technique records the membrane potential by injecting current into a cell through the recording electrode. Unlike in the voltage clamp mode, where the membrane potential is held at a level determined by the experimenter, in \"current clamp\" mode the membrane potential is free to vary, and the amplifier records whatever voltage the cell generates on its own or as a result of stimulation. This technique is used to study how a cell responds when electric current enters a cell; this is important for instance for understanding how neurons respond to neurotransmitters that act by opening membrane ion channels.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [recording mode terms], did_v2_go_forward_class_audit.md: the current-clamp recording mode (v1 element type suffix `-Vm`), the `method.term` of the element's per-epoch recording observation",
+            "first_used_in": "no dataset yet: v1 element types `patch-Vm`, `sharp-Vm` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "voltage clamp assay",
+            "node": "OBI:0002182",
+            "definition": "An cellular electrophysiology assay where the membrane potential of a cell is controlled by the experimentalist. This is accomplished through a feedback mechanism where any change in membrane potential is countered by permitting electrical current to flow into or out of the cell.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [recording mode terms], did_v2_go_forward_class_audit.md: the voltage-clamp recording mode (v1 element type suffixes `-I`, `-Im`), the `method.term` of the element's per-epoch recording observation",
+            "first_used_in": "no dataset yet: v1 element types `patch-I`, `sharp-Im` (and other `-I`/`-Im` types) (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "widefield microscopy assay",
+            "node": "OBI:0002437",
+            "definition": "A fluorescence microscopy technique where the specimen under investigation is fully bathed in light, as opposed to confocal microscopy in which only a small portion of the specimen is illuminated.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [imaging mode terms], did_v2_go_forward_class_audit.md: the wide-field imaging mode (v1 element type `wide-field-imaging`), the `method.term` of the element's per-epoch recording observation",
+            "first_used_in": "no dataset yet: v1 element type `wide-field-imaging` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "two-photon laser scanning microscopy",
+            "node": "FBbi:00000254",
+            "definition": "",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [imaging mode terms], did_v2_go_forward_class_audit.md: the two-photon imaging mode (v1 element type `two-photon-imaging`), the `method.term` of the element's per-epoch recording observation",
+            "first_used_in": "no dataset yet: v1 element type `two-photon-imaging` (DID-matlab element migration, build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }

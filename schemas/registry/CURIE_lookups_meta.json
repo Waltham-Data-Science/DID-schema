@@ -3,7 +3,7 @@
     "$id": "https://did-schema.example.org/meta/CURIE_lookups_meta.json",
     "title": "CURIE Registry for DID/NDI V_gamma",
     "description": "Registry mapping CURIE prefixes (used in ontology_term.node values and in field-level ontology.node annotations) to their authoritative URI base and metadata. Consumer tooling uses this file to expand a CURIE such as 'UBERON:0002436' into the full URI 'http://purl.obolibrary.org/obo/UBERON_0002436'. Prefixes are matched case-insensitively and written as each entry's `spelling`, the form the identifier's issuer cites.",
-    "format_version": "1.2.4",
+    "format_version": "1.2.5",
     "prefixes": {
         "iao": {
             "label": "Information Artifact Ontology",
@@ -631,6 +631,20 @@
             "spelling_source": "OBO PURL: the ID space as written in uri_base",
             "synonyms": [
                 "FBdv"
+            ]
+        },
+        "fbbi": {
+            "label": "Biological Imaging Methods Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/FBbi_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `fbbi`. Added for [imaging mode terms] (Jess Haley, 2026-11-01, did_v2_go_forward_class_audit.md): the two-photon and one-photon imaging modes.",
+            "pattern_source": "https://bioregistry.io/api/registry/fbbi (2026-11-01)",
+            "pattern": "^\\d+$",
+            "spelling": "FBbi",
+            "spelling_source": "OLS4 gives `obo_id` like `FBbi:00000254` and IRIs `http://purl.obolibrary.org/obo/FBbi_...` (checked 2026-11-01); Bioregistry's preferred prefix is `FBbi`",
+            "synonyms": [
+                "FBbi"
             ]
         },
         "mco": {
