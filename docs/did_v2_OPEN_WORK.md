@@ -17,48 +17,33 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 
 | # | item -> issue |
 |---|---|
-| 30 | raw recordings as typed observations: Guard A has no value kind (the assembler is live) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104 |
-| 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 |
+| 30 | raw recordings as typed observations: Guard A has no value kind (the assembler is live) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104 (issue #104 closed 2026-10-29; kept OPEN: DID-matlab comments at the locked head still say "#30, NOT BUILT" (`check_build_claims.py` rule B); moves when they are corrected) |
+| 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 (issue #94 closed 2026-10-30; kept OPEN: carry-084 (`awaiting_home`) still cites this row (`check_carry_register.py` C5)) |
 | 32 | binding governance (T8): the remaining clause is #129 -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
-| 46 | retire `ngrid`, gated on both consumers -> https://github.com/Waltham-Data-Science/DID-schema/issues/92 |
 | 57 | clock alignment cluster: is `acquisition_channels`' own dependency set covered by the signature? -> https://github.com/Waltham-Data-Science/DID-schema/issues/95 |
-| 62 | `stimulus_parameter` dissolution, blocked on a Marder corpus -> https://github.com/Waltham-Data-Science/DID-schema/issues/96 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id` -> https://github.com/Waltham-Data-Science/DID-schema/issues/105 |
-| 67 | mint the four NDI clocktype terms and fill their empty nodes -> https://github.com/Waltham-Data-Science/DID-schema/issues/97 |
 | 68 | a value rollup for `sampled_body` -> https://github.com/Waltham-Data-Science/DID-schema/issues/98 |
-| 69 | a child cannot tighten a parent field; redeclaration is silent -> https://github.com/Waltham-Data-Science/DID-schema/issues/99 |
 | 72 | the unattached `openminds` documents, group B (group A is NDI-side) -> https://github.com/Waltham-Data-Science/DID-schema/issues/100 |
 | 73 | is `metadata_editor` always written with the openMINDS dataset graph? -> https://github.com/Waltham-Data-Science/DID-schema/issues/100 |
-| 76 | does one approach cover several interactions? (also #76a) -> https://github.com/Waltham-Data-Science/DID-schema/issues/101 |
-| 81 | `oneepoch`: fork A1 is chosen, not signed -> https://github.com/Waltham-Data-Science/DID-schema/issues/102 |
-| 83 | pre-`base` documents: `base.type` / `base.database_version` (also #84(g), #84(h)) -> https://github.com/Waltham-Data-Science/DID-schema/issues/103 |
-| 105 | how many pre-repair `ontologyTableRow` documents carry a plural `document_id`? -> https://github.com/Waltham-Data-Science/DID-schema/issues/111 |
-| 108 | `binaryseries_parameters` has no edges: what do its parameters attach to? -> https://github.com/Waltham-Data-Science/DID-schema/issues/109 |
-| 114 | `ngrid`: deleted (signed) versus migrated (later decision) -> https://github.com/Waltham-Data-Science/DID-schema/issues/92 |
-| 115 | registry rows: which units are admissible for a variable -> https://github.com/Waltham-Data-Science/DID-schema/issues/90 |
-| 118 | no value kind for an undimensioned observation (with #30(a)) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104 |
 | 124 | corpus proof for the spatial-transcriptomics family, deferred -> https://github.com/Waltham-Data-Science/DID-schema/issues/106 |
 | 125 | spatial-transcriptomics tiles and cells onto the data_body fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/91 |
 | 126 | controlled-term bindings for the spatial-transcriptomics fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/107 |
 | 129 | bindings become `required`: `variable`, and a node on every term -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
-| 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 |
-| 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 |
+| 130 | a V2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 (issue #135 closed 2026-10-27; kept OPEN: carry-001 (`awaiting_home`) still cites this row (C5)) |
+| 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 (issue #136 closed 2026-10-29; kept OPEN: carry-007 (`awaiting_home`) still cites this row (C5)) |
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
-| 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 |
+| 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 (issue #140 closed 2026-10-27; kept OPEN: carry-015 (`awaiting_home`) still cites this row (C5)) |
 | 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
-| 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 |
-| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 |
+| 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 (issue #145 closed 2026-10-29; kept OPEN: carry-051 (`awaiting_home`) still cites this row (C5)) |
+| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 (issue #146 closed 2026-10-29; kept OPEN: carry-067 (`awaiting_home`) still cites this row (C5)) |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
-| 144 | a home for a linked session's `session_reference` (carry-074) -> https://github.com/Waltham-Data-Science/DID-schema/issues/153 |
-| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 |
+| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 (issue #154 closed 2026-10-29; kept OPEN: carry-075 (`awaiting_home`) still cites this row (C5)) |
 | 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/155 |
-| 147 | homes for `control_stimulus_ids` fields the control calculation does not write (carry-089) -> https://github.com/Waltham-Data-Science/DID-schema/issues/156 |
-| 148 | control pairing for a standalone item or a frame sequence (carry-090) -> https://github.com/Waltham-Data-Science/DID-schema/issues/157 |
+| 147 | homes for `control_stimulus_ids` fields the control calculation does not write (carry-089) -> https://github.com/Waltham-Data-Science/DID-schema/issues/156 (issue #156 closed 2026-10-29; kept OPEN: carry-089 (`awaiting_home`) still cites this row (C5)) |
+| 148 | control pairing for a standalone item or a frame sequence (carry-090) -> https://github.com/Waltham-Data-Science/DID-schema/issues/157 (issue #157 closed 2026-10-29; kept OPEN: carry-090 (`awaiting_home`) still cites this row (C5)) |
 | 149 | homes for openMINDS Strain and fragment fields (carry-092, carry-094) -> https://github.com/Waltham-Data-Science/DID-schema/issues/158 |
-| 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 |
-| 151 | a label on a document with no subject or no time reference (carry-096) -> https://github.com/Waltham-Data-Science/DID-schema/issues/160 |
-| 152 | `distance_metadata` and `ontology_table_row`: hand-written `how` / `flags` in the migration targets describe a removed migration -> https://github.com/Waltham-Data-Science/DID-schema/issues/179 |
+| 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 (issue #159 closed 2026-10-29; kept OPEN: carry-095 (`awaiting_home`) still cites this row (C5)) |
 | 153 | homes for `spikewaves`, `spike_clusters` and `binnedspikeratevm`, carried as v1 (carry-101, carry-102, carry-103) -> https://github.com/Waltham-Data-Science/DID-schema/issues/197 |
 | 154 | a home for `simple_calc`, designed only if a real dataset holds one (carry-104) -> https://github.com/Waltham-Data-Science/DID-schema/issues/198 |
 | 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/199 |
@@ -66,16 +51,11 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 157 | a home for a legacy `ndi_document` block beside `base` (carry-049) -> https://github.com/Waltham-Data-Science/DID-schema/issues/201 |
 | 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/202 |
 | 159 | homes for five carries recorded 2026-10-28: v1 ids with no V2 document, axis letters, openMINDS ids, lab strain ids, session lists (carry-112, carry-114, carry-116, carry-117, carry-118) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
-| 160 | a standalone v1 `ngrid` loses `coordinates` and `data_size` in pass 1 (DID-matlab `+migrators/ngrid.m`) -> https://github.com/Waltham-Data-Science/DID-schema/issues/227 |
-| 161 | a label pass 1 carries as malformed (carry-100) is counted again under carry-095 by NDI's second pass -> https://github.com/Waltham-Data-Science/DID-schema/issues/228 |
 | 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
 | 163 | homes for an openMINDS element's `openminds_id` and description (carry-128) -> https://github.com/Waltham-Data-Science/DID-schema/issues/232 |
 | 164 | homes for the retire classes now carried as v1: fits and calculations with no subject, site2channelmap, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, vmspikefilteringparameters, a subjectmeasurement with no quantity kind, distance_metadata, a oneepoch on a global clock (carry-136..143, carry-145, carry-147, carry-148) -> https://github.com/Waltham-Data-Science/DID-schema/issues/234 |
 
-Open items without a row number:
-
-- `syncrule_mapping` declares `epochnode_*.t0_t1` as a scalar; the writer stores two numbers -> https://github.com/Waltham-Data-Science/DID-schema/issues/108
-- no value kind carries an uninterpreted payload (the `generic_file` case) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104
+Open items without a row number: none (the last two, #108 and #104, are under COMPLETED as "(no row)").
 
 ### Open in another repository (not tracked here)
 
@@ -99,6 +79,25 @@ Open items without a row number:
 
 | # | what completed |
 |---|---|
+| 46 | `ngrid` retired: `retiring/ngrid.json` deleted in #250 (2d58d2b) under [retire check now]; DID-matlab `+migrators/ngrid.m` carries every v1 `ngrid`, its last consumer `reverse_correlation` deleted (c648f65); #92 closed 2026-10-31 |
+| 62 | `stimulus_parameter` dissolution: not completed; closed as a duplicate of #234 (row #164, still open), which tracks it as carry-140 with this issue's open points (decision A not built; gates (a) and (b)); #96 closed (duplicate) 2026-10-31 |
+| 67 | the four NDI clocktype terms minted and filled (`wikidata:Q1536`, `EMPTY:0000403`..`EMPTY:0000405`) on `relative_time_reference` and `clock_alignment_configuration` (#251, e580e04; siblings first: DID-matlab #328, NDI-matlab #1117); [clock terms get nodes] reads Built; #97 closed 2026-10-31 |
+| 69 | redeclarations: a child may only narrow a parent field ([redeclarations only narrow]); the remaining redeclarations leave with `base.name` and `pyraview`, nothing to build ([redeclarations left need no merge], Jess Haley, 2026-11-01); #99 closed 2026-11-01 |
+| 76 | `interaction_purpose` kept as a class renamed `purpose`, edge to interactions only ([purpose class], 2026-10-27); did-schema rename built in #250 (2d58d2b) under [purpose renamed now]; NDI second-pass writer still pending under [purpose class]; #101 closed 2026-10-31 |
+| 81 | `oneepoch` fork A1 superseded by [oneepoch is a redundant calculation] and [oneepoch method is data combination] (Jess Haley, 2026-10-29); `oneepoch.json` deleted in #242 (025d87d); carried as v1 under carry-126 / carry-148 until the calculation is built; #102 closed 2026-10-30 |
+| 83 | pre-`base` documents: [documents without base carry] (Jess Haley, 2026-10-27): a pre-2023 document with an `ndi_document` block and no `base` is carried (carry-049, #204); #103 closed 2026-10-27 |
+| 105 | pre-repair `ontologyTableRow` with a plural `document_id`: carried whole as v1 by NDI's second pass, `needs_mapping`, carry-125, counted as `unresolved_plural_pre_repair` ([old table rows counted and carried], [old table rows carried by NDI]; NDI-matlab a9441653, #1094); #111 closed 2026-10-29 |
+| 108 | `binaryseries_parameters` carried whole as v1 under carry-122 ([binaryseries parameters carried], Jess Haley, 2026-10-29; DID-matlab #288, 3d36201e); #109 closed 2026-10-29 |
+| 114 | `ngrid` deleted versus migrated: settled by the retire in #250 (see row #46); #92 closed 2026-10-31 |
+| 115 | admissible units for a variable: [allowed units are source units]; `unit_bindings` built in did-schema 74545bd and checked by `check_term_registry.py` (R15); DID-matlab enforcement tracked by that decision's `Build pending: DID-matlab` line; #90 closed 2026-10-30 |
+| 118 | no value kind for an undimensioned observation: none added, under [Guard A amended] (the amendment `did_v2_recording_observation_plan.md`, f02a251; row #30 stays OPEN); #104 closed 2026-10-29 |
+| 144 | a linked session's `session_reference`: dropped when equal to `local_identifier`, else carried `needs_mapping` (carry-074) ([linked session reference follows the ingested rule]; DID-matlab 30329767, #279); a linked session outside the batch is `docs/V2_PLAN.md` G20; #153 closed 2026-10-29 |
+| 151 | a label on a document with no subject or no time reference is carried whole as v1 under carry-096 ([labels are a field on what they label]; NDI-matlab 71a06439, #1095 adds the citations); #160 closed 2026-10-29 |
+| 152 | `distance_metadata` and `ontology_table_row` migration-target `how` / `flags` rewritten (carry-147, carry-026), old text kept in `flags` as superseded (#242, 025d87d, commit 7c209d5); #179 closed 2026-10-30 |
+| 160 | a standalone v1 `ngrid`'s `coordinates` and `data_size` are written on the sampled body (DID-matlab #288, 3d36201e); #227 closed 2026-10-29 |
+| 161 | a label pass 1 carries as malformed is counted under carry-100 by NDI's second pass too (NDI-matlab 3a35782e1, under [ontologyLabel row split]); #228 closed 2026-10-30 |
+| (no row) | `syncrule_mapping` `epochnode_*.t0_t1` scalar versus pair: moot, the class is retired and carried whole as v1 (carry-036), checked against NDI's template (#242, 025d87d); #108 closed 2026-10-30 |
+| (no row) | an uninterpreted payload (the `generic_file` case): an `observation` + term with an `opaque_body` under [Guard A amended] (the amendment `did_v2_recording_observation_plan.md`, f02a251; row #30 stays OPEN); #104 closed 2026-10-29 |
 | 112 | `tuning_curve.response_units`: an optional `response_unit`, filled when stated ([response variable], [unstated response variable]; [response unit slot settles 110]); #110 closed 2026-10-30 |
 | 137 | `stimulus_response_scalar` stimulator epoch and control links: [response links: epoch rebuilt, control as input] (DID-matlab 05d4dcd, #266); a differing epoch is malformed ([differing stimulator epoch is malformed], carry-050); #144 closed 2026-10-30 |
 | 134 | an `imageStack`'s `imageCollection_id`: superseded by [image collection carried until a writer] (no NDI writer writes one; carried, carry-153, DID-matlab 34deec0, #305); carry-013 retired, #139 closed 2026-10-30 |
