@@ -108,6 +108,15 @@ whose DID-matlab build waits on GL1-GL7.
     raw leaf passes through counted as no-schema, as today): carry them as v1
     with rows under [classes without a migrator carry as v1], or leave them on
     the identity fallback?
+    ANSWERED 2026-11-01 for `ensemble` and `generic_file` only: [ensemble and
+    generic_file checked as v1] (checked against NDI's v1 template in the first
+    pass, then converted by their later step; their `retiring/` files and then
+    `universalRenames` are deleted).
+    Proposed (not decided), not asked in that answer: what happens to the
+    superclass-only v1 classes (`app`, `calculator`, `epochid`,
+    `stimulus_response`, `stimulus_response_scalar_parameters`) and to
+    NDIcalc-vis `hartley_reverse_correlation` and `reverse_correlation` once
+    the rename pass is gone.
   - Not in Q2's list, still on the renamed path at DID-matlab V2 (#324): the
     superclass-only templates (app, base, calculator, epochclocktimes,
     epochid, filter, imageStack_parameters, mock, ngrid, stimulus_response,
@@ -124,7 +133,7 @@ whose DID-matlab build waits on GL1-GL7.
   - Build questions found on 2026-11-01 while building the answers above (Proposed, not decided; the DID-matlab build waits on them):
   - GL8. The `key` covariate, as `data.json` defines it, says position k of the dimension IS entry k of the keyed document ("The dimension's `n` must equal the number of entries"). A mapping's row k names gene `gene_index_a[k]` of list A, not gene k, so two `key` covariates along the `row` dimension cannot say which genes each row pairs. Options: (a) let a `key` covariate also carry the per-position 0-based indices into the keyed document (a `count` beside `key`), a rule change in `covariate_one_value_form` and `covariate_shape`, DID-matlab `checkRules` first; (b) the covariates hold each row's gene as a `term` (needs reading `mapping.tsv`, which the generic stage does not do); (c) the value states only its `row` dimension and the two lists in `key_id`, and the TSV's own columns say the rest. [Recommend (a): it is what the approved sketch meant ("at each pair it holds an index into listMouse"), and it keeps `mapping.tsv` unchanged.] ANSWERED 2026-11-01 (a `key` covariate may carry `index`: position k is entry `index[k]` of the keyed document's value): [key covariate index].
   - GL9. Item 21's build (`gene_list.m`: v1 `geneList` -> a standalone `term`, keeping the v1 id), which GL1 put first: (i) `genes.tsv` kept as the `term`'s `opaque_body` (EDAM:format_3475 TSV) with `data_body: true`, as GL3 does for `mapping.tsv`, rather than parsed into `value`; (ii) the term of its one dimension (NCIT:C16612 "Gene"? SIO:000752 "row"?) and its `n` from v1 `n_genes`; (iii) homes for `label`, `genome_assembly`, `annotation_source` and `gene_id_namespace` (GL1's "Item 22 (derived_from to annotation/assembly datasets) too?" was not answered; nothing places `gene_id_namespace`); items 21 and 23 already drop `gene_name_completeness`, `n_duplicate_gene_names` and `gene_symbol_namespace`. [Recommend (i); (ii) "Gene" with `n` = `n_genes`; (iii) carry the list whole as v1 while any of those four is non-empty, until item 22 is answered.]
-  - GL10. The method term of an orthology mapping, "a general one" in [gene list mapping method text]: a new EMPTY "orthology inference" (asked 2026-11-01, no answer yet), or EDAM:operation_2945 "Data analysis". [Recommend the new EMPTY term.] Until it is answered, an orthology mapping could be carried whole as v1 while alias mappings migrate.
+  - GL10. The method term of an orthology mapping, "a general one" in [gene list mapping method text]: a new EMPTY "orthology inference" (asked 2026-11-01, no answer yet), or EDAM:operation_2945 "Data analysis". [Recommend the new EMPTY term.] Until it is answered, an orthology mapping could be carried whole as v1 while alias mappings migrate. ANSWERED 2026-11-01 (no method term for an orthology mapping; the v1 `method` text kept as a parameter; "orthology inference" not minted): [orthology mapping has no method term].
   - GL11. The `row` dimension's `n` is required. Take it from v1 `n_pairs` (GL5 drops the count as a field, but it is exactly the row count), or count the rows of `mapping.tsv` (reading the file)? [Recommend `n_pairs`; a mapping whose `n_pairs` is 0 while `mapping.tsv` is non-empty is carried whole as v1.]
 - Also held: ids for minted documents with no source id; carry-087 into
   carry-100; recognising a migrated element without the "ndi element class"
