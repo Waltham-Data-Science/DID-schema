@@ -314,11 +314,11 @@ one working tree leave half-built changes that nobody can safely commit.
 There is no build script. `tools/build_v_eta.py` and the `V_alpha`..`V_zeta`
 trees are deleted (OPEN_WORK #128). `schemas/did_v2/` holds class files only,
 in folders by family ([schema folders by family]): core classes at the top,
-`value/`, `calculation/`, `data_body/`, `time_reference/`, `relation/`,
-`acquisition/`, and `retiring/` for the retire classes. Authored registers are in `schemas/registry/`, files only
+`value/`, `calculation/`, `data_body/`, `time_reference/`, and `retiring/` for
+the retire classes. Authored registers are in `schemas/registry/`, files only
 tools write in `schemas/generated/`; `tools/schema_paths.py` holds the layout.
 Plan documents are under `docs/` (`docs/plans/`, `docs/generated/`,
-`docs/history/`, `docs/references/`); a document cited by bare name is the unique file of that
+`docs/history/`); a document cited by bare name is the unique file of that
 name there (`tools/doc_paths.py`). The
 `deprecated/` v1 tombstones were deleted ([carried v1 validates against NDI
 templates]): a document carried whole as v1 is checked against NDI's v1
@@ -328,8 +328,8 @@ templates; the classes carried as v1 are `CARRIED_AS_V1` in
 **To change a class:**
 
 1. Edit its file under `schemas/did_v2/<family>/` (JSON, indent 4).
-2. For a new class, add a hand-written `disposition` (`persist` or `retire`)
-   for it to `schemas/registry/did_v2_class_dispositions.json`.
+2. For a new class, add a hand-written `disposition` (`persist`, `retire` or
+   `in_progress`) for it to `schemas/registry/did_v2_class_dispositions.json`.
    A `retire` class lives in `schemas/did_v2/retiring/`. The index is derived.
 3. Run `python3 tools/gates.py`. Its `validate_v_eta` step checks the rules the
    old builder enforced and rewrites the derived pieces:
