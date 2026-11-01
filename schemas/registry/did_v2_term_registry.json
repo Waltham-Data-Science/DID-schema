@@ -11200,6 +11200,78 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "ID mapping",
+      "node": "EDAM:operation_3282",
+      "definition": "Map data identifiers to one another for example to establish a link between two biological databases for the purposes of data integration.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [gene list mapping method text], did_v2_go_forward_class_audit.md: the method term of a gene alias mapping (\"Otherwise okay\" to the sketch naming it)",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "TSV",
+      "node": "EDAM:format_3475",
+      "definition": "Tabular data represented as tab-separated values in a text file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [gene list mapping value shape], did_v2_go_forward_class_audit.md: the `format` of the opaque_body holding a v1 geneListMapping's mapping.tsv",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Gene",
+      "node": "NCIT:C16612",
+      "definition": "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [gene list mapping value shape] and [covariate variable may repeat], did_v2_go_forward_class_audit.md / did_v2_data_body_model_plan.md: the variable of both gene covariates of a gene-list mapping (\"such as NCIT's 'Gene' (I'd confirm the ID)\"; the ID confirmed by Claude in OLS4)",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "row",
+      "node": "SIO:000752",
+      "definition": "A row represents a single, implicitly structured data item in a table.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the `row` dimension of a gene-list mapping's value ([gene list mapping terms], did_v2_go_forward_class_audit.md; [row term deferred]: chosen when a writer first produces sparse data); T19: an existing SIO term (OLS4)",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Software Name",
+      "node": "NCIT:C150832",
+      "definition": "The literal identifier of the software program.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the method parameter holding a v1 geneListMapping's `method` text ([gene list mapping terms], did_v2_go_forward_class_audit.md); T19: an existing NCIT term (OLS4)",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Symmetric Relationship",
+      "node": "NCIT:C75919",
+      "definition": "A binary relation such that if a is related to b then b is related to a.",
+      "status": "decided",
+      "decided": "Proposed (not decided): node chosen by Claude, 2026-11-01, for the logical method parameter holding a v1 geneListMapping's `symmetric` ([gene list mapping terms], did_v2_go_forward_class_audit.md); T19: an existing NCIT term (OLS4)",
+      "first_used_in": "v1 geneListMapping (DID-matlab +migrators_j/gene_list_mapping.m, Build pending; no dataset holds one)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
