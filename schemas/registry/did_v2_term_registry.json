@@ -11010,6 +11010,114 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "number of head entries into a discrete space",
+      "node": "EMPTY:0000417",
+      "definition": "A count of the times a subject's head enters a defined region of an apparatus or arena, whether or not the rest of its body follows.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 2], [assay labels batch 4], [assay labels batch 5]; EMPTY:0000417 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "latency to first entry into a discrete space",
+      "node": "EMPTY:0000418",
+      "definition": "The time from the start of a test until a subject first enters a defined region of an apparatus or arena with its whole body.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 3], [assay labels batch 4], [assay labels batch 5]; EMPTY:0000418 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "time spent moving towards a discrete space",
+      "node": "EMPTY:0000419",
+      "definition": "The total time during a test that a subject spends moving towards a defined region of an apparatus or arena.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 3], [assay labels batch 4], [assay labels batch 5]; EMPTY:0000419 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "test identifier",
+      "node": "EMPTY:0000420",
+      "definition": "A code or name that identifies one test, trial or set of recorded data within an experiment.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 6]; EMPTY:0000420 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "trial type",
+      "node": "EMPTY:0000421",
+      "definition": "A category that names the kind or condition of a trial within an experiment.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 5]; EMPTY:0000421 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "amplitude at analysis window onset",
+      "node": "EMPTY:0000422",
+      "definition": "The amplitude of a recorded response signal at the start of the time window over which the response is analysed.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 5]; EMPTY:0000422 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "encounter identifier",
+      "node": "EMPTY:0000423",
+      "definition": "A number that identifies one encounter of a subject and distinguishes it from the subject's other encounters.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 6]; EMPTY:0000423 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "M9 buffer wash transfer",
+      "node": "EMPTY:0000424",
+      "definition": "A transfer method in which animals are washed off an agar plate with M9 buffer and then moved in the buffer with a pipette.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 6]; EMPTY:0000424 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "pick transfer",
+      "node": "EMPTY:0000425",
+      "definition": "A transfer method in which animals are lifted off an agar plate with a pick.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-01 [assay relabels become new terms], [assay term definitions approved], did_v2_go_forward_class_audit.md: the general term for [assay labels batch 6]; EMPTY:0000425 minted in empty-ontology #34 (64d102bb)",
+      "first_used_in": "no dataset yet: a v1 assay table column of the Dab, Hunsberger, Babu or Haley imports (V2 import build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

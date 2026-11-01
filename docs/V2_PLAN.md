@@ -572,6 +572,8 @@ whose DID-matlab build waits on GL1-GL7.
     definitions drafted] (Q4), [obsolete assay terms without replacement]
     (Q11), [assay dictionaries look up by id] (Q9), [assay ontology cleanup
     now].
+    Then [assay term definitions approved] (empty-ontology #34, 64d102bb)
+    and [obsolete labels in v1 importers accepted].
   - **G70. #119 part 1 (skip OPEN_WORK's dated RE-DERIVED log in
     `check_prose_counts`).** Built and reverted the same hour: with the 64 log
     paragraphs skipped, OPEN_WORK keeps 4 older in-row counts that only the
