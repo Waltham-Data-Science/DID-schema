@@ -10998,6 +10998,18 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "day",
+      "node": "om:day",
+      "definition": "The day is a unit of time defined as 86400 second.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-10-31 [om day registered], did_v2_go_forward_class_audit.md: a source unit (a datenum's days, a duration in days, a postnatal day), not a canonical unit",
+      "first_used_in": "source_unit (DID-matlab jTreatmentAnchor global-clock transfer time, image_stack acquisition datenum, virus_injection postnatal day)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

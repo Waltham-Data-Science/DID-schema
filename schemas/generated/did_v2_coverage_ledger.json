@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 620,
+          "accepted_lines": 624,
           "accepted_lines_by_kind": {
-            "Decided by": 500,
+            "Decided by": 504,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4355,6 +4355,38 @@
               "tag": "layout calls stand",
               "date": "2026-10-31",
               "anchor": "Decided by Jess Haley, 2026-10-31 [layout calls stand]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1756,
+              "kind": "Decided by",
+              "tag": "om day registered",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [om day registered]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1758,
+              "kind": "Decided by",
+              "tag": "formulation amount needs info",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [formulation amount needs"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1760,
+              "kind": "Decided by",
+              "tag": "virus dilution needs info",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [virus dilution needs"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1762,
+              "kind": "Decided by",
+              "tag": "UTC acquisition time is absolute",
+              "date": "2026-10-31",
+              "anchor": "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is"
             },
             {
               "document": "did_v2_image_model_plan.md",
