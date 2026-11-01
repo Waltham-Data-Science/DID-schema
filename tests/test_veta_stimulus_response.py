@@ -562,7 +562,10 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # THIRTY-SIXTH MOVEMENT, re-derived not bumped: 112 -> 108 on 2026-10-31,
     # [retire check now]: hartley_calc, hartley_reverse_correlation,
     # reverse_correlation and ngrid deleted. None of them was in the INERT list.
-    assert walked == 108, f"schema count moved; re-derive the inert set ({walked})"
+    # THIRTY-SEVENTH MOVEMENT, re-derived not bumped: 108 -> 109 on 2026-11-01,
+    # `migration` added ([migration record], Jess Haley). Its only field is a
+    # `method` block, which declares no min/max, so the INERT list is unchanged.
+    assert walked == 109, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]
