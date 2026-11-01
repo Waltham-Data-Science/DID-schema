@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 635 decision line(s) accepted, 2 rejected; 44 cited by a class, 591 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 645 decision line(s) accepted, 2 rejected; 44 cited by a class, 601 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -887,6 +887,16 @@ field). If one decides a class's disposition, that class should cite it.
 - rename clashes are malformed. "Decided by Jess Haley, 2026-11-01 [rename clashes are" (did_v2_go_forward_class_audit.md:1780).
 - ensemble and generic_file keep their conversions. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1782).
 - UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1784).
+- postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1786).
+- percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1788).
+- breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1790).
+- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1792).
+- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1794).
+- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1796).
+- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1798).
+- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1800).
+- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1802).
+- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1804).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

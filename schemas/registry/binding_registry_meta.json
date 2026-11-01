@@ -2990,6 +2990,18 @@
                 {
                     "node": "om:hour",
                     "name": "hour"
+                },
+                {
+                    "node": "om:nanosecond-Time",
+                    "name": "nanosecond"
+                },
+                {
+                    "node": "om:microsecond-Time",
+                    "name": "microsecond"
+                },
+                {
+                    "node": "EMPTY:0000260",
+                    "name": "frame"
                 }
             ]
         },
@@ -3010,6 +3022,22 @@
                 {
                     "node": "om:micrometre",
                     "name": "micrometre"
+                },
+                {
+                    "node": "om:centimetre",
+                    "name": "centimetre"
+                },
+                {
+                    "node": "om:nanometre",
+                    "name": "nanometre"
+                },
+                {
+                    "node": "om:angstrom",
+                    "name": "angstrom"
+                },
+                {
+                    "node": "om:pixel",
+                    "name": "pixel"
                 }
             ]
         },
@@ -3030,6 +3058,22 @@
                 {
                     "node": "om:micrometre",
                     "name": "micrometre"
+                },
+                {
+                    "node": "om:centimetre",
+                    "name": "centimetre"
+                },
+                {
+                    "node": "om:nanometre",
+                    "name": "nanometre"
+                },
+                {
+                    "node": "om:angstrom",
+                    "name": "angstrom"
+                },
+                {
+                    "node": "om:pixel",
+                    "name": "pixel"
                 }
             ]
         },
@@ -3050,6 +3094,22 @@
                 {
                     "node": "om:micrometre",
                     "name": "micrometre"
+                },
+                {
+                    "node": "om:centimetre",
+                    "name": "centimetre"
+                },
+                {
+                    "node": "om:nanometre",
+                    "name": "nanometre"
+                },
+                {
+                    "node": "om:angstrom",
+                    "name": "angstrom"
+                },
+                {
+                    "node": "om:pixel",
+                    "name": "pixel"
                 }
             ]
         },
@@ -3070,6 +3130,22 @@
                 {
                     "node": "om:micrometre",
                     "name": "micrometre"
+                },
+                {
+                    "node": "om:centimetre",
+                    "name": "centimetre"
+                },
+                {
+                    "node": "om:nanometre",
+                    "name": "nanometre"
+                },
+                {
+                    "node": "om:angstrom",
+                    "name": "angstrom"
+                },
+                {
+                    "node": "om:pixel",
+                    "name": "pixel"
                 }
             ]
         }

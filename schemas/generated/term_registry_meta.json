@@ -11121,6 +11121,60 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "Percent Volume per Volume",
+            "node": "NCIT:C48571",
+            "definition": "A unit of percentage concentration expressed as a fraction of a component by volume s in the entire volume of a resulting mixture. The unit denotes a number of milliliters of a solute per 100 milliliters of solution. The standard conditions for temperature and pressure apply.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [percent volume per volume converted], did_v2_go_forward_class_audit.md: a source unit of a concentration, converted x0.01 to `liters_per_liter`",
+            "first_used_in": "source_unit (NDI-matlab +babu/treatments.json unitName 'Percent Volume per Volume'; DID-matlab jSourceUnit)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "GZIP format",
+            "node": "EDAM:format_3989",
+            "definition": "GNU zip compressed file format common to Unix-based operating systems.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [compression terms registered], did_v2_go_forward_class_audit.md: the codec term of a data body's `compression` (v1 spelling 'gzip')",
+            "first_used_in": "data_body compression (NDI ingested bodies; DID-matlab +build/private/compressionTable.m 'gzip')",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": [
+                "gzip"
+            ]
+        },
+        {
+            "name": "Lempel–Ziv–Welch",
+            "node": "wikidata:Q2681",
+            "definition": "universal lossless data compression algorithm",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [compression terms registered], did_v2_go_forward_class_audit.md: the codec term of a data body's `compression` (v1 spelling 'lzw')",
+            "first_used_in": "data_body compression (a v1 image's 'lzw'; DID-matlab +build/private/compressionTable.m)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": [
+                "LZW"
+            ]
+        },
+        {
+            "name": "Zstandard",
+            "node": "wikidata:Q26737171",
+            "definition": "lossless compression algorithm",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-01 [compression terms registered], did_v2_go_forward_class_audit.md: the inner compressor of a Blosc `compression` (v1 spelling 'zstd', in 'blosc-zstd')",
+            "first_used_in": "data_body compression parameters (a v1 lightsheetZarrLevel's 'blosc-zstd'; DID-matlab +build/private/compressionTable.m)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": [
+                "zstd"
+            ]
         }
     ]
 }

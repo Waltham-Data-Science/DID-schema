@@ -510,13 +510,16 @@ def test_tool_reports_failure_when_it_reads_nothing(tmp_path, synthetic):
                 "B4_value_shape_vs_field_type", "B6_bound_fields_not_in_registry",
                 "B9_unenforceable_as_declared"):
         assert r["findings"][key]["count"] == 0, (key, r["findings"][key])
-    # Only ONE ratchet still fires, and only because it cross-references the
-    # registry rather than the fields: B5 notices that a catalogued field no
-    # longer declares a binding. Five of the seven ratchets say nothing at all,
-    # which is why the guard cannot be left to them.
+    # The ratchets that cross-reference the registry rather than the fields
+    # can still fire (B5 notices that a catalogued field no longer declares a
+    # binding). Most of the six ratchets say nothing at all, which is why the
+    # guard cannot be left to them. (Six since 2026-11-01: B6 became report
+    # only, [binding catalogue gap reports only], and is not a ratchet.)
     silent = [k for k, b in TOOL.BASELINES.items()
               if r["findings"][k]["count"] <= b]
-    assert len(silent) >= 5, silent
+    assert len(silent) >= 4, silent
+    assert "B6_bound_fields_not_in_registry" not in TOOL.BASELINES
+    assert "B6_bound_fields_not_in_registry" in TOOL.REPORT_ONLY
 
     import subprocess
     import sys

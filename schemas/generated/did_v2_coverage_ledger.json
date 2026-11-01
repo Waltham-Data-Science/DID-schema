@@ -702,9 +702,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 635,
+          "accepted_lines": 645,
           "accepted_lines_by_kind": {
-            "Decided by": 515,
+            "Decided by": 525,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4475,6 +4475,86 @@
               "tag": "UTC treatment time is absolute",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [UTC treatment time is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1786,
+              "kind": "Decided by",
+              "tag": "postnatal day 0 not stated",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1788,
+              "kind": "Decided by",
+              "tag": "percent volume per volume converted",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [percent volume per"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1790,
+              "kind": "Decided by",
+              "tag": "breeding type and disease model text not stored",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [breeding type and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1792,
+              "kind": "Decided by",
+              "tag": "hartley implied by its class",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [hartley implied by its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1794,
+              "kind": "Decided by",
+              "tag": "study link without a dataset document",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [study link without a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1796,
+              "kind": "Decided by",
+              "tag": "redeclarations left need no merge",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [redeclarations left need"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1798,
+              "kind": "Decided by",
+              "tag": "binding catalogue gap reports only",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [binding catalogue gap"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1800,
+              "kind": "Decided by",
+              "tag": "compression terms registered",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [compression terms"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1802,
+              "kind": "Decided by",
+              "tag": "unit lists widened then armed",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [unit lists widened then"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1804,
+              "kind": "Decided by",
+              "tag": "CLAUDE.md layout corrections drafted",
+              "date": "2026-11-01",
+              "anchor": "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout"
             },
             {
               "document": "did_v2_image_model_plan.md",
@@ -10959,7 +11039,7 @@
           "resolved": true,
           "line": 1496,
           "kind": "Decided by",
-          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Built: NDI-matlab a2938a43 (#1108) (the reads). V2 `base.name` waits, per [base.name kept until retire classes leave], whose own line tracks it.",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
           "matches": 1,
           "why": null,
@@ -14067,7 +14147,7 @@
           "resolved": true,
           "line": 1496,
           "kind": "Decided by",
-          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Built: NDI-matlab a2938a43 (#1108) (the reads). V2 `base.name` waits, per [base.name kept until retire classes leave], whose own line tracks it.",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
           "matches": 1,
           "why": null,
@@ -16420,7 +16500,7 @@
           "resolved": true,
           "line": 1496,
           "kind": "Decided by",
-          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Build pending: NDI-matlab (the reads); V2 `base.name` waits, per [base.name kept until retire classes leave].",
+          "decision": "(\"43. Check. It seems to me they should be checking did_v1 templates, not deprecated v2\", then \"43 yes\", after Claude's check that DID-matlab `+did2/+schema/cache.m` reads `deprecated/` and the corpus workflows copy `deprecated/*.json` into the validation set) a document carried whole as v1 is validated against NDI-matlab's v1 templates at the locked NDI `main`, not against did-schema tombstones; then all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted; NDI-matlab's `base.name` reads that run on V2 documents move to the class's own name field. Order: DID-matlab first, then did-schema, then NDI-matlab. Correction (2026-10-28, Claude, superseding an earlier correction the same day): converted bodies DO carry `base.name`. DID-matlab #274's quick tests, run against the did-schema branch with `base.name` deleted (run 40635518374), failed 37 tests, 31 of them `did2:validation:undeclaredField` 'Property block \"base\" carries undeclared field \"name\"' (e.g. `oneepoch`): migrators carry the v1 `base` block forward. `jBase` was never the path. So DID-matlab must first write a v1 name to the class's own field ([v1 name goes to the class's own name field]) and then stop carrying `base.name` on converted bodies; the did-schema deletion (prepared as did-schema 6d1a4d6, reverted until then) waits for that. Found 2026-10-28 (DID-matlab #274 run 40637773135, after empty names were dropped): 33 tests still fail, because v1 documents passed through UNCHANGED are validated against the 73 `retire` classes still in `stable/` and carry `base.name`; resolved by [base.name kept until retire classes leave] (below). Built (DID-matlab part, the template check): DID-matlab ff16053 (#270). Built: DID-matlab 0e6b1b8b (#274: the tombstone tests retired or made to assert both schema states), then did-schema 27da107 (#225: `deprecated/` deleted). Built: NDI-matlab a2938a43 (#1108) (the reads). V2 `base.name` waits, per [base.name kept until retire classes leave], whose own line tracks it.",
           "anchor": "Decided by Jess Haley, 2026-10-27 [carried v1 validates",
           "matches": 1,
           "why": null,
