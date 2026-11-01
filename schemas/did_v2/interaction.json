@@ -56,8 +56,14 @@
         {
             "name": "acquisition_channels_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig and channels this interaction was recorded on or delivered through -- v1's `devicestring` ('intan1:ai1-4,9'), as a shared `acquisition_channels` document (#73 item 56). OPTIONAL: present on interactions decomposed from an ingested epoch's probemap (recording observations, stimulator manipulations).",
+            "documentation": "The rig and channels this interaction was recorded on or delivered through -- v1's `devicestring` ('intan1:ai1-4,9'), as a shared `acquisition_channels` document (#73 item 56). OPTIONAL: present on interactions decomposed from an ingested epoch's probemap (recording observations, stimulator manipulations). BEING RETIRED (Jess Haley 2026-11-01 [probe wiring is a relation]): a recording's system is `acquisition_system_id`, and a probe's channels are its `connected to` relation to the system; this edge leaves once DID-matlab and NDI-matlab write and read the new shape.",
             "must_refer_to_document_class": "acquisition_channels"
+        },
+        {
+            "name": "acquisition_system_id",
+            "mustBeNonEmpty": false,
+            "documentation": "Optional: the acquisition system (rig) this interaction was recorded on or delivered through, pointed at directly (Jess Haley 2026-11-01 [probe wiring is a relation], did_v2_go_forward_class_audit.md: \"a recording's system point[s] straight at the `acquisition_system`\"). Which of the system's channels carried it is not here: the instrument (the probe) is `connected to` (RO:0002170, [wiring relation term]) the system by a `directed_relation` timed by the epoch, whose conditions name the channels per channel type. Distinct from `instrument_id` (the device, an entity) and `acquisition_system.device_id`. Replaces `acquisition_channels_id`.",
+            "must_refer_to_document_class": "acquisition_system"
         }
     ],
     "file": [],
