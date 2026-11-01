@@ -107,6 +107,27 @@ DECLARED_DIVERGENCES = {
         "marker). CONSEQUENCE: the function is corpus-measured, but NDI's "
         "stimulus call site is exercised by NDI's unit tests and e2e, not by "
         "the six-corpus gate, which runs no NDI second pass."),
+    "isV2Set": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. did2.convert.isV2Set only "
+        "answers whether a TargetVersion names the V2 set ('did_v2', or its "
+        "earlier name 'V_eta'; [schema set renamed did_v2]); NDI calls it in "
+        "+ndi/+migrate/+internal/stimulusBathToBath.m to pick the V2 shape. It "
+        "transforms no document, so there is nothing for the corpus gate to "
+        "measure."),
+    "migrationReport": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. did2.convert.migrationReport "
+        "holds the run's gaps and carries ([migration record]); NDI begins and "
+        "collects it in +ndi/+migrate/local.m. The harness reaches the same "
+        "function inside did2.convert.v1_to_v2 (its 'call' and 'collect'), so "
+        "it is corpus-exercised; it transforms no document."),
+    "migrationRecord": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. did2.convert.migrationRecord "
+        "writes the run's one `migration` document and its report "
+        "([migration record writer]); NDI calls it in +ndi/+migrate/local.m and "
+        "DID-matlab in did2.convert.fromV1Database. CONSEQUENCE: the corpus "
+        "harness (runCorpusDiscovery) writes no record, so the record is "
+        "exercised by DID-matlab's and NDI's unit tests and NDI's e2e, not by "
+        "the six-corpus gate."),
 }
 
 
