@@ -13,7 +13,7 @@
         {
             "name": "key_id",
             "mustBeNonEmpty": false,
-            "documentation": "The documents a covariate takes its positions from, chosen by that covariate's `document` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `value` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the covariate's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05; chosen by a key's `positions_from` until 2026-10-22, data_body plan AMENDMENT 6.)",
+            "documentation": "The documents a covariate takes its positions from, chosen by that covariate's `key` (its 0-based position among these entries; T15: the edge repeats one name and is `ordered`). Each must be a `value` document -- a statement (the cell list, a worm's encounter onsets) or a standalone value (a gene list) -- whose value entries, in order, are the covariate's positions and name them. Mirrors `value_id`. (`key_labels_id` until 2026-10-05; chosen by a key's `positions_from` until 2026-10-22, data_body plan AMENDMENT 6; by the covariate's `document` until 2026-11-01, [covariate key].)",
             "must_refer_to_document_class": "value",
             "multiple": true,
             "min_count": 0,
@@ -97,7 +97,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `document` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
+                    "documentation": "The axis length: the number of positions along this dimension. Every covariate along it has this extent there; a `key` covariate's document has exactly `n` entries. (The key entry's `n` until 2026-10-22.)",
                     "constraints": {}
                 },
                 {
@@ -125,7 +125,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What is known about the value's positions along one or more of its `dimensions` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; a NetCDF/CF auxiliary coordinate): an onset time per presentation, a depth per channel, a control flag per trial. Each entry is the AMENDMENT 3 entry -- {variable, unit, source_unit, approximate} plus EXACTLY ONE value form (`origin`+`spacing`, `quantity`, `count`, `term`, `text`, `logical`, `matrix` or `document`) -- with `along`, the 0-based indices of the dimensions it runs along, and `cyclic`. Its shape is the extents of the `along` dimensions in that order (for `matrix`, followed by the array's own shape). NEVER `along: []`: a fact true of the whole value is a `condition` ([conditions stay on the statement]). A covariate DESCRIBES positions; it is not a further measurement (a standard error is its own value at the same positions, T14). Same scope as `dimensions`: the inline value on a value document, THIS body's array on a data_body. Replaces the positions of `keys`, and `item.value.offset` / `item.value.control_item` (until 2026-10-22).",
+            "documentation": "What is known about the value's positions along one or more of its `dimensions` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; a NetCDF/CF auxiliary coordinate): an onset time per presentation, a depth per channel, a control flag per trial. Each entry is the AMENDMENT 3 entry -- {variable, unit, source_unit, approximate} plus EXACTLY ONE value form (`origin`+`spacing`, `quantity`, `count`, `term`, `text`, `logical`, `matrix` or `key`) -- with `along`, the 0-based indices of the dimensions it runs along, and `cyclic`. Its shape is the extents of the `along` dimensions in that order (for `matrix`, followed by the array's own shape). NEVER `along: []`: a fact true of the whole value is a `condition` ([conditions stay on the statement]). A covariate DESCRIBES positions; it is not a further measurement (a standard error is its own value at the same positions, T14). Same scope as `dimensions`: the inline value on a value document, THIS body's array on a data_body. Replaces the positions of `keys`, and `item.value.offset` / `item.value.control_item` (until 2026-10-22).",
             "constraints": {},
             "fields": [
                 {
@@ -144,7 +144,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). UNIQUE within the list, and a variable appears at most once across a statement's conditions, its value's covariates and any one of its bodies' (a batch check).",
+                    "documentation": "What the covariate states about each position (onset time, offset time, electrode depth, control condition, gene). Registry-keyed for its value set (D9). A covariate is identified by its variable, its `along` and its `key`: two covariates may share a variable when they differ in `along` (a channel x channel matrix) or in `key` (the two gene columns of a gene-list mapping), and a condition's variable appears nowhere among the covariates (rule `variable_once`, relaxed by Jess Haley 2026-11-01 [covariate variable may repeat]; a batch check across the statement and its bodies).",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -533,7 +533,7 @@
                     "constraints": {}
                 },
                 {
-                    "name": "document",
+                    "name": "key",
                     "type": "integer",
                     "blank_value": -1,
                     "default_value": -1,
@@ -542,7 +542,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Take this covariate's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along the covariate's ONE dimension is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). The dimension's `n` must equal the number of entries; only along exactly one dimension (rule `covariate_single_dimension_forms`). -1 (the blank) = not used: 0 is a real position. One value form (rule `covariate_one_value_form`). (`positions_from` on a key until 2026-10-22, `labels_from` until 2026-10-05; [along by index]: \"Why isn't it just 'document'?\")",
+                    "documentation": "Take this covariate's positions from another document instead of listing them: the 0-based position of a `key_id` entry on this document. Position k along the covariate's ONE dimension is entry k of that document's value, in its order, and that entry names it (gene k of a gene list; encounter k of an encounter-onset list). The dimension's `n` must equal the number of entries; only along exactly one dimension (rule `covariate_single_dimension_forms`). -1 (the blank) = not used: 0 is a real position. One value form (rule `covariate_one_value_form`). (`document` until 2026-11-01, Jess Haley [covariate key]: \"Yes, rename document to key\", after \"Does document always refer to key?\"; `positions_from` on a key until 2026-10-22, `labels_from` until 2026-10-05; [along by index]: \"Why isn't it just 'document'?\")",
                     "constraints": {}
                 },
                 {
@@ -591,9 +591,9 @@
                 "covariates.text",
                 "covariates.logical",
                 "covariates.matrix",
-                "covariates.document"
+                "covariates.key"
             ],
-            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `document` (0 or more; -1 is not used). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.)"
+            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `key` (0 or more; -1 is not used; `document` until 2026-11-01, [covariate key]). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.)"
         },
         {
             "name": "covariate_along",
@@ -608,10 +608,10 @@
             "fields": [
                 "covariates.origin",
                 "covariates.spacing",
-                "covariates.document",
+                "covariates.key",
                 "covariates.along"
             ],
-            "statement": "A covariate with `origin` + `spacing`, or with `document`, has exactly one index in `along`: regular positions and positions taken from another document are positions along ONE dimension (data_body plan AMENDMENT 6)."
+            "statement": "A covariate with `origin` + `spacing`, or with `key`, has exactly one index in `along`: regular positions and positions taken from another document are positions along ONE dimension (data_body plan AMENDMENT 6)."
         },
         {
             "name": "covariate_cyclic",
@@ -622,7 +622,7 @@
                 "covariates.spacing",
                 "covariates.quantity"
             ],
-            "statement": "`cyclic` is true only on an `origin` + `spacing` or a `quantity` covariate whose `along` has exactly one index; never on `count`, `term`, `text`, `logical`, `matrix` or `document` (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate details], 5.1a)."
+            "statement": "`cyclic` is true only on an `origin` + `spacing` or a `quantity` covariate whose `along` has exactly one index; never on `count`, `term`, `text`, `logical`, `matrix` or `key` (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate details], 5.1a)."
         },
         {
             "name": "dimension_chunk_sampled_only",
@@ -643,14 +643,16 @@
                 "covariates.logical",
                 "covariates.matrix"
             ],
-            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `document` covariate's document has exactly `n` entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
+            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `key` covariate's document has exactly `n` entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a)."
         },
         {
             "name": "variable_once",
             "fields": [
-                "covariates.variable"
+                "covariates.variable",
+                "covariates.along",
+                "covariates.key"
             ],
-            "statement": "A variable appears at most once across a statement's `conditions`, its value's `covariates`, and any one of its bodies' `covariates` and `conditions`; the batch check, with covariates in place of keys (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; body conditions added 2026-10-22 [audit mechanical fixes 2])."
+            "statement": "A condition's variable appears at most once across a statement's `conditions`, its value's `covariates`, and any one of its bodies' `covariates` and `conditions`. Two covariates may share a variable only when they differ in `along` or in `key`: a covariate is identified by its variable, its `along` and its `key`, so no two covariates of the value (or of one body, with the value's) agree on all three; the batch check, with covariates in place of keys (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; body conditions added 2026-10-22 [audit mechanical fixes 2]; relaxed for covariates 2026-11-01 [covariate variable may repeat], \"Yes, relax it\")."
         }
     ]
 }

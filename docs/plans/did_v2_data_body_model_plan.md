@@ -1443,7 +1443,8 @@ was).**
     - `matrix`: a whole numeric array at each position (AMENDMENT 4).
     - `document`: the 0-based position of a `key_id` entry; position k is entry
       k of that document's value (was the key's `positions_from`); along
-      exactly one dimension.
+      exactly one dimension. (Renamed `key` on 2026-11-01, [covariate key],
+      below.)
   - Shape: the extents of the `along` dimensions, in that order; for `matrix`,
     those extents followed by the array's own shape.
 - `datum_order`: unchanged; it orders the dimensions.
@@ -1458,7 +1459,9 @@ was).**
   error is its own value at the same positions, not a covariate.
 - A variable appears at most once across a statement's conditions, its value's
   covariates, and any one of its bodies' covariates (the existing batch check,
-  with covariates in place of keys).
+  with covariates in place of keys). (Relaxed for covariates on 2026-11-01,
+  [covariate variable may repeat], below: two covariates may share a variable
+  when they differ in `along` or in `key`.)
 
 **Removed.** `keys`; the entry's `n` (on the dimension now) and `regular` (the
 presence of `origin`/`spacing` says it); `positions_from` (now `document`);
@@ -1555,6 +1558,12 @@ Decided by Jess Haley, 2026-10-22 [molar kept]: the `molar` slot's unit is om:mo
 Decided by Jess Haley, 2026-10-22 [exact OM units]: the fifteen canonical units with an exact OM match are registered (answer "approve all 15."): volts om:volt, amperes om:ampere, grams_per_gram om:gramPerGram, meters_per_second om:metrePerSecond-Time, meters_per_second_squared om:metrePerSecond-TimeSquared, square_meters om:squareMetre, newtons om:newton, joules om:joule, watts om:watt, coulombs om:coulomb, ohms om:ohm, siemens om:siemens, farads om:farad, moles om:mole, decibels om:decibel. Definitions are OM's; om:gramPerGram and om:decibel have none in OM, so NCIT:C70453 and NCIT:C102407 supply them. Built: registry rows and canonical-unit nodes.
 
 Decided by Jess Haley, 2026-10-22 [prefixed source units]: eight source units sources write are registered as OM units (answer "approve all 8"): mV om:millivolt, µV/uV om:microvolt, kg om:kilogram, kHz om:kilohertz, mA om:milliampere, µA/uA om:microampere, nA om:nanoampere, pA om:picoampere. OM defines four; millivolt, microvolt and kilogram are defined here from their prefix. Built: registry rows; DID-matlab 0333788 (jSourceUnit writes these nodes, and om:volt, om:ampere, om:decibel for V, A, dB).
+
+## 2026-11-01 -- the covariate's `key`, and covariates sharing a variable
+
+Decided by Jess Haley, 2026-11-01 [covariate key]: ("1. Yes, rename document to key", answering Claude's question "rename the covariate field `document` → `key`, so `key: 0` reads 'position 0 of `key_id`'?", which followed her "Does document always refer to key? If so, should it say key instead of specimens?") a covariate's `document` value form, the 0-based position of a `key_id` entry on the document, is renamed `key`; the `key_id` edge is unchanged. A field that code reads, so DID-matlab and NDI-matlab read and write both names first (each writer writes the name the loaded schema declares), then the schema renames it. Built: did-schema (`data.json`: the covariate entry, the `key_id` and `n` documentation and the rules naming it; the `acquisition_epoch` copy; the tenets; tests). Build pending: DID-matlab (#334: read both names, write the schema's), NDI-matlab (read both names, `'Key'` in the Haley encounter writer); then DID-matlab (drop the covariate document spelling), NDI-matlab (read `key` only).
+
+Decided by Jess Haley, 2026-11-01 [covariate variable may repeat]: ("Yes, relax it", to Claude's question "relax `variable_once` as in (b)?", where (b) read "Relax the rule so a variable may repeat when the repeats differ in `along` or in `key`. A covariate's identity then becomes variable + axis + list. [...] A *condition* stays limited to one per variable, since conditions have no axis or list to tell them apart"; she had asked "Why can't covariates use the same variable?") rule `variable_once` is relaxed: a covariate is identified by its variable, its `along` and its `key`, so two covariates may share a variable when they differ in `along` (a channel x channel matrix) or in `key` (the two gene columns of a gene-list mapping); a condition's variable still appears at most once across the conditions and every covariate. A named rule that DID-matlab's `checkRules` enforces, so the checker relaxes first (a stricter rule relaxed in code breaks nothing), then the schema's text. Built: did-schema (the rule's statement and fields, the covariate `variable` documentation, the tenet text, tests). Build pending: DID-matlab (#334: `checkRules` and its tests).
 
 RE-DERIVED 2026-10-29 (the eight did_v1 tombstones of `deprecated/` deleted, Jess Haley [carried v1 validates against NDI templates], [base.name kept until retire classes leave], did_v2_go_forward_class_audit.md; `check_prose_counts` re-derives all nouns): **163 distinct V_eta class names** (was 171; -8: image, image_collection, image_stack, image_stack_parameters, lightsheet_zarr_level, lightsheet_zarr_pyramid, projectvar, stimulus_parameter_table); tombstone classes compared: 66 (was 74). Re-derive with `check_prose_counts`, do not quote these directly.
 

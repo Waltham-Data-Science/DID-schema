@@ -129,7 +129,7 @@ carries:
 - **a recurring event with its own measurements** (a worm's patch encounters) is a LIST
   statement whose value is the occurrences' onsets (along an occurrence dimension), plus one
   statement per measured quantity whose occurrence dimension takes its positions from that
-  list (a `document` covariate, through `key_id`, T14), each holding one value per
+  list (a `key` covariate, through `key_id`, T14), each holding one value per
   occurrence; the statements' own time reference is the span they cover;
 - **a protocol that repeats an action on a schedule** (a stimulus sequence, five
   identical doses) is an `item` along a presentation dimension: `item_id` names what was
@@ -241,8 +241,11 @@ times, labels, a control flag), named by dimension *index*; a dimension may have
 **condition** is a one-value fact true of every value (an electrode offset; a reduced
 pyramid level's `summary statistic: maximum`), so a covariate never runs along no
 dimension. A condition true of every body sits on the statement; one true of only one body
-sits on that body. A variable appears at most once across a statement's conditions, its
-value's covariates and any one of its bodies'. Bodies point at their owner (`owner_id`) and
+sits on that body. A condition's variable appears at most once across a statement's
+conditions, its value's covariates and any one of its bodies'; two covariates may share a
+variable when they differ in `along` or in `key` (a covariate is identified by all three:
+Jess Haley, 2026-11-01, [covariate variable may repeat], did_v2_data_body_model_plan.md).
+Bodies point at their owner (`owner_id`) and
 the owner does not list them — adding a body never rewrites the statement — so that rule is
 checked in batch.
 
@@ -586,7 +589,8 @@ entry's `unit` is a bound registered term (Jess Haley [units bound]).)*
 - **A covariate lists its positions, or takes them from ONE document** (2026-10-05). A
   covariate states its positions itself (`origin` + `spacing`, `quantity`, `count`, `term`,
   `text`, `logical` or `matrix`), or takes them from another `value` document through the
-  **`key_id`** edge, chosen by the covariate's `document`: position *k* is entry *k* of that
+  **`key_id`** edge, chosen by the covariate's `key` (`document` until 2026-11-01,
+  [covariate key]): position *k* is entry *k* of that
   document's value, which names it.
   A list several statements share is stated once and the others take positions from it -- a
   gene list (a standalone `term`), a cell list (a `label` calculation), a worm's encounter
@@ -601,8 +605,8 @@ entry's `unit` is a bound registered term (Jess Haley [units bound]).)*
   base is exactly the kind of fact a reader cannot recover from the numbers themselves, so
   V_eta has ONE rule rather than a per-field note:
   - **every index is 0-based**: a position along a dimension, a covariate's `along` entry,
-    a row of a document named by a covariate's `document` (`positions_from` until
-    2026-10-22, `labels_from` until 2026-10-05), a chunk number,
+    a row of a document named by a covariate's `key` (`document` until 2026-11-01,
+    `positions_from` until 2026-10-22, `labels_from` until 2026-10-05), a chunk number,
     `item.value.item` (`timed_sequence.value.presentation_order` until 2026-10-04);
   - *[SUPERSEDED FOR EDGES by T15, 2026-09-25: edges are no longer numbered at all. A
     position into a multi-edge is still 0-based — `presentation_order` value *k* is the
@@ -687,7 +691,8 @@ V_eta edge carries its T15 name. Repeated names cannot be STORED until DID-matla
   derived from X" is one exact name, never a pattern over `name_*`.
 - **Order is declared, not assumed.** Every repeated edge states **`ordered`**. `ordered: true`
   means position is data (0-based, T14): `item.item_id` (the playlist indexes it),
-  `key_id` (a covariate's `document` names an entry by position; `key_labels_id` /
+  `key_id` (a covariate's `key` names an entry by position; `document` until 2026-11-01;
+  `key_labels_id` /
   `labels_from` until 2026-10-05), and
   `clock_alignment_policy.clock_alignment_configuration_id` (NDI keeps the cheapest rule and
   breaks ties by rule order — `syncgraph.m`, `if c<lowcost`). `ordered: false` means the

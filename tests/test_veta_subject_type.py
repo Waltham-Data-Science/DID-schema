@@ -38,8 +38,9 @@ def test_subject_type_is_an_optional_bound_term_over_seven_values():
 
 
 def test_subject_stays_a_bare_identity_otherwise():
+    # `description` became `notes` ([one free-text field: notes], 2026-10-25)
     assert set(_fields("entity")) == {"type", "name", "local_identifier",
-                                      "description", "global_identifier"}
+                                      "notes", "global_identifier"}
 
 
 def test_distributive_is_an_optional_boolean_on_statements_and_relations():

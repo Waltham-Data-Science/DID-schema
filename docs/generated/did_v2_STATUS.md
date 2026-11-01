@@ -413,7 +413,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 646 decision line(s) accepted, 2 rejected; 44 cited by a class, 602 cited by none.
+DENOMINATOR: 121 document(s) read (3 generated copies excluded); 649 decision line(s) accepted, 2 rejected; 44 cited by a class, 605 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -430,45 +430,47 @@ field). If one decides a class's disposition, that class should cite it.
 - sorter output by location. "Decided by Jess Haley, 2026-10-21 [sorter output by" (did_v2_data_body_model_plan.md:1402).
 - format is an ontology term. "Decided by Jess Haley, 2026-10-14 [format is an ontology" (did_v2_data_body_model_plan.md:1404).
 - NDI binary format. "Decided by Jess Haley, 2026-10-22 [NDI binary format]: the" (did_v2_data_body_model_plan.md:1406).
-- covariates. "Decided by Jess Haley, 2026-10-22 [covariates]" (did_v2_data_body_model_plan.md:1475).
-- conditions stay on the statement. "Decided by Jess Haley, 2026-10-22 [conditions stay on the" (did_v2_data_body_model_plan.md:1477).
-- along by index. "Decided by Jess Haley, 2026-10-22 [along by index]" (did_v2_data_body_model_plan.md:1479).
-- matrix covariate. "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a" (did_v2_data_body_model_plan.md:1481).
-- onset time. "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus" (did_v2_data_body_model_plan.md:1483).
-- no complete. "Decided by Jess Haley, 2026-10-22 [no complete]" (did_v2_data_body_model_plan.md:1485).
-- bare dimension. "Decided by Jess Haley, 2026-10-22 [bare dimension]: a" (did_v2_data_body_model_plan.md:1487).
-- epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (did_v2_data_body_model_plan.md:1489).
-- tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (did_v2_data_body_model_plan.md:1491).
-- covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (did_v2_data_body_model_plan.md:1493).
-- presentation dimension term. "Decided by Jess Haley, 2026-10-22 [presentation dimension" (did_v2_data_body_model_plan.md:1497).
-- onset and offset terms. "Decided by Jess Haley, 2026-10-22 [onset and offset terms]" (did_v2_data_body_model_plan.md:1499).
-- row term deferred. "Decided by Jess Haley, 2026-10-22 [row term deferred]: the" (did_v2_data_body_model_plan.md:1501).
-- tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (did_v2_data_body_model_plan.md:1503).
-- covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (did_v2_data_body_model_plan.md:1505).
-- covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (did_v2_data_body_model_plan.md:1507).
-- stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (did_v2_data_body_model_plan.md:1509).
-- index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (did_v2_data_body_model_plan.md:1511).
-- units bound. "Decided by Jess Haley, 2026-10-22 [units bound]" (did_v2_data_body_model_plan.md:1515).
-- remaining units bound. "Decided by Jess Haley, 2026-10-22 [remaining units bound]" (did_v2_data_body_model_plan.md:1517).
-- logical entries. "Decided by Jess Haley, 2026-10-22 [logical entries]: the" (did_v2_data_body_model_plan.md:1519).
-- irradiance. "Decided by Jess Haley, 2026-10-22 [irradiance]: a new" (did_v2_data_body_model_plan.md:1521).
-- ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (did_v2_data_body_model_plan.md:1523).
-- missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (did_v2_data_body_model_plan.md:1525).
-- audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (did_v2_data_body_model_plan.md:1527).
-- audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (did_v2_data_body_model_plan.md:1531).
-- harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (did_v2_data_body_model_plan.md:1533).
-- response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (did_v2_data_body_model_plan.md:1535).
-- dF/F as variable. "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F" (did_v2_data_body_model_plan.md:1537).
-- response variable nodes. "Decided by Jess Haley, 2026-10-22 [response variable" (did_v2_data_body_model_plan.md:1539).
-- unstated response variable. "Decided by Jess Haley, 2026-10-23 [unstated response" (did_v2_data_body_model_plan.md:1541).
-- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (did_v2_data_body_model_plan.md:1543).
-- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (did_v2_data_body_model_plan.md:1545).
-- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (did_v2_data_body_model_plan.md:1547).
-- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (did_v2_data_body_model_plan.md:1549).
-- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (did_v2_data_body_model_plan.md:1551).
-- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (did_v2_data_body_model_plan.md:1553).
-- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (did_v2_data_body_model_plan.md:1555).
-- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (did_v2_data_body_model_plan.md:1557).
+- covariates. "Decided by Jess Haley, 2026-10-22 [covariates]" (did_v2_data_body_model_plan.md:1478).
+- conditions stay on the statement. "Decided by Jess Haley, 2026-10-22 [conditions stay on the" (did_v2_data_body_model_plan.md:1480).
+- along by index. "Decided by Jess Haley, 2026-10-22 [along by index]" (did_v2_data_body_model_plan.md:1482).
+- matrix covariate. "Decided by Jess Haley, 2026-10-22 [matrix covariate]: a" (did_v2_data_body_model_plan.md:1484).
+- onset time. "Decided by Jess Haley, 2026-10-22 [onset time]: a stimulus" (did_v2_data_body_model_plan.md:1486).
+- no complete. "Decided by Jess Haley, 2026-10-22 [no complete]" (did_v2_data_body_model_plan.md:1488).
+- bare dimension. "Decided by Jess Haley, 2026-10-22 [bare dimension]: a" (did_v2_data_body_model_plan.md:1490).
+- epoch covariates. "Decided by Jess Haley, 2026-10-22 [epoch covariates]" (did_v2_data_body_model_plan.md:1492).
+- tenets follow covariates. "Decided by Jess Haley, 2026-10-22 [tenets follow" (did_v2_data_body_model_plan.md:1494).
+- covariate terms. "Decided by Jess Haley, 2026-10-22 [covariate terms]: terms" (did_v2_data_body_model_plan.md:1496).
+- presentation dimension term. "Decided by Jess Haley, 2026-10-22 [presentation dimension" (did_v2_data_body_model_plan.md:1500).
+- onset and offset terms. "Decided by Jess Haley, 2026-10-22 [onset and offset terms]" (did_v2_data_body_model_plan.md:1502).
+- row term deferred. "Decided by Jess Haley, 2026-10-22 [row term deferred]: the" (did_v2_data_body_model_plan.md:1504).
+- tuning grid. "Decided by Jess Haley, 2026-10-22 [tuning grid]: a tuning" (did_v2_data_body_model_plan.md:1506).
+- covariate details. "Decided by Jess Haley, 2026-10-22 [covariate details]" (did_v2_data_body_model_plan.md:1508).
+- covariate rules named. "Decided by Jess Haley, 2026-10-22 [covariate rules named]" (did_v2_data_body_model_plan.md:1510).
+- stimulus condition term. "Decided by Jess Haley, 2026-10-22 [stimulus condition" (did_v2_data_body_model_plan.md:1512).
+- index covariates. "Decided by Jess Haley, 2026-10-22 [index covariates]: a" (did_v2_data_body_model_plan.md:1514).
+- units bound. "Decided by Jess Haley, 2026-10-22 [units bound]" (did_v2_data_body_model_plan.md:1518).
+- remaining units bound. "Decided by Jess Haley, 2026-10-22 [remaining units bound]" (did_v2_data_body_model_plan.md:1520).
+- logical entries. "Decided by Jess Haley, 2026-10-22 [logical entries]: the" (did_v2_data_body_model_plan.md:1522).
+- irradiance. "Decided by Jess Haley, 2026-10-22 [irradiance]: a new" (did_v2_data_body_model_plan.md:1524).
+- ratio slots named by unit. "Decided by Jess Haley, 2026-10-22 [ratio slots named by" (did_v2_data_body_model_plan.md:1526).
+- missing integers. "Decided by Jess Haley, 2026-10-22 [missing integers]" (did_v2_data_body_model_plan.md:1528).
+- audit mechanical fixes 2. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes" (did_v2_data_body_model_plan.md:1530).
+- audit mechanical fixes. "Decided by Jess Haley, 2026-10-22 [audit mechanical fixes]" (did_v2_data_body_model_plan.md:1534).
+- harmonic response unit bound. "Decided by Jess Haley, 2026-10-22 [harmonic response unit" (did_v2_data_body_model_plan.md:1536).
+- response variable. "Decided by Jess Haley, 2026-10-22 [response variable]: what" (did_v2_data_body_model_plan.md:1538).
+- dF/F as variable. "Decided by Jess Haley, 2026-10-22 [dF/F as variable]: dF/F" (did_v2_data_body_model_plan.md:1540).
+- response variable nodes. "Decided by Jess Haley, 2026-10-22 [response variable" (did_v2_data_body_model_plan.md:1542).
+- unstated response variable. "Decided by Jess Haley, 2026-10-23 [unstated response" (did_v2_data_body_model_plan.md:1544).
+- pressure in mmHg. "Decided by Jess Haley, 2026-10-22 [pressure in mmHg]: the" (did_v2_data_body_model_plan.md:1546).
+- pH unit one. "Decided by Jess Haley, 2026-10-22 [pH unit one]: the" (did_v2_data_body_model_plan.md:1548).
+- pH unit is UO pH. "Decided by Jess Haley, 2026-10-22 [pH unit is UO pH]: the" (did_v2_data_body_model_plan.md:1550).
+- humidity in percent. "Decided by Jess Haley, 2026-10-22 [humidity in percent]: the" (did_v2_data_body_model_plan.md:1552).
+- unit names are labels. "Decided by Jess Haley, 2026-10-22 [unit names are labels]" (did_v2_data_body_model_plan.md:1554).
+- molar kept. "Decided by Jess Haley, 2026-10-22 [molar kept]: the" (did_v2_data_body_model_plan.md:1556).
+- exact OM units. "Decided by Jess Haley, 2026-10-22 [exact OM units]: the" (did_v2_data_body_model_plan.md:1558).
+- prefixed source units. "Decided by Jess Haley, 2026-10-22 [prefixed source units]" (did_v2_data_body_model_plan.md:1560).
+- covariate key. "Decided by Jess Haley, 2026-11-01 [covariate key]: (" (did_v2_data_body_model_plan.md:1564).
+- covariate variable may repeat. "Decided by Jess Haley, 2026-11-01 [covariate variable may" (did_v2_data_body_model_plan.md:1566).
 - same_as. "TEAM-SIGN-OFF [same_as]: jess@walthamdatascience.com /" (did_v2_duplicate_entities_plan.md:95).
 - spike train leaf. "TEAM-SIGN-OFF [spike train leaf]" (did_v2_ensemble_plan.md:218).
 - ensemble retired. "Decided by Jess Haley, 2026-10-22 [ensemble retired]: the" (did_v2_ensemble_plan.md:284).
@@ -890,14 +892,15 @@ field). If one decides a class's disposition, that class should cite it.
 - postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1786).
 - percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1788).
 - breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1790).
-- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1792).
-- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1794).
-- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1796).
-- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1798).
-- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1800).
-- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1802).
-- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1804).
-- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1806).
+- relations get notes. "Decided by Jess Haley, 2026-11-01 [relations get notes]: (" (did_v2_go_forward_class_audit.md:1792).
+- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1794).
+- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1796).
+- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1798).
+- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1800).
+- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1802).
+- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1804).
+- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1806).
+- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1808).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -986,15 +989,15 @@ field). If one decides a class's disposition, that class should cite it.
 - date dtype. "TEAM-SIGN-OFF [date dtype]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:521).
 - base naming. "TEAM-SIGN-OFF [base naming]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:525).
 - time dtype. "TEAM-SIGN-OFF [time dtype]: jess@walthamdatascience.com /" (did_v2_tenet_audit.md:529).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (did_v2_tenets.md:863).
-- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (did_v2_tenets.md:1088).
-- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (did_v2_tenets.md:1090).
-- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (did_v2_tenets.md:1091).
-- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (did_v2_tenets.md:1093).
-- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (did_v2_tenets.md:1095).
-- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (did_v2_tenets.md:1097).
-- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (did_v2_tenets.md:1099).
-- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (did_v2_tenets.md:1101).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21], below): one" (did_v2_tenets.md:868).
+- tenet amendments 2026-10-20. "TEAM-SIGN-OFF [tenet amendments 2026-10-20]: jess /" (did_v2_tenets.md:1093).
+- tenet amendments 2026-10-21. "TEAM-SIGN-OFF [tenet amendments 2026-10-21]" (did_v2_tenets.md:1095).
+- tenet T20, group entities. "TEAM-SIGN-OFF [tenet T20, group entities]" (did_v2_tenets.md:1096).
+- tenet signature text. "Decided by Jess Haley, 2026-10-22 [tenet signature text]" (did_v2_tenets.md:1098).
+- T1 and T5 signed. "Decided by Jess Haley, 2026-10-22 [T1 and T5 signed]: the" (did_v2_tenets.md:1100).
+- T2 time-varying property. "Decided by Jess Haley, 2026-10-22 [T2 time-varying" (did_v2_tenets.md:1102).
+- ordered inputs. "Decided by Jess Haley, 2026-10-22 [ordered inputs]: T20's" (did_v2_tenets.md:1104).
+- tenet stale names. "Decided by Jess Haley, 2026-10-22 [tenet stale names]: the" (did_v2_tenets.md:1106).
 - term registry. "TEAM-SIGN-OFF [term registry]: jess@walthamdatascience.com" (did_v2_term_registry_plan.md:31).
 - term registry closed value sets. "TEAM-SIGN-OFF [term registry closed value sets]" (did_v2_term_registry_plan.md:151).
 - developmental stage. "Decided by Jess Haley, 2026-10-22 [developmental stage]" (did_v2_term_registry_plan.md:180).
