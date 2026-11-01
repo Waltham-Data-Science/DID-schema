@@ -512,7 +512,9 @@ whose DID-matlab build waits on GL1-GL7.
     `body_data_k` from 0: rename, or map with 'Files'? (5) How the reader finds
     an epoch's bodies, and where the epochtable's t0/t1 and clocks go. (6) Is
     the v1 ingested document still written? (NDI-matlab agent report; nothing
-    built.)
+    built.) (6) ANSWERED 2026-11-01: [ingest writes no v1 ingested
+    document]. (1) asked again 2026-11-01 (per probe or per acquisition-system
+    epoch; Claude recommends per probe, shared blocks shared).
   - **G60. A dataset with no single `dataset` document ([linked session link
     details]).** NDI-matlab #1103 puts the link's method on the session's
     relation to its study when there is no dataset document, and makes a linked
@@ -527,7 +529,8 @@ whose DID-matlab build waits on GL1-GL7.
   - **G62. The remaining mode terms ([element type is a device kind term],
     [imaging mode is a method term]).** Recording modes voltage (-Vm) and
     current (-I, -Im), and imaging modes one-photon, two-photon and wide-field:
-    which terms? (Claude to bring candidates from OLS4.)
+    which terms? (Claude to bring candidates from OLS4.) ANSWERED 2026-11-01: [recording mode terms],
+    [imaging mode terms].
   - **G63. The four NDI clock types (did-schema #97).** ANSWERED earlier (my
     mistake to ask): [clock terms get nodes] (Jess Haley, 2026-10-26) decided
     them, and the terms are registered (wikidata:Q1536, EMPTY:0000403-0000405).
