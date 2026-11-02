@@ -830,7 +830,8 @@ whose DID-matlab build waits on GL1-GL7.
     to the Dab map).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
-    stimulus_response_scalar, openminds, acquisition_epoch) now get their V2
+    stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
+    openminds) now get their V2
     parent-class list written on them, and that list is read from their
     retire-class files. The decision [handed-on classes carried at the end]
     lets those files be deleted, and then that step has nothing to read.
