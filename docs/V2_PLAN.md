@@ -653,7 +653,8 @@ whose DID-matlab build waits on GL1-GL7.
     2026-11-01.)** [schema set renamed did_v2] planned: accept both, switch the
     defaults, then stop accepting `V_eta`. The defaults are switched
     (DID-matlab #352, NDI-matlab #1132). Keep accepting `V_eta` for good, or
-    stop? [keep it: a harmless alias, already normalised to `did_v2`]
+    stop? [keep it: a harmless alias, already normalised to `did_v2`] ANSWERED
+    2026-11-02 [V_eta not kept as an alias]: "No", stop accepting it.
   - **G80. A probe listed in several rows of one probe map (from build O,
     2026-11-01).** A stimulator is listed once per marker channel (mk1..mk7,
     seven rows; 1,242 epochs in corpus B, the same in Dab). Wire it as (a) ONE
@@ -669,7 +670,8 @@ whose DID-matlab build waits on GL1-GL7.
     resolveClockAlignment, resolveEpochProbemap). Carry whatever those passes
     leave unconverted at the end of the batch, instead of in pass 1, so the
     tombstones can go? A design change; not built. [yes, once each batch pass
-    is checked to tolerate the missing class]
+    is checked to tolerate the missing class] ANSWERED 2026-11-02 [handed-on
+    classes carried at the end]: "Yes".
   - **G82. Old-kind databases for new sessions (from build G2, 2026-11-01).**
     Five NDI writers now write V2 into a V2 database and v1 into a v1 one
     (NDI-matlab #1126, #1130, #1131, #1133, #1136). A new session folder
@@ -687,10 +689,17 @@ whose DID-matlab build waits on GL1-GL7.
     (element) to be written as V2, but a V2 element is built by the batch pass
     from several v1 documents, which is the ingest's own work. Build the
     native element writer together with the V2 ingest, as one build? [yes]
-  - **G85. `element_epoch` for new writers (from build G2).** It has no
-    decided V2 home (ledger `decided_targets: []`); the migrator writes
-    `acquisition_epoch`. Is that what new writers write? [yes, decide it as
-    the home]
+    CORRECTED 2026-11-02 (Jess Haley: "There is no v2 element. Acquisition
+    epoch is not a v2 class anymore is it?"): right. There is no V2 `element`
+    class (a v1 element becomes an `entity` typed by [element types have no
+    default]), and `acquisition_epoch` is a retire class, a pass-1
+    intermediate that `epochMint` turns into one epoch per recording ([device
+    clocks on one epoch]). The question, re-asked: build NDI's code that adds
+    a new probe and a new epoch together with the V2 ingest, writing the final
+    shapes directly (the probe entity, the epoch and its recording
+    observation)? [yes] Parked (Jess, 2026-11-02: no capacity now).
+  - **G85. Withdrawn 2026-11-02** (wrong premise, see G84): new writers write
+    the final shapes, never `acquisition_epoch`.
   - **G86. Subject lookup by name checks the type (from build G2).**
     `does_subjectstring_match_session_document` now matches a V2 subject by
     `entity.local_identifier` alone. Also require type organism? [yes]
@@ -772,7 +781,7 @@ whose DID-matlab build waits on GL1-GL7.
     small named step on the hand-on path writes that list, and the padding is
     deleted; or (b) each migrator builds them as full V2 documents of their
     retiring class and "handed on" is marked another way? [(a): nothing else
-    changes]
+    changes] ANSWERED 2026-11-02 [handed-on classes carried at the end]: "Yes" (a).
   - **G99. A stated unit with no number (from build T, 2026-11-02).** A v1
     treatment that states the unit of an amount (mg/kg) but no number is
     written as NaN with the unit kept, per [unknown-amount-slot] and [blank
@@ -1383,7 +1392,7 @@ general migration right now."). Draft: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md
 - EPM `DataExclusionFlag` (animals 239, 258, "not expressing mCherry"): an
   assertion, an observation, or a note?
 - FPS: its 7 open columns (in the draft).
-- Dab: should Claude draft the remaining Dab map rows (sliceTetanus as a pass,
+- ANSWERED 2026-11-02 [Claude drafts the Dab map]: "Yes". Dab: should Claude draft the remaining Dab map rows (sliceTetanus as a pass,
   the EMPTY:0000074 rule)?
 - Where the Dab reproduction test lives (NDI or DID).
 
