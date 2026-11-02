@@ -732,6 +732,21 @@ whose DID-matlab build waits on GL1-GL7.
     [ingested compression settings] need terms (likely new EMPTY terms).
     [the two existing terms; mint "channel number" and the compressor terms
     with definitions for approval]
+  - **G93. Session and dataset_remote ids (from build H, 2026-11-01).** A
+    session's V2 record keeps the session's own id, so the separate v1 session
+    document's id is kept nowhere; the same for `dataset_remote`. These are
+    every remaining lost id (run 41354908282: B 15, Dab 18, JH 4, 20211116 1).
+    Which V2 document takes each id, or are they carried whole as v1? [a
+    relation that already joins them takes the id, as `session_in_a_dataset`
+    now does (DID-matlab #345)]
+  - **G94. A probe with two subjects (from build H).** 4 Dab probes recorded
+    from two different subjects; a v1 probe names one. The round trip reports
+    them rather than choosing. Expected (one probe shared across animals)? If
+    so, which subject does the v1 rebuild name? [expected; rebuild the one the
+    v1 document named, kept as a note]
+  - **G95. A dataset's own session date (from build H).** A dataset's own
+    session is read through the dataset entity, so its own `base.datestamp` is
+    lost. Acceptable, or keep it somewhere? [keep it: lossless]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

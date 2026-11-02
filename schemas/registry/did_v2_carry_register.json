@@ -879,23 +879,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-049",
-      "v1_class": "*",
-      "fields": [
-        "ndi_document (a legacy block beside `base`)",
-        "any field universalRenames would discard"
-      ],
-      "when": "the v1 document has an `ndi_document` block beside `base` (a block from NDI before `ndi_document.json` was deleted, e.g. one `jrclust_clusters` in Soph), in any class: it is carried whole so the block is never lost ([old ndi_document blocks carry]). Also, until the universal renames pass is deleted, any other v1 value that pass would discard (e.g. `app.name` and `app.app_name` differ), so no migrator runs (DID-matlab v1_to_v2.m, note 'universalRenames would discard'; [renames carry is temporary], OPEN_WORK #136)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "old ndi_document blocks carry"
-      },
-      "open_work": 157,
-      "home": "none decided for the `ndi_document` block; the universalRenames part needs none (migrators read raw v1 and the pass is deleted, [migrators read raw v1], OPEN_WORK #136)",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-050",
       "v1_class": "stimulus_response_scalar",
       "fields": [
@@ -2693,6 +2676,35 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "values no writer produces are malformed"
       },
+      "id": "carry-168",
+      "v1_class": "hartley_reverse_correlation",
+      "fields": [
+        "the whole document (the class has no V2 class and no migrator)"
+      ],
+      "when": "always: a v1 `hartley_reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no V2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A V2 class and migrator for it replace this row (did-schema #260).",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "last rename-pass classes"
+      },
+      "open_work": 165,
+      "home": "none decided: a V2 class and a migrator for it (did-schema #260)",
+      "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-169",
+      "v1_class": "reverse_correlation",
+      "fields": [
+        "the whole document (the class has no V2 class and no migrator)"
+      ],
+      "when": "always: a v1 `reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no V2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A V2 class and migrator for it replace this row (did-schema #260).",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "last rename-pass classes"
+      },
+      "open_work": 165,
+      "home": "none decided: a V2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     }
   ]

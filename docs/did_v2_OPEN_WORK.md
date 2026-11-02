@@ -33,7 +33,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 (issue #136 closed 2026-10-29; kept OPEN: carry-007 (`awaiting_home`) still cites this row (C5)) |
 | 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 (issue #140 closed 2026-10-27; kept OPEN: carry-015 (`awaiting_home`) still cites this row (C5)) |
-| 136 | migrators read raw v1; delete `universalRenames` (carry-049, temporary) -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 |
+| 136 | migrators read raw v1; delete `universalRenames` -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 (`universalRenames` deleted in DID-matlab dac31a67, #351; carry-049 retired; kept OPEN: carry-158..carry-164 (`awaiting_home`) still cite this row (C5)) |
 | 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 (issue #145 closed 2026-10-29; kept OPEN: carry-051 (`awaiting_home`) still cites this row (C5)) |
 | 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 (issue #146 closed 2026-10-29; kept OPEN: carry-067 (`awaiting_home`) still cites this row (C5)) |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
@@ -54,6 +54,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
 | 163 | homes for an openMINDS element's `openminds_id` and description (carry-128) -> https://github.com/Waltham-Data-Science/DID-schema/issues/232 |
 | 164 | homes for the retire classes now carried as v1: fits and calculations with no subject, site2channelmap, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, vmspikefilteringparameters, a subjectmeasurement with no quantity kind, distance_metadata, a oneepoch on a global clock, openminds_stimulus (carry-136..143, carry-145, carry-147, carry-148, carry-165) -> https://github.com/Waltham-Data-Science/DID-schema/issues/234 |
+| 165 | homes for NDIcalc-vis `hartley_reverse_correlation` and `reverse_correlation`, carried as v1 (carry-168, carry-169) -> https://github.com/Waltham-Data-Science/DID-schema/issues/260 |
 
 Open items without a row number: none (the last two, #108 and #104, are under COMPLETED as "(no row)").
 

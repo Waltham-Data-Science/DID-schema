@@ -786,6 +786,13 @@ EDGES = [
          "read before coverage.py writes it and a new v1 class reads as unknown.",
          "tools/check_carry_register.py", r"did_v2_coverage_ledger\.json"),
 
+    Edge("ndi_ground_truth", "check_carry_register",
+         "schemas/generated/did_v2_ndi_ground_truth.json",
+         "C2 also accepts an NDIcalc-vis template class the ground truth read "
+         "(`ndicalc_vis_classes`); read before ndi_ground_truth.py writes it and "
+         "a carry row for such a class reads as unknown.",
+         "tools/check_carry_register.py", r"did_v2_ndi_ground_truth\.json"),
+
     Edge("validate_v_eta", "check_binding_governance", "schemas/did_v2",
          "the binding registry it audits is checked and partly derived by the validator.",
          "tools/check_binding_governance.py", r"SP\.classes_dir"),
