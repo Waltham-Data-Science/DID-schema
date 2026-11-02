@@ -726,20 +726,16 @@ def test_the_two_stranding_classes_have_a_tombstone():
     import veta_record
     assert "valid_interval" not in RECORDS
     assert "valid_interval" in veta_record.RETIRED_CLASSES
-    for name in ("generic_file",):
-        assert name in RECORDS, (
-            f"{name} has no V_eta schema; a document of this class reaches validation "
-            "as an undeclared class and is lost")
-        assert disp[name] == "retire", (
-            f"{name} is a v1 SOURCE tombstone, never a go-forward class")
-
-    # generic_file, from +setup/+conv/+babu/import.m:526-531 and :575-580 --
-    # all five fields, the file, and the document_id edge.
-    gf = RECORDS["generic_file"][1]
-    assert {f["name"] for f in gf["fields"]} == {
-        "filename", "format_ontology", "checksum", "date_created", "date_updated"}
-    assert [f["name"] for f in gf["file"]] == ["generic_file.ext"]
-    assert [d["name"] for d in gf["depends_on"]] == ["document_id"]
+    # generic_file LEFT THE TREE 2026-11-02 ([ensemble and generic_file
+    # checked as v1], Jess Haley, 2026-11-01): since DID-matlab #351 pass 1
+    # hands a v1 generic_file on unchanged, checked against NDI's own v1
+    # template (+setup/+conv/+babu/import.m writes all five fields, the file
+    # and the document_id edge) and stamped did_v1, never validated against
+    # V2; did2.convert.foldGenericFiles converts it from that v1 document. Its
+    # renamed-spelling tombstone is not needed: not in the tree, name retired.
+    assert "generic_file" not in RECORDS
+    assert "generic_file" in veta_record.RETIRED_CLASSES
+    assert "generic_file" not in disp
 
     # THE FIELD THAT BLOCKED THE FOLD, NOW INVERTED. This assertion read
     #
@@ -754,7 +750,9 @@ def test_the_two_stranding_classes_have_a_tombstone():
     # one was written from the premise that the fold is blocked. Deleting it
     # would leave nothing asserting the checksum has somewhere to land; the
     # three `epochid` tests were inverted for the same reason.
-    assert "checksum" in {f["name"] for f in gf["fields"]}
+    # (The v1 `checksum` is NDI's generic_file template field, read by
+    # foldGenericFiles from the v1 document; the tombstone that restated it is
+    # deleted, so what is asserted is where it lands.)
     # READ THROUGH THE CHAIN, NOT OFF THE CLASS. The #45 hoist landed
     # 2026-08-14 and moved these onto `data_body`; an opaque_body still HAS
     # content_hash, one level up. The intent this test was written for is
@@ -3228,126 +3226,33 @@ def _ndi_ground_truth():
         return json.load(fh)
 
 
-def test_ensemble_declares_the_neuron_roster_it_carries():
-    """The roster lives on EDGES, and the tombstone has to say so.
+def test_ensemble_tombstone_left_the_tree():
+    """The `ensemble` tombstone is DELETED (2026-11-02), and nothing replaces it.
 
-    `did_v2_ensemble_plan.md` migration-constraint 1 originally said the neuron
-    ids lived only inside `neuron_names.txt`, so `member_of` needed file-byte
-    access and therefore the NDI second pass. That premise is WRONG and the plan
-    now records the correction: the ids are `depends_on` edges written in column
-    order by the same loop that writes the names
-    (+ndi/+element/ensemble.m:274-276, `add_dependency_value_n`), and NDI's own
-    `ensemble_schema.json` declares `neuron_id` with `"mustbenotempty": 0`.
+    Decided by Jess Haley, 2026-11-01 [ensemble and generic_file checked as v1]
+    (did_v2_go_forward_class_audit.md): "in the first pass, a v1 `ensemble` or
+    `generic_file` is checked against NDI's v1 template at the locked main ...
+    and is then converted by its later step as before ...; their
+    renamed-spelling `retiring/` files are deleted". Since DID-matlab #351 pass 1
+    hands the v1 map on unchanged, stamped did_v1, never validated against V2,
+    and NDI's second pass (ensembleMembership) reads the roster from its
+    `neuron_id_N` edges. The facts the four tombstone tests pinned (the
+    `neuron_id_#` family, NDI's own `neuron_names.txt`, the ground-truth match,
+    no membership edge on the map) are now NDI's template's: DID-matlab
+    v1_to_v2 checks the map against it and counts the writer's `neuron_id_N`
+    edges as template edges ([writer fields over the template are template
+    fields]).
 
-    It survived because the TEMPLATE declares only `element_id` and
-    `element_epoch_id` -- `neuron_id` appears in the SCHEMA and the WRITER only.
-    That is the ground-truth rule (*where template and writer disagree, the
-    writer wins*) firing inside NDI's own pair.
-
-    `ensemble` is a PASSTHROUGH, so this tombstone is the only thing standing
-    between a real map document and a quarantine, and an undeclared edge passes
-    through SILENTLY: `+did2/+schema/cache.m` allows `depends_on` wholesale and
-    never checks individual dependency names. Silence is the shape that let six
-    classes reach 100% empty required edges.
-
-    A `_#` FAMILY, not a bare `neuron_id`: `add_dependency_value_n` appends
-    `neuron_id_1`, `neuron_id_2`, ..., so the suffix index IS the column index
-    the signed model asks `member_of` to carry.
+    What must hold here: the class is not in the tree, its name is retired, and
+    it has no disposition row. The ground truth still lists NDI's `ensemble`.
     """
-    deps = {d["name"]: d for d in RECORDS["ensemble"][1]["depends_on"]}
-    assert "neuron_id_#" in deps, (
-        "ensemble must declare the neuron roster as a numbered family; "
-        f"declared: {sorted(deps)!r}")
-    assert "neuron_id" not in deps, (
-        "a bare `neuron_id` does not match what a document carries "
-        "(`neuron_id_1`, `neuron_id_2`, ...)")
-    nid = deps["neuron_id_#"]
-    assert nid["must_refer_to_document_class"] == "entity", (
-        "a neuron is an element, and migrators_j.element promotes an element to "
-        "a subject with its id PRESERVED, so the stored id still resolves")
-    # NDI says "mustbenotempty": 0. Tightening it would be a NEW required edge
-    # on a passthrough class -- the invented-empty-edge pattern under a new name.
-    assert nid["min_count"] == 0
-    assert nid["mustBeNonEmpty"] is False
-
-
-def test_ensemble_declares_ndis_own_file_name_not_a_snake_cased_one():
-    """`neuron_names.txt` verbatim -- the `image_stack` shape, caught before it shipped.
-
-    A passed-through document reaches validation still carrying NDI's spelling:
-    `universalRenames.m:308` skips the structural keys outright
-    (`skip = {'document_class','depends_on','file','files'}`), and
-    `did2.validate.fileList` compares by exact `strcmp` (fileList.m:93,99).
-    `image_stack` was restated with `imagestack_file` against NDI's `imageStack`
-    and declared a file no document has while the file every document has went
-    undeclared -- both directions of the audit at once, on every JH document.
-
-    A file divergence never quarantines, which is exactly why it is dangerous:
-    the payload is stranded or unfindable while every gate stays green.
-    """
-    files = [f["name"] for f in RECORDS["ensemble"][1].get("file", [])]
-    assert files == ["neuron_names.txt"], (
-        "ensemble carries NDI's `neuron_names.txt` (+ndi/+element/ensemble.m:277 "
-        f"attaches it, and both halves of NDI's pair declare it); got {files!r}")
-
-
-def test_ensemble_tombstone_matches_the_ndi_ground_truth_artifact():
-    """Denominator-first: compare the whole declaration, not the two fields we fixed.
-
-    The generated `did_v2_ndi_ground_truth.json` is the artifact; this test is
-    prose about it, so the artifact wins when they disagree. Comparing the FULL
-    surface is the point -- fixing the two rows a checker happened to name, and
-    asserting only those, is how a restatement drifts on its third field.
-
-    Numbered families are compared by their base name (`neuron_id_#` satisfies
-    NDI's `neuron_id`), exactly as `tools/check_tombstones.py:_defamily` does.
-    """
+    import veta_record
+    assert "ensemble" not in RECORDS
+    assert "ensemble" in veta_record.RETIRED_CLASSES
+    disp = {e["class_name"]: e.get("disposition") for e in INDEX["schemas"]}
+    assert "ensemble" not in disp
     gt = _ndi_ground_truth()["classes"]["ensemble"]
-    rec = RECORDS["ensemble"][1]
-
-    def defamily(n):
-        return n.removesuffix("_#")
-
-    ours_deps = {defamily(d["name"]) for d in rec["depends_on"]}
-    ours_fields = {f["name"] for f in rec["fields"]}
-    ours_files = {f["name"] for f in rec.get("file", [])}
-    ours_supers = [s["class_name"]
-                   for s in rec["document_class"]["superclasses"]]
-
-    # denominator, stated before any verdict
-    assert len(gt["depends_on"]) == 3 and len(gt["fields"]) == 5, (
-        f'the ground truth for `ensemble` changed shape ({len(gt["depends_on"])} dep(s), {len(gt["fields"])} field(s)) -- re-read NDI before trusting this comparison')
-
-    assert set(gt["depends_on"]) <= ours_deps, (
-        "real dependencies with nowhere to land: {!r}".format(sorted(set(gt["depends_on"]) - ours_deps)))
-    assert set(gt["fields"]) <= ours_fields, (
-        "real fields with nowhere to land: {!r}".format(sorted(set(gt["fields"]) - ours_fields)))
-    assert set(gt["files"]) <= ours_files, (
-        "real files the tombstone does not declare: {!r}".format(sorted(set(gt["files"]) - ours_files)))
-    assert ours_supers == gt["superclasses"], (
-        "superclass chain diverges from NDI: {!r} vs {!r}".format(ours_supers, gt["superclasses"]))
-
-
-def test_ensemble_pass_one_mints_no_membership_edge():
-    """Pass 1 must not fake what only the second pass can resolve.
-
-    The signed model's `member_of` / `derived_from` edges are
-    `directed_relation` DOCUMENTS minted by
-    `ndi.migrate.internal.ensembleMembership`, not fields of this class. If they
-    ever appeared on the `ensemble` tombstone they would be edges pass 1 cannot
-    fill, and #37's `strictMode('RequiredDependencies')` is ARMED -- an empty
-    required edge now quarantines rather than passing silently.
-
-    The slots the second pass needs live on `directed_relation` and are asserted
-    by `test_directed_relation_has_an_optional_epoch_id_slot`; this asserts they
-    are NOT duplicated here.
-    """
-    names = {d["name"] for d in RECORDS["ensemble"][1]["depends_on"]}
-    for forbidden in ("member_of", "member_of_#", "derived_from", "derived_from_#", "input_id",
-                      "child", "parent"):
-        assert forbidden not in names, (
-            f"`{forbidden}` on the ensemble tombstone: membership is a relation DOCUMENT, "
-            "and pass 1 cannot resolve it")
+    assert set(gt["depends_on"]) >= {"element_id", "element_epoch_id"}
 
 
 def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():

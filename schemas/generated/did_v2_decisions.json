@@ -6,13 +6,13 @@
     "classes_citing": 73,
     "citations": 86,
     "citations_unresolved": 0,
-    "open_classes": 18,
+    "open_classes": 16,
     "by_state": {
       "decided": 73,
       "proposed (not decided)": 0
     },
     "open_by_state": {
-      "decided": 18,
+      "decided": 16,
       "proposed (not decided)": 0
     },
     "state_labels": {
@@ -431,8 +431,8 @@
     },
     "ensemble": {
       "class_name": "ensemble",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -719,8 +719,8 @@
     },
     "generic_file": {
       "class_name": "generic_file",
-      "disposition": "retire",
-      "open": true,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+      "open": false,
       "state": "decided",
       "state_label": "decided: cites a decision line that exists",
       "decided_in": {
@@ -1890,7 +1890,7 @@
         "packages_missing": [],
         "files_read": 445,
         "lines_read": 84627,
-        "classes_queried": 18,
+        "classes_queried": 16,
         "classes_emitted_as_document_class": 4,
         "unresolved_mint_sites": [
           "DID-matlab:convert/+roundtrip/daqmetadatareader.m:40 (CLASS)",
@@ -2038,7 +2038,7 @@
         "reports_with_survivor_data": 0,
         "corpora": [],
         "source_documents": 0,
-        "classes_queried": 18
+        "classes_queried": 16
       },
       "batch_consumers": {
         "files_scanned": 53,
@@ -2053,7 +2053,7 @@
     },
     "counts": {
       "a_nothing_built": 2,
-      "b_built_awaiting_corpus_proof": 16,
+      "b_built_awaiting_corpus_proof": 14,
       "c_corpus_zero_survivors": 0,
       "u_unmeasured": 0
     },
@@ -2733,106 +2733,6 @@
         "corpus_evidence_measured": false
       },
       {
-        "class_name": "ensemble",
-        "decision": "decided",
-        "decided_in": "did_v2_ensemble_plan.md:10 [ensemble]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "3 consuming reference(s) (1 per-document migrator, 2 batch post-pass)",
-          "decided target(s) built: `entity (subject)`, `directed_relation`, `sampled_body`"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 3,
-        "consuming_refs": [
-          "DID-matlab:convert/resolveEpochProbemap.m:890 (guard)",
-          "DID-matlab:convert/v1_to_v2.m:1287 (guard)",
-          "NDI-matlab:ndi_second_pass/ensembleMembership.m:411 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 1,
-        "named_refs": [
-          "DID-matlab:convert/v1_to_v2.m:173 (named)"
-        ],
-        "n_comment_mentions": 61,
-        "comment_mentions": [
-          "DID-matlab:convert/foldGenericFiles.m:572 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:644 (comment_mention)",
-          "DID-matlab:convert/noMigratorCarryRows.m:29 (comment_mention)",
-          "DID-matlab:convert/noMigratorCarryRows.m:30 (comment_mention)",
-          "DID-matlab:convert/noMigratorCarryRows.m:32 (comment_mention)",
-          "DID-matlab:convert/resolveEpochProbemap.m:393 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "NDI-matlab:ndi_second_pass/ensembleMembership.m:411 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 32,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:708 (comment_mention)",
-              "DID-matlab:migrators_j/element.m:152 (comment_mention)",
-              "DID-matlab:migrators_j/element.m:190 (comment_mention)",
-              "DID-matlab:migrators_j/element.m:7 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:100 (comment_mention)",
-              "DID-matlab:migrators_j/element_epoch.m:101 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 2,
-            "consuming_refs": [
-              "DID-matlab:convert/resolveEpochProbemap.m:890 (guard)",
-              "DID-matlab:convert/v1_to_v2.m:1287 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 1,
-            "named_refs": [
-              "DID-matlab:convert/v1_to_v2.m:173 (named)"
-            ],
-            "n_comment_mentions": 29,
-            "comment_mentions": [
-              "DID-matlab:convert/foldGenericFiles.m:572 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:644 (comment_mention)",
-              "DID-matlab:convert/noMigratorCarryRows.m:29 (comment_mention)",
-              "DID-matlab:convert/noMigratorCarryRows.m:30 (comment_mention)",
-              "DID-matlab:convert/noMigratorCarryRows.m:32 (comment_mention)",
-              "DID-matlab:convert/resolveEpochProbemap.m:393 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "entity (subject)",
-          "directed_relation",
-          "sampled_body"
-        ],
-        "decided_targets_built": [
-          "entity (subject)",
-          "directed_relation",
-          "sampled_body"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
         "class_name": "epochfiles_ingested",
         "decision": "decided",
         "decided_in": "did_v2_epoch_plan.md:884 [epoch]",
@@ -3186,101 +3086,6 @@
         ],
         "decided_targets_built": [
           "epoch_file_pattern"
-        ],
-        "decided_targets_missing": [],
-        "survivors": null,
-        "survivors_by_corpus": {},
-        "build_evidence_measured": true,
-        "corpus_evidence_measured": false
-      },
-      {
-        "class_name": "generic_file",
-        "decision": "decided",
-        "decided_in": "did_v2_OPEN_WORK.md:824 [stranded sources]",
-        "state": "b_built_awaiting_corpus_proof",
-        "state_label": "(b) built, awaiting corpus proof",
-        "build_evidence": [
-          "1 consuming reference(s) (1 batch post-pass)",
-          "decided target(s) built: `observation + term`, `opaque_body`"
-        ],
-        "migrator_file": null,
-        "n_consuming_refs": 1,
-        "consuming_refs": [
-          "DID-matlab:convert/foldGenericFiles.m:525 (guard)"
-        ],
-        "n_emitted_class_refs": 0,
-        "emitted_class_refs": [],
-        "emission_counts_as_build": false,
-        "retired_by_decision_in_favour_of": null,
-        "emission_discounted": null,
-        "n_field_write_refs": 0,
-        "field_write_refs": [],
-        "n_named_refs": 2,
-        "named_refs": [
-          "DID-matlab:convert/foldGenericFiles.m:599 (named)",
-          "DID-matlab:convert/v1_to_v2.m:173 (named)"
-        ],
-        "n_comment_mentions": 65,
-        "comment_mentions": [
-          "DID-matlab:convert/foldGenericFiles.m:100 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:108 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:124 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:138 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:1489 (comment_mention)",
-          "DID-matlab:convert/foldGenericFiles.m:150 (comment_mention)"
-        ],
-        "by_group": {
-          "per_document_migrator": {
-            "n_consuming_refs": 0,
-            "consuming_refs": [],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 0,
-            "named_refs": [],
-            "n_comment_mentions": 15,
-            "comment_mentions": [
-              "DID-matlab:migrators_j/Contents.m:398 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:402 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:411 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:414 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:432 (comment_mention)",
-              "DID-matlab:migrators_j/Contents.m:719 (comment_mention)"
-            ]
-          },
-          "batch_post_pass": {
-            "n_consuming_refs": 1,
-            "consuming_refs": [
-              "DID-matlab:convert/foldGenericFiles.m:525 (guard)"
-            ],
-            "n_emitted_class_refs": 0,
-            "emitted_class_refs": [],
-            "n_field_write_refs": 0,
-            "field_write_refs": [],
-            "n_named_refs": 2,
-            "named_refs": [
-              "DID-matlab:convert/foldGenericFiles.m:599 (named)",
-              "DID-matlab:convert/v1_to_v2.m:173 (named)"
-            ],
-            "n_comment_mentions": 50,
-            "comment_mentions": [
-              "DID-matlab:convert/foldGenericFiles.m:100 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:108 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:124 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:138 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:1489 (comment_mention)",
-              "DID-matlab:convert/foldGenericFiles.m:150 (comment_mention)"
-            ]
-          }
-        },
-        "decided_targets": [
-          "observation + term",
-          "opaque_body"
-        ],
-        "decided_targets_built": [
-          "observation + term",
-          "opaque_body"
         ],
         "decided_targets_missing": [],
         "survivors": null,

@@ -99,7 +99,6 @@
                 "ephys_zarr",
                 "filter",
                 "fitcurve",
-                "generic_file",
                 "image",
                 "image_collection",
                 "image_zarr",

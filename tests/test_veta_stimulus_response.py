@@ -574,7 +574,11 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # FORTIETH MOVEMENT, re-derived not bumped: 107 -> 106 on 2026-11-01,
     # [one folder, final classes only]: openminds_stimulus deleted (carried as
     # v1, carry-165). It was not in the INERT list.
-    assert walked == 106, f"schema count moved; re-derive the inert set ({walked})"
+    # FORTY-FIRST MOVEMENT, re-derived not bumped: 106 -> 104 on 2026-11-02,
+    # [ensemble and generic_file checked as v1]: ensemble and generic_file
+    # deleted (handed on as v1 by DID-matlab pass 1, checked against NDI's
+    # template). Neither was in the INERT list.
+    assert walked == 104, f"schema count moved; re-derive the inert set ({walked})"
     assert sorted(inert) == [
         "stimulus_response_scalar_parameters_basic.isspike",
     ]

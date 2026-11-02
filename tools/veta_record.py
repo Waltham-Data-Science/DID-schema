@@ -181,6 +181,15 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # retire classes deleted 2026-11-02 ([ensemble and generic_file checked as
+    # v1]): since DID-matlab #351 (dac31a67) pass 1 hands a v1 `ensemble` or
+    # `generic_file` on unchanged, checked against NDI's own v1 template and
+    # stamped did_v1, never validated against V2; NDI's second pass
+    # (ensembleMembership) and DID-matlab's foldGenericFiles convert them from
+    # that v1 document. DID-matlab #366 removed the one test that read the
+    # generic_file file; no DID-matlab or NDI-matlab code reads either file.
+    "ensemble",
+    "generic_file",
     # retire class deleted 2026-11-01 ([one folder, final classes only]): in
     # DID-matlab V2 (#355) every openminds_stimulus that passes its guards is
     # carried whole as v1 with a note (carry-165, [v1 passthroughs accepted]),
