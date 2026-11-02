@@ -703,9 +703,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 685,
+          "accepted_lines": 688,
           "accepted_lines_by_kind": {
-            "Decided by": 565,
+            "Decided by": 568,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4876,6 +4876,30 @@
               "tag": "wiring relation term",
               "date": "2026-11-01",
               "anchor": "Decided by Jess Haley, 2026-11-01 [wiring relation term]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1897,
+              "kind": "Decided by",
+              "tag": "Claude drafts the Dab map",
+              "date": "2026-11-02",
+              "anchor": "Decided by Jess Haley, 2026-11-02 [Claude drafts the Dab"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1899,
+              "kind": "Decided by",
+              "tag": "handed-on classes carried at the end",
+              "date": "2026-11-02",
+              "anchor": "Decided by Jess Haley, 2026-11-02 [handed-on classes"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1901,
+              "kind": "Decided by",
+              "tag": "V_eta not kept as an alias",
+              "date": "2026-11-02",
+              "anchor": "Decided by Jess Haley, 2026-11-02 [V_eta not kept as an"
             },
             {
               "document": "did_v2_image_model_plan.md",
