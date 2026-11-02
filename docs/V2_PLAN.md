@@ -747,6 +747,10 @@ whose DID-matlab build waits on GL1-GL7.
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
+  - **G97. The two gene-list carry kinds (from build C, 2026-11-01).**
+    carry-166 (a `geneListMapping` of another mapping type) is `not_modelled`;
+    carry-167 (its `mapping.tsv` cannot be read) is `malformed`, since no NDI
+    writer makes the class. Both `kind_basis: proposed`. Right? [yes]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
