@@ -121,10 +121,6 @@
         "energy": {
             "disposition": "persist"
         },
-        "ensemble": {
-            "disposition": "retire",
-            "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], did_v2_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (did_v2_migration_targets.json ensemble.how)."
-        },
         "entity": {
             "disposition": "persist"
         },
@@ -160,10 +156,6 @@
         },
         "gain": {
             "disposition": "persist"
-        },
-        "generic_file": {
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator → delete)"
         },
         "harmonic_component": {
             "disposition": "persist"

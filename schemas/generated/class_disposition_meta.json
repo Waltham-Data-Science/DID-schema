@@ -51,16 +51,6 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
-            "class_name": "ensemble",
-            "replaced_by": [
-                "entity (subject)",
-                "directed_relation",
-                "sampled_body"
-            ],
-            "decision": "",
-            "note": "Retired 2026-10-22 (Jess Haley [ensemble retired], did_v2_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (did_v2_migration_targets.json ensemble.how)."
-        },
-        {
             "class_name": "epochfiles_ingested",
             "replaced_by": [],
             "decision": "",
@@ -79,12 +69,6 @@
             ],
             "decision": "",
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "generic_file",
-            "replaced_by": [],
-            "decision": "",
-            "note": "Phase-8 source (migrator → delete)"
         },
         {
             "class_name": "openminds",

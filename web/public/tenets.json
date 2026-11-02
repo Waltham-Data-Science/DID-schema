@@ -64,7 +64,7 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 26,
+  "classes_in_the_built_set": 25,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
    "acquisition_layout",
@@ -295,7 +295,6 @@
     ],
     "ensemble": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "sampled_body": [

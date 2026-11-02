@@ -1111,8 +1111,13 @@ def test_the_convert_census_is_the_one_the_board_measures():
     v_zeta = sum(per_dir.get(p, 0) for p in sb.V_ZETA_PACKAGES)
     migrators_j = per_dir.get("+migrators_j", 0)
     batch = total - v_zeta - migrators_j
-    assert v_zeta and migrators_j and batch, (
-        f'one of the three groups is empty: +migrators_j={migrators_j} v_zeta={v_zeta} batch={batch}')
+    # The V_zeta packages were deleted from DID-matlab (9477babd, #361,
+    # "Retire the old +migrators generation"). When the tree holds none of
+    # them their group is empty by positive evidence (the walk above found no
+    # such directory), and the exclusion must then report 0, checked below.
+    v_zeta_present = any(p in per_dir for p in sb.V_ZETA_PACKAGES)
+    assert migrators_j and batch and (v_zeta or not v_zeta_present), (
+        f'one of the groups is empty: +migrators_j={migrators_j} v_zeta={v_zeta} batch={batch}')
 
     mig, src = sb.migrator_evidence(set(_open_classes()), _did_root(),
                                     _ndi_root())
@@ -1201,6 +1206,13 @@ def test_the_v_zeta_packages_are_still_excluded():
         for pkg in sb.V_ZETA_PACKAGES:
             assert (f"/{pkg}/") not in site, site
 
+    base = _convert_root()
+    present = [p for p in sb.V_ZETA_PACKAGES if os.path.isdir(os.path.join(base, p))]
+    if not present:
+        # Deleted from DID-matlab (9477babd, #361): nothing left to exclude,
+        # so the exclusion must report exactly 0, not a stale count.
+        assert src["n_files_excluded_v_zeta"] == 0, src["n_files_excluded_v_zeta"]
+        return
     assert src["n_files_excluded_v_zeta"] > 0, (
         "no file was excluded on V_zeta grounds; the exclusion is either dead "
         "or unreported, and both look identical from the artifact")

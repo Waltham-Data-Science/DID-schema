@@ -473,19 +473,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "ensemble",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base",
-                "epochid",
-                "app"
-            ],
-            "path": "schemas/did_v2/retiring/ensemble.json",
-            "disposition": "retire",
-            "disposition_note": "Retired 2026-10-22 (Jess Haley [ensemble retired], did_v2_ensemble_plan.md): a v1 ensemble migrates to a group entity, `member_of` per neuron carrying `order` (column order) and its epoch, and per-neuron spike times in a sampled_body (did_v2_migration_targets.json ensemble.how)."
-        },
-        {
             "class_name": "entity",
             "family": "core",
             "class_version": "1.0.0",
@@ -597,17 +584,6 @@
             ],
             "path": "schemas/did_v2/value/gain.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "generic_file",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/generic_file.json",
-            "disposition": "retire",
-            "disposition_note": "Phase-8 source (migrator \u2192 delete)"
         },
         {
             "class_name": "harmonic_component",

@@ -106,16 +106,21 @@ def _targets_map():
     return schema_paths.load_migration_targets(REPO_ROOT)["classes"]
 
 
-def _run_stamp(**kw):
+def _run_stamp(extra_classes=None, **kw):
     """Run the stamp over a THROWAWAY COPY of the built tree.
 
     Never over `schemas/did_v2` itself: the tree is a checked-in generated
     artifact and a test that mutates it would make the staleness gate report a
-    diff that the test, not the schema, produced."""
+    diff that the test, not the schema, produced. EXTRA_CLASSES (a list of
+    class dicts) are written into the copy only, for a test that needs a case
+    the real tree no longer holds."""
     tmp = os.path.join(REPO_ROOT, "schemas", ".V_eta_cause_test")
     if os.path.exists(tmp):
         shutil.rmtree(tmp)
     shutil.copytree(VETA, tmp)
+    for doc in extra_classes or []:
+        with open(os.path.join(tmp, doc["document_class"]["class_name"] + ".json"), "w") as f:
+            json.dump(doc, f, indent=4)
     try:
         return NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS,
                                       META_FILES, **kw)
@@ -123,8 +128,9 @@ def _run_stamp(**kw):
         shutil.rmtree(tmp)
 
 
-def _run_stamp_with_causes():
-    return _run_stamp(deleted_phase8=_phase8_set(), targets_path=REPO_ROOT)
+def _run_stamp_with_causes(extra_classes=None):
+    return _run_stamp(extra_classes=extra_classes,
+                      deleted_phase8=_phase8_set(), targets_path=REPO_ROOT)
 
 
 # ---------------------------------------------------------------- ground truth
@@ -578,11 +584,34 @@ def test_a_renamed_edge_and_a_dropped_edge_are_different_facts():
 
     MUTATION: delete the `renamed_to_family` branch so every unmatched edge is
     `dropped` -> fails on the family rows.
+
+    THE REAL TREE NO LONGER HOLDS A CASE (2026-11-02). The last one was the
+    `ensemble` tombstone's `neuron_id_#` for NDI's `neuron_id`; that tombstone
+    is deleted ([ensemble and generic_file checked as v1], Jess Haley,
+    2026-11-01). So the case is made here, in the throwaway copy only: a class
+    named `ensemble` declaring NDI's `neuron_id` as the family `neuron_id_#`,
+    which is what the deleted tombstone declared. The row must be classed
+    `renamed_to_family`, never `dropped`.
     """
-    d = _run_stamp_with_causes()
-    veta = _veta()
+    family = {
+        "document_class": {"class_name": "ensemble", "class_version": "1.0.0",
+                           "superclasses": [{"class_name": "base",
+                                             "class_version": "1.0.0"}]},
+        "depends_on": [
+            {"name": "element_id", "mustBeNonEmpty": False,
+             "must_refer_to_document_class": "entity"},
+            {"name": "element_epoch_id", "mustBeNonEmpty": False},
+            {"name": "neuron_id_#", "mustBeNonEmpty": False, "min_count": 0,
+             "must_refer_to_document_class": "entity"}],
+        "fields": [],
+    }
+    d = _run_stamp_with_causes(extra_classes=[family])
+    veta = dict(_veta(), ensemble=family)
     rows = d["no_edge_by_cause"]["renamed_to_family"]
     assert rows, "no family rename found -- the branch asserted nothing"
+    assert "ensemble.neuron_id -> ensemble  (NDI-optional)" in rows, rows
+    assert not any(r.startswith("ensemble.neuron_id ")
+                   for r in d["no_edge_by_cause"]["dropped"])
     for row in rows:
         src_edge, target = row.split(" -> ")
         target = target.split("  ")[0]

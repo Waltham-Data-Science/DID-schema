@@ -40,5 +40,5 @@ Kinds of entity (19, the values of entity.type in entity_type_bindings): organis
 
 ## NOT in the final set (by disposition)
 
-**retire (18):**
-`acquisition_epoch`, `app`, `calculator`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `ensemble`, `epochfiles_ingested`, `epochid`, `filenavigator`, `generic_file`, `openminds`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`
+**retire (16):**
+`acquisition_epoch`, `app`, `calculator`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `epochfiles_ingested`, `epochid`, `filenavigator`, `openminds`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar`, `stimulus_response_scalar_parameters`, `stimulus_response_scalar_parameters_basic`, `syncrule`

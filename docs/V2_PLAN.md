@@ -773,6 +773,18 @@ whose DID-matlab build waits on GL1-GL7.
     deleted; or (b) each migrator builds them as full V2 documents of their
     retiring class and "handed on" is marked another way? [(a): nothing else
     changes]
+  - **G99. A stated unit with no number (from build T, 2026-11-02).** A v1
+    treatment that states the unit of an amount (mg/kg) but no number is
+    written as NaN with the unit kept, per [unknown-amount-slot] and [blank
+    per-body-mass on the ingredient] (2026-10-21). [canonical absent only as
+    needs info] (2026-10-30) says an amount the source never states is left
+    out and listed as a gap. Leave these out too (the unit then survives only
+    in the report's reason), or keep NaN with the unit? [leave out, unit in
+    the gap's reason]
+  - **G100. A unitless waveform as one gap (from build T).** v1 mean spike
+    waveforms carry no unit for their samples; listing each sample as a gap is
+    hundreds of entries per neuron. May the run's report list the whole
+    waveform once? [yes: one gap per value, not per sample]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
