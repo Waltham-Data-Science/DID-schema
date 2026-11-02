@@ -824,7 +824,7 @@ whose DID-matlab build waits on GL1-GL7.
     Hunsberger's control group. A rule for every dataset ("a vehicle carries
     no drug amount"), or moved to Hunsberger's own import? [move it to the
     Hunsberger import] Proposed (not decided).
-    Audit: scratchpad `dataset_specific_audit_1102.md` (DID-matlab
+    Audit: `docs/v2_working/DATASET_SPECIFIC_AUDIT_2026-11-02.md` (DID-matlab
     `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
     remaining dataset-specific code is `sliceTetanus`, already decided to move
     to the Dab map).
