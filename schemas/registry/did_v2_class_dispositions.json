@@ -7,9 +7,6 @@
         "acceleration": {
             "disposition": "persist"
         },
-        "acquisition_channels": {
-            "disposition": "persist"
-        },
         "acquisition_epoch": {
             "disposition": "retire",
             "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). did_v2_epoch_plan.md [JH position and distance]"

@@ -58,32 +58,32 @@ def _load(path):
 META = _load(os.path.join(os.path.dirname(VETA), "registry", "did_schema_meta.json"))
 
 
-def test_channel_wiring_has_one_shape_the_acquisition_channels_document():
-    """#73 item 56 (2026-09-25, 6b option B) REPLACES a test that pinned TWO copies
-    of the `channels` shape identical -- inline on interaction and on
-    `acquisition_channels`. Two copies kept in step by a test are still two places
-    for one fact; now there is one. A statement points at a shared
-    `acquisition_channels` document by `acquisition_channels_id`, the edge name
-    `clock_alignment_configuration` used until 2026-10-29."""
+def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
+    """Jess Haley 2026-11-01 [probe wiring is a relation], [wiring relation term]
+    (did_v2_go_forward_class_audit.md) REPLACES #73 item 56's shared
+    `acquisition_channels` document: a probe is `connected to` (RO:0002170) its
+    acquisition system by a directed_relation with one condition per channel
+    type, and a recording points straight at its system. The class and its
+    `acquisition_channels_id` edge are gone; there is still exactly one place
+    for a probe's channels."""
+    from veta_record import RETIRED_CLASSES
     si = _load(SP.class_path("interaction"))
-    ac = _load(SP.class_path("acquisition_channels"))
+    assert SP.class_path("acquisition_channels") is None
+    assert "acquisition_channels" in RETIRED_CLASSES
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
-    # Jess Haley 2026-11-01 [probe wiring is a relation]: a recording's system is
-    # pointed at straight (`acquisition_system_id`, optional); the probe's
-    # channels are its `connected to` relation. `acquisition_channels_id` stays
-    # until DID-matlab and NDI-matlab write and read the new shape.
+    assert "acquisition_channels_id" not in si_edges
     assert si_edges["acquisition_system_id"]["must_refer_to_document_class"] == \
         "acquisition_system"
     assert si_edges["acquisition_system_id"]["mustBeNonEmpty"] is False
-    assert si_edges["acquisition_channels_id"]["must_refer_to_document_class"] == \
-        "acquisition_channels"
-    assert si_edges["acquisition_channels_id"]["mustBeNonEmpty"] is False
-    assert "channels" in {f["name"] for f in ac["fields"]}
-    ac_edges = {e["name"]: e for e in ac["depends_on"]}
-    # DECIDED required (item 56); stays optional until the DID-matlab minting pass
-    # lands -- test_veta_acquisition_system_edge_typing pins that.
-    assert "MINTS" in ac_edges["acquisition_system_id"]["documentation"]
+    dr = _load(SP.class_path("directed_relation"))
+    assert "conditions" in {f["name"] for f in dr["fields"]}
+    parent = next(e for e in dr["depends_on"] if e["name"] == "parent_id")
+    assert "acquisition_system" in parent["must_refer_to_document_class"].split(",")
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
+    rows = [r for r in reg["relation_bindings"] if r["relation"]["node"] == "RO:0002170"]
+    assert len(rows) == 1 and rows[0]["class"] == "directed_relation", rows
+    assert rows[0]["parent_types"] == ["acquisition_system"] and rows[0]["timed"] is True
     rig = _load(SP.class_path("acquisition_system"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
@@ -1692,10 +1692,6 @@ def test_stored_vocabulary_names_are_the_labels_of_their_nodes():
         f = next(x for x in RECORDS[cls][1]["fields"] if x["name"] == fld)
         stored += [(f"{cls}.{fld}", v["node"], v["name"])
                    for v in f["constraints"]["binding"]["values"]]
-    ac = RECORDS["acquisition_channels"][1]["fields"][0]["fields"]
-    f = next(x for x in ac if x["name"] == "type")
-    stored += [("acquisition_channels.channels.type", v["node"], v["name"])
-               for v in f["constraints"]["binding"]["values"]]
     print(f"DENOMINATOR: {len(stored)} stored vocabulary name(s), "
           f"{sum(1 for _, n, _ in stored if n)} with a node")
     assert sum(1 for _, n, _ in stored if n) > 0

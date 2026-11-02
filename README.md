@@ -26,8 +26,8 @@ did-schema/
 |   |   +-- time_reference/  time_reference, its absolute / relative forms, and clock_alignment,
 |   |   |                    clock_alignment_configuration, clock_alignment_policy
 |   |   +-- relation/        relation, directed_relation, undirected_relation
-|   |   +-- acquisition/     acquisition_system, acquisition_channels, acquisition_reader,
-|   |   |                    epoch_file_pattern, epoch_parameter_reader, ingestion_manifest
+|   |   +-- acquisition/     acquisition_system, acquisition_reader, epoch_file_pattern,
+|   |   |                    epoch_parameter_reader, ingestion_manifest
 |   |   +-- retiring/        the retire classes still in the tree, until each is deleted
 |   +-- registry/            authored data: did_schema_meta.json (the meta-schema),
 |   |                        binding_registry_meta, CURIE_lookups_meta, ndi_reserved_keys,

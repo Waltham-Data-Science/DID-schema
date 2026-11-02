@@ -150,7 +150,8 @@ def test_the_tree_holds_each_family_root_in_its_folder():
 
 def test_the_acquisition_classes_are_in_acquisition():
     """[acquisition folder] (Jess Haley, 2026-10-31)."""
-    names = ("acquisition_system", "acquisition_channels", "acquisition_reader",
+    # acquisition_channels left 2026-11-01 ([probe wiring is a relation])
+    names = ("acquisition_system", "acquisition_reader",
              "epoch_file_pattern", "epoch_parameter_reader", "ingestion_manifest")
     for name in names:
         assert V.SP.family(V.SP.class_path(name)) == "acquisition", name

@@ -1,6 +1,13 @@
-"""V_eta #57(b) -- `acquisition_channels.acquisition_system_id` points at
-`acquisition_system`, and this file exists so the edge cannot drift back to
-untyped or sideways to another class.
+"""V_eta #57(b) -- `acquisition_system_id` points at `acquisition_system`, and
+this file exists so the edge cannot drift back to untyped or sideways to another
+class.
+
+THE HOLDER MOVED 2026-11-01. The edge was `acquisition_channels`'s until Jess
+Haley's [probe wiring is a relation] (did_v2_go_forward_class_audit.md) retired
+that class: a recording now names its system on the interaction itself
+(`interaction.acquisition_system_id`), and a probe's channels are its
+`connected to` relation to the system. The history below is the edge's on
+`acquisition_channels`, kept as the record of why the typing is pinned.
 
 WHY THE EDGE WAS UNTYPED, AND WHY THAT REASON IS GONE. The dependency was
 declared with `must_refer_to_document_class: ""` and documented "UNTYPED for
@@ -37,7 +44,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 EDGE = "acquisition_system_id"
-HOLDER = "acquisition_channels"
+HOLDER = "interaction"
 TARGET = "acquisition_system"
 
 # The stale sentence, quoted so its RETURN is a test failure rather than a
@@ -111,14 +118,13 @@ def test_the_edge_stays_optional():
     """REQUIRED-NESS IS NOT WHAT #57(b) TOUCHED, and this pins that.
 
     No NDI template declares this edge -- it is a V_eta-side edge on a V_eta
-    target class -- and nothing populates it today. Making it required would
-    quarantine every `acquisition_channels` document the syncrule fold emits
-    (#37 is armed by default), which is the invented-required-edge pattern this
-    repository has already paid for at 26k documents."""
+    target class. On `interaction` it is optional by decision: a hand
+    measurement or a calculation has no acquisition system ([probe wiring is a
+    relation], "a recording's system"). Making it required would quarantine
+    every interaction that is not a recording."""
     dep = _the_edge()
     assert dep.get("mustBeNonEmpty") is False, (
-        f"{HOLDER}.{EDGE} became required. Check the NDI template and the "
-        "emitter before believing that is right: today nothing emits it.")
+        f"{HOLDER}.{EDGE} became required: only a recording has a system.")
 
 
 def test_the_lapsed_reason_is_not_still_published():

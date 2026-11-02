@@ -751,7 +751,7 @@
             },
             {
               "document": "did_v2_clock_alignment_cluster_plan.md",
-              "line": 638,
+              "line": 640,
               "kind": "TEAM-SIGN-OFF",
               "tag": "sync configuration amendment 1",
               "date": "2026-08-18",
@@ -18356,7 +18356,7 @@
         "document": "did_v2_clock_alignment_cluster_plan.md",
         "tag": "sync mapping",
         "resolved": true,
-        "line": 508,
+        "line": 510,
         "kind": "TEAM-SIGN-OFF",
         "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
         "anchor": "TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com /",
@@ -18370,7 +18370,7 @@
           "document": "did_v2_clock_alignment_cluster_plan.md",
           "tag": "sync mapping",
           "resolved": true,
-          "line": 508,
+          "line": 510,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
           "anchor": "TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com /",
@@ -18387,7 +18387,7 @@
           "document": "did_v2_clock_alignment_cluster_plan.md",
           "tag": "sync mapping",
           "resolved": true,
-          "line": 508,
+          "line": 510,
           "kind": "TEAM-SIGN-OFF",
           "decision": "jess@walthamdatascience.com / 2026-08-08 -- syncrule_mapping -> `clock_alignment` (\u2282 relation, polynomial), base.id PRESERVED; endpoints become from_reference / to_reference on relative_reference documents; syncgraph_id RESTORED and the invented required `epochid` (5,316 docs, 100% empty) REMOVED; `degree` kept and CHECKED.",
           "anchor": "TEAM-SIGN-OFF [sync mapping]: jess@walthamdatascience.com /",
@@ -18396,7 +18396,7 @@
           "matched_name": "syncrule_mapping",
           "matched_on": "v1_class"
         },
-        "why": "the class cites `did_v2_clock_alignment_cluster_plan.md` [sync mapping] (as `syncrule_mapping`), which resolves to the TEAM-SIGN-OFF line at `did_v2_clock_alignment_cluster_plan.md`:508. Re-resolved on every build (tools/decision_citations.py)"
+        "why": "the class cites `did_v2_clock_alignment_cluster_plan.md` [sync mapping] (as `syncrule_mapping`), which resolves to the TEAM-SIGN-OFF line at `did_v2_clock_alignment_cluster_plan.md`:510. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
