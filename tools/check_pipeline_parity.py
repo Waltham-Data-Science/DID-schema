@@ -3,7 +3,7 @@
 
 WHY THIS EXISTS
 
-The V_eta migration is two halves. `did2.convert.v1_to_v2` converts one
+The V2 (did_v2) migration is two halves. `did2.convert.v1_to_v2` converts one
 document at a time; a chain of BATCH POST-PASSES then runs over the whole
 migrated corpus to do what a single-document migrator cannot -- mint epochs,
 resolve session anchors, fold citation graphs, assemble subject tiers.
