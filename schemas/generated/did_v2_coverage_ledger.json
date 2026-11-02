@@ -695,7 +695,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 121,
+          "documents_read": 122,
           "documents_read_outside_docs": [],
           "documents_excluded_as_generated": [
             "did_v2_STATUS.md",
