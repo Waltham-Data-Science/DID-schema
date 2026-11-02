@@ -1409,21 +1409,6 @@
       "kind_basis": "proposed"
     },
     {
-      "id": "carry-087",
-      "v1_class": "daqmetadatareader_epochdata_ingested",
-      "fields": [
-        "daqmetadatareader_epochdata_ingested.<any field>",
-        "depends_on other than daqmetadatareader_id and session_id"
-      ],
-      "when": "a field in its block or an edge the body does not write (NDI-matlab +migrate/+internal/ingestedStimulusBodies.m unplaced); the NDI template's block is empty and the writer sets only daqmetadatareader_id",
-      "kind": "malformed",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "ingested stimulus file is a body of the presentation"
-      },
-      "kind_basis": "decided"
-    },
-    {
       "id": "carry-088",
       "v1_class": "daqmetadatareader_epochdata_ingested",
       "fields": [
