@@ -751,6 +751,28 @@ whose DID-matlab build waits on GL1-GL7.
     carry-166 (a `geneListMapping` of another mapping type) is `not_modelled`;
     carry-167 (its `mapping.tsv` cannot be read) is `malformed`, since no NDI
     writer makes the class. Both `kind_basis: proposed`. Right? [yes]
+  - **G96. About 50 names the migration writes that are not registered
+    terms (from builds Q and R, 2026-11-02).** [early migration pieces fixed]
+    part (3) keeps TermRegistry on during migration, so each needs a registry
+    row or its document is carried whole as v1 (thousands of documents, e.g.
+    every hartley result in 20211116). The full proposal, grouped (7 already
+    decided, 5 fit a registered term, 15 existing ontology terms, 8 new EMPTY
+    terms, 12 not terms, 3 Dab strains), is
+    docs/v2_working/UNREGISTERED_TERMS_PROPOSAL.md. Its five questions: one
+    ontology for voltage and current? leave out values equal to NDI's default?
+    hartley per-frame stimulus as method parameters or a data body? hartley
+    reconstruction as one statement with a qualifier, or two? JAX numbers for
+    the three Cre lines (Dab, later)? Until decided, TermRegistry stays off
+    during migration.
+  - **G98. Documents handed on unchanged and the padding (from build R,
+    2026-11-02).** `ensureClassBlocks` now only rewrites v1's superclass list
+    into V2's form, and only for five classes that pass 1 hands on unchanged
+    to a later step (syncrule, epochfiles_ingested, stimulus_response_scalar,
+    its parameters, openminds; DID-matlab #364 fixed the other two). (a) A
+    small named step on the hand-on path writes that list, and the padding is
+    deleted; or (b) each migrator builds them as full V2 documents of their
+    retiring class and "handed on" is marked another way? [(a): nothing else
+    changes]
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,

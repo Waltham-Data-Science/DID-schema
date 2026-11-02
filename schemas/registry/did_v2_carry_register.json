@@ -2676,6 +2676,9 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "values no writer produces are malformed"
       },
+      "kind_basis": "proposed"
+    },
+    {
       "id": "carry-168",
       "v1_class": "hartley_reverse_correlation",
       "fields": [

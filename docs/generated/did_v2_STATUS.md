@@ -403,7 +403,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 121 document(s) read (3 generated copies excluded); 685 decision line(s) accepted, 2 rejected; 44 cited by a class, 641 cited by none.
+DENOMINATOR: 122 document(s) read (3 generated copies excluded); 685 decision line(s) accepted, 2 rejected; 44 cited by a class, 641 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
