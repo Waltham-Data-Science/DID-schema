@@ -794,6 +794,40 @@ whose DID-matlab build waits on GL1-GL7.
     waveforms carry no unit for their samples; listing each sample as a gap is
     hundreds of entries per neuron. May the run's report list the whole
     waveform once? [yes: one gap per value, not per sample]
+  - **G101. The one-photon imaging term (from build U, 2026-11-02).**
+    [imaging mode terms] chose FBbi:00000246 "fluorescence microscopy" for
+    one-photon imaging, but the term registry already holds NCIT:C16856
+    "Fluorescence Microscopy" (used for Haley), and it allows one entry per
+    name (`tools/check_term_registry.py` R2), so FBbi:00000246 was never
+    registered. DID-matlab writes FBbi:00000246. Use the NCIT term already
+    registered, or register the FBbi term under a distinct label? [use
+    NCIT:C16856: T19 prefers a term already used in an NDI dataset]
+    Proposed (not decided).
+  - **G102. Dabrowska bath units (from build U).** The aCSF and cutting
+    solution recipes (NDI `+dabrowska/dabrowska_mixtures.json`) state
+    osmolarity as `0.29` "osm" and carbogen as `1` "saturation"; neither unit
+    is in the unit table or the term registry. Requiring the canonical value
+    on these baths ([canonical absent only as needs info]) would carry every
+    such bath as v1, which breaks NDI's Dab slice step (203 slices, 56
+    tetanus runs in `TestMigrateLocalEtaDab`). (a) carry them as v1, as the
+    rule says; or (b) read "osm" as osmoles per litre and say what carbogen
+    "saturation" becomes? [(b); carbogen saturation: a fraction, 1 = fully
+    bubbled] Proposed (not decided). The validator check for several-field
+    and prefixed-molar quantities waits on this.
+  - **G103. The treatment migrator's label-word list (from build U's
+    dataset-specific audit).** One list recognises "date of birth" and
+    "experiment time" (vhlab's) by their words, only to carry those rows as
+    v1; without it they would be carried as v1 anyway, under a different
+    reason. Delete it? [yes] Proposed (not decided).
+  - **G104. The saline placeholder rule (from build U's audit).** A "saline
+    1 mg/kg" row is read as a placeholder, not an amount; it comes from
+    Hunsberger's control group. A rule for every dataset ("a vehicle carries
+    no drug amount"), or moved to Hunsberger's own import? [move it to the
+    Hunsberger import] Proposed (not decided).
+    Audit: scratchpad `dataset_specific_audit_1102.md` (DID-matlab
+    `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
+    remaining dataset-specific code is `sliceTetanus`, already decided to move
+    to the Dab map).
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
