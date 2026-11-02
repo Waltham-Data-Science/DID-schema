@@ -1430,6 +1430,114 @@ general migration right now."). Draft: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md
   the EMPTY:0000074 rule)?
 - Where the Dab reproduction test lives (NDI or DID).
 
+### Dab map draft: the open columns (2026-11-02)
+
+From [Claude drafts the Dab map]. The draft map is NDI-matlab PR #1148
+(`src/ndi/+ndi/+setup/+conv/+dabrowska/V2_map.json`, branch
+`claude/dab-map-draft`). Its rows rest on decided lines only. Each question
+below is something the decided lines and the data leave open. The map's
+`blocked_by` and `open` lists cite these ids. Read on the Dab corpus zip
+(sha256 506fbbdf...c735): 27,561 documents. The two tables are EPM (elevated
+plus maze, 45 rows x 51 columns) and FPS (fear-potentiated startle, 6,160
+rows x 13 columns), 64 columns in all. 55 columns have their terms decided
+([assay labels batch 1]..[6], [assay relabels become new terms]). 3 more are
+covered by decided rows (the subject column in each table, the FPS chamber).
+6 columns, and the bath ingredient, are open. Every answer in brackets is
+Claude's, Proposed (not decided).
+
+- **DQ1. When did an EPM test happen?** An EPM row has no time at all, but
+  every statement needs a time reference. [One time reference per animal's
+  EPM test, saying the time was not recorded, shared by every statement from
+  that row.]
+- **DQ2. The FPS trial timestamp** (e.g. `8/19/2022 9:22:39 AM`; 1,309
+  distinct values, no time zone). Is it each trial's time? An absolute time
+  needs a time zone, and the data has none. [Yes, the trial's time, on a clock
+  whose time zone is not known, as the tetanus window does (V2_decisions.md
+  row 3).]
+- **DQ3. EPM empty cells** (39 cells, e.g. `TestIdentifier` empty in 17 rows,
+  percent time empty in 2 rows where the time itself is present). [Write no
+  statement for an empty cell and place the rest of the row. Nothing is
+  invented.]
+- **DQ4. FPS: one statement per cell, or one series per animal?** 6,160
+  trials x 7 measured columns makes about 43,000 statements. Or one series
+  per animal, phase and measure along the trial number (30 trials per phase,
+  10 in "Shock Reactivity"). [One series per animal, phase and measure.]
+- **DQ5. EPM totals.** Each of the 10 "total" columns equals north + south
+  (or west + east) in 45 of 45 rows (e.g. open-arm entries 4 + 4 = 8). Are
+  they a calculation from the two arms, or an observation as the software
+  reported it? The two total latencies are not sums and not the smaller arm
+  value (0 of 43 and 0 of 45 rows). [Calculation with links to the two arm
+  statements. The latencies are observations.]
+- **DQ6. Percent of test time** (open arm CMO:0004075, closed arm and centre
+  CMO:0000959; e.g. 14.1 %). There is no percent value kind. Each value equals
+  time / 300 x 100 in every row that has one, but 5 are empty where the time
+  is present. [Mint a fraction (percent) value kind and write them as
+  observations in %.]
+- **DQ7. Method of the FPS statements.** No ontology term exists for
+  fear-potentiated startle. Batch 5 left the method open, and OBI:0003710
+  holds only for an anechoic chamber, which the data does not mention. [Mint
+  one EMPTY "fear-potentiated startle test" after a T19 check. Use it for
+  every FPS column.]
+- **DQ8. Unit of the three startle amplitudes** (window onset 0..233,
+  maximum 4..4,520, average 1..695). The definitions say "mV or arbitrary
+  units". The source column keys are `V_Start`, `mV_Max` and `mV_Avg`. [mV,
+  as the source keys say, for all three.]
+- **DQ9. Number of samples** (200, or 500 on the 280 "FPS Training Trial"
+  rows) **and sampling rate** (1000 Hz in every row). Are these statements, or
+  parameters of the method? [Method parameters.]
+- **DQ10. EPM test duration** (300 s in all 45 rows, set by the importer).
+  [A method parameter of every EPM statement, not a statement of its own.]
+- **DQ11. FPS trial type** (4 values: `Startle 95 dB Trial`, `FPS (N) Testing
+  Trial`, `FPS (L+N) Testing Trial`, `FPS Training Trial`; variable
+  EMPTY:0000421). Text values, or 4 new terms? [Text values.]
+- **DQ12. FPS phase** (8 values, the sheet names, e.g. `Pre-test 1`,
+  `Cue test 2`, `Shock Reactivity`; variable NCIT:C25257). Text values, or
+  terms? [Text values, as a condition.]
+- **DQ13. FPS trial number** (1..30). [The position along the trial axis of
+  DQ4's series, not a statement of its own.]
+- **DQ14. FPS group code** (1..4, taken from the 6th character of the source
+  `Session_ID`). It never changes within one animal and phase (0 of 224), but
+  it differs across phases for 16 of 28 animals. So it looks like a running
+  batch, not a treatment group. Keep it? [Keep it as a text condition on that
+  phase's statements, named "running batch".]
+- **DQ15. EPM group code** (1 or 2). It equals the importer's experiment
+  number: 1 for animals below 300 (28 rows), 2 for 300 and above (17 rows).
+  [Two group entities, "experiment 1" and "experiment 2", named by the map
+  ([unnamed groups named by the map]), each animal `member_of` one.]
+- **DQ16. EPM exclusion flag** (true for animals 239 and 258, false for 43).
+  The importer's note says "not expressing mCherry". [A true/false assertion
+  on the animal, "excluded from analysis", with variable EMPTY:0000069. The
+  reason is not in the data, so it is not stated.]
+- **DQ17. EPM "CNO or saline"** (CNO 23, Saline 22). The data has only the
+  word. The amount and route (2 mg/kg, i.p., 45 min before testing) are only
+  in the EMPTY:0000200 definition, and saline has no amount at all. [A term
+  manipulation of the animal whose value is a CNO or a saline term (both to
+  be registered). No dose amount is written.]
+- **DQ18. EPM test identifier** (2..29, empty in 17 rows, never equal to the
+  animal number; variable EMPTY:0000420). What is it? [Ask the lab. Until
+  then, keep it as a text value on the EPM test's time reference.]
+- **DQ19. FPS chamber.** The chamber is a device entity ([assay labels batch
+  5]). Is it the instrument of that animal's FPS statements? [Yes. Each of
+  the 28 animals uses one chamber, 3 or 4 animals per chamber.]
+- **DQ20. How a table is recognised.** A row stores no table name. Match on
+  the row's whole exact column-node list, or on one node only that table has
+  (EMPTY:0000068 for EPM, EMPTY:0000057 for FPS)? Both are exact values
+  ([map rows match exact values]). [The whole list.]
+- **DQ21. The bath ingredient in 131 ACSF baths.** These baths are plain ACSF
+  plus one added row: a vasotocin antagonist, "d(CH2)5(1), D-Tyr(2), Thr(4),
+  Orn(8), des-Gly-NH2(9)]-Vasotocin trifluoroacetate salt", 0.4 µM. The
+  source writes its node as `NCIm:` with no id. That antagonist is the
+  changed ingredient of [bath is two statements] (2). Which term is it?
+  [Search for an existing term (T19), else mint an EMPTY one.]
+- **DQ22. The 433 baths that list only drugs** (13 mixture tables, e.g.
+  arginine-vasopressin 0.2 µM; nelivaptan 1 µM + arginine-vasopressin
+  0.2 µM). ACSF is not listed. Were the drugs added to ACSF, and is each
+  listed drug a changed ingredient? [Yes to both: one ingredient manipulation
+  per listed drug, at its listed concentration.]
+- **DQ23. The map's file name and format** (`V2_map.json`; the row shape of
+  `DATASET_MAP_PROPOSAL.md` section 3.2, plus "column" rows that hold only
+  decided terms). [Keep both. Build the map step to read them.]
+
 ## Working documents
 
 `docs/v2_working/` holds the research behind recent decisions. These are
