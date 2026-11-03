@@ -157,7 +157,7 @@ def test_dated_claims_are_counted_in_the_output(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr().out
     lines = out.splitlines()
     assert lines[0].startswith("DENOMINATOR:") and "2 numeric claim(s)" in lines[0]
-    dated = [l for l in lines if l.strip().startswith("claims DATED (exempt)")]
+    dated = [ln for ln in lines if ln.strip().startswith("claims DATED (exempt)")]
     assert dated and dated[0].rstrip().endswith(": 1"), dated
-    assert any(l.strip().startswith("claims ASSERTED (checked)")
-               and l.rstrip().endswith(": 1") for l in lines)
+    assert any(ln.strip().startswith("claims ASSERTED (checked)")
+               and ln.rstrip().endswith(": 1") for ln in lines)
