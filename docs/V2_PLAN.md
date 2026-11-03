@@ -690,6 +690,7 @@ whose DID-matlab build waits on GL1-GL7.
     [addSessionV2 folded back] waits on this. [yes: keep v1 for old
     databases; make V2 the default for new sessions as its own decision]
     ANSWERED 2026-11-03: [V2 branch writes V2 only] (Jess: write V2 exclusively, read v1 and V2). Follow-up G106.
+    REPLACED 2026-11-03 by [v2 line reads and writes both] and [new database defaults to v2].
   - **G83. Writers that don't know their session (from build G2).**
     `subjectMaker` and the other NDIMaker classes, `openMINDSobj2ndi_document`
     and the `+fun/+doc` makers build documents before they know the session.
@@ -710,6 +711,7 @@ whose DID-matlab build waits on GL1-GL7.
     a new probe and a new epoch together with the V2 ingest, writing the final
     shapes directly (the probe entity, the epoch and its recording
     observation)? [yes] Parked (Jess, 2026-11-02: no capacity now).
+    NOTE 2026-11-03: [new database defaults to v2] cannot land until v2 writers for ingest and elements exist, which is this question; unparking it unblocks that default.
   - **G85. Withdrawn 2026-11-02** (wrong premise, see G84): new writers write
     the final shapes, never `acquisition_epoch`.
   - **G86. Subject lookup by name checks the type (from build G2).**
@@ -814,6 +816,7 @@ whose DID-matlab build waits on GL1-GL7.
     2026-11-03: question 1 ANSWERED [voltage AFO, current NCIT]; question 2 ANSWERED [fixed writer values not written]; question 4 ANSWERED [hartley planes are two statements]. Question 3 RE-ASKED (Jess: "Are these redundant with an observation's values?"): yes, NDIcalc-vis-matlab `hartley.m` copies the frame times from the presentation's `stimevents` and recomputes S/KXV/KYV/ORDER from the stimulus settings (`hartleystim`, `hartleynumbers`); proposal: store neither, the round trip rebuilds them from the input presentation, else the calculation is carried as v1. Awaiting answer. Then: the group B/C/D term picks.
     Question 3 ANSWERED 2026-11-03: [hartley numbers stored, copies not]. Left: the group B/C/D term picks (second batch, or approve as written and review only the new EMPTY definitions).
     Term picks batch 1 ANSWERED 2026-11-03: [term picks batch 1] (neural response, clustered data set, hartley X/Y). Still open from group B: 'strain' -> NCIT:C14419 Organism Strain; 'spiketrain dt' -> EMPTY:0000308 bin width. Then group C (existing terms to register) and group D (new EMPTY terms).
+    2026-11-03: [term picks batch 1b] and [term picks batch 2] recorded. Open: receptive field (SNOMEDCT:68015005 with no definition, or an EMPTY term); batch 3 (six tuning settings: Independent Variable, Label, Algorithm, selection criterion, step size x2, depends_on copy not stored); batch 4 (new EMPTY terms); whether Claude-written JSON documentation strings go lower case.
   - **G98. Documents handed on unchanged and the padding (from build R,
     2026-11-02).** `ensureClassBlocks` now only rewrites v1's superclass list
     into V2's form, and only for five classes that pass 1 hands on unchanged
@@ -894,6 +897,7 @@ whose DID-matlab build waits on GL1-GL7.
     documents into the v1 database beside its v1 documents? [(a): no mixed
     databases] Proposed (not decided).
     ANSWERED 2026-11-03: [v1 database read-only on the v2 line].
+    REPLACED 2026-11-03 by [v2 line reads and writes both].
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
