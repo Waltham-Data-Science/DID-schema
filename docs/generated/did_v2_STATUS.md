@@ -397,7 +397,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 123 document(s) read (3 generated copies excluded); 688 decision line(s) accepted, 2 rejected; 44 cited by a class, 644 cited by none.
+DENOMINATOR: 123 document(s) read (3 generated copies excluded); 691 decision line(s) accepted, 2 rejected; 44 cited by a class, 647 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -924,6 +924,9 @@ field). If one decides a class's disposition, that class should cite it.
 - Claude drafts the Dab map. "Decided by Jess Haley, 2026-11-02 [Claude drafts the Dab" (did_v2_go_forward_class_audit.md:1897).
 - handed-on classes carried at the end. "Decided by Jess Haley, 2026-11-02 [handed-on classes" (did_v2_go_forward_class_audit.md:1899).
 - V_eta not kept as an alias. "Decided by Jess Haley, 2026-11-02 [V_eta not kept as an" (did_v2_go_forward_class_audit.md:1901).
+- handed-on are v1 as written. "Decided by Jess Haley, 2026-11-03 [handed-on are v1 as" (did_v2_go_forward_class_audit.md:1903).
+- one-photon is NCIT fluorescence microscopy. "Decided by Jess Haley, 2026-11-03 [one-photon is NCIT" (did_v2_go_forward_class_audit.md:1905).
+- saline placeholder in Hunsberger import. "Decided by Jess Haley, 2026-11-03 [saline placeholder in" (did_v2_go_forward_class_audit.md:1907).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

@@ -703,9 +703,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 688,
+          "accepted_lines": 691,
           "accepted_lines_by_kind": {
-            "Decided by": 568,
+            "Decided by": 571,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4900,6 +4900,30 @@
               "tag": "V_eta not kept as an alias",
               "date": "2026-11-02",
               "anchor": "Decided by Jess Haley, 2026-11-02 [V_eta not kept as an"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1903,
+              "kind": "Decided by",
+              "tag": "handed-on are v1 as written",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [handed-on are v1 as"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1905,
+              "kind": "Decided by",
+              "tag": "one-photon is NCIT fluorescence microscopy",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [one-photon is NCIT"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1907,
+              "kind": "Decided by",
+              "tag": "saline placeholder in Hunsberger import",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [saline placeholder in"
             },
             {
               "document": "did_v2_image_model_plan.md",
