@@ -11448,6 +11448,66 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "voltage",
+            "node": "AFO:AFR_0001916",
+            "definition": "Voltage is a quality quantification facet which quantifies the difference in electric potential energy between two points per unit electric charge.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [voltage AFO, current NCIT], did_v2_go_forward_class_audit.md: the recording observation's variable for an electrode recording voltage",
+            "first_used_in": "DID-matlab migration (Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "Electrical Current",
+            "node": "NCIT:C48434",
+            "definition": "The movement of electrical charges in a conductor.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [voltage AFO, current NCIT], did_v2_go_forward_class_audit.md: the recording observation's variable for a current recording (patch-I, sharp-I)",
+            "first_used_in": "DID-matlab migration (Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "Stimulus",
+            "node": "NCIT:C41210",
+            "definition": "An environmental event, agent, act, or influence that can be detected by a receptor in the body and will invariably produce a reaction in a living organism.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [term picks batch 2], did_v2_go_forward_class_audit.md: a tuning response's stimulus axis, one position per stimulus",
+            "first_used_in": "DID-matlab migration (Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "delay",
+            "node": "AFO:AFR_0001625",
+            "definition": "A delay is a process property that describes a difference in time between a process boundary and some other point in time.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [term picks batch 2], did_v2_go_forward_class_audit.md: the hartley reconstruction's time axis (time before each event)",
+            "first_used_in": "DID-matlab migration (Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "File name",
+            "node": "EDAM:data_1050",
+            "definition": "The name (or part of a name) of a file (of any type).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [term picks batch 2], did_v2_go_forward_class_audit.md: a sync rule's `syncfilename` setting (name and extension, no folder)",
+            "first_used_in": "DID-matlab migration (Build pending)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
