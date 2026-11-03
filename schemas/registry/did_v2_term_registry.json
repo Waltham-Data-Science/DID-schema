@@ -11481,6 +11481,18 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Stimulus",
+      "node": "NCIT:C41210",
+      "definition": "An environmental event, agent, act, or influence that can be detected by a receptor in the body and will invariably produce a reaction in a living organism.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-03 [term picks batch 2], did_v2_go_forward_class_audit.md: a tuning response's stimulus axis, one position per stimulus (added after DID-matlab #384 writes it, siblings first)",
+      "first_used_in": "DID-matlab +migrators_j/stimulus_response_scalar.m: the response's stimulus dimension (de60650)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
