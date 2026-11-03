@@ -881,6 +881,7 @@ whose DID-matlab build waits on GL1-GL7.
     (`ndi.migrate.local`), reading still works; or (b) NDI writes V2
     documents into the v1 database beside its v1 documents? [(a): no mixed
     databases] Proposed (not decided).
+    ANSWERED 2026-11-03: [v1 database read-only on the v2 line].
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
