@@ -38,6 +38,8 @@ having looked:
 import importlib.util
 import os
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -65,10 +67,10 @@ VERDICTS = {"IDENTICAL", "TIGHTENED", "LOOSENED", "DIVERGENT"}
 
 def test_the_sweep_actually_read_the_schema_set():
     """Every number this tool prints is meaningless without these."""
-    assert LOAD_STATS["files_seen"] > 100, LOAD_STATS
+    assert LOAD_STATS["files_seen"] >= CLASS_COUNT, (CLASS_COUNT, LOAD_STATS)  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert LOAD_STATS["files_parsed"] == LOAD_STATS["files_seen"], (
         f"unparseable schema file(s): {LOAD_STATS['skipped_unparseable']!r}")
-    assert len(CLASSES) > 100, f"only {len(CLASSES)} classes loaded"
+    assert len(CLASSES) == CLASS_COUNT, f"{len(CLASSES)} classes loaded, {CLASS_COUNT} registered"  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert LOAD_STATS["tiers_found"], "no tier directory was found at all"
     assert not LOAD_STATS["skipped_duplicate_class_name"], (
         "two files declare one class_name -- the second was NOT compared: "
@@ -85,7 +87,10 @@ def test_the_inheritance_graph_was_actually_walked():
     assert not FIELD_STATS["edges_unresolved"], (
         "superclass name(s) that match no loaded class; those chains were cut "
         f"short: {FIELD_STATS['edges_unresolved'][:10]!r}")
-    assert FIELD_STATS["chains_with_ancestors"] > 100, FIELD_STATS
+    # every class but `base` has an ancestor (97 of 98 on 2026-11-03); `> 100`
+    # until [handed-on are v1 as written] deleted five retire classes. A walker
+    # that stopped following superclass edges falls far below half.
+    assert FIELD_STATS["chains_with_ancestors"] > CLASS_COUNT // 2, (CLASS_COUNT, FIELD_STATS)
     assert FIELD_STATS["declarations_seen"] > 500, FIELD_STATS
     assert EDGE_STATS["declarations_seen"] > 100, EDGE_STATS
 

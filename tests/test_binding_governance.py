@@ -27,6 +27,7 @@ import os
 from pathlib import Path
 
 import pytest
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
@@ -54,7 +55,7 @@ def test_the_sweep_actually_read_something():
     edges" for two days while reading nothing; every count below would read as
     clean under the same failure."""
     d = LIVE["denominator"]
-    assert d["schema_files"] > 100, d
+    assert d["schema_files"] >= CLASS_COUNT, (CLASS_COUNT, d)  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert d["field_declarations"] > 500, d
     assert d["bound_fields"] > 0, (
         "zero bound fields -- the walker stopped descending, which is NOT a "

@@ -201,7 +201,15 @@ class AgainstTheLiveLedger(unittest.TestCase):
         rows, _ = cs.build(self.led, self.tmap)
         counts = {b: sum(1 for r in rows if r["bucket"] == b) for b in cs.BUCKETS}
         self.assertGreater(counts[cs.B_CONFIRM], 0)
-        self.assertGreater(counts[cs.B_PASSTHROUGH], 0)
+        # `B_PASSTHROUGH > 0` was asserted here while a class passed through
+        # under its own did_v2 tombstone. The last one at stage 1, `openminds`,
+        # lost that self-target when [handed-on are v1 as written] (Jess Haley,
+        # 2026-11-03) deleted its retire class file: pass 1 hands it on as v1
+        # (DID-matlab #374), so an empty passthrough bucket is now the expected
+        # state, not an inert sort. The sort is still checked for inertness
+        # below and against the fixtures above.
+        self.assertGreater(sum(1 for n in counts.values() if n), 1,
+                           "fewer than two buckets used -- the sort is inert")
         self.assertLess(max(counts.values()), len(rows),
                         "every class landed in one bucket -- the sort is inert")
 

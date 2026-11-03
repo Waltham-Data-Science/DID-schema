@@ -41,6 +41,17 @@ FAMILY = (
     "stimulus_response_scalar_parameters",
     "stimulus_response_scalar_parameters_basic",
 )
+# 2026-11-03, [handed-on are v1 as written] (Jess Haley, 2026-11-03, did_v2_go_forward_class_audit.md): since DID-matlab #374 (da487311) pass 1 hands a
+# `stimulus_response_scalar` or `stimulus_response_scalar_parameters_basic`
+# document on exactly as v1 wrote it, stamped did_v1 and never validated
+# against V2, to the batch pass resolveResponseParameters; their two tombstones
+# are deleted and the names retired (tools/veta_record.py RETIRED_CLASSES). The
+# two superclass-only tombstones stay: v1_to_v2 still reads them for a
+# superclass block standing alone (PARENT_ONLY_CLASSES). The tombstone tests
+# below compare the two that are left; NDI's templates (the ground truth) still
+# hold all four, and the handed-on v1 documents are checked against those.
+HANDED_ON = ("stimulus_response_scalar", "stimulus_response_scalar_parameters_basic")
+TOMBSTONES = tuple(c for c in FAMILY if c not in HANDED_ON)
 
 
 def _built():
@@ -178,8 +189,17 @@ def test_the_leaf_inherits_every_edge_the_fold_writes():
 
 # ------------------------------------------------- the source tombstones (v1)
 
-def test_all_four_source_tombstones_survive_the_build():
-    """NOT phase-8 deleted, and that is load-bearing rather than incidental.
+def test_the_superclass_tombstones_survive_and_the_handed_on_two_are_gone():
+    """CHANGED 2026-11-03 by [handed-on are v1 as written] (Jess Haley): this
+    was `test_all_four_source_tombstones_survive_the_build`. Its premise -- a
+    passthrough of a class with no schema quarantines -- stopped holding for the
+    two leaves when DID-matlab #374 (da487311) began handing them on as v1,
+    stamped did_v1 and never validated against V2; a DID-matlab probe run with
+    their files left out (41568516626) changed nothing in JH and 20211116. The
+    two superclass tombstones still carry the blocks v1_to_v2 reads. The
+    original account follows.
+
+    NOT phase-8 deleted, and that is load-bearing rather than incidental.
 
     Both migrators fall back to a guarded PASSTHROUGH -- the response when it has
     no element_id / no parseable response_type / no values, and the parameters
@@ -193,26 +213,35 @@ def test_all_four_source_tombstones_survive_the_build():
     SUPERCLASSES of the two classes that still pass through, and
     `stimulus_response` additionally owns the block that carries
     `element_epochid`/`stimulator_epochid` on a passed-through response."""
-    for cls in FAMILY:
-        assert cls in BUILT, f"{cls} was deleted; a passthrough would quarantine"
+    import sys
+    sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
+    import veta_record
+    for cls in TOMBSTONES:
+        assert cls in BUILT, f"{cls} was deleted; a superclass block would quarantine"
+    for cls in HANDED_ON:
+        assert cls not in BUILT, f"{cls} is back; it is handed on as v1"
+        assert cls in veta_record.RETIRED_CLASSES, cls
+        assert cls in NDI, f"NDI's template for {cls} is what the v1 document is checked against"
 
 
 def test_no_tombstone_field_is_invented_relative_to_the_ndi_template():
-    """The ground-truth rule, mechanically. DENOMINATOR: 4 classes."""
+    """The ground-truth rule, mechanically. DENOMINATOR: 2 classes (4 until
+    the two handed-on leaves left the tree, 2026-11-03, HANDED_ON above)."""
     checked = 0
-    for cls in FAMILY:
+    for cls in TOMBSTONES:
         _tier, d = BUILT[cls]
         ours = {f["name"] for f in d.get("fields", [])}
         theirs = set(NDI[cls]["fields"])
         assert ours <= theirs, f"{cls} declares fields NDI has not: {sorted(ours - theirs)!r}"
         checked += 1
-    assert checked == 4
+    assert checked == 2
 
 
 def test_no_tombstone_drops_a_field_the_ndi_template_declares():
     """The other direction -- a dropped field silently truncates a passthrough
-    document into a fragment. DENOMINATOR: 4 classes."""
-    for cls in FAMILY:
+    document into a fragment. DENOMINATOR: 2 classes (TOMBSTONES; 4 until
+    2026-11-03)."""
+    for cls in TOMBSTONES:
         _tier, d = BUILT[cls]
         ours = {f["name"] for f in d.get("fields", [])}
         theirs = set(NDI[cls]["fields"])
@@ -221,10 +250,13 @@ def test_no_tombstone_drops_a_field_the_ndi_template_declares():
 
 def test_response_file_is_not_declared_anywhere_in_the_family():
     """REPAIR 3. `stimulus_response` used to declare a `response_file`. No NDI
-    template in this family has a file at all -- invented."""
+    template in this family has a file at all -- invented. (NDI's four
+    templates are still read; the two handed-on leaves have no tombstone to
+    declare one since 2026-11-03.)"""
     for cls in FAMILY:
-        _tier, d = BUILT[cls]
         assert NDI[cls]["files"] == []
+    for cls in TOMBSTONES:
+        _tier, d = BUILT[cls]
         assert d.get("file", []) == []
         assert "response_file" not in {f["name"] for f in d.get("fields", [])}
 
@@ -235,13 +267,16 @@ def test_every_edge_in_the_family_matches_the_ndi_template_exactly():
     writes the response pointing at its parameters -- and had dropped
     `stimulator_id` and `stimulus_control_id` entirely.
 
-    DENOMINATOR: 4 classes, 5 NDI edges in total across them."""
+    DENOMINATOR: 2 classes, 4 NDI edges in total across them (4 classes and 5
+    edges until 2026-11-03, when the two handed-on leaves left the tree; the
+    fifth edge is `stimulus_response_scalar`'s, pinned against NDI in
+    test_the_response_points_at_its_parameters_and_not_the_reverse)."""
     total = 0
-    for cls in FAMILY:
+    for cls in TOMBSTONES:
         _tier, d = BUILT[cls]
         assert _dep_names(d) == set(NDI[cls]["depends_on"]), cls
         total += len(NDI[cls]["depends_on"])
-    assert total == 5
+    assert total == 4
 
 
 def test_the_largest_invented_empty_edge_instance_stays_dead():
@@ -256,15 +291,25 @@ def test_the_largest_invented_empty_edge_instance_stays_dead():
     for cls in ("stimulus_response_scalar_parameters",
                 "stimulus_response_scalar_parameters_basic"):
         assert NDI[cls]["depends_on"] == []
-        assert BUILT[cls][1].get("depends_on", []) == []
+    assert BUILT["stimulus_response_scalar_parameters"][1].get("depends_on", []) == []
+    # the _basic tombstone is deleted (2026-11-03, HANDED_ON): no did-schema
+    # file can declare the invented edge again; the v1 document is checked
+    # against NDI's template, which has none
+    assert "stimulus_response_scalar_parameters_basic" not in BUILT
 
 
 def test_the_response_points_at_its_parameters_and_not_the_reverse():
-    _tier, d = BUILT["stimulus_response_scalar"]
-    assert _dep_names(d) == {"stimulus_response_scalar_parameters_id"}
+    """CHANGED 2026-11-03 (HANDED_ON above): this read the
+    `stimulus_response_scalar` tombstone. It is deleted, and the handed-on v1
+    document is checked against NDI's template, so the direction is pinned
+    there: the response points at its parameters, and resolveResponseParameters
+    follows that edge."""
+    assert "stimulus_response_scalar" not in BUILT
+    deps = set(NDI["stimulus_response_scalar"]["depends_on"])
+    assert deps == {"stimulus_response_scalar_parameters_id"}
     # `stimulus_response_id` was the same invention one class down: a name no
     # did_v1 document carries.
-    assert "stimulus_response_id" not in _dep_names(d)
+    assert "stimulus_response_id" not in deps
 
 
 def test_the_two_recovered_edges_are_declared_and_required():
@@ -297,18 +342,22 @@ def test_freq_response_is_a_harmonic_number_not_a_boolean():
     validateConstraints (:1340) switches on
     maxLength|minLength|minimum|maximum|enum and silently tolerates anything
     else, so `min`/`max` were INERT and never enforced. Fixing only the spelling
-    would have quarantined every F2 document."""
-    _tier, d = BUILT["stimulus_response_scalar_parameters_basic"]
-    f = _field(d, "freq_response")
-    c = f.get("constraints") or {}
-    assert "max" not in c and "min" not in c, f"the inert spelling is back: {c!r}"
-    assert c.get("minimum") == 0
-    # NO maximum. :207 is `freq_response_commands = freq_response`, straight from
-    # the caller, so 3 is representable; a bound we cannot derive from the writer
-    # is the invention this repair track exists to remove.
-    assert "maximum" not in c
-    assert "0 otherwise" not in f["documentation"]
-    assert "harmonic" in f["documentation"].lower()
+    would have quarantined every F2 document.
+
+    CHANGED 2026-11-03 (HANDED_ON above): the repair lived on the
+    `stimulus_response_scalar_parameters_basic` tombstone, which is deleted. The
+    v1 document is handed on exactly as v1 wrote it and checked against NDI's
+    template, so no did-schema constraint can reject an F2 document any more;
+    the harmonic number lands on `harmonic_component.value.harmonic`, an
+    unbounded integer. What is pinned now: the tombstone is gone, NDI's template
+    still carries `freq_response` for resolveResponseParameters to read, and the
+    destination cell has no maximum either."""
+    assert "stimulus_response_scalar_parameters_basic" not in BUILT
+    assert "freq_response" in NDI["stimulus_response_scalar_parameters_basic"]["fields"]
+    _tier, hc = BUILT["harmonic_component"]
+    harmonic = {s["name"]: s for s in _field(hc, "value")["fields"]}["harmonic"]
+    assert harmonic["type"] == "integer"
+    assert "maximum" not in (harmonic.get("constraints") or {})
 
 
 def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
@@ -581,10 +630,17 @@ def test_isspike_is_left_alone_and_the_inert_spelling_is_counted():
     # FORTY-SECOND MOVEMENT, re-derived not bumped: 104 -> 103 on 2026-11-02,
     # [probe wiring is a relation]: acquisition_channels retired (a probe's
     # wiring is a `connected to` directed_relation). It was not in the INERT list.
-    assert walked == 103, f"schema count moved; re-derive the inert set ({walked})"
-    assert sorted(inert) == [
-        "stimulus_response_scalar_parameters_basic.isspike",
-    ]
+    # FORTY-THIRD MOVEMENT, re-derived not bumped: 103 -> 98 on 2026-11-03,
+    # [handed-on are v1 as written] (Jess Haley): syncrule, epochfiles_ingested,
+    # stimulus_response_scalar, stimulus_response_scalar_parameters_basic and
+    # openminds deleted (handed on as v1 by DID-matlab pass 1). The last INERT
+    # entry, `stimulus_response_scalar_parameters_basic.isspike`, left with its
+    # class: the v1 document keeps NDI's own `isspike`, and no did-schema class
+    # declares an inert `min`/`max` any more. The list is empty by that
+    # deletion, which was checked, not assumed: none of the other four declared
+    # one.
+    assert walked == 98, f"schema count moved; re-derive the inert set ({walked})"
+    assert sorted(inert) == []
 
 
 # --------------------------------------------------------- deferrals, recorded

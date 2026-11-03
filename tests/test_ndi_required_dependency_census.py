@@ -217,13 +217,15 @@ def test_the_motivating_case_is_marked():
     `mustbenotempty: 1`, V_eta `mustBeNonEmpty: false`); its class was deleted
     2026-10-30 ([one folder, final classes only]). The same shape survived in
     `control_stimulus_ids.stimulus_presentation_id` until that class was
-    deleted 2026-11-01 (carried as v1 in DID-matlab pass 1, carry-152). It
-    survives in `epochfiles_ingested.filenavigator_id`: NDI requires it
-    (`ndi_mustBeNonEmpty`), V_eta relaxes it.
+    deleted 2026-11-01 (carried as v1 in DID-matlab pass 1, carry-152), and in
+    `epochfiles_ingested.filenavigator_id` until that class was deleted
+    2026-11-03 ([handed-on are v1 as written], Jess Haley: handed on as v1 in
+    pass 1). It survives in `daqreader_epochdata_ingested.daqreader_id`: NDI
+    requires it (`ndi_mustBeNonEmpty`), V_eta relaxes it.
 
     MUTATION: remove the marker from the built schema -> fails.
     """
-    dep = _deps(_veta()["epochfiles_ingested"])["filenavigator_id"]
+    dep = _deps(_veta()["daqreader_epochdata_ingested"])["daqreader_id"]
     assert dep["ndi_mustBeNonEmpty"] is True
     assert dep["mustBeNonEmpty"] is False, (
         "REPORT ONLY -- this census must never tighten the edge it counts")
@@ -423,8 +425,11 @@ def test_the_divergence_set_is_non_empty_and_names_the_planning_cases():
                 rows.add(f"{cn}.{name}")
     assert rows, "the census found nothing to count -- check the stamp ran"
     # ontology_label.document_id left with its class (2026-10-30), and
-    # control_stimulus_ids.stimulus_presentation_id with its class (2026-11-01)
-    assert "epochfiles_ingested.filenavigator_id" in rows
+    # control_stimulus_ids.stimulus_presentation_id with its class (2026-11-01),
+    # epochfiles_ingested.filenavigator_id with its class (2026-11-03,
+    # [handed-on are v1 as written]); the daqreader ingested-epoch caches stay
+    # on the hand-on path and in the tree ([handed-on are v1 as written] (2))
+    assert "daqreader_epochdata_ingested.daqreader_id" in rows
 
 
 @pytest.mark.parametrize("counter", NRS.COUNTERS)
