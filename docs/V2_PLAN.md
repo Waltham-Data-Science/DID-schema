@@ -713,6 +713,7 @@ whose DID-matlab build waits on GL1-GL7.
     `does_subjectstring_match_session_document` now matches a V2 subject by
     `entity.local_identifier` alone. Also require type organism? [yes]
     CORRECTED 2026-11-03 (Jess: "Didn't we map v1 subjects as any of the biological entity types?"): yes; did_v2_entity_composition_plan.md agrees NDI's `getsubjects()` default organism, culture, tissue, cell, group. The match should accept those five types only. Treated as covered by that plan unless Jess says otherwise.
+    ANSWERED 2026-11-03: [subject match takes the subject types].
   - **G87. Gene-list facts that are not converted (from build C,
     2026-11-01).** A v1 gene list's genome assembly, annotation source, gene
     ID namespace and gene symbol namespace are not converted; today they are
@@ -726,6 +727,7 @@ whose DID-matlab build waits on GL1-GL7.
     ([gene list mapping terms], Proposed). Approve both? Each is a one-line
     change if not.
     RE-ASKED 2026-11-03 (Jess: "Why is that not a software edge? Is row really it? Or gene?"): v1 `method` is free text, not always software (NDI's example "GEF geneID/geneName pairing"); proposal: generic stage keeps it as the method's `name` (no term), a dataset map or import writes the software entity and `method.software_id` when it is a program; NCIT:C150832 dropped. Row: each row is one gene pair, the columns hold the gene ids, so SIO:000752 "row" is accurate. Proposed (not decided).
+    Follow-up 2026-11-03 (Jess: "Row seems weird. Index? What other options? What's the best answer?"): decided dimension terms name what each position is (OBI:0000807 presentation of stimulus, EMPTY:0000260 frame). Options: row (file layout), index (ontology 'Index' terms mean a score), the relation's term (names the whole mapping), 'gene pair'. Proposal: 'gene pair'; search ontologies first (T19), mint EMPTY only if none, definition brought for approval. Proposed (not decided).
   - **G89. Offset and scale units on ingested blocks (from build P,
     2026-11-01).** NDI computes value = (raw + offset) x scale: the offset is
     in raw counts, and the scale turns counts into whatever the reader outputs
@@ -771,6 +773,7 @@ whose DID-matlab build waits on GL1-GL7.
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
     RE-ASKED 2026-11-03 (Jess: "Why wouldn't the session entity get its date migrated just because it's read thru the dataset?"): no V2 session has a date (v1 has none; `session.date` was a V_zeta invention, deleted); what is lost is the second document's `base.datestamp`, the time v1 wrote it, when the dataset's own session folds into the dataset entity (resolveDatasetEntities, [dataset session reference]). Proposal: not kept, as [v1 session document id not kept]. Proposed (not decided).
+    Follow-up 2026-11-03 (Jess: "Is that the same value?"): no. One case in all corpora (JH session 41269431a5b8c44c_40b328d54848906b: v1 2025-09-05T02:46:05.544Z, dataset 2025-09-09T14:46:39.626Z; B, Dab, 20211116, PRED: 0). (a) drop it [lean], or (b) keep it in a new slot. Awaiting answer.
   - **G97. The two gene-list carry kinds (from build C, 2026-11-01).**
     carry-166 (a `geneListMapping` of another mapping type) is `not_modelled`;
     carry-167 (its `mapping.tsv` cannot be read) is `malformed`, since no NDI
@@ -806,6 +809,7 @@ whose DID-matlab build waits on GL1-GL7.
     in the report's reason), or keep NaN with the unit? [leave out, unit in
     the gap's reason]
     RE-ASKED 2026-11-03 (Jess: "Do you think the rule is good? Or will it impede migration?"): Claude: good, and it does not block ([gap accepted when the report lists it]); the unit survives only as report text. Proposed (not decided).
+    ANSWERED 2026-11-03: [stated unit with no amount is a gap].
   - **G100. A unitless waveform as one gap (from build T).** v1 mean spike
     waveforms carry no unit for their samples; listing each sample as a gap is
     hundreds of entries per neuron. May the run's report list the whole
