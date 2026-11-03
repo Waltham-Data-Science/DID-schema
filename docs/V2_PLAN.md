@@ -5,7 +5,29 @@ lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
 indexed in `docs/did_v2_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-11-01.
+Last updated 2026-11-03.
+
+## State at 2026-11-03 (read with the 2026-10-31 state below)
+
+- **Merge permission** (Jess Haley, 2026-11-03, in conversation): "As long
+  as you are only merging to did and ndi matlab v2 branch (never main) you
+  have my permission to merge without review for now." Agents merge a green
+  PR (every Actions run, check run and commit status passing) into the `V2`
+  branch of VH-Lab/DID-matlab or VH-Lab/NDI-matlab; never into `main`.
+- **Closing issues** (Jess Haley, 2026-11-03): Claude and its agents close
+  only issues Jess opened. On anyone else's, comment the evidence and ask
+  the author.
+- NDI-matlab #1163 (merged with codecov red, wording only) is kept (Jess,
+  2026-11-03).
+- NDI-matlab #1164 (merged fc26ccbc): readtimeseries equivalence test. A
+  plain v1 session reads the same after migration. A probe ingested in v1
+  cannot be read after migration until the reader of
+  [V2 ingest is one sampled body per channel group] is built (in progress).
+- NDI-matlab #1018 stays open until a Haley `readtimeseries` is timed after
+  migration (Jess, 2026-11-03).
+- Queued after the running builds land (Jess, 2026-11-03: "Yes"):
+  NDI-matlab #785 across a whole corpus (subjects, elements, probes, epochs
+  before and after migration, and the write round trip).
 
 ## State at 2026-10-31 (pick up here)
 
