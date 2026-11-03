@@ -11496,6 +11496,18 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "voltage",
+            "node": "AFO:AFR_0001916",
+            "definition": "Voltage is a quality quantification facet which quantifies the difference in electric potential energy between two points per unit electric charge.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-03 [voltage AFO, current NCIT], did_v2_go_forward_class_audit.md: the recording observation's variable for an electrode recording voltage (added after DID-matlab #385 writes it, siblings first)",
+            "first_used_in": "DID-matlab +did2/+convert/resolveEpochProbemap.m recordingVariable (73e7661)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
