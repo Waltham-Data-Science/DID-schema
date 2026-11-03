@@ -632,6 +632,7 @@ whose DID-matlab build waits on GL1-GL7.
     lose its v1 word (`patch-Vm`). Keep the statement only where no observation
     carries the mode? [yes: the same "retires only where its replacement is
     present" rule as `observes`] Proposed (not decided).
+    ANSWERED 2026-11-03: [clamp mode of unrecorded probe dropped].
   - **G75. The ingest's events file (parked by Jess, 2026-11-01: "ask me again
     later").** Keep NDI's events/markers/text file whole as one opaque body
     (format EMPTY:0000367), as migrated data does, rather than a table of
@@ -755,11 +756,13 @@ whose DID-matlab build waits on GL1-GL7.
     Which V2 document takes each id, or are they carried whole as v1? [a
     relation that already joins them takes the id, as `session_in_a_dataset`
     now does (DID-matlab #345)]
+    RE-ASKED 2026-11-03 (Jess: "What would that look like? Why did v1 even have a session doc id?"): v1's `newdocument` mints a random id for every document, the `session` document included; NDI opens a session by type, newest first, reading only `session_id()`; NDI's V2 writer makes the session entity with Id = session id and no second id. Revised proposal: do not keep the v1 `session` / `dataset_remote` documents' own ids, a recorded exception (after checking nothing points at them). Proposed (not decided).
   - **G94. A probe with two subjects (from build H).** 4 Dab probes recorded
     from two different subjects; a v1 probe names one. The round trip reports
     them rather than choosing. Expected (one probe shared across animals)? If
     so, which subject does the v1 rebuild name? [expected; rebuild the one the
     v1 document named, kept as a note]
+    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up asked 2026-11-03: until the Dab map exists, should the generic stage carry such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`)? [yes] Proposed (not decided).
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
