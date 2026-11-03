@@ -645,10 +645,12 @@ whose DID-matlab build waits on GL1-GL7.
     two or more sessions and no dataset, DID-matlab stops with
     `did2:convert:migrationAnchor` and writes no record. Which should it point
     at? [one record per dataset, each with its own report]
+    ANSWERED 2026-11-03: [one migration document per dataset].
   - **G78. The migration record's source and target formats (from build A).**
     Its `source format` and `target format` parameters are plain text
     ("did_v1", "did_v2"), [migration record details] (b) Proposed. Keep plain
     text, or find or mint terms? [plain text: these are our own format names]
+    ANSWERED 2026-11-03: [migration formats are plain text].
   - **G79. Keep accepting `V_eta` as a target name? (from build N,
     2026-11-01.)** [schema set renamed did_v2] planned: accept both, switch the
     defaults, then stop accepting `V_eta`. The defaults are switched
