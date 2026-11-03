@@ -5,7 +5,29 @@ lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
 indexed in `docs/did_v2_OPEN_WORK.md`. When this file and either of those
 disagree, they win.
 
-Last updated 2026-11-01.
+Last updated 2026-11-03.
+
+## State at 2026-11-03 (read with the 2026-10-31 state below)
+
+- **Merge permission** (Jess Haley, 2026-11-03, in conversation): "As long
+  as you are only merging to did and ndi matlab v2 branch (never main) you
+  have my permission to merge without review for now." Agents merge a green
+  PR (every Actions run, check run and commit status passing) into the `V2`
+  branch of VH-Lab/DID-matlab or VH-Lab/NDI-matlab; never into `main`.
+- **Closing issues** (Jess Haley, 2026-11-03): Claude and its agents close
+  only issues Jess opened. On anyone else's, comment the evidence and ask
+  the author.
+- NDI-matlab #1163 (merged with codecov red, wording only) is kept (Jess,
+  2026-11-03).
+- NDI-matlab #1164 (merged fc26ccbc): readtimeseries equivalence test. A
+  plain v1 session reads the same after migration. A probe ingested in v1
+  cannot be read after migration until the reader of
+  [V2 ingest is one sampled body per channel group] is built (in progress).
+- NDI-matlab #1018 stays open until a Haley `readtimeseries` is timed after
+  migration (Jess, 2026-11-03).
+- Queued after the running builds land (Jess, 2026-11-03: "Yes"):
+  NDI-matlab #785 across a whole corpus (subjects, elements, probes, epochs
+  before and after migration, and the write round trip).
 
 ## State at 2026-10-31 (pick up here)
 
@@ -910,6 +932,44 @@ whose DID-matlab build waits on GL1-GL7.
     the two copies until the migration can read those files, or (b) keep the
     results as v1 whenever the files are absent? Built for now: (a)'s
     behaviour (nothing dropped). Proposed (not decided).
+  - **G108. The openMINDS v2 export (NDI-matlab #768, from build Q4,
+    2026-11-03).** Only a plan exists (issue comment 2026-10-21: an
+    `ndi.entity.OpenMinds()` writing openMINDS contributions from v2
+    relations, targeting openMINDS `latest`). Nothing built. Questions, with
+    Claude's recommendation: (1) version: `latest` as pinned by
+    openMINDS_MATLAB v0.12.0 (NDI's current pin), moving on deliberately [yes];
+    (2) our 14 CRediT roles vs openMINDS's 52 contribution types: a 14-row
+    mapping table for approval [Claude drafts it]; (3) author order kept as
+    one ordered "authoring" contribution; corresponding author dropped (or as
+    custodian) [dropped]; (4) affiliations: export every affiliation of each
+    exported person (v2 affiliation is not per dataset) [yes]; (5) `Dataset`
+    only for now; `DatasetVersion` (about 15 required fields, several with no
+    v2 source) later [yes]; (6) a function taking a v2 dataset and returning
+    openMINDS_MATLAB objects, optionally saved as JSON-LD, tested against the
+    pinned schema [yes]. Proposed (not decided).
+  - **G109. Spatial transcriptomics migrator details (NDI-matlab #1007,
+    did-schema #91, #107; from build Q3, 2026-11-03).** The signed family
+    ([spatial_transcriptomics_family], 2026-09-29) fixes the shape only; the
+    plan's section F lists the vocabulary and emitters as not built. Twelve
+    details, Claude's recommendation in brackets where it has one: (1) tile
+    files are NDI's packed "tile format 1": keep each as an opaque body
+    member [yes] or re-encode; (2) the counts' entity: the animal, or a
+    minted tissue-section entity (which type?); (3) a term for "UMI count";
+    carry a non-raw `count_type` as v1?; (4) `assay` text: one method term
+    (ILX:0739396 spatial transcriptomics) or kept as a Description
+    parameter; (5) the chip: an entity? type, serial where; (6)
+    `pipeline_version`: SAW's or NDI's builder; (7) gene_totals.tsv's two
+    numbers: one opaque file [yes], two calculations, or drop the pixel
+    count; (8) the coordinate frame: one system or two; reuse x/y-axis,
+    "image right/down", "image upper-left corner"; spacing for "source"
+    units; (9) time: "during the session" as lightsheet; (10) the cell
+    table: terms for the cell id and known extra columns, unknown columns
+    (carry as v1 or plain label), keep cells.tsv whole; (11) cell outlines:
+    convert to section coordinates or keep contours.bin whole; segmentation
+    method and dilation as method term and parameter; (12) labels as
+    `notes`, as lightsheet. Until answered, these classes are carried as v1
+    (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
+    Proposed (not decided).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,

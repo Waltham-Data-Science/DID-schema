@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 722,
+          "accepted_lines": 723,
           "accepted_lines_by_kind": {
-            "Decided by": 602,
+            "Decided by": 603,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5173,6 +5173,14 @@
               "tag": "new database defaults to v2",
               "date": "2026-11-03",
               "anchor": "Decided by Jess Haley, 2026-11-03 [new database defaults to"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1971,
+              "kind": "Decided by",
+              "tag": "old names guarded in comments",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [old names guarded in"
             },
             {
               "document": "did_v2_image_model_plan.md",
