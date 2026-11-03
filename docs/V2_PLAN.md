@@ -664,6 +664,10 @@ whose DID-matlab build waits on GL1-GL7.
     by its row (`order`), so the v1 text rebuilds exactly? Until answered
     those epochs are carried whole as v1 (lossless). [(a), if the v1 text
     may be rebuilt in NDI's merged form]
+    EXPLAINED 2026-11-03 with the proposed V2 shape (one `connected to`
+    directed_relation, child the stimulator, parent the acquisition system,
+    one condition: variable EMPTY:0000377 marker channel, value [1..7]); the
+    round trip then writes one v1 row `...:mk1-7`, not seven. Awaiting answer.
   - **G81. Carry what the batch passes leave, at the end (from build J,
     2026-11-01).** Five retire classes stay because pass 1 hands their
     documents to a later batch pass (epochMint, resolveResponseParameters,
@@ -803,6 +807,7 @@ whose DID-matlab build waits on GL1-GL7.
     registered, or register the FBbi term under a distinct label? [use
     NCIT:C16856: T19 prefers a term already used in an NDI dataset]
     Proposed (not decided).
+    ANSWERED 2026-11-03: [one-photon is NCIT fluorescence microscopy].
   - **G102. Dabrowska bath units (from build U).** The aCSF and cutting
     solution recipes (NDI `+dabrowska/dabrowska_mixtures.json`) state
     osmolarity as `0.29` "osm" and carbogen as `1` "saturation"; neither unit
@@ -814,16 +819,27 @@ whose DID-matlab build waits on GL1-GL7.
     "saturation" becomes? [(b); carbogen saturation: a fraction, 1 = fully
     bubbled] Proposed (not decided). The validator check for several-field
     and prefixed-molar quantities waits on this.
+    RE-ASKED 2026-11-03 (Jess: "Are those real units? Isn't this a dataset
+    specific question?"). Revised proposal: "osm" (an amount, not per litre
+    or per kg) and "saturation" (not a unit) are Dabrowska's to define; the
+    generic stage carries the two rows as v1 and the Dab map states their
+    meaning; NDI's Dab slice test expects them carried until then. OK?
+    Proposed (not decided).
   - **G103. The treatment migrator's label-word list (from build U's
     dataset-specific audit).** One list recognises "date of birth" and
     "experiment time" (vhlab's) by their words, only to carry those rows as
     v1; without it they would be carried as v1 anyway, under a different
     reason. Delete it? [yes] Proposed (not decided).
+    RE-ASKED 2026-11-03 (Jess: "I don't understand"), in plainer words: the
+    list only makes the rows carry under a different register reason; and
+    "non-survival experiment time" is vhlab's wording. Delete it, or move it
+    to a future vhlab import that gives date of birth its meaning?
   - **G104. The saline placeholder rule (from build U's audit).** A "saline
     1 mg/kg" row is read as a placeholder, not an amount; it comes from
     Hunsberger's control group. A rule for every dataset ("a vehicle carries
     no drug amount"), or moved to Hunsberger's own import? [move it to the
     Hunsberger import] Proposed (not decided).
+    ANSWERED 2026-11-03: [saline placeholder in Hunsberger import].
     Audit: `docs/v2_working/DATASET_SPECIFIC_AUDIT_2026-11-02.md` (DID-matlab
     `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
     remaining dataset-specific code is `sliceTetanus`, already decided to move
@@ -841,6 +857,7 @@ whose DID-matlab build waits on GL1-GL7.
     Build W also put two more classes on this path, the two daqreader
     ingested-epoch kinds (no corpus holds one). Keep them there? [yes]
     Proposed (not decided).
+    ANSWERED 2026-11-03: [handed-on are v1 as written].
 
 - **E1. Tuning curves whose `stimid` list does not rebuild (DID-matlab #266).**
   Measured by a scratch run: 20211116, 20 of 84 curves rebuild exactly; Soph,
