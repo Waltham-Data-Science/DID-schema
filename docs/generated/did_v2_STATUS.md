@@ -382,7 +382,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 123 document(s) read (3 generated copies excluded); 722 decision line(s) accepted, 2 rejected; 44 cited by a class, 678 cited by none.
+DENOMINATOR: 123 document(s) read (3 generated copies excluded); 723 decision line(s) accepted, 2 rejected; 44 cited by a class, 679 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -943,6 +943,7 @@ field). If one decides a class's disposition, that class should cite it.
 - term picks batch 2. "Decided by Jess Haley, 2026-11-03 [term picks batch 2]: (" (did_v2_go_forward_class_audit.md:1965).
 - v2 line reads and writes both. "Decided by Jess Haley, 2026-11-03 [v2 line reads and writes" (did_v2_go_forward_class_audit.md:1967).
 - new database defaults to v2. "Decided by Jess Haley, 2026-11-03 [new database defaults to" (did_v2_go_forward_class_audit.md:1969).
+- old names guarded in comments. "Decided by Jess Haley, 2026-11-03 [old names guarded in" (did_v2_go_forward_class_audit.md:1971).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
