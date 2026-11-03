@@ -607,6 +607,7 @@ whose DID-matlab build waits on GL1-GL7.
     templates", which the check reads as history); (b) skip all of OPEN_WORK;
     (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
     rest of the check keeps working]
+    ANSWERED 2026-11-03: [dated counts in OPEN_WORK] ((a), Claude's choice at Jess's request).
   - **G71. A virus dilution ([canonical absent only as needs info]).**
     A virus injection's dilution is a v1 number with no unit (e.g. 1000; the
     migrator labels it `dilution`). DID-matlab #311 leaves it as it was (source value, no
@@ -688,11 +689,13 @@ whose DID-matlab build waits on GL1-GL7.
     and decide separately when new sessions get the V2 database by default?
     [addSessionV2 folded back] waits on this. [yes: keep v1 for old
     databases; make V2 the default for new sessions as its own decision]
+    ANSWERED 2026-11-03: [V2 branch writes V2 only] (Jess: write V2 exclusively, read v1 and V2). Follow-up G106.
   - **G83. Writers that don't know their session (from build G2).**
     `subjectMaker` and the other NDIMaker classes, `openMINDSobj2ndi_document`
     and the `+fun/+doc` makers build documents before they know the session.
     Pass the session to them (as `ndi.subject/newdocument(S)` now does), or a
     "write V2" switch? [pass the session]
+    ANSWERED 2026-11-03: [writers are given the session].
   - **G84. Element and ingested-epoch writers vs the ingest (from build G2).**
     [ingest waits on native V2 records] makes the ingest wait for the probe
     (element) to be written as V2, but a V2 element is built by the batch pass
@@ -732,6 +735,7 @@ whose DID-matlab build waits on GL1-GL7.
     Term search 2026-11-03 (OLS4): no 'gene pair' term (exact: fusion genes, PAX alleles, MI:0057 'gene neighbourhood'; 'orthologous gene pair': ORTH:hasOrtholog, a relation; 'homologous gene pair' exact: 0). Wikidata: request failed, not checked. Existing general term: NCIT:C48046 'Pair' ('A set of two similar things considered as a unit'), the covariates saying each side is a gene (T19). Proposal: NCIT:C48046; alternative: mint EMPTY 'gene pair'. Awaiting answer.
     Follow-up 2026-11-03 (Jess: "What do you think fits the tenets best?"): NCIT:C48046 'Pair' (T19: stop at the first step that has the meaning, step 2 here; name nothing the document states elsewhere, the covariates say gene). Awaiting answer.
     ANSWERED 2026-11-03 (dimension): [gene pair term is NCIT Pair]. CORRECTED 2026-11-03 (method text): Claude's 'keep it as the method's name' contradicted [gene list mapping method text] (the text is one parameter of the relation's inline method, which has no `name`); withdrawn. Open: the parameter's variable; proposal NCIT:C25365 'Description' (true of every v1 value; 'Software Name' is false for e.g. 'GEF geneID/geneName pairing'); a dataset import adds a software entity when it knows the text is a program. Awaiting answer.
+    ANSWERED 2026-11-03 (method text): [gene-list method text is a description].
   - **G89. Offset and scale units on ingested blocks (from build P,
     2026-11-01).** NDI computes value = (raw + offset) x scale: the offset is
     in raw counts, and the scale turns counts into whatever the reader outputs
@@ -784,6 +788,7 @@ whose DID-matlab build waits on GL1-GL7.
     carry-166 (a `geneListMapping` of another mapping type) is `not_modelled`;
     carry-167 (its `mapping.tsv` cannot be read) is `malformed`, since no NDI
     writer makes the class. Both `kind_basis: proposed`. Right? [yes]
+    ANSWERED 2026-11-03: [gene-list carry kinds confirmed].
   - **G96. About 50 names the migration writes that are not registered
     terms (from builds Q and R, 2026-11-02).** [early migration pieces fixed]
     part (3) keeps TermRegistry on during migration, so each needs a registry
@@ -869,6 +874,13 @@ whose DID-matlab build waits on GL1-GL7.
     `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
     remaining dataset-specific code is `sliceTetanus`, already decided to move
     to the Dab map).
+  - **G106. Adding to an existing v1 database on the V2 line (from G82,
+    2026-11-03).** [V2 branch writes V2 only]: NDI on the V2 line writes V2
+    only. When someone opens an existing v1 database there and adds
+    something: (a) NDI refuses to write until the database is migrated
+    (`ndi.migrate.local`), reading still works; or (b) NDI writes V2
+    documents into the v1 database beside its v1 documents? [(a): no mixed
+    databases] Proposed (not decided).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
