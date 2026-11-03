@@ -668,6 +668,7 @@ whose DID-matlab build waits on GL1-GL7.
     directed_relation, child the stimulator, parent the acquisition system,
     one condition: variable EMPTY:0000377 marker channel, value [1..7]); the
     round trip then writes one v1 row `...:mk1-7`, not seven. Awaiting answer.
+    ANSWERED 2026-11-03: [probe in several rows is one wiring] ((a), three guards).
   - **G81. Carry what the batch passes leave, at the end (from build J,
     2026-11-01).** Five retire classes stay because pass 1 hands their
     documents to a later batch pass (epochMint, resolveResponseParameters,
@@ -835,6 +836,7 @@ whose DID-matlab build waits on GL1-GL7.
     list only makes the rows carry under a different register reason; and
     "non-survival experiment time" is vhlab's wording. Delete it, or move it
     to a future vhlab import that gives date of birth its meaning?
+    ANSWERED 2026-11-03: [treatment word list deleted].
   - **G104. The saline placeholder rule (from build U's audit).** A "saline
     1 mg/kg" row is read as a placeholder, not an amount; it comes from
     Hunsberger's control group. A rule for every dataset ("a vehicle carries
