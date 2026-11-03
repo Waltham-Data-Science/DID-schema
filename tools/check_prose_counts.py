@@ -74,6 +74,24 @@ corrections already have.
     live one are textually identical once the correction connective is a
     sentence away.
 
+    (3) DATED MEASUREMENTS, a third state. Decided by Jess Haley, 2026-11-03
+        [dated counts in OPEN_WORK] (`did_v2_go_forward_class_audit.md`). A
+        number is DATED when it is written as a measurement taken on a day:
+          * governed by `at <YYYY-MM-DD>:` -- the cue is before the number in
+            the same sentence ("at 2026-08-11: 91 NDI templates on
+            origin/main, 1002 .m files searched" dates both numbers); a
+            sentence break (". ") ends its reach;
+          * or anywhere in a block of `docs/did_v2_OPEN_WORK.md` that begins
+            `RE-DERIVED <YYYY-MM-DD>` (the dated log, #119 part 1).
+        A dated claim is NOT adjudicated: it neither agrees nor fails, because
+        a dated measurement asserts nothing current. It is COUNTED and printed
+        (`claims DATED (exempt)`), so the denominator stays visible. A
+        (document, noun) group holding ONLY dated claims is reported as such
+        and is not the all-history failure below. Dated wins over (1): a
+        `was 1012` inside a RE-DERIVED block is dated, not history. Rule (1)
+        and its all-history failure are otherwise unchanged, and a group whose
+        non-dated claims are all history still fails.
+
     AND THE FAILURE MODE IS SAFE IN THE DIRECTION THAT MATTERS. Demotion is
     NARROW: when in doubt a number stays LIVE and gets checked. A claim the
     tool cannot resolve -- a noun whose derivation is unavailable in this
@@ -91,7 +109,7 @@ recomputation, and asserts that no derivation opens a `.md` file).
 
 RULE 5, FIRST AND UNCONDITIONALLY. The denominator prints before any verdict:
 documents scanned, lines read, claims located, and the split into LIVE /
-QUOTED-AS-HISTORY / NOT-DERIVABLE. A run that locates ZERO claims EXITS
+QUOTED-AS-HISTORY / DATED / SCOPED / NOT-DERIVABLE. A run that locates ZERO claims EXITS
 NON-ZERO -- this repository has had a counter report clean while reading
 nothing for two days, and "no disagreements" from a scan that matched no files
 is that same zero.
@@ -484,6 +502,32 @@ SCOPE_REACH = 60
 
 
 
+# RULE (3), DATED. `at 2026-08-11:` governs every number after it up to the
+# end of its sentence ("." followed by whitespace). `.m files` and `origin/main`
+# contain a "." that is not followed by whitespace, so they do not end it.
+DATED_AT_RE = re.compile(r"\bat\s+\d{4}-\d{2}-\d{2}\s*:")
+SENTENCE_END_RE = re.compile(r"\.\s")
+# The dated log: a block of OPEN_WORK that begins `RE-DERIVED <date>`.
+DATED_LOG_DOCUMENT = "did_v2_OPEN_WORK.md"
+DATED_LOG_RE = re.compile(r"^RE-DERIVED\s+\d{4}-\d{2}-\d{2}\b")
+
+
+def is_dated_at(text, start):
+    """Is the number at text[start:] governed by an `at <date>:` before it in
+    the same sentence?"""
+    last = None
+    for m in DATED_AT_RE.finditer(text, 0, start):
+        last = m
+    if last is None:
+        return False
+    return SENTENCE_END_RE.search(text, last.end(), start) is None
+
+
+def is_dated_log_block(path, text):
+    return (os.path.basename(path) == DATED_LOG_DOCUMENT
+            and DATED_LOG_RE.match(text) is not None)
+
+
 def is_demoted(line, start, end):
     """Is the number at line[start:end] quoted as history rather than asserted?"""
     if DEMOTED_BEFORE_RE.search(line[:start]):
@@ -500,19 +544,23 @@ def is_scoped(text, end):
 # --------------------------------------------------------------------------
 
 class Claim:
-    def __init__(self, path, lineno, noun, value, demoted, text, scoped=False):
+    def __init__(self, path, lineno, noun, value, demoted, text, scoped=False,
+                 dated=False):
         self.path = path
         self.lineno = lineno
         self.noun = noun
         self.value = value
-        self.demoted = demoted
+        # Rule (3) wins over rule (1): a dated claim is never also history.
+        self.dated = dated
+        self.demoted = demoted and not dated
         self.scoped = scoped
         self.text = text
 
     @property
     def live(self):
-        """ASSERTED: neither quoted as history nor narrowed to a sub-set."""
-        return not self.demoted and not self.scoped
+        """ASSERTED: not quoted as history, not a dated measurement, not
+        narrowed to a sub-set."""
+        return not self.demoted and not self.scoped and not self.dated
 
     @property
     def where(self):
@@ -618,6 +666,7 @@ def scan(paths, nouns=None):
         docs_read += 1
         lines_read += len(lines)
         for text, spans in blocks(lines):
+            in_log = is_dated_log_block(path, text)
             hits = []                     # (start, end, noun) of every noun match
             for noun in nouns:
                 for pat in noun.patterns:
@@ -629,7 +678,8 @@ def scan(paths, nouns=None):
                             int(raw.replace(",", "")),
                             is_demoted(text, m.start(1), m.end(1)),
                             _excerpt(text, m.start(1)),
-                            scoped=is_scoped(text, m.end())))
+                            scoped=is_scoped(text, m.end()),
+                            dated=in_log or is_dated_at(text, m.start(1))))
             # The bare OLD half of a correction pair, attributed to the nearest
             # noun match on its left and only within reach.
             hits.sort()
@@ -645,7 +695,8 @@ def scan(paths, nouns=None):
                 claims.append(Claim(
                     path, _lineno_at(spans, m.start(1)), owner,
                     int(m.group(1).replace(",", "")), True,
-                    _excerpt(text, m.start(1))))
+                    _excerpt(text, m.start(1)),
+                    dated=in_log or is_dated_at(text, m.start(1))))
     # One number can be matched by two patterns of the same noun, and the
     # pattern's own verdict wins over the correction-pair scan's -- so the
     # FIRST sighting is kept.
@@ -685,9 +736,16 @@ def adjudicate(claims, values, unavailable):
     among that document's LIVE claims for the noun.
 
     Returns (agree, disagree, superseded, undecidable) where each is a list of
-    (path, noun, derived_or_None, [claims])."""
+    (path, noun, derived_or_None, [claims]).
+
+    Rule (3): DATED claims are left out before anything is adjudicated, so a
+    group holding only dated claims is in none of the four lists (see
+    `dated_only_groups`), and a group's verdict is reached on its non-dated
+    claims exactly as before."""
     groups = {}
     for c in claims:
+        if c.dated:
+            continue
         groups.setdefault((c.path, c.noun), []).append(c)
 
     agree, disagree, superseded, undecidable = [], [], [], []
@@ -717,6 +775,17 @@ def adjudicate(claims, values, unavailable):
     return agree, disagree, superseded, undecidable
 
 
+def dated_only_groups(claims):
+    """[(path, noun, [claims])] for the (document, noun) groups whose every
+    claim is DATED. Exempt from adjudication, and never the all-history
+    failure: a dated measurement asserts nothing current."""
+    groups = {}
+    for c in claims:
+        groups.setdefault((c.path, c.noun), []).append(c)
+    return [(p, n, rows) for (p, n), rows in sorted(groups.items())
+            if all(r.dated for r in rows)]
+
+
 # --------------------------------------------------------------------------
 # RENDER
 # --------------------------------------------------------------------------
@@ -729,13 +798,16 @@ def render(paths, claims, docs_read, lines_read, unreadable,
     # for two days.
     live = [c for c in claims if c.live]
     hist = [c for c in claims if c.demoted]
-    scoped = [c for c in claims if c.scoped and not c.demoted]
+    dated = [c for c in claims if c.dated]
+    scoped = [c for c in claims if c.scoped and not c.demoted and not c.dated]
+    dated_only = dated_only_groups(claims)
     nd_claims = [c for c in claims if c.noun in unavailable]
     out(f"DENOMINATOR: {len(paths)} document(s) globbed, {docs_read} read, "
         f"{lines_read} line(s); {len(claims)} numeric claim(s) located "
         f"over a vocabulary of {len(NOUNS)} countable noun(s)")
     out(f"  claims ASSERTED (checked)            : {len(live)}")
     out(f"  claims QUOTED AS HISTORY (exempt)    : {len(hist)}")
+    out(f"  claims DATED (exempt)                : {len(dated)}")
     out(f"  claims SCOPED to a sub-set (exempt)  : {len(scoped)}")
     out(f"  claims whose noun is NOT DERIVABLE   : {len(nd_claims)}")
     out(f"  nouns with a claim in the corpus     : "
@@ -747,14 +819,16 @@ def render(paths, claims, docs_read, lines_read, unreadable,
     out(f"    AGREE                              : {len(agree)}")
     out(f"    DISAGREE                           : {len(disagree)}")
     out(f"    UNDECIDABLE                        : {len(undecidable)}")
+    out(f"  (document, noun) pairs DATED only    : {len(dated_only)}"
+        f"  (not adjudicated)")
     out(f"  superseded claims inside AGREE pairs : "
         f"{sum(len(r) for _p, _n, _d, r in superseded)}")
     out("")
 
     # Conservation, so a bucket cannot be dropped quietly: every located claim
-    # is ASSERTED, QUOTED-AS-HISTORY or SCOPED, and every one whose noun has no
-    # derivation is named again in its own line above.
-    assert len(live) + len(hist) + len(scoped) == len(claims)
+    # is ASSERTED, QUOTED-AS-HISTORY, DATED or SCOPED, and every one whose noun
+    # has no derivation is named again in its own line above.
+    assert len(live) + len(hist) + len(dated) + len(scoped) == len(claims)
 
     for path, exc in unreadable:
         out(f"UNREADABLE: {os.path.relpath(path, REPO)} -- {exc}")
@@ -803,6 +877,15 @@ def render(paths, claims, docs_read, lines_read, unreadable,
             for r in rows:
                 out(f"      {r.where}  says {r.value}"
                     f"{'  (quoted as history)' if r.demoted else ''}")
+        out("")
+
+    if dated_only:
+        out("DATED ONLY -- every claim for the noun in this document is a dated "
+            "measurement (rule 3). Not adjudicated and not a failure; listed so "
+            "the exemption is never silent:")
+        for path, noun, rows in dated_only:
+            out(f"  {os.path.relpath(path, REPO)}  [{noun}]  "
+                f"{len(rows)} dated claim(s)")
         out("")
 
     if superseded:

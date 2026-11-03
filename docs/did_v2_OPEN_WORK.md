@@ -428,7 +428,7 @@ it is the two facts NDI already stores, landing in the two slots that already ex
 
 **NOTHING REFERENCES `generic_file` BY ID.**
 
-        DENOMINATOR: 91 NDI templates on origin/main, 1002 .m files searched
+        DENOMINATOR: at 2026-08-11: 91 NDI templates on origin/main, 1002 .m files searched
         RE-DERIVED 2026-08-13: 91 NDI templates on origin/main; 1,003 .m files. The did_v1 ground truth did NOT move -- 0 template diffs across the NDI main merge, still 91; main gained one .m file, so only the denominator shifted. RE-DERIVED AGAIN 2026-08-15: 91 NDI templates on origin/main; 1,005 .m files. NDI main moved to 928b1cd5 and two of its nine commits add test .m files (closeAndRemoveDir.m, TestRayoLabStims.m). The did_v1 ground truth is STILL unmoved -- 91 templates, 0 diffs; only the denominator shifted.
         NDI templates declaring generic_file_id or valid_interval_id     0
         DID-matlab migrator references to either id                      0
@@ -520,7 +520,7 @@ pattern already used for the ensemble (T10).
    several statements makes "first" undefined unless order is preserved explicitly. So this class
    is load-bearing for ANALYSIS, not just bookkeeping.
 
-**NOTHING REFERENCES IT BY ID** (0 of 91 NDI templates, 0 DID-matlab migrator references), so a
+**NOTHING REFERENCES IT BY ID** (at 2026-08-11: 0 of 91 NDI templates, 0 DID-matlab migrator references), so a
 decompose cannot strand a referent.
 
 **No `TEAM-SIGN-OFF` line is written by Claude.** The board keeps rendering this family as HISTORICAL-SIGNOFF-CLAIM
@@ -565,7 +565,7 @@ fold's existing behaviour stands: the dates are discarded and the discard is COU
 
 **THE EVIDENCE, re-derived from NDI `origin/main` rather than argued:**
 
-        DENOMINATOR: 91 NDI templates; 3 carry any date-ish field
+        DENOMINATOR: at 2026-08-11: 91 NDI templates; 3 carry any date-ish field
           generic_file           -> dateCreated, dateUpdated   <- the only FILE dates
           imageStack_parameters  -> timestamp
           treatment_transfer     -> timestamp
@@ -960,7 +960,7 @@ dated measurements above are left exactly as taken; this is the live claim besid
 
         DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
         243 distinct V_eta class names
-        42 direct subclasses of `data_type`
+        at 2026-08-17: 42 direct subclasses of `data_type`
 
 Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
 `subject_calculation` — which is why the class count moved by two and the
