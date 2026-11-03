@@ -49,9 +49,9 @@ The decision lines are in `docs/plans/did_v2_go_forward_class_audit.md` (did-sch
   not on the document.
 - At the end of NDI's second pass, `carryUnchangedAsV1` replaces every document
   no step changed with its v1 source, stamped `did_v1`
-  (`local.m:1112-1149`). These are written into the same V2 sqlite file as the
-  V2 documents (`local.m:1165-1192`). So a carried document sits in the
-  dataset's V2 database as a `did_v1` document.
+  (`local.m:1112-1149`). These are written into the same v2 sqlite file as the
+  v2 documents (`local.m:1165-1192`). So a carried document sits in the
+  dataset's v2 database as a `did_v1` document.
 
 ### 1.3 Where `needs_mapping` carries are made (DID-matlab f6486be)
 
@@ -91,10 +91,10 @@ it only by its Babu example.
 
 | dataset | what | input | where |
 |---|---|---|---|
-| Haley (JH) | a full V2 import, 13 stages | **raw source only** (`import_V2(dataParentDir, ...)`, args at `+setup/+conv/+haley/import_V2.m:149-166`; no v1-document input) | `+haley/import_V2.m`, `import_V2_spec.json` (sections: organizations ... `ecoli_patch_layout`, `corrections`), `import_V2_decisions.md` (prose log), `trackDocuments.m`, `encounterDocuments.m`, `geometryDocuments.m`, ... |
-| template | a starter V2 import | raw source | `+template/import_V2.m`. Its header states the rule "Dataset-specific mapping lives in the SPEC (import_V2_spec.json) ... The code stays generic" (:30-34) and "Every choice is recorded in the DECISION LOG" (:35-36) |
-| Dabrowska (Dab) | v1 import `doImport.m` (unchanged); a decision log `V2_decisions.md` (9 decided rows, all 2026-10-21); v1 data dictionaries (`tableDoc_dictionary.json`, `dabrowska_mixtures_dictionary.json`, `dabrowska_bathtargets.json`) | v1 import reads raw | `+setup/+conv/+dabrowska/`. The code that carries the V2 decisions is NOT there: it is `+migrate/+internal/sliceTetanus.m` (938 lines), called from the generic second pass (`local.m:965-980`, `V2_decisions.md:7-10`) |
-| Babu | v1 import only (`import.m`, `treatments.json`, ...) | raw | `+setup/+conv/+babu/` (no V2 file) |
+| Haley (JH) | a full v2 import, 13 stages | **raw source only** (`import_V2(dataParentDir, ...)`, args at `+setup/+conv/+haley/import_V2.m:149-166`; no v1-document input) | `+haley/import_V2.m`, `import_V2_spec.json` (sections: organizations ... `ecoli_patch_layout`, `corrections`), `import_V2_decisions.md` (prose log), `trackDocuments.m`, `encounterDocuments.m`, `geometryDocuments.m`, ... |
+| template | a starter v2 import | raw source | `+template/import_V2.m`. Its header states the rule "Dataset-specific mapping lives in the SPEC (import_V2_spec.json) ... The code stays generic" (:30-34) and "Every choice is recorded in the DECISION LOG" (:35-36) |
+| Dabrowska (Dab) | v1 import `doImport.m` (unchanged); a decision log `V2_decisions.md` (9 decided rows, all 2026-10-21); v1 data dictionaries (`tableDoc_dictionary.json`, `dabrowska_mixtures_dictionary.json`, `dabrowska_bathtargets.json`) | v1 import reads raw | `+setup/+conv/+dabrowska/`. The code that carries the v2 decisions is NOT there: it is `+migrate/+internal/sliceTetanus.m` (938 lines), called from the generic second pass (`local.m:965-980`, `V2_decisions.md:7-10`) |
+| Babu | v1 import only (`import.m`, `treatments.json`, ...) | raw | `+setup/+conv/+babu/` (no v2 file) |
 
 ### 1.6 What #1072 and #250 removed, and where it went
 
@@ -106,7 +106,7 @@ it only by its Babu example.
 | DID `ontology_table_row.m` encounter and patch-geometry maps | DID #250 (778 lines changed) | deleted ("NO PER-TABLE MAPS", `ontology_table_row.m:14-21`); Haley import (`encounterDocuments.m`, `geometryDocuments.m`) |
 | DID `resolveEpochProbemap.m` JH position/distance | DID #250 | deleted; "such an epoch stays a plain acquisition_epoch, and the Haley V2 import makes the tracks" (`resolveEpochProbemap.m:2084-2086`) |
 | DID `image_stack.m` Haley region words | DID #250 | deleted; mask/map now carried (M4) |
-| DID Babu media (`isMedium`) and heat (`isHeatOnly`) | DID #250 | deleted (`git grep isMedium\|isHeatOnly origin/V2 -- src`: none); now M3 carries, resolved by "the Babu map" (carry-020/021). No Babu map or Babu V2 import exists |
+| DID Babu media (`isMedium`) and heat (`isHeatOnly`) | DID #250 | deleted (`git grep isMedium\|isHeatOnly origin/V2 -- src`: none); now M3 carries, resolved by "the Babu map" (carry-020/021). No Babu map or Babu v2 import exists |
 | NDI `sliceTetanus` | **not removed** | still in the generic second pass (`local.m:965-980`); [sliceTetanus to Dab map] is "Build pending" |
 
 So nothing removed tonight moved into a map. The Haley pieces are covered by
@@ -136,7 +136,7 @@ Three places, Proposed (not decided):
 |---|---|---|---|
 | A | inside `local.m`, one hook step before `carryUnchangedAsV1`, given a `DatasetMap` option | has every input; a mapped document is "changed" so it is not stamped `did_v1`; no reload | edits the generic stage, which [migration not generalizable] calls "frozen"; still runs after `pathS(located)` |
 | B | a hook at `sliceTetanus`'s slot (before `pathS(located)`) | Dab output stays identical to today | the generic pass then has dataset slots; harder to say the generic stage is "done" |
-| C | a separate step, `ndi.migrate.applyDatasetMap(path, map)`, run on the written V2 database | generic stage untouched and frozen; re-runnable after a map edit without re-migrating; easy to test "generic + map" | `sliceTetanus` must be adapted to read from the database (the epoch index is the `epoch` documents); Dab region parts made by `pathS(located)` on the animal must be redone by the map |
+| C | a separate step, `ndi.migrate.applyDatasetMap(path, map)`, run on the written v2 database | generic stage untouched and frozen; re-runnable after a map edit without re-migrating; easy to test "generic + map" | `sliceTetanus` must be adapted to read from the database (the epoch index is the `epoch` documents); Dab region parts made by `pathS(located)` on the animal must be redone by the map |
 
 **Proposed: C**, with the map's own steps allowed to call the generic
 `pathSPromotion` again on what they changed. Reason: it is the only option
@@ -148,7 +148,7 @@ workbook"). Option A is the fallback if adapting `sliceTetanus` costs too much.
 
 ## 2. What a map must resolve
 
-| # | thing | v1 class | V2 home(s) | today | dataset(s) |
+| # | thing | v1 class | v2 home(s) | today | dataset(s) |
 |---|---|---|---|---|---|
 | R1 | register carry-020 (medium / air) | `treatment` | exposure (manipulation valued by formulation); dose | carried (M3) | Babu |
 | R2 | register carry-021 (heat) | `treatment_drug` | temperature manipulation; dose | carried (M3) | Babu |
@@ -156,13 +156,13 @@ workbook"). Option A is the fallback if adapting `sliceTetanus` costs too much.
 | R4 | M2, substance with no location (no register row) | `treatment`, `treatment_drug`, `virus_injection` | immersion; dose | carried | Babu, Birren, Hunsberger writers (none in the corpora, same audit) |
 | R5 | M4, mask / map image (no register row) | `image_stack` | calculation (logical) of a region; label map; observation | carried | Haley (covered by the Haley import) |
 | R6 | M5, table row with a subject (no register row) | `ontology_table_row` | per column: assertion / observation / manipulation, with entity, value kind, unit | carried | Dab EPM / FPS, Babu, Hunsberger, Haley |
-| R7 | `sliceTetanus` | `stimulus_bath` (as written V2 baths), `element`, `subject`, `openminds_stimulus` (before/after labels EMPTY:0000220/0000221), `treatment` (EMPTY:0000074), epoch files | slice `entity` type `tissue` + `part_of`; tetanus `manipulation` (EMPTY:0000358) with a `relative_time_reference`; a nested-date animal; statements moved to the slice; labels dropped | runs in the generic pass | Dab |
+| R7 | `sliceTetanus` | `stimulus_bath` (as written v2 baths), `element`, `subject`, `openminds_stimulus` (before/after labels EMPTY:0000220/0000221), `treatment` (EMPTY:0000074), epoch files | slice `entity` type `tissue` + `part_of`; tetanus `manipulation` (EMPTY:0000358) with a `relative_time_reference`; a nested-date animal; statements moved to the slice; labels dropped | runs in the generic pass | Dab |
 | R8 | `resolveLawnPlateSubjects` (lawn/plate subjects, patch relabel) | `ontology_table_row` (E. coli tables) | subject, relation, observations | function kept, uncalled | Haley (Haley import) |
 | R9 | encounter + patch-geometry table maps | `ontology_table_row` | encounter windows; patch entities | deleted | Haley (Haley import) |
 | R10 | JH position / distance tracks | element epochs, `.vhsb` bodies | track calculations | deleted | Haley (Haley import) |
 | R11 | `imagedEntitySubjects` plate join | `image_stack` | the image's subject | deleted ([dataset audit batch 1 and 2] (5): "retired") | Haley |
 
-R8-R11 need no map if the Haley V2 dataset comes only from the Haley import
+R8-R11 need no map if the Haley v2 dataset comes only from the Haley import
 (see Q3).
 
 ---
@@ -234,12 +234,12 @@ The function moves from `+migrate/+internal/` into the dataset's package.
 ### 3.3 How it is applied
 
 - **Tool:** `ndi.migrate.applyDatasetMap(path, mapFile)` (NDI-matlab), run
-  after `ndi.migrate.local` on the written V2 database (option C, §1.7).
+  after `ndi.migrate.local` on the written v2 database (option C, §1.7).
 - **Order:** `pass` rows in file order (each may declare `after`), then `rule`
   rows. A pass may ask for a generic step to be re-run on what it changed
   (`then_rerun`).
 - **Lossless:** a `rule` reads only `did_v1` documents. A document no row
-  matches stays `did_v1`, unchanged. A matched document is replaced by its V2
+  matches stays `did_v1`, unchanged. A matched document is replaced by its v2
   reading with its source id kept (as the generic migrators do), and must pass
   the round trip of [lossless means round trip]. A row that matches but cannot
   place every field leaves the document carried ([partly placed is carried as
@@ -314,12 +314,12 @@ Each answerable in one line.
    `sliceTetanus`'s slot?
 2. **Where does the map file live?** NDI-matlab beside the importer
    (proposed), or did-schema?
-3. **Does a dataset with a V2 import from source (Haley) need a map at all?**
-   Proposed: no; its V2 dataset is the import, and its generic output stays
+3. **Does a dataset with a v2 import from source (Haley) need a map at all?**
+   Proposed: no; its v2 dataset is the import, and its generic output stays
    plumbing.
 4. **May a map row match on label words**, or only on exact values (proposed:
    exact values only)?
-5. **May a map change or remove documents the generic stage wrote as V2**, not
+5. **May a map change or remove documents the generic stage wrote as v2**, not
    only resolve carries? `sliceTetanus` does both: it moves baths and
    statements written on the animal, and drops the 635 approach labels.
 6. **An opto animal with a target-location treatment but no tetanus run:**
@@ -335,7 +335,7 @@ Each answerable in one line.
     map), or a DID-matlab corpus test as the decision line says? DID's corpus
     harness does not run NDI's second pass (`git grep -i slicetetanus
     origin/V2 -- tests tools .github` in DID-matlab: no hit).
-11. **Babu:** a Babu map from v1 documents, or a Babu V2 import from source
+11. **Babu:** a Babu map from v1 documents, or a Babu v2 import from source
     (as [babu-media] said: "Plates are ... minted in a proper Babu V2 import
     from source")?
 
@@ -343,19 +343,19 @@ Each answerable in one line.
 
 - **[sliceTetanus to Dab map] (:1152) says "the generic stage carries those
   documents as v1".** Today the generic stage writes the Dab baths, the
-  per-epoch statements and the approach labels as V2 on the animal, and
+  per-epoch statements and the approach labels as v2 on the animal, and
   `sliceTetanus` re-shapes them (`local.m:972-978`, the failure message names
-  exactly these). Without the pass they stay V2 on the animal, not carried.
+  exactly these). Without the pass they stay v2 on the animal, not carried.
   So either the generic stage must recognise Dab documents to carry them
   (dataset logic in the generic stage, against [dataset-specific logic leaves
-  the generic migration] :1208), or the map must edit V2 documents (Q5).
+  the generic migration] :1208), or the map must edit v2 documents (Q5).
 - **Ordering.** `pathSPromotion('located')` runs after `sliceTetanus` because
   it depends on the slices (`local.m:984-989`). Moving `sliceTetanus` after
   the generic pass changes what `pathSPromotion` does for Dab unless the map
   re-runs it. "Generic + map reproduces today's output" ([sliceTetanus to Dab
   map]) needs that re-run.
 - **By reading, `sliceTetanus`'s treatment step may now find nothing.** It
-  removes the per-animal tetanus treatment manipulation, found as a V2
+  removes the per-animal tetanus treatment manipulation, found as a v2
   `manipulation` with variable EMPTY:0000074 (`sliceTetanus.m:567-583`). Since
   DID #250 a `treatment` with node EMPTY:0000074 is carried (M1:
   `treatment.m:119-133`; EMPTY:0000074 has `number_unit: false` in the term

@@ -1,6 +1,6 @@
 # V_eta: `study`, `instance_of`, `awarded_to`, contributor `roles`
 
-Four schema additions made for the Haley V2 import (NDI-matlab
+Four schema additions made for the Haley v2 import (NDI-matlab
 `+ndi/+setup/+conv/+haley/import_V2_decisions.md`, entries 8, 11, 14, 18),
 built in did-schema PR #78.
 

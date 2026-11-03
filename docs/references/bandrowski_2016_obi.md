@@ -10,6 +10,6 @@ page). The copy here, `bandrowski_2016_obi.pdf`, is unmodified; it was
 committed at the repository root as `file.pdf` (did-schema #22, 2026-05-12)
 and renamed here.
 
-Why it is here: OBI is the model V2 follows for describing how an
+Why it is here: OBI is the model v2 follows for describing how an
 investigation was carried out (planned process, assay, device, specimen), and
-OBI terms fill many V2 vocabulary slots (`schemas/registry/did_v2_term_registry.json`).
+OBI terms fill many v2 vocabulary slots (`schemas/registry/did_v2_term_registry.json`).

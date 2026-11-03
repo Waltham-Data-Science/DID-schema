@@ -1,4 +1,4 @@
-# Dataset-specific code in the generic V2 migration: audit, 2026-11-02
+# Dataset-specific code in the generic v2 migration: audit, 2026-11-02
 
 For "Decided by Jess Haley, 2026-10-26 [dataset-specific logic leaves the
 generic migration]" ("audit first"), did-schema

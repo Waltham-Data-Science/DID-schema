@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The term registry's own gate (tenet T19; did_v2_term_registry_plan.md).
 
-schemas/registry/did_v2_term_registry.json lists every ontology term an NDI V2 import
+schemas/registry/did_v2_term_registry.json lists every ontology term an NDI v2 import
 writes in a vocabulary slot, and did2.build refuses a term that is not in it
 (strictMode 'TermRegistry'). That only works if the list itself has ONE term
 per meaning, so this checks, and fails on any of:

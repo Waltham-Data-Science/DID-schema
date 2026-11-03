@@ -1,4 +1,4 @@
-# V2 homes for carry-050 (responses) and carry-056 (tuning)
+# v2 homes for carry-050 (responses) and carry-056 (tuning)
 
 This is a proposal for Jess Haley and Steve Van Hooser to decide. Nothing in it is decided, and every home below is **Proposed (not decided)**. No repository was committed to or pushed.
 
@@ -60,12 +60,12 @@ The questions are at the end. Each one can be answered in one line.
 
 **Proposed home (not decided): no field.** Leave it unwritten when it equals `element_epochid`. That value is already kept as the response's epoch time reference (`stimulus_response_scalar.m:215-219`). This is the [restated values checked] pattern: the migrator checks that the two are equal, and carries the document as v1 only when they differ.
 
-Under [device clocks on one epoch], equal ids from one session are one V2 epoch, so nothing is lost. If a future dataset has them differ, the later home would be a second `time_reference_id` whose referent is the stimulator's system. That rule already permits one reference per (clock, referent).
+Under [device clocks on one epoch], equal ids from one session are one v2 epoch, so nothing is lost. If a future dataset has them differ, the later home would be a second `time_reference_id` whose referent is the stimulator's system. That rule already permits one reference per (clock, referent).
 
 - **Change needed:** code only (DID-matlab `stimulus_response_scalar.m`). No schema change and no registry term.
 - **Round trip:** exact. The reverse migrator copies `element_epochid`.
 
-**Side note, not part of this proposal.** I found no place where NDI's second pass writes the v1 presentation's own `epochid.epochid` onto the V2 presentation:
+**Side note, not part of this proposal.** I found no place where NDI's second pass writes the v1 presentation's own `epochid.epochid` onto the v2 presentation:
 
 - `+migrate/+internal/stimulusPresentationToItem.m` on `V2` reads it only into `report.epoch_id` (`:257`).
 - Its manipulation is anchored "during the session" (`:724-725`):

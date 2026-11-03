@@ -207,7 +207,7 @@ device_id "the device that produced the files this system reads (a digitizer, a
 camera, a computer); the same entity as an interaction's instrument when one device
 does both".
 
-**N1 [filters are methods]** ("N1a"). Delete `frequency_filter` (a V2 invention; 0
+**N1 [filters are methods]** ("N1a"). Delete `frequency_filter` (a v2 invention; 0
 occurrences in NDI ground truth; no tombstone). jFrequencyFilter writes a `method`
 document (term = filter design; parameters band, passband/stopband edges in Hz,
 filter order (count), ripple/attenuation dB); a body's `filter_id` → `method_id`.

@@ -197,11 +197,11 @@ ENFORCEMENT_THRESHOLD = None
 # The only rows --enforce lets through, each named with its reason. A class's
 # own `name` beside the did_v1-only `base.name` is two slots, not one field
 # redeclared (#73 item 54; tools/check_duplicate_field_declarations.py buckets
-# the same pairs V1-ONLY-SLOT). They end when V2 `base.name` is deleted, which
+# the same pairs V1-ONLY-SLOT). They end when v2 `base.name` is deleted, which
 # waits on question G7 (docs/V2_PLAN.md). An entry that matches no row FAILS,
 # so this list cannot go stale.
 NARROW_ONLY_EXEMPT = {
-    (child, "name", "base"): "a class's own `name` beside the did_v1-only `base.name` slot (#73 item 54; ends with V2 base.name, G7)"
+    (child, "name", "base"): "a class's own `name` beside the did_v1-only `base.name` slot (#73 item 54; ends with v2 base.name, G7)"
     for child in ("entity", "method", "acquisition_system")
 }
 

@@ -1,4 +1,4 @@
-# Acquisition documents: migrated v1 rigs vs the Haley V2 import
+# Acquisition documents: migrated v1 rigs vs the Haley v2 import
 
 Question (Jess Haley): *"Haley doesn't go through the daq reader during import but
 other datasets do. Can you compare? Those backend schema types are the ones I'm
@@ -14,7 +14,7 @@ Read-only investigation, 2026-10-22. Nothing was edited in any repository.
 | DID-matlab | FETCH_HEAD of `claude/ecstatic-pascal-md91fw` (PR #218) | `6236cc1` |
 | NDI-matlab | `claude/v2-object-layer` (PR #1021) | `584b4199` (equal to origin) |
 
-**Caveat on all V2 JSON below.** No MATLAB was run. I put the V2 documents
+**Caveat on all v2 JSON below.** No MATLAB was run. I put the v2 documents
 together by reading the migrator and import code (`did2.build.document`'s output
 shape: `document_class`, `depends_on [{name, document_id}]` including the
 `session_id` edge, `base {id, creation_timestamp}`, then one block per class).
@@ -61,7 +61,7 @@ session_in_a_dataset 2, dataset_remote 1
 ```
 
 So in v1, Haley's data reached elements straight through `element_epoch` and
-`imageStack`. The V2 import (`ndi.setup.conv.haley.sessionDocuments`) is the
+`imageStack`. The v2 import (`ndi.setup.conv.haley.sessionDocuments`) is the
 first time Haley data has any acquisition documents at all, and it writes them
 natively. Nothing is migrated.
 
@@ -319,7 +319,7 @@ only link from a statement back to its system.
 | `software_id` (the system class) | `ndi.daq.system.mfdaq`, a new software entity per document | `ndi.daq.system.image`, one per session | the class differs, as it should (mfdaq vs image) |
 | `reader_id` -> `acquisition_reader` | 1 per v1 daqreader, id preserved, **no `reader_string`** (vhlab readers have none; PRED/Dab ndr have `intan`/`dabrowska`) | 1 per reader string per session, shared by camera1 and camera2, `reader_string: video` | shapes agree; Haley shares a reader, migrated does not |
 | `epoch_file_pattern_id` | id preserved; `file_pattern` = literal names + regex, **no `#`** in vhlab; `epoch_map_pattern` and `epoch_map_format` set from v1 | new; `file_pattern ['.*_1\.mp4\>']` (regex); `epoch_map_format` set, `epoch_map_pattern` absent | fields agree; the meaning of `file_pattern` depends on the navigator class |
-| navigator software | `ndi.file.navigator.epochdir` (scans a folder, reads `epochfiles_ingested`) | `ndi.file.navigator.bodies` (walks V2 documents) | **differs, and this decides whether NDI can read the data** (P1) |
+| navigator software | `ndi.file.navigator.epochdir` (scans a folder, reads `epochfiles_ingested`) | `ndi.file.navigator.bodies` (walks v2 documents) | **differs, and this decides whether NDI can read the data** (P1) |
 | `epoch_parameter_reader_id` | where v1 had one (vhvis_spike2, PRED rayo_stim): `file_regex` from `tab_separated_file_parameter` | never | Haley has no stimulus parameter file |
 | `device_id` | never emitted (v1 holds no hardware facts) | never emitted, **although the camera entity exists** | both hollow (P4) |
 | software entity scope | per source document, then deduplicated to the **dataset** level when a dataset is migrated (softwareDedup, Jess 2026-10-21) | **per session** (decision #29: "a session opened alone has no link to its dataset") | **disagree** (P3) |
@@ -339,7 +339,7 @@ only link from a statement back to its system.
 
 ## 4. Problems, by severity
 
-### P1 (high). A migrated ingested rig's epochs cannot be found through its own navigator in NDI V2 (from reading the code; not executed)
+### P1 (high). A migrated ingested rig's epochs cannot be found through its own navigator in NDI v2 (from reading the code; not executed)
 
 The migrated system names `ndi.file.navigator.epochdir`, so NDI builds the
 classic navigator. That navigator finds ingested epochs with a raw query:

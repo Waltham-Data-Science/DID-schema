@@ -1,4 +1,4 @@
-# V2 migration plan
+# v2 migration plan
 
 This is the working plan, not the record. Decisions live in their `Decided by`
 lines, mostly in `docs/plans/did_v2_go_forward_class_audit.md`. Open work is
@@ -31,7 +31,7 @@ whose DID-matlab build waits on GL1-GL7.
 **Questions for Jess (batch 3, not yet asked; Proposed, not decided):**
 - L1. NDI `TestLinkedSessions/testAnOlderLinkedSessionDocumentIsStillRead` is
   filtered because did-schema no longer declares `linked_session`, and the
-  import workflow fails on any filtered test (red on NDI V2). Delete the test
+  import workflow fails on any filtered test (red on NDI `V2`). Delete the test
   (the class is withdrawn) or let the workflow allow it?
   ANSWERED 2026-10-31 (delete the test and NDI's reader of an older
   `linked_session`): [older linked_session reader deleted]
@@ -116,7 +116,7 @@ whose DID-matlab build waits on GL1-GL7.
     superclass-only classes standing alone are malformed; the two NDIcalc-vis
     classes are carried as v1, each with its own carry row; their home is
     tracked in did-schema #260).
-  - Not in Q2's list, still on the renamed path at DID-matlab V2 (#324): the
+  - Not in Q2's list, still on the renamed path at DID-matlab `V2` (#324): the
     superclass-only templates (app, base, calculator, epochclocktimes,
     epochid, filter, imageStack_parameters, mock, ngrid, stimulus_response,
     stimulus_response_scalar_parameters) if one is written as a leaf, and
@@ -198,9 +198,9 @@ whose DID-matlab build waits on GL1-GL7.
   list". So families whose fits all share one model (Naka-Rushton, Priebe,
   double Gaussian) still write one `{function: <model>}` method parameter
   beside the `model` in each fit entry. Drop it too? [yes: one place per fact]
-- **G7. Deleting V2 `base.name` breaks the 73 `retire` classes in `stable/`.** ANSWERED 2026-10-29: (b), [base.name kept until retire classes leave] in `docs/plans/did_v2_go_forward_class_audit.md`.
+- **G7. Deleting v2 `base.name` breaks the 73 `retire` classes in `stable/`.** ANSWERED 2026-10-29: (b), [base.name kept until retire classes leave] in `docs/plans/did_v2_go_forward_class_audit.md`.
   [carried v1 validates against NDI templates] deletes the 8 `deprecated/`
-  tombstones and V2 `base.name`. But 73 classes marked `retire` remain in
+  tombstones and v2 `base.name`. But 73 classes marked `retire` remain in
   `stable/` (generic_file, valid_interval, syncrule, epochfiles_ingested,
   control_stimulus_ids, ...), and DID-matlab validates a v1 document passed
   through unchanged against the one of the same name. Those documents carry
@@ -208,10 +208,10 @@ whose DID-matlab build waits on GL1-GL7.
   deletion, run 40637773135: 33 failures, 43 x "Property block base carries
   undeclared field name". Options:
   (a) DID-matlab stamps an unchanged passthrough `did_v1` (not validated
-  against V2) inside `v1_to_v2`; this moves the stamping [passthrough stays
+  against v2) inside `v1_to_v2`; this moves the stamping [passthrough stays
   v1: how] put at the end of NDI's pipeline, so NDI's second pass would
   receive `did_v1` bodies;
-  (b) keep V2 `base.name` until no document passes through under a `retire`
+  (b) keep v2 `base.name` until no document passes through under a `retire`
   class (each class converted or carried as v1), then delete it and the 73
   classes together;
   (c) delete the 73 `retire` classes now too and carry their documents as v1.
@@ -230,25 +230,25 @@ whose DID-matlab build waits on GL1-GL7.
   it? [yes] ANSWERED 2026-10-30 [Naka-Rushton function minted].
 - **G9-G12. Real losses the whole-batch round trip found (DID-matlab #275,
   report-only; Test code run 40752793846; not patched in the inverses):**
-  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `docs/plans/did_v2_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI V2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the V2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
+  - **G9. `daqreader_mfdaq_epochdata_ingested`** (B 1,242, Dab 2,846). ANSWERED 2026-10-29: [segment length is the time chunk] in `docs/plans/did_v2_go_forward_class_audit.md`. Before that: the two segment lengths are what NDI's reader needs (`+ndi/+daq/+reader/mfdaq.m:245-253`), and NDI v2's ingest still writes this v1 document (`mfdaq.m:778-784`), so this is the v2 shape for ingested data: proposed, the `ingestion_manifest` carries an ingestion method with the two lengths as parameters, NDI's ingest and reader move to it first, then the migration writes it and drops the v1 document. Earlier text:
     `resolveEpochProbemap` retires the v1 archive once data bodies carry its
     files (the check reads files only). Lost: the v1 id (conflicts with
     [every v1 id survives]; e.g. B `4126900d95ad6706_c0a14ee8785c648f`), the
     archive datestamp, `parameters.sample_analog_segment` /
     `sample_digital_segment` (1e6 / 1e7 there) and the empty `file_list`
-    slots. Proposed: keep the archive's id on one V2 document (the reader
+    slots. Proposed: keep the archive's id on one v2 document (the reader
     configuration) and its parameters as method parameters there. [yes]
   - **G10. openMINDS species text** (JH 3,312; sample ANSWERED 2026-10-29: [species text is the openMINDS equivalent] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `41269430c5d0f59d_c09ab830daf16ec5`): v1 `definition` ("Caenorhabditis
     elegans is a species of nematode ...") and `synonym` ("C. elegans") are
-    not in V2. [openMINDS subject leftovers] says they are "read back from the
+    not in v2. [openMINDS subject leftovers] says they are "read back from the
     term", but nothing in DID holds openMINDS's text (the registry's
     NCBITaxon:6239 definition is empty). Proposed: register the definition and
     synonym on the term registry row, so the read-back has a source. [yes]
   - **G11. `openminds_element`** (Dab 404; sample ANSWERED 2026-10-29: [openMINDS element leftovers carried] in `docs/plans/did_v2_go_forward_class_audit.md`.
     `4126945af68c0fad_c0d698b17d043af0`): lost `openminds_id`
     ("CellType/12318b5f-...", a UUID per document) and `fields.description`;
-    V2 holds only the term assertion. No decision covers element leftovers.
+    v2 holds only the term assertion. No decision covers element leftovers.
     Proposed: as for subjects, carry the document as v1 when it holds them,
     with a register row. [yes]
   - **G12. `probe_location` name** (Dab 404; sample ANSWERED 2026-10-29: [term names compare by node] in `docs/plans/did_v2_go_forward_class_audit.md`.
@@ -421,15 +421,15 @@ whose DID-matlab build waits on GL1-GL7.
     #1094).** Read as: the row holds an edge value no `data` cell holds (NDI
     40dc9aa86 keeps each dependency column in `data`; before it the column
     was deleted). Right reading? [yes] MOOT 2026-10-30 [table rows carried as v1]: every row is carried, pre-repair or not.
-- **G46. NDI's v1 writers in a V2 session ([one folder, final classes only]).**
-  NDI-matlab V2's own v1 writers (spike sorter `+app/spikesorter.m:277`, spike
+- **G46. NDI's v1 writers in a v2 session ([one folder, final classes only]).**
+  NDI-matlab `V2`'s own v1 writers (spike sorter `+app/spikesorter.m:277`, spike
   extractor, element, probe location, openMINDS, syncgraph and others) still
-  build v1-template documents; in a session with a V2 database NDI stores them
+  build v1-template documents; in a session with a v2 database NDI stores them
   through did2sqlite, which validates them (`did2sqlite.m:229-233` ->
   `sqlitedb.m:1285-1289`) against the retire file of the same name, unstamped.
-  18 retire classes cannot be deleted while that holds. (a) V2 sessions accept
-  only V2 documents: the writers move to V2 shapes or are refused first; (b) a
-  v1 write into a V2 session is stamped v1 and checked against NDI's own
+  18 retire classes cannot be deleted while that holds. (a) v2 sessions accept
+  only v2 documents: the writers move to v2 shapes or are refused first; (b) a
+  v1 write into a v2 session is stamped v1 and checked against NDI's own
   template, as a carried document is. Not measured: whether any real session
   takes this path. [(b) now, (a) as the end state] ANSWERED 2026-10-29 [v1
   writes into a V2 session].
@@ -440,7 +440,7 @@ whose DID-matlab build waits on GL1-GL7.
     last segment is short (`+ndi/+daq/+reader/mfdaq.m` around :928). Allow a
     short last chunk? [yes: the last chunk holds what remains] ANSWERED
     2026-10-29 [short last chunk].
-  - **G48. The V2 ingest shape (G9).** NDI V2's ingest writes only the v1
+  - **G48. The v2 ingest shape (G9).** NDI v2's ingest writes only the v1
     `daqreader_mfdaq_epochdata_ingested` document (`mfdaq.m:778-798`) and the
     reader finds data only through it (`reader.m:44-61`); NDI's second pass does
     not re-describe segment files (`epochSeriesBodies.m:82-87` handles `.vhsb`
@@ -457,7 +457,7 @@ whose DID-matlab build waits on GL1-GL7.
   - **G50. Two retire classes the migration reshapes ([one folder, final
     classes only]).** `distance_metadata` and `oneepoch` are reshaped into the
     retire class rather than left as v1, so their files cannot go. Carry them
-    whole as v1 (losing the decided reshape until their V2 homes are built), or
+    whole as v1 (losing the decided reshape until their v2 homes are built), or
     build the homes first? [build the homes first: `oneepoch` is G44;
     `distance_metadata` needs its own decision] ANSWERED 2026-10-29 [reshaped
     retire classes carried]: carry them whole as v1 for now.
@@ -500,7 +500,7 @@ whose DID-matlab build waits on GL1-GL7.
     stimulus to a subject", under OBI device) for both writers, and drop the
     exact synonym "stimulator" from EMPTY:0000413. [(b)]
     ANSWERED 2026-10-30 (marked 2026-11-03): [stimulator is SNOMED CT Stimulator], SNOMEDCT:36645008.
-  - **G59. The V2 ingest's open details ([V2 ingest is one sampled body per
+  - **G59. The v2 ingest's open details ([V2 ingest is one sampled body per
     channel group]).** NDI's live ingest knows the daq system, reader and v1
     epoch_id, but no recording observation exists then. (1) Owner: does the
     ingest mint the epoch and one observation per element from the
@@ -576,7 +576,7 @@ whose DID-matlab build waits on GL1-GL7.
   - **G69. Building G53 ([assay labels batch 1]..[6]).** A read-only plan,
     docs/v2_working/G53_BUILD_PLAN.md, finds 91 EMPTY terms touched, none in the
     term registry, 73 v1 dictionary entries (Dab, Hunsberger, Babu, Haley)
-    looking them up by LABEL, and no V2 importer yet for Dab, Babu or
+    looking them up by LABEL, and no v2 importer yet for Dab, Babu or
     Hunsberger. Its section 4 has 16 questions; the ones that block a build:
     Q1, seven nodes each get the same three labels (R2 refuses duplicate names):
     [relabel the lowest node of each, obsolete the other six with `consider` it];
@@ -669,7 +669,7 @@ whose DID-matlab build waits on GL1-GL7.
     by its row (`order`), so the v1 text rebuilds exactly? Until answered
     those epochs are carried whole as v1 (lossless). [(a), if the v1 text
     may be rebuilt in NDI's merged form]
-    EXPLAINED 2026-11-03 with the proposed V2 shape (one `connected to`
+    EXPLAINED 2026-11-03 with the proposed v2 shape (one `connected to`
     directed_relation, child the stimulator, parent the acquisition system,
     one condition: variable EMPTY:0000377 marker channel, value [1..7]); the
     round trip then writes one v1 row `...:mk1-7`, not seven. Awaiting answer.
@@ -683,10 +683,10 @@ whose DID-matlab build waits on GL1-GL7.
     is checked to tolerate the missing class] ANSWERED 2026-11-02 [handed-on
     classes carried at the end]: "Yes".
   - **G82. Old-kind databases for new sessions (from build G2, 2026-11-01).**
-    Five NDI writers now write V2 into a V2 database and v1 into a v1 one
+    Five NDI writers now write v2 into a v2 database and v1 into a v1 one
     (NDI-matlab #1126, #1130, #1131, #1133, #1136). A new session folder
     still gets the old kind of database. Keep writing v1 into old databases,
-    and decide separately when new sessions get the V2 database by default?
+    and decide separately when new sessions get the v2 database by default?
     [addSessionV2 folded back] waits on this. [yes: keep v1 for old
     databases; make V2 the default for new sessions as its own decision]
     ANSWERED 2026-11-03: [V2 branch writes V2 only] (Jess: write V2 exclusively, read v1 and V2). Follow-up G106.
@@ -699,23 +699,23 @@ whose DID-matlab build waits on GL1-GL7.
     ANSWERED 2026-11-03: [writers are given the session].
   - **G84. Element and ingested-epoch writers vs the ingest (from build G2).**
     [ingest waits on native V2 records] makes the ingest wait for the probe
-    (element) to be written as V2, but a V2 element is built by the batch pass
+    (element) to be written as v2, but a v2 element is built by the batch pass
     from several v1 documents, which is the ingest's own work. Build the
-    native element writer together with the V2 ingest, as one build? [yes]
+    native element writer together with the v2 ingest, as one build? [yes]
     CORRECTED 2026-11-02 (Jess Haley: "There is no v2 element. Acquisition
-    epoch is not a v2 class anymore is it?"): right. There is no V2 `element`
+    epoch is not a v2 class anymore is it?"): right. There is no v2 `element`
     class (a v1 element becomes an `entity` typed by [element types have no
     default]), and `acquisition_epoch` is a retire class, a pass-1
     intermediate that `epochMint` turns into one epoch per recording ([device
     clocks on one epoch]). The question, re-asked: build NDI's code that adds
-    a new probe and a new epoch together with the V2 ingest, writing the final
+    a new probe and a new epoch together with the v2 ingest, writing the final
     shapes directly (the probe entity, the epoch and its recording
     observation)? [yes] Parked (Jess, 2026-11-02: no capacity now).
     NOTE 2026-11-03: [new database defaults to v2] cannot land until v2 writers for ingest and elements exist, which is this question; unparking it unblocks that default.
   - **G85. Withdrawn 2026-11-02** (wrong premise, see G84): new writers write
     the final shapes, never `acquisition_epoch`.
   - **G86. Subject lookup by name checks the type (from build G2).**
-    `does_subjectstring_match_session_document` now matches a V2 subject by
+    `does_subjectstring_match_session_document` now matches a v2 subject by
     `entity.local_identifier` alone. Also require type organism? [yes]
     CORRECTED 2026-11-03 (Jess: "Didn't we map v1 subjects as any of the biological entity types?"): yes; did_v2_entity_composition_plan.md agrees NDI's `getsubjects()` default organism, culture, tissue, cell, group. The match should accept those five types only. Treated as covered by that plan unless Jess says otherwise.
     ANSWERED 2026-11-03: [subject match takes the subject types].
@@ -774,13 +774,13 @@ whose DID-matlab build waits on GL1-GL7.
     Follow-up 2026-11-03 (Jess: "Channel number must be a term somewhere"): OLS4 has none ('Number of Coil Channels' nearest). Proposal: as in [probe wiring is a relation], the channel-axis covariate's variable is the group's channel-type term and its value the channel numbers; no new term. Offset/scale terms wait on G89. Awaiting answer.
     PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G93. Session and dataset_remote ids (from build H, 2026-11-01).** A
-    session's V2 record keeps the session's own id, so the separate v1 session
+    session's v2 record keeps the session's own id, so the separate v1 session
     document's id is kept nowhere; the same for `dataset_remote`. These are
     every remaining lost id (run 41354908282: B 15, Dab 18, JH 4, 20211116 1).
-    Which V2 document takes each id, or are they carried whole as v1? [a
+    Which v2 document takes each id, or are they carried whole as v1? [a
     relation that already joins them takes the id, as `session_in_a_dataset`
     now does (DID-matlab #345)]
-    RE-ASKED 2026-11-03 (Jess: "What would that look like? Why did v1 even have a session doc id?"): v1's `newdocument` mints a random id for every document, the `session` document included; NDI opens a session by type, newest first, reading only `session_id()`; NDI's V2 writer makes the session entity with Id = session id and no second id. Revised proposal: do not keep the v1 `session` / `dataset_remote` documents' own ids, a recorded exception (after checking nothing points at them). Proposed (not decided).
+    RE-ASKED 2026-11-03 (Jess: "What would that look like? Why did v1 even have a session doc id?"): v1's `newdocument` mints a random id for every document, the `session` document included; NDI opens a session by type, newest first, reading only `session_id()`; NDI's v2 writer makes the session entity with Id = session id and no second id. Revised proposal: do not keep the v1 `session` / `dataset_remote` documents' own ids, a recorded exception (after checking nothing points at them). Proposed (not decided).
     ANSWERED 2026-11-03: [v1 session document id not kept].
   - **G94. A probe with two subjects (from build H).** 4 Dab probes recorded
     from two different subjects; a v1 probe names one. The round trip reports
@@ -791,7 +791,7 @@ whose DID-matlab build waits on GL1-GL7.
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
-    RE-ASKED 2026-11-03 (Jess: "Why wouldn't the session entity get its date migrated just because it's read thru the dataset?"): no V2 session has a date (v1 has none; `session.date` was a V_zeta invention, deleted); what is lost is the second document's `base.datestamp`, the time v1 wrote it, when the dataset's own session folds into the dataset entity (resolveDatasetEntities, [dataset session reference]). Proposal: not kept, as [v1 session document id not kept]. Proposed (not decided).
+    RE-ASKED 2026-11-03 (Jess: "Why wouldn't the session entity get its date migrated just because it's read thru the dataset?"): no v2 session has a date (v1 has none; `session.date` was a V_zeta invention, deleted); what is lost is the second document's `base.datestamp`, the time v1 wrote it, when the dataset's own session folds into the dataset entity (resolveDatasetEntities, [dataset session reference]). Proposal: not kept, as [v1 session document id not kept]. Proposed (not decided).
     Follow-up 2026-11-03 (Jess: "Is that the same value?"): no. One case in all corpora (JH session 41269431a5b8c44c_40b328d54848906b: v1 2025-09-05T02:46:05.544Z, dataset 2025-09-09T14:46:39.626Z; B, Dab, 20211116, PRED: 0). (a) drop it [lean], or (b) keep it in a new slot. Awaiting answer.
     Follow-up 2026-11-03 (Jess: "If the session is one entity and the dataset another, why don't they each get their respective timestamps?"): in this case they are one: NDI stores a dataset's own documents under a session whose id IS the dataset id (resolveDatasetEntities), so that `session` document is the dataset's storage session, not an experiment session; one id is one entity, the dataset, with the dataset document's creation time. Experiment sessions are separate entities and keep their own. Proposal: drop it. Awaiting answer.
     ANSWERED 2026-11-03: [dataset storage session date dropped].
@@ -819,11 +819,11 @@ whose DID-matlab build waits on GL1-GL7.
     2026-11-03: [term picks batch 1b] and [term picks batch 2] recorded. Open: receptive field (SNOMEDCT:68015005 with no definition, or an EMPTY term); batch 3 (six tuning settings: Independent Variable, Label, Algorithm, selection criterion, step size x2, depends_on copy not stored); batch 4 (new EMPTY terms); whether Claude-written JSON documentation strings go lower case.
   - **G98. Documents handed on unchanged and the padding (from build R,
     2026-11-02).** `ensureClassBlocks` now only rewrites v1's superclass list
-    into V2's form, and only for five classes that pass 1 hands on unchanged
+    into v2's form, and only for five classes that pass 1 hands on unchanged
     to a later step (syncrule, epochfiles_ingested, stimulus_response_scalar,
     its parameters, openminds; DID-matlab #364 fixed the other two). (a) A
     small named step on the hand-on path writes that list, and the padding is
-    deleted; or (b) each migrator builds them as full V2 documents of their
+    deleted; or (b) each migrator builds them as full v2 documents of their
     retiring class and "handed on" is marked another way? [(a): nothing else
     changes] ANSWERED 2026-11-02 [handed-on classes carried at the end]: "Yes" (a).
   - **G99. A stated unit with no number (from build T, 2026-11-02).** A v1
@@ -889,11 +889,11 @@ whose DID-matlab build waits on GL1-GL7.
     `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
     remaining dataset-specific code is `sliceTetanus`, already decided to move
     to the Dab map).
-  - **G106. Adding to an existing v1 database on the V2 line (from G82,
-    2026-11-03).** [V2 branch writes V2 only]: NDI on the V2 line writes V2
+  - **G106. Adding to an existing v1 database on the `V2` line (from G82,
+    2026-11-03).** [V2 branch writes V2 only]: NDI on the `V2` line writes v2
     only. When someone opens an existing v1 database there and adds
     something: (a) NDI refuses to write until the database is migrated
-    (`ndi.migrate.local`), reading still works; or (b) NDI writes V2
+    (`ndi.migrate.local`), reading still works; or (b) NDI writes v2
     documents into the v1 database beside its v1 documents? [(a): no mixed
     databases] Proposed (not decided).
     ANSWERED 2026-11-03: [v1 database read-only on the v2 line].
@@ -901,7 +901,7 @@ whose DID-matlab build waits on GL1-GL7.
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
-    openminds) now get their V2
+    openminds) now get their v2
     parent-class list written on them, and that list is read from their
     retire-class files. The decision [handed-on classes carried at the end]
     lets those files be deleted, and then that step has nothing to read.
@@ -998,7 +998,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
    #251 (1f83af39), all checks and both corpus jobs green: the baseline.
    NDI-matlab #1075 (its one test update) merged too (d88ea6cfb).)
 6. (Done; see 3. did-schema #161 merged too. #162 waits on 9: merged
-   alone it turns DID-matlab V2 red until phase 1 lands.)
+   alone it turns DID-matlab `V2` red until phase 1 lands.)
 7. (Done: NDI-matlab phase 3 merged as #1076, 4effe11e0; it also finds ontology labels under either class name.) **NDI-matlab phase 3 was built** (branch `claude/phase3`, 471cd5c66; e2e
    run 40423825794, 499 passed, 0 failed; full suite run 40423865456, 2,366
    passed, 0 failed): the ingested stimulus reader finds the body,
@@ -1077,7 +1077,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
     CI green): the first step (v1 epoch to its carrier) reads raw v1 and
     round-trips with nothing lost. The later batch step (into epoch, time
     references, observation and data body) is not round-tripped.
-    - a. Add a whole-batch round trip of the final V2 shape? [yes, in
+    - a. Add a whole-batch round trip of the final v2 shape? [yes, in
       phase 5, before the final corpus run]
     - b. A colliding `depends_on` name still cites carry-049 (the old
       renames row); [renames carry is temporary] wants a class-specific
@@ -1116,7 +1116,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
       ([empty response settings]), so the round trip cannot tell them
       apart. Accept, since you decided they mean the same? [accept]
     - f. A carried v1 response keeps its edge to its parameters document,
-      which is now a V2 `method`. Is a v1 document allowed to point at a V2
+      which is now a v2 `method`. Is a v1 document allowed to point at a v2
       one? [yes: an edge is an id, and a mixed database is expected until
       every home is built]
 16. **Tuning calculations: most are still carried** (DID-matlab
@@ -1126,7 +1126,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
     1,431 contrast-sensitivity documents convert, but all 34,690 tuning
     curves, 22,896 contrast tunings and 5,604 spatial / temporal frequency
     tunings are carried (carry-056, OPEN_WORK #143), because each holds a
-    field V2 has no place for. Together with 15, this is most of what is
+    field v2 has no place for. Together with 15, this is most of what is
     left.
     - a. Homes for the missing fields: drafted in
       `docs/v2_working/HOMES_RESPONSES_TUNING.md`, questions 3-7, each
@@ -1152,9 +1152,9 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
     - (No question: the writers live in NDIcalc-vis-matlab, which the
       sibling lock does not cover. Worth adding to the lock later.)
 17. **A stimulus presentation's epoch is lost (found 2026-10-27; already
-    merged in NDI-matlab V2).** NDI's second pass turns a v1 presentation
+    merged in NDI-matlab `V2`).** NDI's second pass turns a v1 presentation
     into a manipulation anchored "during the session" and writes its epoch
-    id nowhere in V2 (`stimulusPresentationToItem.m`: read only into the
+    id nowhere in v2 (`stimulusPresentationToItem.m`: read only into the
     report; its lossless check never looks at the `epochid` block). Today
     all 1,428 corpus presentations could still be rebuilt indirectly (from
     the ingested stimulus file's description text, or from carried v1
@@ -1185,7 +1185,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
     the 7,007 corpus image stacks converts today: 2,444 Haley behaviour
     stacks carry (carry-052), 4,563 Haley E. coli stacks pass through with
     no register row, and their 7,007 labels follow them. Haley is covered
-    by the Haley V2 import, so this is about Babu-style stacks and the
+    by the Haley v2 import, so this is about Babu-style stacks and the
     record.
     - a. The 4,563 E. coli stacks (no subject) pass through with no
       register row. Cite carry-052 (or a new row) so every carry has a
@@ -1208,7 +1208,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
     green; 25 classes now read raw v1). From a survey of the corpus zips:
     all 210 Hartley calculations, 61 of 62 jrclust cluster files and all
     1,511 extracellular neurons convert. Questions:
-    - a. A neuron's v1 document id ends up on no V2 document. Keep it
+    - a. A neuron's v1 document id ends up on no v2 document. Keep it
       (e.g. on its waveform calculation)? [yes: a v1 id other documents
       may cite is never dropped]
     - b. Waveform sample times are stored as start + step, which rebuilds
@@ -1260,14 +1260,14 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
       place in the table. Accept? [accept: the term ids are fixed by the
       field name]
     - c. `distance_metadata` converts to a class marked "retire". Carry it
-      instead until it has a V2 home? [yes]
+      instead until it has a v2 home? [yes]
 23. **Sessions, datasets, forms, presentations** (DID-matlab `claude/phase2`
     3db719c0, quick CI green; 41 classes now read raw v1). From a survey
     of the corpus zips: all 53 sessions, all 48 dataset memberships (open
     question 11 above is now answered by the build), 4 remote-dataset
     records and 1 form convert; 1,428 presentations are carried for NDI's
     second pass. Questions:
-    - a. A converted record's own v1 id is kept nowhere when its V2 form
+    - a. A converted record's own v1 id is kept nowhere when its v2 form
       takes another document's id (each session entity takes the session
       id; also membership, remote, form records; and 20a, the neuron). Keep
       every v1 id somewhere, or accept it when nothing refers to that id?
@@ -1300,7 +1300,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
       rates, filter settings) still pass through with their `app` block.
       Switching them means carrying them, and then everything computed
       from them carries too. Keep them on the old path until their `app`
-      block has a V2 home? [yes]
+      block has a v2 home? [yes]
     - c. `dataset_session_info`, `fitcurve`, `vmspikefit`: no NDI writer
       and no fixed template. Retire them like `simple_calc`? [yes]
     - (No question, Claude's call: the four NDIcalc-vis tuning classes take
@@ -1312,15 +1312,15 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
       (dfd73b6); the epoch step already re-ran it on the raw v1 source, so
       it needed no code change there. 77 of 95; see item 27.)
 25. (Decided 2026-10-27, [move the locked mains]. Build pending: did-schema.
-    Follow-up asked: merge `main` into V2 in NDI-matlab (86 commits, 3
+    Follow-up asked: merge `main` into `V2` in NDI-matlab (86 commits, 3
     conflicts: session.m, +lightsheet/view.m, a cloud file deleted on main)
     and DID-matlab (34 commits, clean)? Decided 2026-10-27, [merge main
     into V2]. Build pending.)
 26. (Decided 2026-10-27: a. [lock NDIcalc-vis-matlab]; b. [tuning stray
     fields are malformed]. Builds pending.)
 27. (b, c decided 2026-10-27: [unreached superclass migrators deleted],
-    [unknown filter parameter is malformed]. a asked again: no V2 redesign
-    is needed; V2 documents carry DID's `files` block, and `pyraview.m:323`
+    [unknown filter parameter is malformed]. a asked again: no v2 redesign
+    is needed; v2 documents carry DID's `files` block, and `pyraview.m:323`
     drops each level's `file_info` (its stored-binary uid). Copy it onto
     the level body? Decided 2026-10-27, [pyraview level keeps its file info].)
     **Pyraview, after its switch (DID-matlab #256).** Only PRED holds a
@@ -1329,7 +1329,7 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
       emitted document: each level body keeps only its file name. This
       was already so before the switch. Is that a loss under
       [lossless means round trip], or is `file_info` database bookkeeping
-      the V2 database rebuilds? If a loss, the level bodies should keep it.
+      the v2 database rebuilds? If a loss, the level bodies should keep it.
       Claude's recommendation: treat it as a loss and keep it, until
       someone shows the database rebuilds it.
     - b. Nothing reaches the old superclass migrators
@@ -1370,10 +1370,10 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
 ## The goal
 
 1. **The generic migration of v1 is lossless.** Every v1 document either
-   lands in a V2 shape or is carried unchanged as v1. Nothing is dropped and
-   nothing is invented. A value may be dropped only if V2 can be migrated
+   lands in a v2 shape or is carried unchanged as v1. Nothing is dropped and
+   nothing is invented. A value may be dropped only if v2 can be migrated
    back to v1 without it ([lossless means round trip]). The generic stage
-   writes V2 only when the v1 document alone gives exactly one correct
+   writes v2 only when the v1 document alone gives exactly one correct
    reading ([one correct reading]).
 2. **Every carry has a reason on record.** Each reason is a row in the carry
    register (`schemas/registry/did_v2_carry_register.json`, [carry register]):
@@ -1381,10 +1381,10 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
    awaiting-home row must point at an open OPEN_WORK row
    ([awaiting home is tracked]).
 3. **Carried documents are fixed later**, one of two ways:
-   - a **V2 home**, a schema decision. Once it is built, the generic
+   - a **v2 home**, a schema decision. Once it is built, the generic
      migration converts that case.
    - a **dataset map**, for meaning only that dataset knows. It runs after
-     the generic migration and may also refine V2 documents the generic
+     the generic migration and may also refine v2 documents the generic
      stage wrote ([dataset map edits V2]).
 
 ## Where we are
@@ -1396,10 +1396,10 @@ decision workbooks. The issue sort is `docs/v2_working/ISSUE_SORT_2026-10-27.md`
 | Lossless rule: a partly placed document is carried as v1 | done (DID #247, NDI #1067) |
 | Drop census: 14 questions | answered; decisions recorded (did-schema #128) |
 | Census builds | done: did-schema #131, empty-ontology #26 and #27, DID-matlab #250, NDI-matlab #1072 |
-| Dataset-specific logic out of the generic migration | done for Haley (covered by the Haley V2 import) and JH; **Babu is now covered by nothing** (see question 7) |
+| Dataset-specific logic out of the generic migration | done for Haley (covered by the Haley v2 import) and JH; **Babu is now covered by nothing** (see question 7) |
 | Schema set renamed `did_v2` (did-schema part) | done (#132); siblings still accept both names |
 | Carry register and its gate | done (did-schema #134) |
-| Dataset map: may edit V2 documents; one file per dataset in NDI-matlab, its own step | decided (#141) |
+| Dataset map: may edit v2 documents; one file per dataset in NDI-matlab, its own step | decided (#141) |
 
 ## The road to a complete generic migration
 
@@ -1442,13 +1442,13 @@ alongside, two at a time.
    `docs/v2_working/DATASET_MAP_PROPOSAL.md`.
 3. **The remaining questions** below.
 4. **The remaining renames**, siblings first: `description` becomes `notes`;
-   the retired classes and `deprecated/` leave the V2 set; DID-matlab and
+   the retired classes and `deprecated/` leave the v2 set; DID-matlab and
    NDI-matlab drop the old `V_eta` name. These take one more corpus run, so
    they are batched with the code the questions produce.
 5. **Markdown out of `schemas/`**, once the delete list is approved
    (`docs/v2_working/MARKDOWN_PLAN.md`).
 6. **Haley re-run** (Jess), then the remaining dataset maps.
-7. **v1 set in did-schema** (decided): once NDI's V2 replaces v1, the v1
+7. **v1 set in did-schema** (decided): once NDI's v2 replaces v1, the v1
    definitions move into did-schema as a frozen `did_v1` set.
 
 ## Open questions for the team
@@ -1456,15 +1456,15 @@ alongside, two at a time.
 Dataset map:
 
 1. (Decided, [dataset map location]: one file per dataset in NDI-matlab,
-   applied by its own step on the written V2 database.)
-2. (Decided, [no Haley map]: no; the Haley V2 import covers Haley.)
+   applied by its own step on the written v2 database.)
+2. (Decided, [no Haley map]: no; the Haley v2 import covers Haley.)
 3. (Decided, [map rows match exact values]: exact v1 values only.)
 4. (Decided, [opto target without a run]: a term assertion on the animal
    stating its target; no stimulation claimed.)
 5. (Drafted: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md`; its Dab questions
    wait, see "Dab map questions (later)".)
 6. (Moved to "Dab map questions (later)".)
-7. Babu: a map, or a V2 import from the source data? Its media and heat
+7. Babu: a map, or a v2 import from the source data? Its media and heat
    routing is now covered by nothing.
 
 Migration:
@@ -1637,7 +1637,7 @@ proposals and measurements at the commits they name, not the record:
 | `MARKDOWN_PLAN.md` | which Markdown under `schemas/` to delete or move |
 | `DATASET_MAP_PROPOSAL.md` | the dataset map design draft |
 | `DAB_COLUMN_ROWS_DRAFT.md` | proposed Dab map rows for the EPM and FPS table columns |
-| `HOMES_RESPONSES_TUNING.md` | proposed V2 homes for the stimulus response and tuning fields that keep about 73,000 documents in v1 |
+| `HOMES_RESPONSES_TUNING.md` | proposed v2 homes for the stimulus response and tuning fields that keep about 73,000 documents in v1 |
 | `EMPTY_ASSAY_LABELS_PROPOSAL.md` | the list of pre-2026-10-20 EMPTY labels that carry assay context, each with an existing ontology term or a general relabel ([old EMPTY labels generalised]) |
 
 ## How we work

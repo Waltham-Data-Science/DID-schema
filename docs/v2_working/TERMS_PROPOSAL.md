@@ -168,7 +168,7 @@ experimental-approach precedent did without looking for other ontologies. Team c
 id NDI's `openminds.controlledterms.SemanticDataType(value)` resolves
 (`convertFormDataToDocuments.m`: `datasetVersion.dataType = cellfun(@(value)
 openminds.controlledterms.SemanticDataType(value), appUserData.DataType)`). The string
-`derivedData` occurs nowhere in NDI-matlab `main` 3cb19a85 or V2 HEAD (`git grep -n derivedData`
+`derivedData` occurs nowhere in NDI-matlab `main` 3cb19a85 or `V2` HEAD (`git grep -n derivedData`
 returned nothing), so I cannot confirm from code that the form writes exactly that string.
 
 ## C. [image file details placed]
@@ -189,7 +189,7 @@ value specification). T19 note: label "value range" names no image, since the bo
 
 ## D. [clock terms get nodes]
 
-Decision text: line 1216. Meaning read from NDI `src/ndi/+ndi/+time/clocktype.m` (V2 head
+Decision text: line 1216. Meaning read from NDI `src/ndi/+ndi/+time/clocktype.m` (`V2` head
 f27302632): `utc` "Universal coordinated time (within 0.1ms)"; `exp_global_time` "Experiment
 global time (within 0.1ms)"; `dev_global_time` "A device keeps its own global time ... (that is,
 it knows its own clock across recording epochs)"; `dev_local_time` "A device keeps its own local

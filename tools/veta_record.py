@@ -157,7 +157,7 @@ _DELETE_UNUSED_LEAVES = {
     "volume_assertion",
 }
 
-# v1 classes CARRIED WHOLE AS v1 by decision, with no V2 class: their did-schema
+# v1 classes CARRIED WHOLE AS v1 by decision, with no v2 class: their did-schema
 # tombstones were deleted (Decided by Jess Haley, 2026-10-27 [carried v1
 # validates against NDI templates], did_v2_go_forward_class_audit.md: "a document
 # carried whole as v1 is validated against NDI-matlab's v1 templates ... then all
@@ -168,7 +168,7 @@ _DELETE_UNUSED_LEAVES = {
 # coverage.py reads it as a decided passthrough; ndi_required_stamp.py as the
 # cause `carried_as_v1`, not the genuine hole.
 CARRIED_AS_V1 = {
-    "projectvar": ("passes through unchanged as v1: no V2 class until real "
+    "projectvar": ("passes through unchanged as v1: no v2 class until real "
                    "documents exist to model its untyped `data` field against"),
     "stimulus_parameter_table": ("passes through unchanged as v1: no writer in "
                                  "NDI and one untyped string[] field, so nothing "
@@ -192,7 +192,7 @@ RETIRED_CLASSES = {
     # retire classes deleted 2026-11-02 ([ensemble and generic_file checked as
     # v1]): since DID-matlab #351 (dac31a67) pass 1 hands a v1 `ensemble` or
     # `generic_file` on unchanged, checked against NDI's own v1 template and
-    # stamped did_v1, never validated against V2; NDI's second pass
+    # stamped did_v1, never validated against v2; NDI's second pass
     # (ensembleMembership) and DID-matlab's foldGenericFiles convert them from
     # that v1 document. DID-matlab #366 removed the one test that read the
     # generic_file file; no DID-matlab or NDI-matlab code reads either file.
@@ -201,19 +201,19 @@ RETIRED_CLASSES = {
     # retire class deleted 2026-11-01 ([one folder, final classes only]): in
     # DID-matlab V2 (#355) every openminds_stimulus that passes its guards is
     # carried whole as v1 with a note (carry-165, [v1 passthroughs accepted]),
-    # stamped did_v1 and never validated against V2; NDI's second pass reads it
+    # stamped did_v1 and never validated against v2; NDI's second pass reads it
     # from the v1 input (sliceTetanus). No sibling reads its file.
     "openminds_stimulus",
     # retire class deleted 2026-11-01 ([one folder, final classes only]): in
     # DID-matlab V2 161f3d40 a v1 valid_interval has no migrator and is carried
     # whole as v1 by did2.convert.noMigratorCarryRows (carry-164), stamped
-    # did_v1 and never validated against V2. DID-matlab #353 removed the one
+    # did_v1 and never validated against v2. DID-matlab #353 removed the one
     # test that read its file; no DID-matlab or NDI-matlab code reads it.
     "valid_interval",
     # retire class deleted 2026-11-01 ([one folder, final classes only]): in
     # DID-matlab V2 a78299d8 (the lock) every path of control_stimulus_ids
     # carries the document whole as v1 with a note (carry-152), stamped did_v1
-    # and never validated against V2. No DID-matlab or NDI-matlab code reads
+    # and never validated against v2. No DID-matlab or NDI-matlab code reads
     # its file.
     "control_stimulus_ids",
     # retire classes deleted 2026-10-31 ([retire check now]): no v1 document
@@ -276,7 +276,7 @@ RETIRED_CLASSES = {
     "vmspikesummary",
     # retire classes deleted 2026-10-29 ([one folder, final classes only]): each is
     # always carried as v1, keeps its v1 camelCase name, or is abstract, and
-    # nothing in DID-matlab or NDI-matlab V2 reads the V2 file
+    # nothing in DID-matlab or NDI-matlab V2 reads the v2 file
     "binnedspikeratevm",
     "tuning_fit",
     "file_reference",
@@ -371,7 +371,7 @@ RETIRED_CLASSES = {
     "force_observation",
     "formulation_manipulation",
     "frequency_assertion",
-    "frequency_filter",  # [filters are methods], Jess Haley 2026-10-22: a V2 invention, deleted with no tombstone
+    "frequency_filter",  # [filters are methods], Jess Haley 2026-10-22: a v2 invention, deleted with no tombstone
     "frequency_manipulation",
     "frequency_observation",
     "funding",

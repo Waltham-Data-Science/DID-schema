@@ -26,7 +26,7 @@ HISTORY = os.path.join(DOCS, "history")
 # Working notes: "a proposal or a measurement at the commits it names. It is
 # not the record" (docs/v2_working/README.md).
 WORKING = os.path.join(DOCS, "v2_working")
-# Reference papers V2 follows, each a PDF with a citation and licence note
+# Reference papers v2 follows, each a PDF with a citation and licence note
 # beside it (`<author>_<year>_<topic>.md`).
 REFERENCES = os.path.join(DOCS, "references")
 

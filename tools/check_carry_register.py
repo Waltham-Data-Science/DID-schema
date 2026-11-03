@@ -3,7 +3,7 @@
 did_v2_go_forward_class_audit.md [carry register] and [one correct reading]).
 
 schemas/registry/did_v2_carry_register.json lists every reason the generic migration
-carries a v1 document whole as v1, so that a carry is never read as "V2 is
+carries a v1 document whole as v1, so that a carry is never read as "v2 is
 missing a field". This checks, and fails on any of:
 
   C1  the file's shape: `kinds` is exactly the four decided kinds

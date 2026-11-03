@@ -2,7 +2,7 @@
 """Check a batch of terms for the term registry, and print the rows to add.
 
 The step it replaces is the hand-written one in "Adding terms for a new
-dataset" (NDI-matlab Using_V2.md): a V2 import lists the terms the registry
+dataset" (NDI-matlab Using_V2.md): a v2 import lists the terms the registry
 does not hold (did2.build.unregisteredTerms), someone picks a node for each,
 and then each one has to be written into schemas/registry/did_v2_term_registry.json by
 hand -- the registry's exact name for a node it already holds, the prefix in

@@ -13,9 +13,9 @@ All clones are fresh, in `scratchpad/dropcensus/`, with one worktree per ref und
 | repo | ref | commit | files in scope | how they were inspected |
 |---|---|---|---|---|
 | DID-matlab | `origin/V2` | `0ea690a9` | 220 `.m` under `src/did/+did2/+convert/**` | grep of all 220; diff against the lossless branch |
-| DID-matlab | `origin/claude/lossless-generic` | `8f3b904c` | 220 `.m` (22 differ from V2) | see the next table |
+| DID-matlab | `origin/claude/lossless-generic` | `8f3b904c` | 220 `.m` (22 differ from `V2`) | see the next table |
 | NDI-matlab | `origin/V2` | `25a1f83e3` | 38 `.m` under `src/ndi/+ndi/+migrate/**` | grep of all 38; diff against the lossless branch |
-| NDI-matlab | `origin/claude/lossless-generic` | `240fcafad` | 38 `.m` (7 differ from V2) | grep of all 38. Read in part: `local.m` (stimulus and control fold, `decodeBodies`, bath), `stimulusPresentationToItem.m` (`unplacedPresentationFields`), `epochAnchorFold.m` (header). **0 read in full.** |
+| NDI-matlab | `origin/claude/lossless-generic` | `240fcafad` | 38 `.m` (7 differ from `V2`) | grep of all 38. Read in part: `local.m` (stimulus and control fold, `decodeBodies`, bath), `stimulusPresentationToItem.m` (`unplacedPresentationFields`), `epochAnchorFold.m` (header). **0 read in full.** |
 | NDI-matlab | locked `main` | `3cb19a85` | 104 v1 templates under `src/ndi/ndi_common/database_documents/` | parsed by script |
 | did-schema | `origin/main` | `6154b1a` | 65 `schemas/*.md` | grep for decision lines and drop prose |
 | did-schema | `origin/claude/ecstatic-pascal-md91fw` | `bc4029c` | 65 `schemas/*.md` | same grep |
@@ -60,7 +60,7 @@ Checked and excluded because nothing from v1 is lost:
 
 ## 2. The table
 
-Status abbreviations: **SD** = still dropped on the lossless branch; **V1** = carried as v1; **PL** = placed. Unless a row says so, the V2 and lossless branches behave the same: the file is not among the 22 / 7 the lossless build changed, or the change does not touch this drop.
+Status abbreviations: **SD** = still dropped on the lossless branch; **V1** = carried as v1; **PL** = placed. Unless a row says so, the `V2` and lossless branches behave the same: the file is not among the 22 / 7 the lossless build changed, or the change does not touch this drop.
 
 Corpus abbreviations: **Soph**, **2021** (20211116), **Dab**, **JH**.
 

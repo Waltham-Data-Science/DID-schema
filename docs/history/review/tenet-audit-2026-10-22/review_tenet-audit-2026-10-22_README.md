@@ -10,7 +10,7 @@ decided unless such a line records it.
 | file | what it is |
 |---|---|
 | `audit_T1-T7.md`, `audit_T8-T14.md`, `audit_T15-T20.md` | the three audit reports of the #88 schema against the tenets, with denominators |
-| `acquisition_backend_comparison.md` | migrated v1 DAQ documents vs the Haley V2 import's acquisition documents |
+| `acquisition_backend_comparison.md` | migrated v1 DAQ documents vs the Haley v2 import's acquisition documents |
 | `decisions_brief.md` | the build brief: each decision in Jess's words, with the EMPTY id allocation; the source of the plan-document lines |
 | `vocabulary_nodes.md` | the proposed ontology nodes for relation names, entity types and channel types (G6), before the K0–K5/L1–L3 rulings |
 | `synonym_audit_writer_strings.md` | first synonym audit: writer and lab-column strings against EMPTY terms |

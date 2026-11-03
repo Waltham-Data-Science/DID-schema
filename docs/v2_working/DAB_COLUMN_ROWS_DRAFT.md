@@ -121,7 +121,7 @@ Animal >= 300 (`:358-360`), and `Exclude` = true for animals 239 and 258
 Legend: obs = `observation`, calc = `calculation`; "def" = the node's
 `empty-edit.owl` definition line; dict = `tableDoc_dictionary.json` line.
 
-| id | v1 `variableName` (node) | V2 home: direction, value kind, unit | rests on |
+| id | v1 `variableName` (node) | v2 home: direction, value kind, unit | rests on |
 |---|---|---|---|
 | E1 | `ElevatedPlusMaze_TestIdentifier` (EMPTY:0000051) | **open: Q-E3** | dict :62; def :907 |
 | E2 | `Treatment_CNOOrSalineAdministration` (EMPTY:0000200) | **open: Q-E1** (see §2.3) | dict :3; def :1967 |
@@ -213,7 +213,7 @@ Shock Reactivity (§5, E3).
 **Table match (all rows below):** `v1_class` = `ontologyTableRow`,
 `ontologyTableRow.ontologyNodes` = the 13-node FPS string (§5, E1, signature 0).
 
-| id | v1 `variableName` (node) | V2 home | rests on |
+| id | v1 `variableName` (node) | v2 home | rests on |
 |---|---|---|---|
 | F1 | `ExperimentalTrialNumber` (EMPTY:0000075) | not a statement: a condition on every statement of the row, `label` (a local index; 1..30) | def :1071 "index of an individual experimental trial within a set"; dict :49; T12 label (`did_v2_tenets.md:379`) |
 | F2 | `Fear_potentiatedStartle_TrialTypeIdentifier` (EMPTY:0000057) | **open: Q-F1** | def :946; dict :50 |

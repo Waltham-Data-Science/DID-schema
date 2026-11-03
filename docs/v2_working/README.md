@@ -1,4 +1,4 @@
-# V2 working documents
+# v2 working documents
 
 Research behind the 2026-10-25 and 2026-10-26 decisions, copied from a
 session's scratch area so it outlives the session. Everything here is a
