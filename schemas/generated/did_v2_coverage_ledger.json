@@ -328,12 +328,12 @@
     "with_migrator": 95,
     "gaps": 3,
     "no_target": {
-      "rows_naming_no_target": 28,
+      "rows_naming_no_target": 29,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 18
+        "unrecorded": 19
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
@@ -347,6 +347,7 @@
         "oneepoch",
         "ontologyLabel",
         "ontologyTableRow",
+        "openminds",
         "site2channelmap",
         "spike_clusters",
         "spikewaves",
@@ -9931,9 +9932,7 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "epochfiles_ingested"
-      ],
+      "targets": [],
       "decided_targets": [
         "ingestion_manifest"
       ],
@@ -13666,18 +13665,16 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "openminds"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "emitted",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "decided",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -17708,15 +17705,13 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_response_scalar_parameters_basic"
-      ],
+      "targets": [],
       "decided_targets": [
         "method"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "emitted",
+      "target_source": "decided",
       "no_target_reason": null,
       "no_target_reason_label": null,
       "no_target_account": null,
