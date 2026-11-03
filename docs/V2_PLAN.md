@@ -925,6 +925,29 @@ whose DID-matlab build waits on GL1-GL7.
     v2 source) later [yes]; (6) a function taking a v2 dataset and returning
     openMINDS_MATLAB objects, optionally saved as JSON-LD, tested against the
     pinned schema [yes]. Proposed (not decided).
+  - **G109. Spatial transcriptomics migrator details (NDI-matlab #1007,
+    did-schema #91, #107; from build Q3, 2026-11-03).** The signed family
+    ([spatial_transcriptomics_family], 2026-09-29) fixes the shape only; the
+    plan's section F lists the vocabulary and emitters as not built. Twelve
+    details, Claude's recommendation in brackets where it has one: (1) tile
+    files are NDI's packed "tile format 1": keep each as an opaque body
+    member [yes] or re-encode; (2) the counts' entity: the animal, or a
+    minted tissue-section entity (which type?); (3) a term for "UMI count";
+    carry a non-raw `count_type` as v1?; (4) `assay` text: one method term
+    (ILX:0739396 spatial transcriptomics) or kept as a Description
+    parameter; (5) the chip: an entity? type, serial where; (6)
+    `pipeline_version`: SAW's or NDI's builder; (7) gene_totals.tsv's two
+    numbers: one opaque file [yes], two calculations, or drop the pixel
+    count; (8) the coordinate frame: one system or two; reuse x/y-axis,
+    "image right/down", "image upper-left corner"; spacing for "source"
+    units; (9) time: "during the session" as lightsheet; (10) the cell
+    table: terms for the cell id and known extra columns, unknown columns
+    (carry as v1 or plain label), keep cells.tsv whole; (11) cell outlines:
+    convert to section coordinates or keep contours.bin whole; segmentation
+    method and dilation as method term and parameter; (12) labels as
+    `notes`, as lightsheet. Until answered, these classes are carried as v1
+    (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
+    Proposed (not decided).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
