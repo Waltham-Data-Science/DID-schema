@@ -1889,7 +1889,7 @@
         ],
         "packages_missing": [],
         "files_read": 450,
-        "lines_read": 86741,
+        "lines_read": 86746,
         "classes_queried": 11,
         "classes_emitted_as_document_class": 2,
         "unresolved_mint_sites": [
@@ -1911,7 +1911,7 @@
           "DID-matlab:convert/+roundtrip/syncrule.m:134 (CLASS)",
           "DID-matlab:convert/resolveEpochProbemap.m:1054 (kind.className)",
           "DID-matlab:convert/resolveEpochProbemap.m:1716 (entry.class)",
-          "DID-matlab:migrators_j/gene_list_mapping.m:179 (valueClass)",
+          "DID-matlab:migrators_j/gene_list_mapping.m:184 (valueClass)",
           "DID-matlab:migrators_j/private/jMeasurementFold.m:109 (observation + leaf)",
           "DID-matlab:migrators_j/treatment.m:149 (manipulation + kind)"
         ],
@@ -1944,7 +1944,7 @@
           "batch_post_pass": 234
         },
         "lines_read_by_group": {
-          "per_document_migrator": 47151,
+          "per_document_migrator": 47156,
           "batch_post_pass": 39590
         },
         "classes_emitted_as_document_class_by_group": {
@@ -1969,7 +1969,7 @@
         },
         "unresolved_mint_sites_by_group": {
           "per_document_migrator": [
-            "DID-matlab:migrators_j/gene_list_mapping.m:179 (valueClass)",
+            "DID-matlab:migrators_j/gene_list_mapping.m:184 (valueClass)",
             "DID-matlab:migrators_j/private/jMeasurementFold.m:109 (observation + leaf)",
             "DID-matlab:migrators_j/treatment.m:149 (manipulation + kind)"
           ],

@@ -50,8 +50,8 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 216 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 234 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 0 |
-| build: migrator lines inspected | 86741 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 47151 |
+| build: migrator lines inspected | 86746 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 47156 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 39590 |
 | build: classes queried | 11 |
 | build: open classes MINTED as a document class | 2 |
@@ -204,7 +204,7 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/+roundtrip/syncrule.m:134` | `CLASS` |
 | `DID-matlab:convert/resolveEpochProbemap.m:1054` | `kind.className` |
 | `DID-matlab:convert/resolveEpochProbemap.m:1716` | `entry.class` |
-| `DID-matlab:migrators_j/gene_list_mapping.m:179` | `valueClass` |
+| `DID-matlab:migrators_j/gene_list_mapping.m:184` | `valueClass` |
 | `DID-matlab:migrators_j/private/jMeasurementFold.m:109` | `observation + leaf` |
 | `DID-matlab:migrators_j/treatment.m:149` | `manipulation + kind` |
 
