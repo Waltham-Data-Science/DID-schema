@@ -51,6 +51,12 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
+            "class_name": "epochfiles_ingested",
+            "replaced_by": [],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
+        {
             "class_name": "epochid",
             "replaced_by": [],
             "decision": "",
@@ -65,6 +71,12 @@
             "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
+            "class_name": "openminds",
+            "replaced_by": [],
+            "decision": "",
+            "note": "Phase-8 source (migrator → delete)"
+        },
+        {
             "class_name": "stimulus_presentation",
             "replaced_by": [],
             "decision": "",
@@ -77,10 +89,34 @@
             "note": "D-C analysis-tier decompose"
         },
         {
+            "class_name": "stimulus_response_scalar",
+            "replaced_by": [
+                "calculation + harmonic_component"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
             "class_name": "stimulus_response_scalar_parameters",
             "replaced_by": [],
             "decision": "",
             "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "stimulus_response_scalar_parameters_basic",
+            "replaced_by": [
+                "method"
+            ],
+            "decision": "",
+            "note": "D-C analysis-tier decompose"
+        },
+        {
+            "class_name": "syncrule",
+            "replaced_by": [
+                "clock_alignment_configuration"
+            ],
+            "decision": "",
+            "note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         }
     ]
 }

@@ -313,9 +313,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 89,
+      "consumed by migrator (no tombstone)": 84,
       "dissolved \u2192 subject": 1,
-      "retire": 10,
+      "retire": 15,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 3,
@@ -9925,8 +9925,8 @@
     },
     {
       "v1_class": "epochfiles_ingested",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "epochfiles_ingested",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -13660,8 +13660,8 @@
     },
     {
       "v1_class": "openminds",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "openminds",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -17445,8 +17445,8 @@
     },
     {
       "v1_class": "stimulus_response_scalar",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "stimulus_response_scalar",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -17702,8 +17702,8 @@
     },
     {
       "v1_class": "stimulus_response_scalar_parameters_basic",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "stimulus_response_scalar_parameters_basic",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -18444,8 +18444,8 @@
     },
     {
       "v1_class": "syncrule",
-      "veta_class": null,
-      "disposition": "consumed by migrator (no tombstone)",
+      "veta_class": "syncrule",
+      "disposition": "retire",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
