@@ -2647,7 +2647,7 @@
           "mapping_type"
         ]
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-167",
@@ -2661,7 +2661,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "values no writer produces are malformed"
       },
-      "kind_basis": "proposed"
+      "kind_basis": "decided"
     },
     {
       "id": "carry-168",

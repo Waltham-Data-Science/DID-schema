@@ -499,6 +499,7 @@ whose DID-matlab build waits on GL1-GL7.
     carry anyway; (b) mint EMPTY "stimulator" ("A device that delivers a
     stimulus to a subject", under OBI device) for both writers, and drop the
     exact synonym "stimulator" from EMPTY:0000413. [(b)]
+    ANSWERED 2026-10-30 (marked 2026-11-03): [stimulator is SNOMED CT Stimulator], SNOMEDCT:36645008.
   - **G59. The V2 ingest's open details ([V2 ingest is one sampled body per
     channel group]).** NDI's live ingest knows the daq system, reader and v1
     epoch_id, but no recording observation exists then. (1) Owner: does the
@@ -606,6 +607,7 @@ whose DID-matlab build waits on GL1-GL7.
     templates", which the check reads as history); (b) skip all of OPEN_WORK;
     (c) leave #119 part 1 as is. [(a): they are dated measurements, and the
     rest of the check keeps working]
+    ANSWERED 2026-11-03: [dated counts in OPEN_WORK] ((a), Claude's choice at Jess's request).
   - **G71. A virus dilution ([canonical absent only as needs info]).**
     A virus injection's dilution is a v1 number with no unit (e.g. 1000; the
     migrator labels it `dilution`). DID-matlab #311 leaves it as it was (source value, no
@@ -632,6 +634,7 @@ whose DID-matlab build waits on GL1-GL7.
     lose its v1 word (`patch-Vm`). Keep the statement only where no observation
     carries the mode? [yes: the same "retires only where its replacement is
     present" rule as `observes`] Proposed (not decided).
+    ANSWERED 2026-11-03: [clamp mode of unrecorded probe dropped].
   - **G75. The ingest's events file (parked by Jess, 2026-11-01: "ask me again
     later").** Keep NDI's events/markers/text file whole as one opaque body
     (format EMPTY:0000367), as migrated data does, rather than a table of
@@ -645,10 +648,12 @@ whose DID-matlab build waits on GL1-GL7.
     two or more sessions and no dataset, DID-matlab stops with
     `did2:convert:migrationAnchor` and writes no record. Which should it point
     at? [one record per dataset, each with its own report]
+    ANSWERED 2026-11-03: [one migration document per dataset].
   - **G78. The migration record's source and target formats (from build A).**
     Its `source format` and `target format` parameters are plain text
     ("did_v1", "did_v2"), [migration record details] (b) Proposed. Keep plain
     text, or find or mint terms? [plain text: these are our own format names]
+    ANSWERED 2026-11-03: [migration formats are plain text].
   - **G79. Keep accepting `V_eta` as a target name? (from build N,
     2026-11-01.)** [schema set renamed did_v2] planned: accept both, switch the
     defaults, then stop accepting `V_eta`. The defaults are switched
@@ -668,6 +673,7 @@ whose DID-matlab build waits on GL1-GL7.
     directed_relation, child the stimulator, parent the acquisition system,
     one condition: variable EMPTY:0000377 marker channel, value [1..7]); the
     round trip then writes one v1 row `...:mk1-7`, not seven. Awaiting answer.
+    ANSWERED 2026-11-03: [probe in several rows is one wiring] ((a), three guards).
   - **G81. Carry what the batch passes leave, at the end (from build J,
     2026-11-01).** Five retire classes stay because pass 1 hands their
     documents to a later batch pass (epochMint, resolveResponseParameters,
@@ -683,11 +689,14 @@ whose DID-matlab build waits on GL1-GL7.
     and decide separately when new sessions get the V2 database by default?
     [addSessionV2 folded back] waits on this. [yes: keep v1 for old
     databases; make V2 the default for new sessions as its own decision]
+    ANSWERED 2026-11-03: [V2 branch writes V2 only] (Jess: write V2 exclusively, read v1 and V2). Follow-up G106.
+    REPLACED 2026-11-03 by [v2 line reads and writes both] and [new database defaults to v2].
   - **G83. Writers that don't know their session (from build G2).**
     `subjectMaker` and the other NDIMaker classes, `openMINDSobj2ndi_document`
     and the `+fun/+doc` makers build documents before they know the session.
     Pass the session to them (as `ndi.subject/newdocument(S)` now does), or a
     "write V2" switch? [pass the session]
+    ANSWERED 2026-11-03: [writers are given the session].
   - **G84. Element and ingested-epoch writers vs the ingest (from build G2).**
     [ingest waits on native V2 records] makes the ingest wait for the probe
     (element) to be written as V2, but a V2 element is built by the batch pass
@@ -702,11 +711,14 @@ whose DID-matlab build waits on GL1-GL7.
     a new probe and a new epoch together with the V2 ingest, writing the final
     shapes directly (the probe entity, the epoch and its recording
     observation)? [yes] Parked (Jess, 2026-11-02: no capacity now).
+    NOTE 2026-11-03: [new database defaults to v2] cannot land until v2 writers for ingest and elements exist, which is this question; unparking it unblocks that default.
   - **G85. Withdrawn 2026-11-02** (wrong premise, see G84): new writers write
     the final shapes, never `acquisition_epoch`.
   - **G86. Subject lookup by name checks the type (from build G2).**
     `does_subjectstring_match_session_document` now matches a V2 subject by
     `entity.local_identifier` alone. Also require type organism? [yes]
+    CORRECTED 2026-11-03 (Jess: "Didn't we map v1 subjects as any of the biological entity types?"): yes; did_v2_entity_composition_plan.md agrees NDI's `getsubjects()` default organism, culture, tissue, cell, group. The match should accept those five types only. Treated as covered by that plan unless Jess says otherwise.
+    ANSWERED 2026-11-03: [subject match takes the subject types].
   - **G87. Gene-list facts that are not converted (from build C,
     2026-11-01).** A v1 gene list's genome assembly, annotation source, gene
     ID namespace and gene symbol namespace are not converted; today they are
@@ -714,11 +726,19 @@ whose DID-matlab build waits on GL1-GL7.
     only. Add a third list, "source facts not converted", or put them
     elsewhere (e.g. method parameters of the gene list)? [method parameters:
     they say how the list was made]
+    Jess 2026-11-03: "5. Yes" -- Claude to work out a concrete home for the four gene-list facts and bring the shape.
   - **G88. The gene-list mapping's two proposed terms (from build C).**
     The migrator writes SIO:000752 "row" for the mapping's one dimension and
     NCIT:C150832 "Software Name" for the method text's parameter
     ([gene list mapping terms], Proposed). Approve both? Each is a one-line
     change if not.
+    RE-ASKED 2026-11-03 (Jess: "Why is that not a software edge? Is row really it? Or gene?"): v1 `method` is free text, not always software (NDI's example "GEF geneID/geneName pairing"); proposal: generic stage keeps it as the method's `name` (no term), a dataset map or import writes the software entity and `method.software_id` when it is a program; NCIT:C150832 dropped. Row: each row is one gene pair, the columns hold the gene ids, so SIO:000752 "row" is accurate. Proposed (not decided).
+    Follow-up 2026-11-03 (Jess: "Row seems weird. Index? What other options? What's the best answer?"): decided dimension terms name what each position is (OBI:0000807 presentation of stimulus, EMPTY:0000260 frame). Options: row (file layout), index (ontology 'Index' terms mean a score), the relation's term (names the whole mapping), 'gene pair'. Proposal: 'gene pair'; search ontologies first (T19), mint EMPTY only if none, definition brought for approval. Proposed (not decided).
+    ANSWERED in part 2026-11-03: [gene-list mapping dimension is gene pair]. Still open: the method text kept as the method's `name` (no term), the software entity and `software_id` added by a dataset import when the text names a program?
+    Term search 2026-11-03 (OLS4): no 'gene pair' term (exact: fusion genes, PAX alleles, MI:0057 'gene neighbourhood'; 'orthologous gene pair': ORTH:hasOrtholog, a relation; 'homologous gene pair' exact: 0). Wikidata: request failed, not checked. Existing general term: NCIT:C48046 'Pair' ('A set of two similar things considered as a unit'), the covariates saying each side is a gene (T19). Proposal: NCIT:C48046; alternative: mint EMPTY 'gene pair'. Awaiting answer.
+    Follow-up 2026-11-03 (Jess: "What do you think fits the tenets best?"): NCIT:C48046 'Pair' (T19: stop at the first step that has the meaning, step 2 here; name nothing the document states elsewhere, the covariates say gene). Awaiting answer.
+    ANSWERED 2026-11-03 (dimension): [gene pair term is NCIT Pair]. CORRECTED 2026-11-03 (method text): Claude's 'keep it as the method's name' contradicted [gene list mapping method text] (the text is one parameter of the relation's inline method, which has no `name`); withdrawn. Open: the parameter's variable; proposal NCIT:C25365 'Description' (true of every v1 value; 'Software Name' is false for e.g. 'GEF geneID/geneName pairing'); a dataset import adds a software entity when it knows the text is a program. Awaiting answer.
+    ANSWERED 2026-11-03 (method text): [gene-list method text is a description].
   - **G89. Offset and scale units on ingested blocks (from build P,
     2026-11-01).** NDI computes value = (raw + offset) x scale: the offset is
     in raw counts, and the scale turns counts into whatever the reader outputs
@@ -726,17 +746,23 @@ whose DID-matlab build waits on GL1-GL7.
     no unit. Store both with no unit (as built), or work out a unit per
     reader? [no unit for the offset; a unit per reader for the scale, where the
     reader's output unit is known]
+    RE-ASKED 2026-11-03 (Jess: "What are you talking about?"), with the channel_list.bin row fields (NDI `mfdaq_epoch_channel.m`: name, type, time_channel, sample_rate, offset, scale, number, group, dataclass) and value = (raw + offset) x scale: fill the scale's unit from the reader where known (Intan amplifier: microvolt), blank where not; offset unitless (counts)? Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G90. The observation that owns an unevenly spaced time channel (from
     build P).** [evenly spaced time is a covariate] gives an uneven time
     channel its own body owned by a time observation. Which entity is it about
     (the acquisition system?) and what is its variable (time)? Until decided,
     such archives stay as pass 1 wrote them. [about the acquisition system;
     variable time]
+    Follow-up 2026-11-03 (Jess: "This seems like a v2 gap. Shouldn't it be a body on the recordings observation? Or a key time value class?"): Claude agrees: [evenly spaced time is a covariate] says only 'a sampled_body of its own'; the 'time observation' was Claude's gap-filling. Proposal: a sampled_body owned by the recording observation, each group's time axis a `key` to it; a standalone `time` value only when several statements share the times. Awaiting answer.
+    ANSWERED 2026-11-03: [uneven time is a keyed time value] (limitation accepted: the time value has no time reference).
   - **G91. What still keeps `channel_list.bin` (from build P).** The time
     channel's row, event/marker/text rows, a non-standard channel name and
     each channel's link to its time channel have no home on the blocks, so the
     file is kept when any exist (usually). Give them covariates (new terms) so
     the file can always go? [yes]
+    RE-ASKED 2026-11-03 (Jess: "What are you talking about"): of the row's nine fields, number, offset, scale, sample_rate (covariates), type (condition) and group (the body) have homes; time_channel, the time and event/marker/text channel rows, and a non-standard name do not, so the file is kept. Give them homes so the file can always go? [yes] Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G92. Terms for the ingested blocks (from build P).** Offset: AFO
     "signal offset configuration" (AFO:AFQ_0000202); scale: NCIT "Unit
     Conversion Factor" (NCIT:C70774), or AFO "gain"; no term found for
@@ -745,6 +771,8 @@ whose DID-matlab build waits on GL1-GL7.
     [ingested compression settings] need terms (likely new EMPTY terms).
     [the two existing terms; mint "channel number" and the compressor terms
     with definitions for approval]
+    Follow-up 2026-11-03 (Jess: "Channel number must be a term somewhere"): OLS4 has none ('Number of Coil Channels' nearest). Proposal: as in [probe wiring is a relation], the channel-axis covariate's variable is the group's channel-type term and its value the channel numbers; no new term. Offset/scale terms wait on G89. Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G93. Session and dataset_remote ids (from build H, 2026-11-01).** A
     session's V2 record keeps the session's own id, so the separate v1 session
     document's id is kept nowhere; the same for `dataset_remote`. These are
@@ -752,18 +780,26 @@ whose DID-matlab build waits on GL1-GL7.
     Which V2 document takes each id, or are they carried whole as v1? [a
     relation that already joins them takes the id, as `session_in_a_dataset`
     now does (DID-matlab #345)]
+    RE-ASKED 2026-11-03 (Jess: "What would that look like? Why did v1 even have a session doc id?"): v1's `newdocument` mints a random id for every document, the `session` document included; NDI opens a session by type, newest first, reading only `session_id()`; NDI's V2 writer makes the session entity with Id = session id and no second id. Revised proposal: do not keep the v1 `session` / `dataset_remote` documents' own ids, a recorded exception (after checking nothing points at them). Proposed (not decided).
+    ANSWERED 2026-11-03: [v1 session document id not kept].
   - **G94. A probe with two subjects (from build H).** 4 Dab probes recorded
     from two different subjects; a v1 probe names one. The round trip reports
     them rather than choosing. Expected (one probe shared across animals)? If
     so, which subject does the v1 rebuild name? [expected; rebuild the one the
     v1 document named, kept as a note]
+    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up WITHDRAWN 2026-11-03 (Jess: "Why do you keep asking some dataset specific questions?"): already covered by [dataset-specific logic leaves the generic migration] and the lossless rule: the generic stage carries such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`), and the Dab map fixes it. Jess confirmed 2026-11-03: "5. Yes".
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
+    RE-ASKED 2026-11-03 (Jess: "Why wouldn't the session entity get its date migrated just because it's read thru the dataset?"): no V2 session has a date (v1 has none; `session.date` was a V_zeta invention, deleted); what is lost is the second document's `base.datestamp`, the time v1 wrote it, when the dataset's own session folds into the dataset entity (resolveDatasetEntities, [dataset session reference]). Proposal: not kept, as [v1 session document id not kept]. Proposed (not decided).
+    Follow-up 2026-11-03 (Jess: "Is that the same value?"): no. One case in all corpora (JH session 41269431a5b8c44c_40b328d54848906b: v1 2025-09-05T02:46:05.544Z, dataset 2025-09-09T14:46:39.626Z; B, Dab, 20211116, PRED: 0). (a) drop it [lean], or (b) keep it in a new slot. Awaiting answer.
+    Follow-up 2026-11-03 (Jess: "If the session is one entity and the dataset another, why don't they each get their respective timestamps?"): in this case they are one: NDI stores a dataset's own documents under a session whose id IS the dataset id (resolveDatasetEntities), so that `session` document is the dataset's storage session, not an experiment session; one id is one entity, the dataset, with the dataset document's creation time. Experiment sessions are separate entities and keep their own. Proposal: drop it. Awaiting answer.
+    ANSWERED 2026-11-03: [dataset storage session date dropped].
   - **G97. The two gene-list carry kinds (from build C, 2026-11-01).**
     carry-166 (a `geneListMapping` of another mapping type) is `not_modelled`;
     carry-167 (its `mapping.tsv` cannot be read) is `malformed`, since no NDI
     writer makes the class. Both `kind_basis: proposed`. Right? [yes]
+    ANSWERED 2026-11-03: [gene-list carry kinds confirmed].
   - **G96. About 50 names the migration writes that are not registered
     terms (from builds Q and R, 2026-11-02).** [early migration pieces fixed]
     part (3) keeps TermRegistry on during migration, so each needs a registry
@@ -777,6 +813,10 @@ whose DID-matlab build waits on GL1-GL7.
     reconstruction as one statement with a qualifier, or two? JAX numbers for
     the three Cre lines (Dab, later)? Until decided, TermRegistry stays off
     during migration.
+    2026-11-03: question 1 ANSWERED [voltage AFO, current NCIT]; question 2 ANSWERED [fixed writer values not written]; question 4 ANSWERED [hartley planes are two statements]. Question 3 RE-ASKED (Jess: "Are these redundant with an observation's values?"): yes, NDIcalc-vis-matlab `hartley.m` copies the frame times from the presentation's `stimevents` and recomputes S/KXV/KYV/ORDER from the stimulus settings (`hartleystim`, `hartleynumbers`); proposal: store neither, the round trip rebuilds them from the input presentation, else the calculation is carried as v1. Awaiting answer. Then: the group B/C/D term picks.
+    Question 3 ANSWERED 2026-11-03: [hartley numbers stored, copies not]. Left: the group B/C/D term picks (second batch, or approve as written and review only the new EMPTY definitions).
+    Term picks batch 1 ANSWERED 2026-11-03: [term picks batch 1] (neural response, clustered data set, hartley X/Y). Still open from group B: 'strain' -> NCIT:C14419 Organism Strain; 'spiketrain dt' -> EMPTY:0000308 bin width. Then group C (existing terms to register) and group D (new EMPTY terms).
+    2026-11-03: [term picks batch 1b] and [term picks batch 2] recorded. Open: receptive field (SNOMEDCT:68015005 with no definition, or an EMPTY term); batch 3 (six tuning settings: Independent Variable, Label, Algorithm, selection criterion, step size x2, depends_on copy not stored); batch 4 (new EMPTY terms); whether Claude-written JSON documentation strings go lower case.
   - **G98. Documents handed on unchanged and the padding (from build R,
     2026-11-02).** `ensureClassBlocks` now only rewrites v1's superclass list
     into V2's form, and only for five classes that pass 1 hands on unchanged
@@ -794,10 +834,13 @@ whose DID-matlab build waits on GL1-GL7.
     out and listed as a gap. Leave these out too (the unit then survives only
     in the report's reason), or keep NaN with the unit? [leave out, unit in
     the gap's reason]
+    RE-ASKED 2026-11-03 (Jess: "Do you think the rule is good? Or will it impede migration?"): Claude: good, and it does not block ([gap accepted when the report lists it]); the unit survives only as report text. Proposed (not decided).
+    ANSWERED 2026-11-03: [stated unit with no amount is a gap].
   - **G100. A unitless waveform as one gap (from build T).** v1 mean spike
     waveforms carry no unit for their samples; listing each sample as a gap is
     hundreds of entries per neuron. May the run's report list the whole
     waveform once? [yes: one gap per value, not per sample]
+    ANSWERED 2026-11-03: [waveform unit gap once].
   - **G101. The one-photon imaging term (from build U, 2026-11-02).**
     [imaging mode terms] chose FBbi:00000246 "fluorescence microscopy" for
     one-photon imaging, but the term registry already holds NCIT:C16856
@@ -825,6 +868,7 @@ whose DID-matlab build waits on GL1-GL7.
     generic stage carries the two rows as v1 and the Dab map states their
     meaning; NDI's Dab slice test expects them carried until then. OK?
     Proposed (not decided).
+    ANSWERED 2026-11-03: [Dab bath units are Dabrowska's].
   - **G103. The treatment migrator's label-word list (from build U's
     dataset-specific audit).** One list recognises "date of birth" and
     "experiment time" (vhlab's) by their words, only to carry those rows as
@@ -834,6 +878,7 @@ whose DID-matlab build waits on GL1-GL7.
     list only makes the rows carry under a different register reason; and
     "non-survival experiment time" is vhlab's wording. Delete it, or move it
     to a future vhlab import that gives date of birth its meaning?
+    ANSWERED 2026-11-03: [treatment word list deleted].
   - **G104. The saline placeholder rule (from build U's audit).** A "saline
     1 mg/kg" row is read as a placeholder, not an amount; it comes from
     Hunsberger's control group. A rule for every dataset ("a vehicle carries
@@ -844,6 +889,15 @@ whose DID-matlab build waits on GL1-GL7.
     `+did2/+convert` 400 files, NDI-matlab `+ndi/+migrate` 50 files; the only
     remaining dataset-specific code is `sliceTetanus`, already decided to move
     to the Dab map).
+  - **G106. Adding to an existing v1 database on the V2 line (from G82,
+    2026-11-03).** [V2 branch writes V2 only]: NDI on the V2 line writes V2
+    only. When someone opens an existing v1 database there and adds
+    something: (a) NDI refuses to write until the database is migrated
+    (`ndi.migrate.local`), reading still works; or (b) NDI writes V2
+    documents into the v1 database beside its v1 documents? [(a): no mixed
+    databases] Proposed (not decided).
+    ANSWERED 2026-11-03: [v1 database read-only on the v2 line].
+    REPLACED 2026-11-03 by [v2 line reads and writes both].
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,

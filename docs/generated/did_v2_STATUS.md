@@ -397,7 +397,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 123 document(s) read (3 generated copies excluded); 691 decision line(s) accepted, 2 rejected; 44 cited by a class, 647 cited by none.
+DENOMINATOR: 123 document(s) read (3 generated copies excluded); 722 decision line(s) accepted, 2 rejected; 44 cited by a class, 678 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -927,6 +927,37 @@ field). If one decides a class's disposition, that class should cite it.
 - handed-on are v1 as written. "Decided by Jess Haley, 2026-11-03 [handed-on are v1 as" (did_v2_go_forward_class_audit.md:1903).
 - one-photon is NCIT fluorescence microscopy. "Decided by Jess Haley, 2026-11-03 [one-photon is NCIT" (did_v2_go_forward_class_audit.md:1905).
 - saline placeholder in Hunsberger import. "Decided by Jess Haley, 2026-11-03 [saline placeholder in" (did_v2_go_forward_class_audit.md:1907).
+- Dab bath units are Dabrowska's. "Decided by Jess Haley, 2026-11-03 [Dab bath units are" (did_v2_go_forward_class_audit.md:1909).
+- probe in several rows is one wiring. "Decided by Jess Haley, 2026-11-03 [probe in several rows is" (did_v2_go_forward_class_audit.md:1911).
+- treatment word list deleted. "Decided by Jess Haley, 2026-11-03 [treatment word list" (did_v2_go_forward_class_audit.md:1913).
+- one migration document per dataset. "Decided by Jess Haley, 2026-11-03 [one migration document" (did_v2_go_forward_class_audit.md:1915).
+- migration formats are plain text. "Decided by Jess Haley, 2026-11-03 [migration formats are" (did_v2_go_forward_class_audit.md:1917).
+- clamp mode of unrecorded probe dropped. "Decided by Jess Haley, 2026-11-03 [clamp mode of unrecorded" (did_v2_go_forward_class_audit.md:1919).
+- probe with two subjects is Dab's. "Decided by Jess Haley, 2026-11-03 [probe with two subjects" (did_v2_go_forward_class_audit.md:1921).
+- v1 session document id not kept. "Decided by Jess Haley, 2026-11-03 [v1 session document id" (did_v2_go_forward_class_audit.md:1923).
+- waveform unit gap once. "Decided by Jess Haley, 2026-11-03 [waveform unit gap once]" (did_v2_go_forward_class_audit.md:1925).
+- stated unit with no amount is a gap. "Decided by Jess Haley, 2026-11-03 [stated unit with no" (did_v2_go_forward_class_audit.md:1927).
+- subject match takes the subject types. "Decided by Jess Haley, 2026-11-03 [subject match takes the" (did_v2_go_forward_class_audit.md:1929).
+- gene-list mapping dimension is gene pair. "Decided by Jess Haley, 2026-11-03 [gene-list mapping" (did_v2_go_forward_class_audit.md:1931).
+- dataset storage session date dropped. "Decided by Jess Haley, 2026-11-03 [dataset storage session" (did_v2_go_forward_class_audit.md:1933).
+- gene pair term is NCIT Pair. "Decided by Jess Haley, 2026-11-03 [gene pair term is NCIT" (did_v2_go_forward_class_audit.md:1935).
+- gene-list method text is a description. "Decided by Jess Haley, 2026-11-03 [gene-list method text is" (did_v2_go_forward_class_audit.md:1937).
+- gene-list carry kinds confirmed. "Decided by Jess Haley, 2026-11-03 [gene-list carry kinds" (did_v2_go_forward_class_audit.md:1939).
+- V2 branch writes V2 only. "Decided by Jess Haley, 2026-11-03 [V2 branch writes V2" (did_v2_go_forward_class_audit.md:1941).
+- writers are given the session. "Decided by Jess Haley, 2026-11-03 [writers are given the" (did_v2_go_forward_class_audit.md:1943).
+- dated counts in OPEN_WORK. "Decided by Jess Haley, 2026-11-03 [dated counts in" (did_v2_go_forward_class_audit.md:1945).
+- v1 database read-only on the v2 line. "Decided by Jess Haley, 2026-11-03 [v1 database read-only on" (did_v2_go_forward_class_audit.md:1947).
+- v1 and v2 lowercase. "Decided by Jess Haley, 2026-11-03 [v1 and v2 lowercase]: (" (did_v2_go_forward_class_audit.md:1949).
+- uneven time is a keyed time value. "Decided by Jess Haley, 2026-11-03 [uneven time is a keyed" (did_v2_go_forward_class_audit.md:1951).
+- voltage AFO, current NCIT. "Decided by Jess Haley, 2026-11-03 [voltage AFO, current" (did_v2_go_forward_class_audit.md:1953).
+- fixed writer values not written. "Decided by Jess Haley, 2026-11-03 [fixed writer values not" (did_v2_go_forward_class_audit.md:1955).
+- hartley planes are two statements. "Decided by Jess Haley, 2026-11-03 [hartley planes are two" (did_v2_go_forward_class_audit.md:1957).
+- hartley numbers stored, copies not. "Decided by Jess Haley, 2026-11-03 [hartley numbers stored" (did_v2_go_forward_class_audit.md:1959).
+- term picks batch 1. "Decided by Jess Haley, 2026-11-03 [term picks batch 1]: (" (did_v2_go_forward_class_audit.md:1961).
+- term picks batch 1b. "Decided by Jess Haley, 2026-11-03 [term picks batch 1b]: (" (did_v2_go_forward_class_audit.md:1963).
+- term picks batch 2. "Decided by Jess Haley, 2026-11-03 [term picks batch 2]: (" (did_v2_go_forward_class_audit.md:1965).
+- v2 line reads and writes both. "Decided by Jess Haley, 2026-11-03 [v2 line reads and writes" (did_v2_go_forward_class_audit.md:1967).
+- new database defaults to v2. "Decided by Jess Haley, 2026-11-03 [new database defaults to" (did_v2_go_forward_class_audit.md:1969).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

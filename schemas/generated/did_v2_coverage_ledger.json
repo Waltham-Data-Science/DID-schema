@@ -703,9 +703,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 691,
+          "accepted_lines": 722,
           "accepted_lines_by_kind": {
-            "Decided by": 571,
+            "Decided by": 602,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -4924,6 +4924,254 @@
               "tag": "saline placeholder in Hunsberger import",
               "date": "2026-11-03",
               "anchor": "Decided by Jess Haley, 2026-11-03 [saline placeholder in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1909,
+              "kind": "Decided by",
+              "tag": "Dab bath units are Dabrowska's",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [Dab bath units are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1911,
+              "kind": "Decided by",
+              "tag": "probe in several rows is one wiring",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [probe in several rows is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1913,
+              "kind": "Decided by",
+              "tag": "treatment word list deleted",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [treatment word list"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1915,
+              "kind": "Decided by",
+              "tag": "one migration document per dataset",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [one migration document"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1917,
+              "kind": "Decided by",
+              "tag": "migration formats are plain text",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [migration formats are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1919,
+              "kind": "Decided by",
+              "tag": "clamp mode of unrecorded probe dropped",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [clamp mode of unrecorded"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1921,
+              "kind": "Decided by",
+              "tag": "probe with two subjects is Dab's",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [probe with two subjects"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1923,
+              "kind": "Decided by",
+              "tag": "v1 session document id not kept",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [v1 session document id"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1925,
+              "kind": "Decided by",
+              "tag": "waveform unit gap once",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [waveform unit gap once]"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1927,
+              "kind": "Decided by",
+              "tag": "stated unit with no amount is a gap",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [stated unit with no"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1929,
+              "kind": "Decided by",
+              "tag": "subject match takes the subject types",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [subject match takes the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1931,
+              "kind": "Decided by",
+              "tag": "gene-list mapping dimension is gene pair",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [gene-list mapping"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1933,
+              "kind": "Decided by",
+              "tag": "dataset storage session date dropped",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [dataset storage session"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1935,
+              "kind": "Decided by",
+              "tag": "gene pair term is NCIT Pair",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [gene pair term is NCIT"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1937,
+              "kind": "Decided by",
+              "tag": "gene-list method text is a description",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [gene-list method text is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1939,
+              "kind": "Decided by",
+              "tag": "gene-list carry kinds confirmed",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [gene-list carry kinds"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1941,
+              "kind": "Decided by",
+              "tag": "V2 branch writes V2 only",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [V2 branch writes V2"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1943,
+              "kind": "Decided by",
+              "tag": "writers are given the session",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [writers are given the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1945,
+              "kind": "Decided by",
+              "tag": "dated counts in OPEN_WORK",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [dated counts in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1947,
+              "kind": "Decided by",
+              "tag": "v1 database read-only on the v2 line",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [v1 database read-only on"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1949,
+              "kind": "Decided by",
+              "tag": "v1 and v2 lowercase",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [v1 and v2 lowercase]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1951,
+              "kind": "Decided by",
+              "tag": "uneven time is a keyed time value",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [uneven time is a keyed"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1953,
+              "kind": "Decided by",
+              "tag": "voltage AFO, current NCIT",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [voltage AFO, current"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1955,
+              "kind": "Decided by",
+              "tag": "fixed writer values not written",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [fixed writer values not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1957,
+              "kind": "Decided by",
+              "tag": "hartley planes are two statements",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [hartley planes are two"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1959,
+              "kind": "Decided by",
+              "tag": "hartley numbers stored, copies not",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [hartley numbers stored"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1961,
+              "kind": "Decided by",
+              "tag": "term picks batch 1",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [term picks batch 1]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1963,
+              "kind": "Decided by",
+              "tag": "term picks batch 1b",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [term picks batch 1b]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1965,
+              "kind": "Decided by",
+              "tag": "term picks batch 2",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [term picks batch 2]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1967,
+              "kind": "Decided by",
+              "tag": "v2 line reads and writes both",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [v2 line reads and writes"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1969,
+              "kind": "Decided by",
+              "tag": "new database defaults to v2",
+              "date": "2026-11-03",
+              "anchor": "Decided by Jess Haley, 2026-11-03 [new database defaults to"
             },
             {
               "document": "did_v2_image_model_plan.md",

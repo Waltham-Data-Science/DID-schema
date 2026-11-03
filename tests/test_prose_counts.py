@@ -73,8 +73,9 @@ def test_no_noun_is_silently_dropped_from_the_report():
     assert docs_read > 0
     live = [c for c in claims if c.live]
     hist = [c for c in claims if c.demoted]
-    scoped = [c for c in claims if c.scoped and not c.demoted]
-    assert len(live) + len(hist) + len(scoped) == len(claims)
+    dated = [c for c in claims if c.dated]
+    scoped = [c for c in claims if c.scoped and not c.demoted and not c.dated]
+    assert len(live) + len(hist) + len(dated) + len(scoped) == len(claims)
 
     values, unavailable = C.derive_all(sorted({c.noun for c in claims}))
     assert set(values) | set(unavailable) == {c.noun for c in claims}, \
@@ -83,7 +84,12 @@ def test_no_noun_is_silently_dropped_from_the_report():
     agree, disagree, _sup, undecidable = C.adjudicate(claims, values, unavailable)
     pairs = {(c.path, c.noun) for c in claims}
     adjudicated = {(p, n) for p, n, _d, _r in agree + disagree + undecidable}
-    assert adjudicated == pairs, "a (document, noun) pair was dropped without a verdict"
+    # Rule (3): a pair holding only DATED claims is not adjudicated, and is
+    # listed instead -- never dropped.
+    dated_only = {(p, n) for p, n, _r in C.dated_only_groups(claims)}
+    assert not adjudicated & dated_only
+    assert adjudicated | dated_only == pairs, \
+        "a (document, noun) pair was dropped without a verdict"
 
 
 def test_an_underivable_noun_is_named_not_dropped(monkeypatch, tmp_path):
