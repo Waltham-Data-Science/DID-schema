@@ -11700,13 +11700,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no v2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no v2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -13140,7 +13140,7 @@
       "target_source": "decided",
       "no_target_reason": "dissolved",
       "no_target_reason_label": "DISSOLVES -- no target class, and that is the signed answer",
-      "no_target_account": "DISSOLVED as a class: no V2 document is an `ngrid`. The block's contents go into the `sampled_body` of the document that carried it (hartley_calc, ontology_image, via jNgridBody).",
+      "no_target_account": "DISSOLVED as a class: no v2 document is an `ngrid`. The block's contents go into the `sampled_body` of the document that carried it (hartley_calc, ontology_image, via jNgridBody).",
       "no_target_signoff": {
         "document": "did_v2_image_model_plan.md",
         "signoff_fragment": "is dissolved as a class"
@@ -14713,7 +14713,7 @@
       "target_source": "decided",
       "no_target_reason": "passthrough",
       "no_target_reason_label": "PASSES THROUGH as itself by decision -- the target is the class",
-      "no_target_account": "CARRIED WHOLE AS v1 (its tombstone was deleted): passes through unchanged as v1: no V2 class until real documents exist to model its untyped `data` field against.",
+      "no_target_account": "CARRIED WHOLE AS v1 (its tombstone was deleted): passes through unchanged as v1: no v2 class until real documents exist to model its untyped `data` field against.",
       "no_target_signoff": {
         "document": "did_v2_go_forward_class_audit.md",
         "signoff_fragment": "all `schemas/did_v2/deprecated/` tombstones and V2 `base.name` are deleted"
@@ -14807,13 +14807,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no v2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no v2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
@@ -17160,13 +17160,13 @@
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no V2 target class to build, so the rung cannot apply"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: there is no v2 target class to build, so the rung cannot apply"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "n/a",
-            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no V2 target class is decided, so there is no emission to check"
+            "why": "decided in `did_v2_go_forward_class_audit.md` to be CARRIED WHOLE AS v1: no v2 target class is decided, so there is no emission to check"
           },
           {
             "stage": 4,
