@@ -757,12 +757,13 @@ whose DID-matlab build waits on GL1-GL7.
     relation that already joins them takes the id, as `session_in_a_dataset`
     now does (DID-matlab #345)]
     RE-ASKED 2026-11-03 (Jess: "What would that look like? Why did v1 even have a session doc id?"): v1's `newdocument` mints a random id for every document, the `session` document included; NDI opens a session by type, newest first, reading only `session_id()`; NDI's V2 writer makes the session entity with Id = session id and no second id. Revised proposal: do not keep the v1 `session` / `dataset_remote` documents' own ids, a recorded exception (after checking nothing points at them). Proposed (not decided).
+    ANSWERED 2026-11-03: [v1 session document id not kept].
   - **G94. A probe with two subjects (from build H).** 4 Dab probes recorded
     from two different subjects; a v1 probe names one. The round trip reports
     them rather than choosing. Expected (one probe shared across animals)? If
     so, which subject does the v1 rebuild name? [expected; rebuild the one the
     v1 document named, kept as a note]
-    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up WITHDRAWN 2026-11-03 (Jess: "Why do you keep asking some dataset specific questions?"): already covered by [dataset-specific logic leaves the generic migration] and the lossless rule: the generic stage carries such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`), and the Dab map fixes it.
+    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up WITHDRAWN 2026-11-03 (Jess: "Why do you keep asking some dataset specific questions?"): already covered by [dataset-specific logic leaves the generic migration] and the lossless rule: the generic stage carries such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`), and the Dab map fixes it. Jess confirmed 2026-11-03: "5. Yes".
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
