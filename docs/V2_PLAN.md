@@ -825,6 +825,7 @@ whose DID-matlab build waits on GL1-GL7.
     generic stage carries the two rows as v1 and the Dab map states their
     meaning; NDI's Dab slice test expects them carried until then. OK?
     Proposed (not decided).
+    ANSWERED 2026-11-03: [Dab bath units are Dabrowska's].
   - **G103. The treatment migrator's label-word list (from build U's
     dataset-specific audit).** One list recognises "date of birth" and
     "experiment time" (vhlab's) by their words, only to carry those rows as
