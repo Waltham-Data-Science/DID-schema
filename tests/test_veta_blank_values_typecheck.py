@@ -44,6 +44,8 @@ import json
 import os
 import pathlib
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
@@ -279,8 +281,12 @@ def test_scan_actually_read_something():
     # classes only])
     # 108 on 2026-10-31 ([retire check now]: hartley_calc,
     # hartley_reverse_correlation, reverse_correlation and ngrid deleted)
-    assert stats["files"] >= 100, _denominator(stats)   # 119 on 2026-10-30, second retire batch
-    assert stats["files_with_fields"] >= 100, _denominator(stats)
+    # 98 on 2026-11-03 ([handed-on are v1 as written]: five retire classes
+    # deleted); the floor is derived from the class registry since then
+    assert stats["files"] >= CLASS_COUNT, _denominator(stats)   # 119 on 2026-10-30, second retire batch
+    # most class files declare fields (all 98 on 2026-11-03); a sweep that
+    # stopped reading fields would fall far below half
+    assert stats["files_with_fields"] > CLASS_COUNT // 2, _denominator(stats)
     assert stats["fields"] >= 900, _denominator(stats)
     # If the whole set ever became one type, the scan below would pass
     # vacuously; it is 38 types today.

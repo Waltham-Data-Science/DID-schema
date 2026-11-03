@@ -51,6 +51,8 @@ import json
 import os
 from pathlib import Path
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
@@ -388,7 +390,7 @@ def test_the_still_minted_retiring_classes_are_still_present():
     DENOMINATOR: 3 classes named, all 3 looked up, against a built set whose size
     is asserted first.
     """
-    assert len(BUILT) > 100, f"only {len(BUILT)} schemas loaded"
+    assert len(BUILT) == CLASS_COUNT, f"{len(BUILT)} schemas loaded, {CLASS_COUNT} registered"  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert len(RETIRING) == 3
     back = [c for c in RETIRING if c in BUILT]
     assert back == [], f"{back!r} came back; increment 3b deleted them"
@@ -418,7 +420,7 @@ def test_the_collapsed_reference_classes_stay_deleted():
     DENOMINATOR: 4 classes named, all 4 looked up, against a built set whose
     size is asserted first so an empty RECORDS cannot pass this.
     """
-    assert len(BUILT) > 100, f"only {len(BUILT)} schemas loaded"
+    assert len(BUILT) == CLASS_COUNT, f"{len(BUILT)} schemas loaded, {CLASS_COUNT} registered"  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert len(COLLAPSED_AWAY) == 4
     back = [c for c in COLLAPSED_AWAY if c in BUILT]
     assert back == [], (

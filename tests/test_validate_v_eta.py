@@ -5,6 +5,7 @@ validator names it. A rule that passes on the real tree and on every planted
 defect is checking nothing, so the planted defects are the evidence that each
 rule bites.
 """
+import glob
 import importlib.util
 import io
 import json
@@ -406,7 +407,16 @@ def test_in_progress_is_refused():
     counts = {}
     for row in d["classes"].values():
         counts[row["disposition"]] = counts.get(row["disposition"], 0) + 1
-    assert sum(counts.values()) > 100, counts   # denominator
+    # denominator: one row per class file (validate_v_eta.py enforces it), so
+    # derived from the tree rather than pinned at `> 100`, which the five
+    # retire classes deleted by [handed-on are v1 as written] (Jess Haley,
+    # 2026-11-03) took below
+    class_files = 0
+    for p in glob.glob(os.path.join(REPO, "schemas", "did_v2", "**", "*.json"), recursive=True):
+        with open(p) as fh:
+            class_files += "document_class" in json.load(fh)
+    assert class_files > 0, "no class file found under schemas/did_v2"
+    assert sum(counts.values()) == class_files, (counts, class_files)
     assert set(counts) <= {"persist", "retire"}, counts
     assert "in_progress" not in V.DISPOSITIONS
 

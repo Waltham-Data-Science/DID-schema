@@ -237,9 +237,7 @@
       }
     },
     "epochfiles_ingested": {
-      "targets": [
-        "epochfiles_ingested"
-      ],
+      "targets": [],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -520,9 +518,7 @@
       }
     },
     "openminds": {
-      "targets": [
-        "openminds"
-      ],
+      "targets": [],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []
@@ -822,9 +818,7 @@
       "targets": []
     },
     "stimulus_response_scalar_parameters_basic": {
-      "targets": [
-        "stimulus_response_scalar_parameters_basic"
-      ],
+      "targets": [],
       "target_completeness": {
         "state": "carry_forward",
         "unresolved_sites": []

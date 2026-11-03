@@ -11,6 +11,8 @@ import glob
 import json
 import os
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "did_v2")
 
 
@@ -48,7 +50,7 @@ def test_every_method_block_has_the_one_shape():
           f"{len(sites)} inline `method` structure(s) + the `method` document compared; "
           f"{len(skipped)} non-structure `method` field(s) skipped (did_v1 tombstones "
           f"keep the v1 spelling): {skipped}")
-    assert classes > 100, f"read {classes} classes -- schema tree not found?"
+    assert classes == CLASS_COUNT, f"read {classes} classes, {CLASS_COUNT} registered"  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert document is not None, "no `method` document class in the built tree"
     assert [x[0] for x in document] == ["term", "parameters"]
     assert {"interaction.method", "relation.method",

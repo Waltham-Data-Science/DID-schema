@@ -13,6 +13,8 @@ import json
 import os
 import re
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 VETA = os.path.join(HERE, "..", "schemas", "did_v2")
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
@@ -175,7 +177,7 @@ def test_every_node_in_the_built_schema_uses_its_spelling():
         _nodes(_load(p), nodes)
     curies = [n for n in nodes if re.match(r"^[A-Za-z][A-Za-z0-9_.]*:", n)
               and not n.startswith(("http:", "https:"))]
-    assert len(files) > 100 and len(curies) > 50, (len(files), len(curies))
+    assert len(files) >= CLASS_COUNT and len(curies) > 50, (len(files), CLASS_COUNT, len(curies))  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     bad = sorted({n for n in curies if n.split(":", 1)[0] not in spellings})
     assert not bad, bad
 

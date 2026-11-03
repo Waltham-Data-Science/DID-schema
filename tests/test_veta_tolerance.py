@@ -10,6 +10,8 @@ import glob
 import json
 import os
 
+from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
+
 ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "did_v2")
 
 # group 4 of the 2026-10-02 audit: `approximate` there applies to a whole axis key
@@ -81,7 +83,7 @@ def _places():
 
 def test_every_value_that_can_be_approximate_can_state_a_tolerance():
     files, places = _places()
-    assert len(files) > 100, f"read {len(files)} class files -- schema tree not found?"
+    assert len(files) >= CLASS_COUNT, f"read {len(files)} class files, {CLASS_COUNT} registered"  # derived (tests/_class_count.py); was `> 100` until [handed-on are v1 as written], 2026-11-03
     assert len(places) > 50, f"only {len(places)} `approximate` declarations found"
     without = {p for p, tol in places if tol is None}
     assert without == NOT_VALUES, (

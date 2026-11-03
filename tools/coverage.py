@@ -897,6 +897,23 @@ KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
                   # pinned pre-#73 schema; remove both when the migrators move.
                   "method_parameters", "visual_grating"}
 
+# v1 BODIES a migration pass BUILDS AS INPUT, which the class_name sweep in
+# emitted_classes() reads like an emission. They are not V2 emissions and not
+# targets, so they are kept apart from KNOWN_NON_VETA (which
+# refresh_migration_targets.py also reads as an allowed self-target) and only
+# the guardrail reads them.
+V1_INPUT_BODIES = {
+    # 2026-11-03 ([handed-on are v1 as written], Jess Haley,
+    # did_v2_go_forward_class_audit.md): the `epochfiles_ingested` retire class
+    # file is deleted. NDI's +migrate/+internal/navigatorEpochFiles.m builds a
+    # TRANSIENT v1 `epochfiles_ingested` body (as ndi.file.navigator/ingest
+    # writes one) that ndi.migrate.local feeds into did2.convert.v1_to_v2, which
+    # hands it on as v1 (DID-matlab #374, HAND_ON_CLASSES) to
+    # resolveEpochProbemap. Remove this entry if navigatorEpochFiles stops
+    # writing it.
+    "epochfiles_ingested": "navigatorEpochFiles.m",
+}
+
 
 # ---- THE #88 SPELLING OF A TARGET, AND WHAT TWO SPELLINGS HAVE TO AGREE ON ----
 #
@@ -1006,8 +1023,12 @@ def guardrail(veta, emitted):
     """Emitted classes that exist in neither the V_eta schema nor the known set.
     Returns (new_violations, acknowledged)."""
     missing = [(c, sorted(f)) for c, f in emitted.items() if c not in veta]
-    new = sorted((c, f) for c, f in missing if c not in KNOWN_NON_VETA)
-    ack = sorted((c, f) for c, f in missing if c in KNOWN_NON_VETA)
+    def known(c, files):
+        # a v1 input body is acknowledged only from the file that builds it
+        return c in KNOWN_NON_VETA or (
+            c in V1_INPUT_BODIES and set(files) <= {V1_INPUT_BODIES[c]})
+    new = sorted((c, f) for c, f in missing if not known(c, f))
+    ack = sorted((c, f) for c, f in missing if known(c, f))
     return new, ack
 
 

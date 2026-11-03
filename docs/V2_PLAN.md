@@ -898,6 +898,18 @@ whose DID-matlab build waits on GL1-GL7.
     databases] Proposed (not decided).
     ANSWERED 2026-11-03: [v1 database read-only on the v2 line].
     REPLACED 2026-11-03 by [v2 line reads and writes both].
+  - **G107. Hartley frame times and spike times when their files are absent
+    (from build AD, 2026-11-03).** [hartley numbers stored, copies not] says
+    the frame times and spike times are not stored, because the round trip
+    rebuilds them from the stimulus presentation and the neuron, and a result
+    whose round trip cannot is kept as v1. In the corpora no document holds
+    what the rebuild needs: the presentation's frame timing is in its
+    `presentation_time.bin` file (0 of 11 in 20211116 inline) and the
+    neuron's spike times only in `.vhsb` files the corpus zips lack. Taken
+    literally, all 210 hartley results in 20211116 stay v1. (a) keep storing
+    the two copies until the migration can read those files, or (b) keep the
+    results as v1 whenever the files are absent? Built for now: (a)'s
+    behaviour (nothing dropped). Proposed (not decided).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,

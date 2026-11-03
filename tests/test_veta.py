@@ -44,6 +44,9 @@ VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 sys.path.insert(0, os.path.join(REPO_ROOT, "tools"))
 import schema_paths as SP  # noqa: E402
 
+# the derived class-count denominator (tests/_class_count.py, 2026-11-03)
+from _class_count import CLASS_COUNT  # noqa: E402
+
 META_FILES = {"did_schema_meta.json", "CURIE_lookups_meta.json", "ndi_reserved_keys.json",
               "binding_registry_meta.json",
               "term_registry_meta.json", "class_disposition_meta.json",
@@ -148,7 +151,7 @@ def test_superclasses_resolve():
     # DENOMINATOR. Without it this passes when RECORDS is EMPTY -- a build that
     # produced no schemas would go green on the sweep that exists to check them
     # all. Same failure as a census reporting 0 while reading nothing.
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"
     names = set(RECORDS)
     for name, (_, d) in RECORDS.items():
         for s in d["document_class"]["superclasses"]:
@@ -867,9 +870,16 @@ def test_phase1_source_cleanup_and_dep_typing():
     for gone in ("dataset_remote", "dataset_session_info", "session_in_a_dataset",
                  "metadata_editor"):
         assert gone not in RECORDS
-    # held then; openminds stays, measurement was deleted 2026-10-30 with the
-    # retire classes nothing passes through ([one folder, final classes only])
-    assert "openminds" in RECORDS and "measurement" not in RECORDS
+    # held then; measurement was deleted 2026-10-30 with the retire classes
+    # nothing passes through ([one folder, final classes only]). INVERTED
+    # 2026-11-03 for openminds: [handed-on are v1 as written] (Jess Haley,
+    # did_v2_go_forward_class_audit.md) -- since DID-matlab #374 (da487311) pass 1
+    # hands an openminds document on exactly as v1 wrote it, stamped did_v1 and
+    # never validated against V2, so its retire class file is deleted and its
+    # name retired.
+    import veta_record
+    assert "openminds" not in RECORDS and "measurement" not in RECORDS
+    assert "openminds" in veta_record.RETIRED_CLASSES
     def _dep(cls, name):
         return next(d for d in RECORDS[cls][1]["depends_on"] if d["name"] == name)
     # `daqreader_epochdata_ingested` USED to be asserted here as carrying an
@@ -897,11 +907,21 @@ def test_phase1_source_cleanup_and_dep_typing():
     # as the code cannot catch the code. The tombstone stays until a migrator
     # provably consumes it, which is what _DELETE_PHASE8 exists to enforce and
     # what deleting the file directly bypassed.
-    assert "epochfiles_ingested" in RECORDS, (
-        "the v1 source tombstone must survive until #60's migrator consumes it -- "
-        "deleting it quarantined 2,484 documents in corpus B")
-    assert _dep("epochfiles_ingested", "filenavigator_id") is not None, \
-        "the source tombstone must carry the edge NDI actually writes"
+    # INVERTED A THIRD TIME, 2026-11-03, on a changed premise rather than a
+    # wrong one: [handed-on are v1 as written] (Jess Haley,
+    # did_v2_go_forward_class_audit.md). Since DID-matlab #374 (da487311) pass 1
+    # hands an `epochfiles_ingested` document on exactly as v1 wrote it, stamped
+    # did_v1 and never validated against V2, to resolveEpochProbemap, so no
+    # document reaches validation under the tombstone and it cannot quarantine
+    # one; a DID-matlab probe run with the five retire files left out
+    # (41568516626) changed nothing in JH and 20211116. The tombstone is deleted
+    # and its name retired. The edge NDI writes is NDI's template's, which the
+    # v1 document is checked against.
+    assert "epochfiles_ingested" not in RECORDS
+    assert "epochfiles_ingested" in veta_record.RETIRED_CLASSES
+    gt_efi = _ndi_ground_truth()["classes"]["epochfiles_ingested"]
+    assert "filenavigator_id" in gt_efi["depends_on"], \
+        "NDI's template carries the edge the handed-on v1 document keeps"
     assert "ingestion_manifest" in RECORDS
     # #73 review item 40 (2026-09-25): the restored navigator edge carries the
     # V_eta name, pointing at `epoch_file_pattern` (the navigator's signed
@@ -921,8 +941,9 @@ def test_phase1_source_cleanup_and_dep_typing():
     im_fields = [f["name"] for f in RECORDS["ingestion_manifest"][1]["fields"]]
     assert "epochprobemap" not in im_fields, im_fields
     assert "files" in im_fields, im_fields
-    efi_fields = [f["name"] for f in RECORDS["epochfiles_ingested"][1]["fields"]]
-    assert "epochprobemap" in efi_fields, efi_fields
+    # the serialized probe map stays on the v1 document (NDI's template), which
+    # is what resolveEpochProbemap decomposes
+    assert "epochprobemap" in gt_efi["fields"], gt_efi["fields"]
     # `directory` USED to be asserted here as carrying a self-referential
     # `parent_directory_id` typed to itself. The team DELETED the class on
     # 2026-08-11 (build_v_eta.py `_DELETE_NO_V1_PROVENANCE`, where the
@@ -1188,11 +1209,15 @@ def test_ndi_class_handles_marked_needs_ndi():
     (it lives in NDI-matlab). The marker is a declared, meta-schema-valid property."""
     assert "needs_ndi" in META["$defs"]["field_definition"]["properties"]
     # daqsystem, syncgraph and daqmetadatareader were deleted 2026-10-30 ([one folder, final
-    # classes only]); the classes still in the tree keep the marker.
+    # classes only]); syncrule 2026-11-03 ([handed-on are v1 as written], Jess
+    # Haley: pass 1 hands it on exactly as v1 wrote it, never validated against
+    # V2, so its `ndi_syncrule_class` is NDI's template's). The classes still in
+    # the tree keep the marker.
+    import veta_record
+    assert "syncrule" not in RECORDS and "syncrule" in veta_record.RETIRED_CLASSES
     expected = {
         "daqreader": "ndi_daqreader_class",
         "filenavigator": "ndi_filenavigator_class",
-        "syncrule": "ndi_syncrule_class",
     }
     for cls, fname in expected.items():
         d = RECORDS[cls][1]
@@ -2930,7 +2955,7 @@ def test_the_ngrid_fold_targets_exist_and_can_hold_what_the_fold_emits():
 
     Asserted from the BUILT set, so it cannot go stale the way a comment does.
     """
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"
 
     # the statement the team named (#73 item 51: intensity_observation, not image_observation)
     assert "image_observation" not in RECORDS
@@ -3013,7 +3038,7 @@ def test_the_rf_family_and_ngrid_are_retired_and_nothing_inherits_them():
     carried by +migrators/ngrid.m. No v1 document passes through under any of
     the four, so their files are deleted and their names are RETIRED_CLASSES.
     What must hold now: none is in the tree, and no class reaches one."""
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"   # denominator
     gone = ("hartley_calc", "hartley_reverse_correlation", "reverse_correlation",
             "ngrid")
     for name in gone:
@@ -3080,7 +3105,7 @@ def test_openminds_stimulus_passthrough_keeps_the_second_pass_join_keys():
     # the tombstone is deleted. What must hold: it is gone, its name is retired,
     # and its carry row exists.
     import veta_record
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"   # denominator
     assert "openminds_stimulus" not in RECORDS
     assert "openminds_stimulus" in veta_record.RETIRED_CLASSES
     with open(os.path.join(REPO_ROOT, "schemas", "registry",
@@ -3884,7 +3909,7 @@ def test_key_id_takes_positions_from_one_data_type():
     assert "key" in names and "positions_from" not in names and "document" not in names
     doc = next(f for f in cov["fields"] if f["name"] == "key")
     assert doc["type"] == "integer" and doc["blank_value"] == -1
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"   # denominator
     for cls, (_tier, d) in RECORDS.items():
         assert "key_labels_id" not in {e["name"] for e in d.get("depends_on", [])}, cls
     # the calculation leaves are a mixin since 2026-10-08; the values stay
@@ -4170,7 +4195,7 @@ def test_a6_no_class_declares_the_removed_fields():
                 hits.append(p)
             walk(f.get("fields"), p + ".")
 
-    assert len(RECORDS) > 100
+    assert len(RECORDS) == CLASS_COUNT, (len(RECORDS), CLASS_COUNT)
     for cls, (tier, d) in RECORDS.items():
         if tier == "deprecated":
             continue
@@ -4296,7 +4321,7 @@ def test_no_deprecated_tier():
     `v1_to_v2.m` counts such a document (`passthrough_unvalidated_no_schema`)
     and DID-matlab's passthrough tests assert it is not quarantined.
     """
-    assert len(RECORDS) > 100, f"only {len(RECORDS)} schemas loaded"   # denominator
+    assert len(RECORDS) == CLASS_COUNT, f"{len(RECORDS)} schemas loaded, {CLASS_COUNT} registered"   # denominator
     folders = {e["family"] for e in INDEX["schemas"]}
     assert "deprecated" not in folders, folders
     assert not os.path.isdir(os.path.join(VETA, "deprecated"))
