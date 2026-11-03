@@ -127,6 +127,10 @@
         "epoch_parameter_reader": {
             "disposition": "persist"
         },
+        "epochfiles_ingested": {
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
+        },
         "epochid": {
             "disposition": "retire",
             "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
@@ -201,6 +205,10 @@
         "opaque_body": {
             "disposition": "persist"
         },
+        "openminds": {
+            "disposition": "retire",
+            "disposition_note": "Phase-8 source (migrator → delete)"
+        },
         "orientation_direction_tuning_calculation": {
             "disposition": "persist"
         },
@@ -261,12 +269,24 @@
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
+        "stimulus_response_scalar": {
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
         "stimulus_response_scalar_parameters": {
+            "disposition": "retire",
+            "disposition_note": "D-C analysis-tier decompose"
+        },
+        "stimulus_response_scalar_parameters_basic": {
             "disposition": "retire",
             "disposition_note": "D-C analysis-tier decompose"
         },
         "substance_amount": {
             "disposition": "persist"
+        },
+        "syncrule": {
+            "disposition": "retire",
+            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         "temperature": {
             "disposition": "persist"

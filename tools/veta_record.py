@@ -181,17 +181,6 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
-    # retire classes deleted 2026-11-03 ([handed-on are v1 as written], Jess
-    # Haley, did_v2_go_forward_class_audit.md): since DID-matlab #374
-    # (da487311) pass 1 hands these on exactly as v1 wrote them, stamped did_v1,
-    # never checked against v2; a DID-matlab probe run with the five files left
-    # out (41568516626) changed nothing in JH and 20211116 and quarantined only
-    # documents of the still-read daqreader_epochdata_ingested in B and Dab.
-    "syncrule",
-    "epochfiles_ingested",
-    "stimulus_response_scalar",
-    "stimulus_response_scalar_parameters_basic",
-    "openminds",
     # persist class retired 2026-11-01 ([probe wiring is a relation], Jess
     # Haley, did_v2_go_forward_class_audit.md): a probe's wiring is a
     # `connected to` directed_relation to its acquisition_system, one condition
