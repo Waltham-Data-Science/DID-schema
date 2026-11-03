@@ -910,6 +910,21 @@ whose DID-matlab build waits on GL1-GL7.
     the two copies until the migration can read those files, or (b) keep the
     results as v1 whenever the files are absent? Built for now: (a)'s
     behaviour (nothing dropped). Proposed (not decided).
+  - **G108. The openMINDS v2 export (NDI-matlab #768, from build Q4,
+    2026-11-03).** Only a plan exists (issue comment 2026-10-21: an
+    `ndi.entity.OpenMinds()` writing openMINDS contributions from v2
+    relations, targeting openMINDS `latest`). Nothing built. Questions, with
+    Claude's recommendation: (1) version: `latest` as pinned by
+    openMINDS_MATLAB v0.12.0 (NDI's current pin), moving on deliberately [yes];
+    (2) our 14 CRediT roles vs openMINDS's 52 contribution types: a 14-row
+    mapping table for approval [Claude drafts it]; (3) author order kept as
+    one ordered "authoring" contribution; corresponding author dropped (or as
+    custodian) [dropped]; (4) affiliations: export every affiliation of each
+    exported person (v2 affiliation is not per dataset) [yes]; (5) `Dataset`
+    only for now; `DatasetVersion` (about 15 required fields, several with no
+    v2 source) later [yes]; (6) a function taking a v2 dataset and returning
+    openMINDS_MATLAB objects, optionally saved as JSON-LD, tested against the
+    pinned schema [yes]. Proposed (not decided).
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
