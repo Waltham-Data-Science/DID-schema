@@ -959,7 +959,7 @@ minted** (TEAM-SIGN-OFF [receptive field naming], `did_v2_ngrid_family_findings.
 dated measurements above are left exactly as taken; this is the live claim beside them:
 
         DENOMINATOR: 249 json file(s) under schemas/V_eta/ read
-        243 distinct V_eta class names
+        at 2026-08-17: 243 distinct V_eta class names
         at 2026-08-17: 42 direct subclasses of `data_type`
 
 Only the COMPOSITE is a `data_type` subclass — the leaf hangs off
