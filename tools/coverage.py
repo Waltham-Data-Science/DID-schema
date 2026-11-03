@@ -1122,7 +1122,7 @@ NO_TARGET_BY_DECISION = {
     "ngrid": (
         NO_TARGET_DISSOLVED, "did_v2_image_model_plan.md",
         "is dissolved as a class",
-        ("DISSOLVED as a class: no V2 document is an `ngrid`. The block's "
+        ("DISSOLVED as a class: no v2 document is an `ngrid`. The block's "
         "contents go into the `sampled_body` of the document that carried it "
         "(hartley_calc, ontology_image, via jNgridBody).")),
 }
@@ -1141,7 +1141,7 @@ def _carried_as_v1():
 
 def _carried_as_v1_row(row):
     """A ledger row whose class is carried whole as v1 by decision: a decided
-    passthrough with no V2 decided target (its tombstone was deleted)."""
+    passthrough with no v2 decided target (its tombstone was deleted)."""
     return (row.get("no_target_reason") == NO_TARGET_PASSTHROUGH
             and not row.get("decided_targets"))
 
@@ -2226,7 +2226,7 @@ def _rung_targets_built(row):
     if _carried_as_v1_row(row):
         doc = (row.get("no_target_signoff") or {}).get("document", "?")
         return S_NA, (f"decided in `{doc}` to be CARRIED WHOLE AS v1: there is no "
-                      "V2 target class to build, so the rung cannot apply")
+                      "v2 target class to build, so the rung cannot apply")
     return S_NOT_MEASURED, (
         "`build_state.schema_targets_named` is 0 -- no target class is named for "
         "this row, so there is nothing to look for in the built set. This is NOT "
@@ -2397,7 +2397,7 @@ def _rung_emits_decided(row):
                       "so there is no emission to check")
     if _carried_as_v1_row(row):
         doc = (row.get("no_target_signoff") or {}).get("document", "?")
-        return S_NA, (f"decided in `{doc}` to be CARRIED WHOLE AS v1: no V2 target "
+        return S_NA, (f"decided in `{doc}` to be CARRIED WHOLE AS v1: no v2 target "
                       "class is decided, so there is no emission to check")
     return S_NOT_MEASURED, (
         "`build_state.schema_targets_named` is 0 -- no decided target to check an "
@@ -3195,8 +3195,8 @@ def _no_target_cell(r):
     if reason == NO_TARGET_PASSTHROUGH:
         doc = (r.get("no_target_signoff") or {}).get("document")
         if doc and not r.get("decided_targets"):
-            # its tombstone was deleted: no V2 class, carried whole as v1
-            return f"· **CARRIED AS v1** -- no V2 class, per `{doc}`"
+            # its tombstone was deleted: no v2 class, carried whole as v1
+            return f"· **CARRIED AS v1** -- no v2 class, per `{doc}`"
         return "· **passes through as itself** by decision"
     return "· ⚠ **NO TARGET AND NO DISSOLUTION RECORDED** -- a gap, not a decision"
 

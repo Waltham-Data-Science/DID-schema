@@ -109,7 +109,7 @@ Ids would be EMPTY:0000431 onward, in this order.
 ## Questions for the team (plain words)
 
 1. Voltage and current: one source for both (all NCIT, all AFO, or OM like the registered `time`), or the best definition for each (AFO voltage, NCIT current)?
-2. Should values that never change from what NDI's writer always writes (`temporalfreqfunc`, an empty `prestimulus normalization`) be left out of the V2 document, since the round trip can put them back?
+2. Should values that never change from what NDI's writer always writes (`temporalfreqfunc`, an empty `prestimulus normalization`) be left out of the v2 document, since the round trip can put them back?
 3. The hartley per-frame stimulus record (frame times, kx, ky, S, order): keep it as method parameters, or move it to a data body?
 4. The hartley "represented quantity" qualifier: keep one statement with two planes told apart by a qualifier, or two statements, one per plane?
 5. For the three Cre lines: can the lab give the JAX/MMRRC stock numbers? (Dab question, for later.)

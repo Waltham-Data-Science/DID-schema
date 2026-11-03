@@ -110,7 +110,7 @@ TEAM-SIGN-OFF [raw recording observation]: jess@walthamdatascience.com / 2026-08
 
 TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]: jess@walthamdatascience.com / 2026-09-29 -- a `pyraview` pyramid's levels are `redundant` `sampled_body` documents OWNED BY THE RECORDING's observation (a second-pass join), not a second `voltage_observation` (#73 audit 2 D7). In did_v2_migration_targets.json, `pyraview`'s `confirmed_targets` becomes `decided_targets: [sampled_body]`.
 
-## 2026-10-21 — migrated recordings link their epoch files as data bodies (native V2 shape)
+## 2026-10-21 — migrated recordings link their epoch files as data bodies (native v2 shape)
 
 Decided by Jess Haley, 2026-10-21 [epoch files as data bodies]: Migrated recordings link their epoch files as data bodies, matching native V2: one observation per element per epoch, data_body true, an opaque_body per epoch file by location (ingested archives as attached), shared by the electrodes recorded in it, with the channel map; a file named but absent is still recorded by location.
 

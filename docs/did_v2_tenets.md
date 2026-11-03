@@ -24,21 +24,21 @@ then rebuilds the subject side around it.
 
 ---
 
-## V2 guidance (reference papers)
+## v2 guidance (reference papers)
 
-Two papers V2 follows. Each copy is kept unmodified in `docs/references/`, with a
+Two papers v2 follows. Each copy is kept unmodified in `docs/references/`, with a
 note giving its citation and licence.
 
 - **Bandrowski et al. 2016, "The Ontology for Biomedical Investigations."** PLoS ONE
   11(4): e0154556, doi:10.1371/journal.pone.0154556
   ([PDF](references/bandrowski_2016_obi.pdf), [note](references/bandrowski_2016_obi.md)).
   How an investigation is described (planned process, assay, device, specimen); OBI
-  terms fill V2 vocabulary slots.
+  terms fill v2 vocabulary slots.
 - **Lepsky et al. 2026, "A motif for domain-specific analysis applets that are easy to
   learn, reuse, test, and to compose into pipelines: application to vision science."**
   bioRxiv, doi:10.64898/2026.04.27.721136
   ([PDF](references/lepsky_2026_calculators.pdf), [note](references/lepsky_2026_calculators.md)).
-  The NDIcalc-vis calculators whose outputs the V2 calculation classes must stay
+  The NDIcalc-vis calculators whose outputs the v2 calculation classes must stay
   faithful to.
 
 ## The tenets
@@ -369,7 +369,7 @@ its id and dangles every downstream consumer (the 11,448-orphan lesson). Because
 **Amendment (Jess Haley, 2026-10-28, `did_v2_go_forward_class_audit.md` [one calculation
 per named calculator output], [absolute-value fits are fit entries]): several fits are
 entries, not documents.** For the v1 named calculators (the NDIcalc-vis tuning
-calculators and the other named v1 calculators), one calculator output is one V2
+calculators and the other named v1 calculators), one calculator output is one v2
 calculation even when it holds several fits: each fit is an entry of the value's
 `model_fit` array, naming its own `model`, with fixed parameters in `constraints` and a
 `response_transform` when it was fitted to transformed responses (e.g. absolute value).

@@ -2,7 +2,7 @@
 
 ## What is this repo?
 
-`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It holds **did_v2**, the schema NDI V2 is built on: one JSON file per document class, the registries those classes bind to, the meta-schema that validates the class files themselves, the tools that check all of it, and the record of every decision about it. It is not NDI itself; the MATLAB code that builds, migrates and validates documents lives in [DID-matlab](https://github.com/VH-Lab/DID-matlab) and [NDI-matlab](https://github.com/VH-Lab/NDI-matlab), which read this repository.
+`did-schema` is the schema layer for DID (data-interface database) and NDI (neuroscience data interface). It holds **did_v2**, the schema NDI v2 is built on: one JSON file per document class, the registries those classes bind to, the meta-schema that validates the class files themselves, the tools that check all of it, and the record of every decision about it. It is not NDI itself; the MATLAB code that builds, migrates and validates documents lives in [DID-matlab](https://github.com/VH-Lab/DID-matlab) and [NDI-matlab](https://github.com/VH-Lab/NDI-matlab), which read this repository.
 
 How to work here (rules, gates, the sibling lock, who decides) is in [CLAUDE.md](CLAUDE.md).
 

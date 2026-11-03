@@ -221,7 +221,7 @@ did-schema non-record hits: `schemas/V_eta_coverage_ledger.{md,json}` and
 EMPTY:0000129-133", the `ontologyLabel` row); `tests/test_term_registry.py:262-263` uses
 EMPTY:0000003 / 0000004 as synthetic R12 fixtures (names "w", "x"; not read against the ontology).
 The empty-ontology release artefacts (`empty-base.owl` etc.) were last regenerated 2026-04-04
-(`git log -3 origin/V2 -- empty-base.owl` -> 8a82df7 "new release with Babu terms"); V2 PRs edit
+(`git log -3 origin/V2 -- empty-base.owl` -> 8a82df7 "new release with Babu terms"); `V2` PRs edit
 only `src/ontology/empty-edit.owl` (last three: 8ce2cb1, 64dbbb8, 1e6793d, 2026-10-27..30).
 
 ### 2b. Per-node counts (node hits / case-insensitive label hits)
@@ -364,7 +364,7 @@ that no dataset holds it.
 
 How a by-label lookup resolves (ndi-ontology-matlab `origin/main` 7b51308,
 `src/ndi/+ndi/+ontology/EMPTY.m`): sources in order `OWL_URL_MAIN` (empty-ontology `main`
-`empty-base.owl`), then `OWL_URL_V2_EDIT` (`V2/src/ontology/empty-edit.owl`), then V2's
+`empty-base.owl`), then `OWL_URL_V2_EDIT` (`V2/src/ontology/empty-edit.owl`), then `V2`'s
 `empty-base.owl`, then development; match is `strcmpi(thisId, fragment) || strcmpi(thisName, fragment)`
 (lines 117, 163). So: (i) a relabel or obsoletion merged to empty-ontology `V2` does not change
 what NDI's lookup returns until it reaches `main`'s release file (main is read first, and every
@@ -372,15 +372,15 @@ one of the 91 is on main with its current label); (ii) once it reaches main, eve
 dictionary entry above stops resolving (`"obsolete " + label`, or the new label); a by-node lookup
 keeps resolving (the node and, per conventions §6, the definition are kept).
 
-The Haley **V2** import already writes the replacing terms for two rows, by node:
+The Haley **v2** import already writes the replacing terms for two rows, by node:
 `src/ndi/+ndi/+setup/+conv/+haley/private/haleyTerm.m:56` `'video recording', 'NCIT:C91063'`
 and `:199` `'developmental stage', 'NCIT:C43531'` (`git grep -n -F -e 'NCIT:C91063' -e 'NCIT:C43531' origin/V2 -- src`).
-No V2 import in NDI-matlab origin/V2 writes CMO, MMO, NCIT:C25257, NCIT:C48167 or BAO:0010269:
+No v2 import in NDI-matlab origin/V2 writes CMO, MMO, NCIT:C25257, NCIT:C48167 or BAO:0010269:
 `git grep -c -F '<curie>' origin/V2` printed nothing for each of `CMO:`, `MMO:`, `NCIT:C25257`,
 `NCIT:C48167`, `BAO:0010269`.
-There is no Dab, Babu or Hunsberger V2 importer file: `git ls-tree -r --name-only origin/V2 | grep -i V2 | grep -i -E 'dab|babu|hunsberg'`
+There is no Dab, Babu or Hunsberger v2 importer file: `git ls-tree -r --name-only origin/V2 | grep -i V2 | grep -i -E 'dab|babu|hunsberg'`
 lists only `+babu/import_V2_decisions.md` and `+dabrowska/V2_decisions.md` (decision logs). The
-Dab V2 path today is the migration plus `ndi.migrate.internal.sliceTetanus` (`V2_decisions.md`
+Dab v2 path today is the migration plus `ndi.migrate.internal.sliceTetanus` (`V2_decisions.md`
 header); its EPM/FPS `ontologyTableRow` columns are drafted in did-schema
 `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md` (header: "Every row below is Proposed (not decided)").
 
@@ -439,7 +439,7 @@ Same PR may change the six lines' `ndi-ontology-matlab (CMO and MMO readers)` to
 definition (conventions §6), so they do not break. DID-matlab has **no** `src` reader of 129/256/
 257 (`git grep ... -- src` exit 1); its hits are v1 fixtures, which stay valid v1 input. What
 "readers first" should change is therefore not settled by the code (Q8). Candidate PRs:
-- NDI-matlab: the V2 path that turns a v1 `ontologyLabel`/`imageStack` carrying 129/257 into
+- NDI-matlab: the v2 path that turns a v1 `ontologyLabel`/`imageStack` carrying 129/257 into
   NCIT:C91063 (none exists today: carried, `ontologyLabel` is a GUARDED PASSTHROUGH per the
   coverage ledger row);
 - DID-matlab: nothing in `src`; the fixtures need no change unless a mapping is added.
@@ -461,14 +461,14 @@ definition (conventions §6), so they do not break. DID-matlab has **no** `src` 
 - Every obsoleted node is already safe for the two NDI by-node readers (Step 3).
 - Lands on `V2` only; NDI sees it after the next `main` release (2c). Step 2 must precede that release.
 
-**Step 5. did-schema: EMPTY registry rows for the relabelled terms that a V2 import writes**,
-immediately after Step 4 merges (R7 against the V2 checkout). Rows from table 5b. Only the
+**Step 5. did-schema: EMPTY registry rows for the relabelled terms that a v2 import writes**,
+immediately after Step 4 merges (R7 against the `V2` checkout). Rows from table 5b. Only the
 relabels some import will write need rows; b6 says "registry rows, with the Dab and Haley
 imports that write them", so these may instead ride with Step 6's import PRs, as long as each
-lands no later than its writer. Obsoleted EMPTY nodes need no row (no V2 writer; R10 `obsolete:
+lands no later than its writer. Obsoleted EMPTY nodes need no row (no v2 writer; R10 `obsolete:
 {consider}` is for "a term the ontology made obsolete, kept while something still writes it").
 
-**Step 6. NDI-matlab: the per-dataset V2 imports that write the new terms** (one PR per dataset):
+**Step 6. NDI-matlab: the per-dataset v2 imports that write the new terms** (one PR per dataset):
 - Dab ("applied by the Dab import ([migration not generalizable])"): EPM/FPS/ASR rows -> the
   variables, MMO location / PATO direction conditions, method MMO:0000262; A49 chamber as a device
   entity; A57 SNOMEDCT. Needs the DAB_COLUMN_ROWS draft decided (it is Proposed).
@@ -514,7 +514,7 @@ from the current definitions with the assay and units stripped (conventions §3:
 approval; (b) the team writes them. R7 needs the registry definition to equal the ontology's.
 
 **Q5. "Made obsolete once no child remains".** (i) Does "child" mean a live (non-obsolete) child?
-(ii) B10 (0000102) and B14 (0000150) have no children on V2 today: obsolete now? (iii) With what
+(ii) B10 (0000102) and B14 (0000150) have no children on `V2` today: obsolete now? (iii) With what
 `consider` (convention requires one; there is no replacing term for a grouping class)? (iv) Does
 the rule cascade (B17 -> B9 -> B6)? (v) B6 0000097 is used as a v1 fixture value in DID-matlab
 `testRawV1RoundTripPosition.m:197,217`: no impact expected (v1 value), confirm.
@@ -524,14 +524,14 @@ type" (not in the 91); B2 (0000004) has A52's 0000062 (relabelled, live). New pa
 
 **Q7. Which imports.** b5/b6 Build pending name "the Dab and Haley imports". The v1 writers of
 A60-A64 are Hunsberger's dictionary and of A65-A69, B20, B21 are Babu's (2c). Are the Babu and
-Hunsberger V2 imports in scope, and should the lines name them?
+Hunsberger v2 imports in scope, and should the lines name them?
 
 **Q8. What "EMPTY:0000129 / 0000256 / 0000257 readers first" requires.** NDI `src` reads 129 and
 257 by node (definition copied into `imageStack.label`); DID-matlab `src` has no reader (grep exit
 1, tests only). Options: (a) no reader change is needed, because node and definition survive
 obsoletion; the line becomes `Built:` with that evidence; (b) the v1 writers (Haley `doImport.m`,
 Babu `import.m`, `treatments.json`) move to NCIT:C91063 / the new labels (that changes what new
-v1 imports write); (c) a V2 mapping (NDI second pass or DID migrator) of v1 labels 129/257 to
+v1 imports write); (c) a v2 mapping (NDI second pass or DID migrator) of v1 labels 129/257 to
 NCIT:C91063 is the "reader" meant.
 
 **Q9. v1 dictionaries' by-label lookups.** 73 dictionary entries look terms up by label (2c).
@@ -551,7 +551,7 @@ NCIT:C45305 for A65 / UO:0000031 for A61? An entity is not a term, so what does 
 
 **Q12. Replaced registry rows: obsolete-marked or deleted?** Moot today for the 91: none is in the
 registry (2a, exit 1). R10 allows `obsolete: {consider: <node>}` only for "a term the ontology made
-obsolete, kept while something still writes it". Question for later: if a V2 import ever writes
+obsolete, kept while something still writes it". Question for later: if a v2 import ever writes
 one of the obsoleted nodes, is it registered with `obsolete`, or refused?
 
 **Q13. Open method terms.** b5: "Open: ... the method terms of A47-A49, A56 (fear-potentiated

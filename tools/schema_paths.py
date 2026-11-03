@@ -1,4 +1,4 @@
-"""Where the V2 schema files live: the one place the layout is written down.
+"""Where the v2 schema files live: the one place the layout is written down.
 
 Decided by Jess Haley, 2026-10-30 [schema folders by family]
 (`did_v2_go_forward_class_audit.md`), amending [one folder, final classes only]

@@ -53,11 +53,11 @@ The rule under test is "Decided by Jess Haley, 2026-10-26 [one correct reading]"
 
 ## 1. Inference points
 
-**(b) Readings.** "1" means the v1 document by itself admits one correct V2 reading. ">1" gives a counter-example a lab could write; where the example is real, the corpus count is given.
+**(b) Readings.** "1" means the v1 document by itself admits one correct v2 reading. ">1" gives a counter-example a lab could write; where the example is real, the corpus count is given.
 
 **Verdict:**
 - **K** = KEEP
-- **NM** = NEEDS_MAPPING (carry as v1 with a register row; the row names the V2 homes and what decides between them)
+- **NM** = NEEDS_MAPPING (carry as v1 with a register row; the row names the v2 homes and what decides between them)
 - **U** = UNCLEAR
 
 ### 1a. DID pass 1: class-wide choices

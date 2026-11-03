@@ -202,7 +202,7 @@ def _norm(s):
 
 
 def load_classes(root=SCHEMA_ROOT):
-    """Every V2 class under schemas/did_v2/ (any family folder), keyed by class_name."""
+    """Every v2 class under schemas/did_v2/ (any family folder), keyed by class_name."""
     classes = {}
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames.sort()

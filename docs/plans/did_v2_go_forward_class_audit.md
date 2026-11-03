@@ -753,13 +753,13 @@ does not record states the amount as unknown rather than leaving `dose.value`
 empty.
 
 The third 2026-10-21 line says how: NaN in the quantity's canonical slot (a
-dose of unrecorded volume is `dose.value.volume.liters: NaN`). V1 already
+dose of unrecorded volume is `dose.value.volume.liters: NaN`). v1 already
 stores NaN: it writes documents with `did.datastructures.jsonencodenan`
 (`jsonencode(..., 'ConvertInfAndNaN', false)`), so the text carries the
-literal `NaN`. V2's `did2.document` wrote plain `jsonencode`, which turns a
+literal `NaN`. v2's `did2.document` wrote plain `jsonencode`, which turns a
 scalar NaN into `null`, read back as `[]`, so an unknown amount came out of the
 database as an absent one. DID-matlab now writes NaN, Infinity and -Infinity as
-literals, as V1 does; `testSqliteDbNonFinite` tests the round trip through
+literals, as v1 does; `testSqliteDbNonFinite` tests the round trip through
 `did2.database.sqlitedb` and SQLite's JSON functions. A NaN amount is a stated
 value under `value_inline_or_body` (a number is not a blank). Which doses get
 NaN, and in which quantity, is decided case by case; no migrator or import
@@ -767,7 +767,7 @@ writes it yet.
 
 Decided by Jess Haley, 2026-10-21 [prepared material recipe]: "A prepared material made to a recipe (the Haley daily seeding suspension) is described by an assertion about the material whose value is the recipe formulation, through `value_id` (variable: composition, a registered term) -- not a dose."
 
-The Haley V2 import wrote the daily seeding suspension (an entity of type
+The Haley v2 import wrote the daily seeding suspension (an entity of type
 material) as a `dose` manipulation with no amount, which the value rule
 (AMENDMENT 5) refuses. Nothing was given to the suspension; it was made to a
 recipe. So it becomes an `assertion` about the suspension whose value kind is

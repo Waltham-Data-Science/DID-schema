@@ -230,7 +230,7 @@ CITATIONS = {
     "ontologyImage": [_ST_REVIEW],          # item 51
     # item 67 (the [spatial_transcriptomics_family] line) named it first; that fold
     # (item.value.control_item) is superseded by "Decided by Jess Haley, 2026-10-22
-    # [control as covariate]": the class becomes no V2 document.
+    # [control as covariate]": the class becomes no v2 document.
     "control_stimulus_ids": [("did_v2_stimulus_response_model_plan.md", "control as covariate")],
     "probe_geometry": [_ST_REVIEW],         # item 50: position_observation "is now `probe_geometry`'s decided target"
     # The [#73 audit 2, D1-D13] line signs D1-D13 of docs/history/review/73/audit2_SUMMARY.md's

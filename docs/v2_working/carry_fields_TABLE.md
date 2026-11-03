@@ -4,7 +4,7 @@ This is research only. Nothing was pushed, merged or written to any repository. 
 
 ## Denominator
 
-**13 classes inspected.** These are every class whose carried count rose between the V2 baseline (DID run 40176326172) and the PR (DID run 40200884753). The source is the `unconverted_by_class` field of the corpus report artifacts (`scratchpad/art/base/*` against `scratchpad/art/{12602971412,12603802313,jh}/`), plus `stimulus_response_scalar`, whose carry is counted by epochMint rather than pass 1.
+**13 classes inspected.** These are every class whose carried count rose between the `V2` baseline (DID run 40176326172) and the PR (DID run 40200884753). The source is the `unconverted_by_class` field of the corpus report artifacts (`scratchpad/art/base/*` against `scratchpad/art/{12602971412,12603802313,jh}/`), plus `stimulus_response_scalar`, whose carry is counted by epochMint rather than pass 1.
 
 Corpora where a class rose: Soph, 20211116, JH and Dab. In B and PRED the unconverted count did not change (6,223 → 6,223 and 0 → 0).
 
@@ -55,7 +55,7 @@ Two classes did not rise, as a check on the method: Soph `oridirtuning_calc` (6,
 
 "Always" means the field is filled in every document of that class in that corpus.
 
-| class | v1 field | fold/step that cannot place it, and why | v1 writer (template; .m) | always / sometimes | corpora, count blocking | candidate V2 home (did-schema `schemas/V_eta/`) |
+| class | v1 field | fold/step that cannot place it, and why | v1 writer (template; .m) | always / sometimes | corpora, count blocking | candidate v2 home (did-schema `schemas/V_eta/`) |
 |---|---|---|---|---|---|---|
 | tuningcurve_calc | `stimulus_tuningcurve.stimid` | `jTuningCurve.m` `rawCurve` reads no `stimid`, so it falls into `rest` and is listed as dropped (`jTuningCurve.m:272-274`). `jCalculation.m:137-145` then carries the document. | template `database_documents/stimulus/stimulus_tuningcurve.json` (`"stimid": []`); writer `+ndi/+app/+stimulus/tuning_response.m:452,464` | ALWAYS | Soph 34,606/34,606; 20211116 84/84 | No field named for it. Candidate: a covariate along the stimulus dimension (`stable/data.json` `/covariates`). That is how `stimulus_response_scalar.m` already places `responses.stimid` (header, "responses.stimid -> dimension 0 ... a `stimulus` covariate"). Not verified that it fits the tuning_curve value. |
 | tuningcurve_calc | `stimulus_tuningcurve.stimulus_presentation_number` | Same as `stimid` (`jTuningCurve.m:272-274`) | same template; writer `tuning_response.m:473,500` (point × trial matrix) | ALWAYS | Soph 34,606; 20211116 84 | None found by name. Candidate: a covariate along the [condition, trial] axes that `individual` already has (`stable/tuning_curve.json` `/value/individual`). Not verified. |

@@ -139,7 +139,7 @@ SECOND_PASS = {
                   "AMENDMENT 6 deleted.",
     },
     "control_stimulus_ids": {
-        "emits": "NO V2 document: the control is folded into the presentation's "
+        "emits": "NO v2 document: the control is folded into the presentation's "
                  "item value as the `control condition` covariate (XCO:0000099, "
                  "logical, true where the presentation was a control; all false for "
                  "a v1 NaN control). Jess Haley, 2026-10-22 [control as covariate], "

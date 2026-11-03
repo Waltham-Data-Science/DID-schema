@@ -80,15 +80,15 @@ pointed at. Nothing in v1 refers to a session document by its `base.id`.
      `base.id`, and every migrated document's `session_id` edge points at it.
      That re-ids one document per session; nothing in v1 refers to the old one.
    - **NDI:** v1 documents keep the field (NDI still writes v1). A query on
-     `base.session_id` against a V2 database is answered from the edge, and
+     `base.session_id` against a v2 database is answered from the edge, and
      `ndi.document.session_id()` reads whichever the document has.
 
 ## Not decided here
 
 - **NDI Cloud.** Its server is in no repository this work can see. If it
-  filters or indexes on `base.session_id`, a V2 upload needs a server change or
+  filters or indexes on `base.session_id`, a v2 upload needs a server change or
   an upload step that adds the field back for the server. To ask before
-  publishing a V2 dataset.
+  publishing a v2 dataset.
 ## Decided with it (Jess Haley, 2026-10-20; tenet text added as PROPOSALS)
 
 - **T5:** pick the relation by what the child is (a portion of the parent's

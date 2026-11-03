@@ -256,12 +256,12 @@ Candidate classes: (1) ontology vs registry; (2) source / v1 / former name; (3) 
 | EMPTY:0000272 | peak speed before an event | - | - | Y | - |
 | EMPTY:0000273 | minimum speed after an event | - | - | Y | - |
 | EMPTY:0000274 | time to slow down | - | - | - | (2) `timeSlowDown` [related] propose; own rdfs:comment "As timeSlowDown in analyzeEncounters (Haley et al. 2024)"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md:138 (derived column) |
-| EMPTY:0000275 | entity in contact | - | - | Y | (2) `bacterial patch in contact` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2); comment "Generalised 2026-10-20 (tenet T19) from ..."<br>(2) `lawnID` [(narrow)] do not add: names the patch, term generalised (same reasoning as distanceLawnEdge); own rdfs:comment "As lawnID in analyzeEncounters"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/encounterDocuments.m:300-306 enc.lawnID |
+| EMPTY:0000275 | entity in contact | - | - | Y | (2) `bacterial patch in contact` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`); comment "Generalised 2026-10-20 (tenet T19) from ..."<br>(2) `lawnID` [(narrow)] do not add: names the patch, term generalised (same reasoning as distanceLawnEdge); own rdfs:comment "As lawnID in analyzeEncounters"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/encounterDocuments.m:300-306 enc.lawnID |
 | EMPTY:0000276 | nearest bacterial patch edge | - | - | - | - |
-| EMPTY:0000277 | encounter period | - | - | Y | (2) `patch encounter period` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2) |
-| EMPTY:0000278 | before the first encounter | - | - | Y | (2) `before the first patch encounter` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2) |
-| EMPTY:0000279 | during the encounter | - | - | Y | (2) `during the patch encounter` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2) |
-| EMPTY:0000280 | after the encounter | - | - | Y | (2) `after the patch encounter` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2) |
+| EMPTY:0000277 | encounter period | - | - | Y | (2) `patch encounter period` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`) |
+| EMPTY:0000278 | before the first encounter | - | - | Y | (2) `before the first patch encounter` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`) |
+| EMPTY:0000279 | during the encounter | - | - | Y | (2) `during the patch encounter` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`) |
+| EMPTY:0000280 | after the encounter | - | - | Y | (2) `after the patch encounter` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`) |
 | EMPTY:0000281 | analysis window start | - | - | Y | - |
 | EMPTY:0000282 | analysis window end | - | - | Y | - |
 | EMPTY:0000283 | bacterial patch edge | - | - | Y | - |
@@ -284,7 +284,7 @@ Candidate classes: (1) ontology vs registry; (2) source / v1 / former name; (3) 
 | EMPTY:0000300 | brightfield imaging | - | - | Y | - |
 | EMPTY:0000301 | video tracking | - | - | Y | - |
 | EMPTY:0000302 | distance transform | - | - | Y | - |
-| EMPTY:0000303 | encounter detection | - | - | Y | (2) `patch encounter detection` [(narrow)] do not add: V2-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on V2); comment "Generalised 2026-10-20 (tenet T19) from ..." |
+| EMPTY:0000303 | encounter detection | - | - | Y | (2) `patch encounter detection` [(narrow)] do not add: `V2`-interim label, never released, generalised away by T19 decision; empty-ontology history (label at an earlier commit on `V2`); comment "Generalised 2026-10-20 (tenet T19) from ..." |
 | EMPTY:0000304 | prediction from a fitted model | - | - | Y | - |
 | EMPTY:0000305 | interpolation method | - | - | Y | - |
 | EMPTY:0000306 | linear interpolation | - | - | Y | - |
@@ -302,7 +302,7 @@ Candidate classes: (1) ontology vs registry; (2) source / v1 / former name; (3) 
 | EMPTY:0000319 | acclimation plate | - | - | Y | - |
 | EMPTY:0000320 | food deprivation plate | - | - | Y | - |
 | EMPTY:0000321 | assay plate | - | - | Y | - |
-| EMPTY:0000322 | relative cell density | - | - | Y | (2) `relative bacterial density` [related] optional (V2-interim label only); did-schema #88 schemas/registry/did_v2_term_registry.json:1153 decided "renamed from \"relative bacterial density\" 2026-10-20"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_spec.json:1898 |
+| EMPTY:0000322 | relative cell density | - | - | Y | (2) `relative bacterial density` [related] optional (`V2`-interim label only); did-schema #88 schemas/registry/did_v2_term_registry.json:1153 decided "renamed from \"relative bacterial density\" 2026-10-20"; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_spec.json:1898 |
 | EMPTY:0000323 | normalization reference value | - | - | Y | - |
 | EMPTY:0000324 | lower limit of reported value | - | - | Y | - |
 | EMPTY:0000325 | bacterial patch | - | - | Y | (3) `bacterial lawn` [related] propose; DID-matlab 9c9cab9 src/did/+did2/+convert/resolveLawnPlateSubjects.m:821 description 'bacterial lawn (a bacterial patch)'; NDI-matlab fcfd876 src/ndi/+ndi/+setup/+conv/+haley/import_V2_decisions.md:262 "a patch with bacteria culture (a lawn: ...)"; the lab names patches lawn* (lawnID, lawnVolume, lawnRadius, lawnSpacing in tableDoc_dictionary.json) |

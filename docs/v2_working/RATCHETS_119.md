@@ -6,7 +6,7 @@ The two sides:
 - **report:** print the count with its denominator on every run, and never fail on growth.
 - **fail:** growth is itself a defect.
 
-**Denominator:** `grep -n "^[A-Z_]*BASELINE[A-Z_]* *= *[0-9]" tools/*.py` finds 10 constants in 3 tools. The values below were measured on did-schema main 1e1eef9, with DID-matlab V2 80a94a0 for the migrator side, on 2026-10-30.
+**Denominator:** `grep -n "^[A-Z_]*BASELINE[A-Z_]* *= *[0-9]" tools/*.py` finds 10 constants in 3 tools. The values below were measured on did-schema main 1e1eef9, with DID-matlab `V2` 80a94a0 for the migrator side, on 2026-10-30.
 
 | tool | ratchet | baseline | today | proposed side | why |
 |---|---|---|---|---|---|

@@ -202,7 +202,7 @@ UNRESOLVED_CAUSES = (
      "no schema survives to compare against, and that is correct")),
     ("carried_as_v1",
      ("CARRIED WHOLE AS v1 by decision: its tombstone was deleted and it has no "
-     "V2 class (tools/veta_record.py CARRIED_AS_V1; [carried v1 validates "
+     "v2 class (tools/veta_record.py CARRIED_AS_V1; [carried v1 validates "
      "against NDI templates], Jess Haley, 2026-10-27)")),
     ("folds_to_target",
      "FOLDS into differently-named target(s) named by the migration-target map"),

@@ -12,7 +12,7 @@ attribution, for non-commercial use.
 
 Why it is here: it describes the NDIcalc-vis calculators (orientation and
 direction, contrast, spatial and temporal frequency, speed, Hartley reverse
-correlation) whose v1 output documents the V2 calculation classes in
+correlation) whose v1 output documents the v2 calculation classes in
 `schemas/did_v2/calculation/` must stay faithful to
 (`docs/plans/did_v2_tuning_model_plan.md`). Saved at Jess Haley's request,
 2026-10-28.
