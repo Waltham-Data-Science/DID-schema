@@ -753,6 +753,7 @@ whose DID-matlab build waits on GL1-GL7.
     such archives stay as pass 1 wrote them. [about the acquisition system;
     variable time]
     Follow-up 2026-11-03 (Jess: "This seems like a v2 gap. Shouldn't it be a body on the recordings observation? Or a key time value class?"): Claude agrees: [evenly spaced time is a covariate] says only 'a sampled_body of its own'; the 'time observation' was Claude's gap-filling. Proposal: a sampled_body owned by the recording observation, each group's time axis a `key` to it; a standalone `time` value only when several statements share the times. Awaiting answer.
+    ANSWERED 2026-11-03: [uneven time is a keyed time value] (limitation accepted: the time value has no time reference).
   - **G91. What still keeps `channel_list.bin` (from build P).** The time
     channel's row, event/marker/text rows, a non-standard channel name and
     each channel's link to its time channel have no home on the blocks, so the
