@@ -812,6 +812,7 @@ whose DID-matlab build waits on GL1-GL7.
     the three Cre lines (Dab, later)? Until decided, TermRegistry stays off
     during migration.
     2026-11-03: question 1 ANSWERED [voltage AFO, current NCIT]; question 2 ANSWERED [fixed writer values not written]; question 4 ANSWERED [hartley planes are two statements]. Question 3 RE-ASKED (Jess: "Are these redundant with an observation's values?"): yes, NDIcalc-vis-matlab `hartley.m` copies the frame times from the presentation's `stimevents` and recomputes S/KXV/KYV/ORDER from the stimulus settings (`hartleystim`, `hartleynumbers`); proposal: store neither, the round trip rebuilds them from the input presentation, else the calculation is carried as v1. Awaiting answer. Then: the group B/C/D term picks.
+    Question 3 ANSWERED 2026-11-03: [hartley numbers stored, copies not]. Left: the group B/C/D term picks (second batch, or approve as written and review only the new EMPTY definitions).
   - **G98. Documents handed on unchanged and the padding (from build R,
     2026-11-02).** `ensureClassBlocks` now only rewrites v1's superclass list
     into V2's form, and only for five classes that pass 1 hands on unchanged
