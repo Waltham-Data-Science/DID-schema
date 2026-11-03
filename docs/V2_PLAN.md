@@ -762,7 +762,7 @@ whose DID-matlab build waits on GL1-GL7.
     them rather than choosing. Expected (one probe shared across animals)? If
     so, which subject does the v1 rebuild name? [expected; rebuild the one the
     v1 document named, kept as a note]
-    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up asked 2026-11-03: until the Dab map exists, should the generic stage carry such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`)? [yes] Proposed (not decided).
+    ANSWERED 2026-11-03: [probe with two subjects is Dab's]. Follow-up WITHDRAWN 2026-11-03 (Jess: "Why do you keep asking some dataset specific questions?"): already covered by [dataset-specific logic leaves the generic migration] and the lossless rule: the generic stage carries such an element whole as v1 (today the round trip loses its subject link, `depends_on(2).value`, and `element.direct`), and the Dab map fixes it.
   - **G95. A dataset's own session date (from build H).** A dataset's own
     session is read through the dataset entity, so its own `base.datestamp` is
     lost. Acceptable, or keep it somewhere? [keep it: lossless]
