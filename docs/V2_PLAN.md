@@ -745,6 +745,7 @@ whose DID-matlab build waits on GL1-GL7.
     reader? [no unit for the offset; a unit per reader for the scale, where the
     reader's output unit is known]
     RE-ASKED 2026-11-03 (Jess: "What are you talking about?"), with the channel_list.bin row fields (NDI `mfdaq_epoch_channel.m`: name, type, time_channel, sample_rate, offset, scale, number, group, dataclass) and value = (raw + offset) x scale: fill the scale's unit from the reader where known (Intan amplifier: microvolt), blank where not; offset unitless (counts)? Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G90. The observation that owns an unevenly spaced time channel (from
     build P).** [evenly spaced time is a covariate] gives an uneven time
     channel its own body owned by a time observation. Which entity is it about
@@ -758,6 +759,7 @@ whose DID-matlab build waits on GL1-GL7.
     file is kept when any exist (usually). Give them covariates (new terms) so
     the file can always go? [yes]
     RE-ASKED 2026-11-03 (Jess: "What are you talking about"): of the row's nine fields, number, offset, scale, sample_rate (covariates), type (condition) and group (the body) have homes; time_channel, the time and event/marker/text channel rows, and a non-standard name do not, so the file is kept. Give them homes so the file can always go? [yes] Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G92. Terms for the ingested blocks (from build P).** Offset: AFO
     "signal offset configuration" (AFO:AFQ_0000202); scale: NCIT "Unit
     Conversion Factor" (NCIT:C70774), or AFO "gain"; no term found for
@@ -767,6 +769,7 @@ whose DID-matlab build waits on GL1-GL7.
     [the two existing terms; mint "channel number" and the compressor terms
     with definitions for approval]
     Follow-up 2026-11-03 (Jess: "Channel number must be a term somewhere"): OLS4 has none ('Number of Coil Channels' nearest). Proposal: as in [probe wiring is a relation], the channel-axis covariate's variable is the group's channel-type term and its value the channel numbers; no new term. Offset/scale terms wait on G89. Awaiting answer.
+    PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
   - **G93. Session and dataset_remote ids (from build H, 2026-11-01).** A
     session's V2 record keeps the session's own id, so the separate v1 session
     document's id is kept nowhere; the same for `dataset_remote`. These are
