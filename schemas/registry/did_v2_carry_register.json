@@ -2694,6 +2694,26 @@
       "open_work": 165,
       "home": "none decided: a V2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-170",
+      "v1_class": "element",
+      "fields": [
+        "depends_on subject_id",
+        "element.direct"
+      ],
+      "when": "the element's probe-map rows name two or more subject strings, while a v1 element names one subject (Dab: 4 probes), so the generic stage carries the element whole as v1 (DID-matlab +migrators_j/element.m, did2.convert.probemapSubjects)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "probe with two subjects is Dab's"
+      },
+      "homes": [
+        "the Dabrowska dataset map names the probe's subject"
+      ],
+      "decides": "the Dabrowska dataset map",
+      "resolved_by": "the Dabrowska dataset map row for these probes",
+      "kind_basis": "proposed"
     }
   ]
 }
