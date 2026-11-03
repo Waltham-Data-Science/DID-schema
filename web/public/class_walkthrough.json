@@ -431,12 +431,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2969,
+        "line": 3076,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 3046,
+        "line": 3153,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1261,7 +1261,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 462,
+        "line": 470,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if strcmp(classOf{k}, 'daqmetadatareader_epochdata_ingested')"
        }
@@ -1389,6 +1389,18 @@
         "line": 535,
         "spelling": "daqreader_epochdata_ingested",
         "text": "'daqreader_epochdata_ingested', ..."
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 1888,
+        "spelling": "daqreader_epochdata_ingested",
+        "text": "if isfield(b, 'daqreader_epochdata_ingested') && isstruct(b.daqreader_epochdata_ingested) ..."
        }
       ]
      },
@@ -2680,7 +2692,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 974,
+        "line": 1029,
         "spelling": "ensemble",
         "text": "if strcmp(elType, 'ensemble')"
        }
@@ -2885,22 +2897,22 @@
       "site_count": 4,
       "sites": [
        {
-        "line": 606,
+        "line": 629,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2003,
+        "line": 2110,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2246,
+        "line": 2353,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2265,
+        "line": 2372,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        }
@@ -3092,17 +3104,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 2269,
+        "line": 2376,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 2921,
+        "line": 3028,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 2922,
+        "line": 3029,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -6401,12 +6413,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 549,
+        "line": 557,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 3036,
+        "line": 3143,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
@@ -10099,7 +10111,7 @@
   }
  },
  "denominator": {
-  "convert_package_files_scanned": 57,
+  "convert_package_files_scanned": 58,
   "did_matlab_available": true,
   "ledger_disagreements": [],
   "ledger_rows_read": 115,
