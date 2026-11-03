@@ -499,6 +499,7 @@ whose DID-matlab build waits on GL1-GL7.
     carry anyway; (b) mint EMPTY "stimulator" ("A device that delivers a
     stimulus to a subject", under OBI device) for both writers, and drop the
     exact synonym "stimulator" from EMPTY:0000413. [(b)]
+    ANSWERED 2026-10-30 (marked 2026-11-03): [stimulator is SNOMED CT Stimulator], SNOMEDCT:36645008.
   - **G59. The V2 ingest's open details ([V2 ingest is one sampled body per
     channel group]).** NDI's live ingest knows the daq system, reader and v1
     epoch_id, but no recording observation exists then. (1) Owner: does the
