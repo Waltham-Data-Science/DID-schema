@@ -313,9 +313,9 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 84,
+      "consumed by migrator (no tombstone)": 89,
       "dissolved \u2192 subject": 1,
-      "retire": 15,
+      "retire": 10,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
       "UNMAPPED (needs a V_eta home)": 3,
@@ -9925,8 +9925,8 @@
     },
     {
       "v1_class": "epochfiles_ingested",
-      "veta_class": "epochfiles_ingested",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -9988,8 +9988,8 @@
       "second_pass": [
         "entity (epoch)"
       ],
-      "how": "RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. the navigator edge NDI writes is restored (`filenavigator_id`, renamed `epoch_file_pattern_id` 2026-09-25) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
-      "target_flags": "DECIDED AND SIGNED; THE MIGRATOR DELIBERATELY DOES NOT FOLD. A migrator EXISTS (migrators_j/epochfiles_ingested.m) and is a guarded passthrough returning {preBody} at :147; its header states the two measured blockers -- `ingestion_manifest.epoch_id` is REQUIRED and no `epoch` document exists in pass 1 (minting them is a corpus-wide grouping only the NDI second pass can do), and emitting the class with that edge left '' would be the invented-empty-edge pattern again. So the schema half of #60 has landed and the rename has not.",
+      "how": "HANDED ON AS v1 IN PASS 1 (2026-11-03, [handed-on are v1 as written], Jess Haley, did_v2_go_forward_class_audit.md; its retire class file deleted the same day): the pass-1 migrator (migrators_j/epochfiles_ingested.m, `bodies = {preBody}`) returns the source unchanged and DID-matlab v1_to_v2 (HAND_ON_CLASSES, #374, da487311) hands it on exactly as v1 wrote it, stamped did_v1 and never validated against V2, as `ensemble` and `generic_file` are; the batch pass did2.convert.resolveEpochProbemap (BATCH-PASS-CONSUMES and BATCH-PASS-REMOVES: epochfiles_ingested) converts it from that v1 document, and what the batch passes leave unconverted is carried as its v1 source at the end of the batch ([handed-on classes carried at the end] (1)). So there is no did_v2 self-target any more. THE DECIDED SHAPE: RENAMED to `ingestion_manifest` (#60): the old name encoded a MODE, the same T13 error `_ndr` and `_mfdaq` were de-encoded for, and the document is a manifest of what was ingested for one epoch. the navigator edge NDI writes is restored (`filenavigator_id`, renamed `epoch_file_pattern_id` 2026-09-25) and the invented required `epochid` edge -- empty on all 6,921 documents -- becomes an `epoch_id` edge to the minted `epoch` entity.",
+      "target_flags": "BUILT AS A BATCH PASS, NOT IN THE MIGRATOR (read at the locked DID-matlab head 292bb51d): resolveEpochProbemap declares BATCH-PASS-EMITS: epochfiles_ingested -> ingestion_manifest, the recording observations, opaque_body, relative_reference and directed_relation, ordered after did2.convert.epochMint, which mints the `epoch` entities `ingestion_manifest.epoch_id` needs (the migrator header's BLOCKER 1, dismantled 2026-08-10). The pass-1 migrator stays a deliberate guarded passthrough, as its header says the design is. Before 2026-11-03 the passed-through document was checked against its did_v2 retire class file, which this row named as its self-target; that file is deleted and the document is a v1 document until the batch pass converts it.",
       "decided_by_citation": {
         "document": "did_v2_epoch_plan.md",
         "tag": "epoch",
@@ -13660,8 +13660,8 @@
     },
     {
       "v1_class": "openminds",
-      "veta_class": "openminds",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -13708,8 +13708,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "NOT STORED. The openMINDS bundle document is a container for metadata that V_eta represents directly as entities and assertions, so the bundle itself has no go-forward home. What its contents become IS decided: Strain documents become `strain` entities with ids preserved, Species/GeneticStrainType fragments fold into their parent strain's fields, and the metadata-app dataset graph maps onto the six classes `metadata_editor` already emits.",
-      "target_flags": "DECIDED AND SIGNED, BUILD NOT DONE. The migrator does not do this yet; the document passes through today. THE SIGN-OFF DOES NOT NAME THIS CLASS DIRECTLY -- it covers the documents it contains. The 'bundle not stored' reading comes from the go-forward class audit. Worth confirming explicitly before the build deletes anything.",
+      "how": "HANDED ON AS v1 IN PASS 1 (2026-11-03, [handed-on are v1 as written], Jess Haley, did_v2_go_forward_class_audit.md; its retire class file deleted the same day): the pass-1 migrator (migrators_j/openminds.m, `v2Body = {preBody}`) returns the source unchanged and DID-matlab v1_to_v2 (HAND_ON_CLASSES, #374, da487311) hands it on exactly as v1 wrote it, stamped did_v1 and never validated against V2, as `ensemble` and `generic_file` are; the batch pass did2.convert.resolveOpenmindsCitations (BATCH-PASS-CONSUMES: openminds; the dataset citation graph) and NDI's ndi.migrate.internal.strainAssembly (the strain family) converts it from that v1 document, and what the batch passes leave unconverted is carried as its v1 source at the end of the batch ([handed-on classes carried at the end] (1)). So there is no did_v2 self-target any more. THE DECIDED SHAPE: NOT STORED. The openMINDS bundle document is a container for metadata that V_eta represents directly as entities and assertions, so the bundle itself has no go-forward home. What its contents become IS decided: Strain documents become `strain` entities with ids preserved, Species/GeneticStrainType fragments fold into their parent strain's fields, and the metadata-app dataset graph maps onto the six classes `metadata_editor` already emits.",
+      "target_flags": "THE DATASET CITATION GRAPH IS BUILT AS A BATCH PASS (read at the locked DID-matlab head 292bb51d): resolveOpenmindsCitations declares BATCH-PASS-EMITS: openminds -> dataset, person, organization, funding, publication, web_resource, directed_relation and BATCH-PASS-REMOVES: openminds(dataset citation); the subject-side types (Strain, Species, ...) are left to NDI's strainAssembly. The pass-1 migrator stays a guarded passthrough that must carry the body verbatim, because both assemblers read it. Before 2026-11-03 the passed-through document was checked against its did_v2 retire class file, which this row named as its self-target; that file is deleted and the document is a v1 document until a batch pass converts it. THE SIGN-OFF DOES NOT NAME THIS CLASS DIRECTLY -- it covers the documents it contains; the 'bundle not stored' reading comes from the go-forward class audit.",
       "decided_by_citation": {
         "document": "did_v2_openminds_family_record.md",
         "tag": "2026-08-08",
@@ -17445,8 +17445,8 @@
     },
     {
       "v1_class": "stimulus_response_scalar",
-      "veta_class": "stimulus_response_scalar",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -17702,8 +17702,8 @@
     },
     {
       "v1_class": "stimulus_response_scalar_parameters_basic",
-      "veta_class": "stimulus_response_scalar_parameters_basic",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -17748,8 +17748,8 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "FOLDS INLINE into `method` on the statement -- it is calculator configuration, not a document in its own right.",
-      "target_flags": "DECIDED AND SIGNED, THE FOLD IS NOT BUILT -- BUT A MIGRATOR EXISTS. migrators_j/stimulus_response_scalar_parameters_basic.m is a deliberate guarded passthrough returning {preBody} at :76; it emits no class because the fold is a JOIN (these six fields belong on the response document, and a single-document migrator cannot find which responses point at this one). The plan names the mechanism: one migrator plus one resolver pass. This class held the LARGEST invented-empty-edge instance -- `stimulus_response_scalar_id`, empty on all 11,440 documents; the schema repair has landed, the fold has not.",
+      "how": "HANDED ON AS v1 IN PASS 1 (2026-11-03, [handed-on are v1 as written], Jess Haley, did_v2_go_forward_class_audit.md; its retire class file deleted the same day): the pass-1 migrator (migrators_j/stimulus_response_scalar_parameters_basic.m, `bodies = {preBody}`) returns the source unchanged and DID-matlab v1_to_v2 (HAND_ON_CLASSES, #374, da487311) hands it on exactly as v1 wrote it, stamped did_v1 and never validated against V2, as `ensemble` and `generic_file` are; the batch pass did2.convert.resolveResponseParameters (BATCH-PASS-CONSUMES and BATCH-PASS-REMOVES: stimulus_response_scalar_parameters_basic) converts it from that v1 document, and what the batch passes leave unconverted is carried as its v1 source at the end of the batch ([handed-on classes carried at the end] (1)). So there is no did_v2 self-target any more. THE DECIDED SHAPE: FOLDS INLINE into `method` on the statement -- it is calculator configuration, not a document in its own right.",
+      "target_flags": "BUILT AS A BATCH PASS (read at the locked DID-matlab head 292bb51d): resolveResponseParameters declares BATCH-PASS-EMITS: stimulus_response_scalar_parameters_basic -> method, one standalone `method` document (id preserved) shared by every response whose `method_id` names it (Decided by Jess Haley, 2026-10-21, \"b\", as the migrator header records), and BATCH-PASS-CHANGES: calculation(harmonic_component). The pass-1 migrator stays a deliberate guarded passthrough because the fold is a JOIN the batch pass does with the batch in hand. Before 2026-11-03 the passed-through document was checked against its did_v2 retire class file, which this row named as its self-target; that file is deleted and the document is a v1 document until the batch pass converts it. This class held the largest invented-empty-edge instance (`stimulus_response_scalar_id`, empty on all 11,440 documents).",
       "decided_by_citation": {
         "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "stimulus response",
@@ -18444,8 +18444,8 @@
     },
     {
       "v1_class": "syncrule",
-      "veta_class": "syncrule",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
