@@ -7,6 +7,37 @@ disagree, they win.
 
 Last updated 2026-11-03.
 
+## State at 2026-11-04 (read with the 2026-11-03 state below)
+
+- **NDI-matlab #785 corpus-wide equivalence**: draft PR VH-Lab/NDI-matlab#1173
+  (branch `claude/corpus-equivalence`, head f57c3352), not merged. Evidence
+  comment on #785 (opened by Steve Van Hooser; left open).
+  - Corpus B is equivalent: runs 41796673894 and 41823648506, 8 passed,
+    0 failed; 14 sessions, 13 subjects, 290 elements, 156 probes, 2,484
+    probe epochs, every category 0 differ / 0 only-v1 / 0 only-v2.
+  - Four read-side bugs B found were fixed in #1173: an epoch table opened
+    `channel_list.bin`; probe maps leaked between systems sharing a
+    recording; `getprobes` read fields v2 entities lack; `element.id()`
+    rebuilt every element (N^2).
+  - Corpus Dab is not measured: the migrated side cannot finish in 330
+    minutes. `getelements` 1,208 s (v1 7 s); `getprobes` did not return in
+    4.5 h (v1 34 s). Profile of 20 of 1,604 ingested epochs (run
+    41876678241): about 13 `session.database_search` calls per epoch, 74 ms
+    each, against one document read in v1.
+  - Seen, not compared: Dab's migrated main session returns 419 subjects
+    from `getsubjects`; v1 returns 215.
+- **Questions for Jess** (asked 2026-11-04, not decided):
+  1. Fix the slow migrated epoch reads now, by reading a system's epochs in
+     a few queries (a larger NDI-matlab change)? Dab cannot be checked until
+     then.
+  2. Merge #1173 with B as the proven corpus (Dab test made to fit the
+     limit, after #1175), or wait for the speed fix?
+  3. Accept the four NDI read-side fixes made in #1173 (outside the migrator
+     path the agent was cleared for)?
+- NDI-matlab #1175 (pin run-tests to ubuntu-24.04; opened from Jess's
+  account) is green and waits on Jess. NDI-matlab #1170 (lowercase) waits on
+  #1175.
+
 ## State at 2026-11-03 (read with the 2026-10-31 state below)
 
 - **Merge permission** (Jess Haley, 2026-11-03, in conversation): "As long
