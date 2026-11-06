@@ -7,6 +7,32 @@ disagree, they win.
 
 Last updated 2026-11-03.
 
+## State at 2026-11-06 (read with the 2026-11-04 state below)
+
+- Steve Van Hooser closed DID-matlab #240 and #204 and NDI-matlab #1001,
+  #974, #804, #168 and #787 on 2026-11-05.
+- DID-matlab #225: Jess Haley, 2026-11-06: "Finish the 225 work then close
+  it." (the three stale comment paragraphs in `neuron_extracellular.m`,
+  `jrclust_clusters.m` and `jSorterOutput.m` rewritten from the code).
+- **Questions for Jess asked 2026-11-03, recorded here 2026-11-06 (not
+  decided):**
+  - OPEN_WORK freeze (patch staged, not committed):
+    - F-Q1. Reopen did-schema #136, #146 and #156; create 2 combined
+      did-schema issues (A: carried fields whose home waits for a dataset;
+      B: seven classes with no migrator) and about 11 sibling issues?
+    - F-Q2. Retire carry-051 and carry-095?
+    - F-Q3. Change carry-090's kind?
+    - F-Q4. OPEN_WORK row 45: finished, or an issue?
+  - W-Q1. v2 writers for the other NDI makers now, or after G84? [after G84]
+  - W-Q2. A v2 database refusing an unregistered species: keep the error and
+    register rat (NCBITaxon:10116), or fall back to v1? [keep the error;
+    register rat]
+- Older items listed 2026-11-03, not rechecked against the record since:
+  DID-matlab #241; the new dataset name; sync-rule terms; element type
+  'patch'; makers; receptive field; batches 3 and 4; JSON lowercase;
+  NDI-matlab #820; openMINDS second pass; 5 leftover branches.
+- Owed by Claude: G87, a concrete home for the four gene-list facts.
+
 ## State at 2026-11-04 (read with the 2026-11-03 state below)
 
 - **NDI-matlab #785 corpus-wide equivalence**: draft PR VH-Lab/NDI-matlab#1173
