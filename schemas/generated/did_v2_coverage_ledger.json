@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 735,
+          "accepted_lines": 738,
           "accepted_lines_by_kind": {
-            "Decided by": 615,
+            "Decided by": 618,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5277,6 +5277,30 @@
               "tag": "control pairing without trials stays carried",
               "date": "2026-11-06",
               "anchor": "Decided by Jess Haley, 2026-11-06 [control pairing without"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1996,
+              "kind": "Decided by",
+              "tag": "openMINDS crosswalk on latest",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [openMINDS crosswalk on"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1998,
+              "kind": "Decided by",
+              "tag": "crosswalk assertions registered",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [crosswalk assertions"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2000,
+              "kind": "Decided by",
+              "tag": "unmapped roles not exported",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [unmapped roles not"
             },
             {
               "document": "did_v2_image_model_plan.md",
