@@ -25,28 +25,46 @@ it.
 
 **did-schema.**
 - `schemas/registry/did_v2_openminds_crosswalk.json` (`crosswalk_version`
-  1.1.0) maps openMINDS properties to v2 targets for five types:
-  - DatasetVersion, 29 properties: field 2, assertion 11, relation 11,
-    global_identifier 3, implied 1, projection 1;
-  - Person, 6: assertion 4, global_identifier 1, relation 1;
-  - Organization, 5: field 1, assertion 1, global_identifier 2, relation 1;
-  - Funding, 3: field 2, relation 1;
-  - SoftwareVersion, 8: field 2, assertion 1, global_identifier 3,
-    projection 2.
+  2.0.0) maps openMINDS properties to v2 targets for five types, one row per
+  property of openMINDS `latest` as pinned by openMINDS_MATLAB v0.12.0
+  (its `openminds` block names the pin and openMINDS commit 19412fad).
+  Version 1.1.0 had been written against openMINDS v2.0; it was rewritten on
+  2026-11-06 (Jess Haley, `did_v2_go_forward_class_audit.md` [openMINDS
+  crosswalk on latest], [crosswalk assertions registered]). Rows by kind:
+  - DatasetVersion, 33 properties: field 2, assertion 10, relation 8,
+    global_identifier 3, projection 1, deferred 9;
+  - Person, 7: field 1, assertion 3, global_identifier 1, deferred 2;
+  - Organization, 11: field 1, assertion 1, global_identifier 2, relation 1,
+    deferred 6;
+  - Funding, 4: field 2, relation 1, deferred 1;
+  - SoftwareVersion, 33: field 3, assertion 3, global_identifier 3,
+    projection 2, deferred 22.
+- A `deferred` row has no v2 home yet; its note says whether it needs a term
+  or a decision. These rows, and the notes that start "Open (review of
+  2026-11-06)", are the row review's next batch.
 - Some of its entries:
   - `releaseDate` -> assertion "release date" (date);
-  - `license` -> assertion "license" (term);
-  - `author` -> relation "author";
-  - `custodian` -> relation "maintainer";
-  - `Person.affiliation` -> relation "affiliation" to an organization;
+  - `usageCondition` -> assertion "License" (term);
+  - `dataType` -> assertion "Scientific Data Type" (term);
+  - `ethicsJurisdiction` -> assertion "ethics jurisdiction" (term);
+  - `contribution` -> relations "author" and "contributor";
+  - `contributorAffiliation` -> relation "affiliation" to an organization;
   - `studiedSpecimen` -> projection, recomputed from the subjects.
-- Its `$comment` calls the 2026-10-08 entity-composition mapping a PROPOSAL.
-  That composition plan was later signed; whether the crosswalk itself is
-  decided is question Q1 below.
-- `tests/test_veta.py::test_openminds_crosswalk_round_trips` checks that
-  every DatasetVersion property has an explicit entry, that none is
-  `deferred`, and that every target resolves (a real entity field, a
-  registered relation, a known CURIE scheme). It checks the table, not data.
+- Its `contribution_types` section maps each CRediT role to an openMINDS
+  ContributionType: 12 mapped (exact 2, close 10); conceptualization and
+  visualization are not exported and are reported as not exported (Jess
+  Haley, 2026-11-06, [unmapped roles not exported]); the corresponding author
+  is not exported (G108(3)). Which type a `maintainer` edge exports as is
+  deferred.
+- The rows are Proposed (not decided) until the row review (Q1 below).
+- `tests/test_veta.py::test_openminds_crosswalk_round_trips` checks, for each
+  of the five types, that the rows are exactly the pinned `latest` property
+  list (listed in the test with its source commit); that every target
+  resolves (a real entity field, a registered relation, an assertion
+  variable registered by name in the term registry, a known CURIE scheme);
+  that a `deferred` row carries a note; and it reports the number of deferred
+  rows. `test_openminds_contribution_types` checks the role table. They check
+  the table, not data.
 - The term registry's `equivalent` column records openMINDS instances for
   terms, for example `openminds:species/musMusculus` for NCBITaxon:10090
   ([common species registered], [equivalents filled in did-schema]).
@@ -154,11 +172,13 @@ in stage 2, but it is wired into writers only by the makers design.
 Jess Haley answered on 2026-11-06. These are operational answers to this
 plan, not decision lines; the plan stays Proposed until it is decided.
 
-- **Q1.** Is `did_v2_openminds_crosswalk.json` (1.1.0) the decided mapping?
+- **Q1.** Is `did_v2_openminds_crosswalk.json` the decided mapping?
   Answer: "I don't know. Explain", then "The review table sounds good. Prep
   it, but don't give it to me til tomorrow when we start reviewing the next
-  set of open questions." **Open:** Claude reviews the crosswalk row by row
-  with Jess, starting from a prepared review table.
+  set of open questions." **Open:** the crosswalk was rewritten against
+  `latest` (2.0.0, Jess Haley, 2026-11-06, [openMINDS crosswalk on latest]);
+  the row review follows, starting from its `deferred` rows and the review
+  table.
 - **Q2.** Package name and place: "Your proposal sounds good".
   `+ndi/+openminds/` in NDI-matlab.
 - **Q3.** Stage order: "Whatever you think". Claude's choice: subjects in

@@ -2841,7 +2841,7 @@
     "controlled_vocabularies": {
         "openMINDS": {
             "version": null,
-            "iri_base": "https://openminds.ebrains.eu/instances/",
+            "iri_base": "https://openminds.om-i.org/instances/",
             "notes": "openMINDS controlled-term instance libraries; each term_set is a flat instance library (IRI + label), not an ontology subtree. `version` is UNRESOLVED: no import path stamps a release yet."
         }
     },

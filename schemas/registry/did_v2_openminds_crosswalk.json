@@ -1,295 +1,688 @@
 {
-  "$comment": "openMINDS <-> NDI V_eta crosswalk. The single machine-readable source of truth behind the inline crosswalk comments in build_v_eta.py. Consumed by the round-trip CI test (tests/test_veta.py::test_openminds_crosswalk_round_trips), which asserts every openMINDS property has an explicit entry whose target resolves to a real V_eta field / relation term / global_identifier scheme -- so nothing is SILENTLY dropped. `target_kind`: field (scalar/term field on the entity) | relation (directed_relation term; `endpoint` = parent entity) | global_identifier (rides on entity.global_identifier{scheme}) | implied (recoverable from class/relations, not stored per-instance) | projection (a dataset-level summary recomputed from per-subject statements; deliberately not stored) | deferred (has a designed home not yet built; visible, not silently dropped). 2026-10-08 (PROPOSAL, did_v2_entity_composition_plan.md): every openMINDS type maps to the one `entity` class with `entity_type`; a property that was a field on the old class is a statement (`target_kind: assertion`, `ndi_target` the statement's variable, `value_kind` its value) unless it is identity (name, description, local_identifier, global_identifier); global_identifier targets name a CURIE prefix registered in CURIE_lookups_meta.json, or `IRI`.",
-  "crosswalk_version": "1.1.0",
+  "$comment": "openMINDS <-> NDI v2 crosswalk: the single machine-readable mapping that both the openMINDS export and import read (did_v2_openminds_import_export_plan.md). Checked by tests/test_veta.py::test_openminds_crosswalk_round_trips, which pins each type's property list to the openMINDS version in `openminds`, so every property has an explicit entry and nothing is silently dropped. `target_kind`: field (a field on the entity) | assertion (a statement about the entity; `ndi_target` is the variable's name as registered in did_v2_term_registry.json, `value_kind` its value; `term_set`, where given, the openMINDS type(s) the values are instances of) | relation (a registered relation, by name; `endpoint` the parent entity type) | global_identifier (rides on entity.global_identifier; a prefix registered in CURIE_lookups_meta.json, or `IRI`) | implied (recoverable from class or relations, not stored per instance) | projection (recomputed from other statements, not stored) | deferred (no v2 home yet; `notes` says whether it needs a term or a decision -- visible, never silently dropped). A note that starts \"Open (review of 2026-11-06)\" records a question from that review on a row that keeps its target. Rewritten against `latest` as 2.0.0: Jess Haley, 2026-11-06, did_v2_go_forward_class_audit.md [openMINDS crosswalk on latest], [crosswalk assertions registered]. The rows are Proposed (not decided) until the row review (import/export plan, Q1).",
+  "crosswalk_version": "2.0.0",
   "vocabulary": "openMINDS",
+  "openminds": {
+    "version": "latest",
+    "pinned_by": "openMINDS_MATLAB v0.12.0 (tag v0.12.0, commit dfd95a168ed8335cca054b241e7a5f7bea4a0de2), NDI-matlab's pin (requirements.txt)",
+    "schema_source": "openMetadataInitiative/openMINDS schemas/latest at commit 19412fad8f493ef33f240df4d4109ddb73966f5e; for these five types its property lists equal openMINDS_MATLAB v0.12.0's generated `latest` classes"
+  },
   "types": {
     "DatasetVersion": {
       "ndi_entity": "entity",
+      "entity_type": "Data Set",
       "properties": {
-        "fullName": {
-          "target_kind": "field",
-          "ndi_target": "name"
-        },
-        "shortName": {
-          "target_kind": "assertion",
-          "ndi_target": "short name",
-          "value_kind": "text"
-        },
-        "versionIdentifier": {
-          "target_kind": "assertion",
-          "ndi_target": "version",
-          "value_kind": "text"
-        },
-        "versionInnovation": {
-          "target_kind": "assertion",
-          "ndi_target": "version innovation",
-          "value_kind": "text"
-        },
-        "description": {
-          "target_kind": "field",
-          "ndi_target": "notes"
-        },
-        "howToCite": {
-          "target_kind": "assertion",
-          "ndi_target": "how to cite",
-          "value_kind": "text"
-        },
-        "keyword": {
-          "target_kind": "assertion",
-          "ndi_target": "keyword",
-          "value_kind": "term"
-        },
-        "license": {
-          "target_kind": "assertion",
-          "ndi_target": "license",
-          "value_kind": "term"
-        },
-        "releaseDate": {
-          "target_kind": "assertion",
-          "ndi_target": "release date",
-          "value_kind": "date"
-        },
         "accessibility": {
           "target_kind": "assertion",
           "ndi_target": "Open or Controlled Data Access Indicator",
-          "term_set": "ProductAccessibility",
-          "value_kind": "term"
+          "value_kind": "term",
+          "notes": "openMINDS `latest` links the Accessibility structure, with 5 required facets: channel, eligibility (AccessEligibilityType), form, paymentModel, process. 1.1.0's term set `ProductAccessibility` (v2.0) is gone. Open (review of 2026-11-06): the registered variable (NCIT:C175887) covers the eligibility facet only, its 2 values (Unrestricted Access, Under Embargo) are not openMINDS eligibility values, and the other 4 facets have no v2 source."
         },
-        "ethicsAssessment": {
+        "contribution": {
+          "target_kind": "relation",
+          "ndi_target": [
+            "author",
+            "contributor"
+          ],
+          "endpoint": [
+            "Person",
+            "organization"
+          ],
+          "notes": "openMINDS Contribution{contributor (Person | Organization | Consortium), type (ContributionType)}; replaces v2.0 `author`, `custodian` and `otherContribution`. Each contribution edge maps as listed in `contribution_types.edges`, and each CRediT role on a `contributor` edge as listed in `contribution_types.roles`."
+        },
+        "contributorAffiliation": {
+          "target_kind": "relation",
+          "ndi_target": "affiliation",
+          "endpoint": "organization",
+          "notes": "openMINDS Affiliation{organization, person}, listed per dataset version. Moved here from Person.affiliation (v4.0), which `latest` no longer has. G108(4) (Jess Haley, 2026-11-06): a person's affiliations are those listed for that person within the dataset. Open: the registered `affiliation` edge is Person -> organization, person-wide; how v2 ties it to one dataset is to check (import/export plan 3.4)."
+        },
+        "copyright": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS Copyright{holder (required), year (required), customUsageClause}. The holder has a registered relation, `copyrightHolder` (Data Set -> organization | Person), but the required `year` has no home: 1.1.0 named a `copyright_year` field the entity does not have, and no year variable is registered; `customUsageClause` has none either. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `copyright_year` as text with no registered variable node."
+        },
+        "dataType": {
           "target_kind": "assertion",
-          "ndi_target": "ethics assessment",
-          "term_set": "EthicsAssessment",
-          "value_kind": "term"
+          "ndi_target": "Scientific Data Type",
+          "value_kind": "term",
+          "term_set": [
+            "SemanticDataType"
+          ],
+          "notes": "openMINDS `dataType` (required): \"Add all semantic data types (raw, derived and/or simulated) provided in this dataset version.\" It was `type` in v2.0, which 1.1.0 misread as the object's @type and marked implied. The binding registry row (NCIT:C175886) holds the 4 `openminds:semanticDataType/...` values."
+        },
+        "description": {
+          "target_kind": "field",
+          "ndi_target": "notes",
+          "notes": "openMINDS `description` (required): \"Longer statement or account giving the characteristics of someone or something.\" Carried from 1.1.0. Open (review of 2026-11-06): since 2026-11-01 `notes` is v2's last-resort free-text field, so labelled migration text there would be exported as the description."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "doi"
+        },
+        "documentation": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `documentation` (required) links DOI | File | ISBN | WebResource. 1.1.0 mapped the v2.0 `fullDocumentation` to relation `subjectOf` -> web_resource, but `web_resource` is not an entity type and `subjectOf`'s registered parents are protocol, publication and software. A documenting publication could be `subjectOf` -> publication; a file or web page has no registered home."
+        },
+        "ethicsJurisdiction": {
+          "target_kind": "assertion",
+          "ndi_target": "ethics jurisdiction",
+          "value_kind": "term",
+          "term_set": [
+            "SovereignState",
+            "SupranationalBody"
+          ],
+          "notes": "openMINDS `ethicsJurisdiction` (required), new in `latest`; v2.0 `ethicsAssessment` has no successor. The registered variable EMPTY:0000359 replaced \"ethics assessment\" (EMPTY:0000355) on 2026-10-21 (Jess Haley); its binding registry row holds 206 values."
         },
         "experimentalApproach": {
           "target_kind": "assertion",
           "ndi_target": "experimental approach",
-          "term_set": "ExperimentalApproach",
-          "value_kind": "term"
+          "value_kind": "term",
+          "term_set": [
+            "ExperimentalApproach"
+          ]
         },
-        "supportChannel": {
-          "target_kind": "assertion",
-          "ndi_target": "support channel",
-          "notes": "email/discussion form -> field; a support URL is instead documented_by -> web_resource.",
-          "value_kind": "text"
-        },
-        "author": {
-          "target_kind": "relation",
-          "ndi_target": "author",
-          "endpoint": "Person",
-          "notes": "contributor role = author, carried by the relation term."
+        "fullName": {
+          "target_kind": "field",
+          "ndi_target": "name"
         },
         "funding": {
           "target_kind": "relation",
           "ndi_target": "funding",
           "endpoint": "Grant"
         },
-        "relatedPublication": {
-          "target_kind": "relation",
-          "ndi_target": "citation",
-          "endpoint": "publication"
-        },
-        "fullDocumentation": {
-          "target_kind": "relation",
-          "ndi_target": "subjectOf",
-          "endpoint": "web_resource"
-        },
-        "repository": {
-          "target_kind": "global_identifier",
-          "ndi_target": "ndicloud",
-          "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). NDI Cloud copies are `ndicloud:<id>`; any other repository is its IRI."
-        },
-        "isNewVersionOf": {
-          "target_kind": "relation",
-          "ndi_target": "wasDerivedFrom",
-          "endpoint": "Data Set",
-          "notes": "version lineage as generic provenance (dataset -derived_from-> dataset)."
-        },
-        "digitalIdentifier": {
-          "target_kind": "global_identifier",
-          "ndi_target": "doi"
-        },
-        "type": {
-          "target_kind": "implied",
-          "notes": "'DatasetVersion' is implied by the dataset class; not stored per-instance."
-        },
-        "studiedSpecimen": {
-          "target_kind": "projection",
-          "notes": "the studied subjects; recomputed from the dataset's session -part_of-> dataset membership + subject entities, not restated here."
-        },
-        "custodian": {
-          "target_kind": "relation",
-          "ndi_target": "maintainer",
-          "endpoint": "Person",
-          "notes": "steward role (person or organization); distinct contributor role from has_author."
-        },
-        "otherContribution": {
-          "target_kind": "relation",
-          "ndi_target": "contributor",
-          "endpoint": "Person",
-          "notes": "typed contribution (person or organization)."
-        },
-        "copyright": {
-          "target_kind": "relation",
-          "ndi_target": "copyrightHolder",
-          "endpoint": "organization",
-          "notes": "openMINDS Copyright{year, holder}: holder -> copyright_holder relation, year -> dataset.copyright_year field."
-        },
         "homepage": {
           "target_kind": "global_identifier",
           "ndi_target": "IRI",
-          "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). "
+          "notes": "a URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a separate document (did_v2_entity_composition_plan.md sec. 7). Open (review of 2026-11-06): a bare IRI does not say it is the homepage, so it cannot be told apart from a non-NDI repository IRI."
         },
-        "protocol": {
-          "target_kind": "relation",
-          "ndi_target": "follows protocol",
-          "endpoint": "web_resource"
+        "howToCite": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `howToCite` (\"Preferred format for citing a particular object or legal person\"). 1.1.0 named \"how to cite\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `how_to_cite` as text with no registered variable node."
         },
         "inputData": {
           "target_kind": "relation",
           "ndi_target": "isBasedOn",
           "endpoint": "Data Set",
-          "notes": "input datasets/resources (dataset or web_resource)."
+          "notes": "openMINDS `latest` links DOI | File | FileBundle | WebResource and atlas types. A dataset input is `isBasedOn` -> Data Set and exports as that dataset's DOI. Open (review of 2026-11-06): an input that is a file or a web resource has no registered parent type."
         },
-        "isAlternativeVersionOf": {
+        "isPrecededBy": {
+          "target_kind": "relation",
+          "ndi_target": "wasDerivedFrom",
+          "endpoint": "Data Set",
+          "notes": "successor of v2.0 `isNewVersionOf` (same instruction text). Carried from 1.1.0. Open (review of 2026-11-06): `wasDerivedFrom` is generic provenance, so the export cannot tell a previous version from any other derivation."
+        },
+        "isVariantOf": {
           "target_kind": "relation",
           "ndi_target": "is version of",
-          "endpoint": "Data Set"
+          "endpoint": "Data Set",
+          "notes": "successor of v2.0 `isAlternativeVersionOf`. Carried from 1.1.0. Open (review of 2026-11-06): SIO:000497 means \"a subsequent or alternate version\", so it overlaps `isPrecededBy`."
+        },
+        "isVersionOf": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `isVersionOf` (required) links the version-independent Dataset. v2 has one Data Set entity, \"a published body of data, at a version\", and no separate version-independent entity: whether the export builds the Dataset from the Data Set, or v2 records it, is not decided."
+        },
+        "keyword": {
+          "target_kind": "assertion",
+          "ndi_target": "Keyword",
+          "value_kind": "term",
+          "notes": "registered as \"Keyword\" (EDAM:data_0968); 1.1.0 named \"keyword\". openMINDS `latest` links about 110 controlled-term types plus TermSuggestion. Open (review of 2026-11-06): the export needs an openMINDS instance per keyword term (the term registry's `equivalent` column), and NDI-matlab's generic dataset import writes `keyword` as text (entityDocuments.m)."
+        },
+        "preparationType": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `preparationType` (links PreparationType, e.g. in vivo, in vitro, ex vivo); new in `latest`."
+        },
+        "protocol": {
+          "target_kind": "relation",
+          "ndi_target": "follows protocol",
+          "endpoint": "protocol",
+          "notes": "the endpoint is `protocol`, the relation's registered parent type (1.1.0 said web_resource, which is not an entity type). EMPTY:0000378 is staged in the term registry, not yet merged in empty-ontology."
+        },
+        "publicationStatus": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `publicationStatus` (links PublicationStatus: the lifecycle state of the resource, e.g. published)."
+        },
+        "relatedPublication": {
+          "target_kind": "relation",
+          "ndi_target": "citation",
+          "endpoint": "publication"
+        },
+        "releaseDate": {
+          "target_kind": "assertion",
+          "ndi_target": "release date",
+          "value_kind": "date"
+        },
+        "repository": {
+          "target_kind": "global_identifier",
+          "ndi_target": "ndicloud",
+          "notes": "a URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a separate document (did_v2_entity_composition_plan.md sec. 7). NDI Cloud copies are `ndicloud:<id>`; any other repository is its IRI. Open (review of 2026-11-06): openMINDS FileRepository requires IRI, hostedBy and name, which have no v2 source, and `ndicloud` has no uri_base to build the IRI from."
+        },
+        "shortName": {
+          "target_kind": "assertion",
+          "ndi_target": "Abbreviation",
+          "value_kind": "text",
+          "notes": "registered as \"Abbreviation\" (NCIT:C42610, \"A shortened form of a word or phrase\"), which NDI-matlab's generic dataset import already writes for a dataset's `short_name` (entityDocuments.m); 1.1.0 named \"short name\", which is not registered."
+        },
+        "studiedSpecimen": {
+          "target_kind": "projection",
+          "notes": "the studied subjects, recomputed from the dataset's sessions (`isPartOf` -> Data Set) and their subject entities, not restated here (1.1.0 named the relation `part_of`). Exported once the subject types are in the crosswalk (import/export plan, stage 2)."
+        },
+        "studyTarget": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `studyTarget` (\"Structure or function that was targeted within a study\"; links species, cell types, anatomical and stimulus terms) has no v2 home. It could be a projection from the subjects' term assertions, or a dataset assertion with a new variable."
+        },
+        "supportChannel": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `supportChannel` (\"Way of communication used to interact with users or customers\", an array of strings). 1.1.0 named \"support channel\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `support_channel` as text with no registered variable node."
+        },
+        "technique": {
+          "target_kind": "assertion",
+          "ndi_target": "Technique",
+          "value_kind": "term",
+          "term_set": [
+            "AnalysisTechnique",
+            "MRIFatSuppressionTechnique",
+            "MRIParallelAcquisitionTechnique",
+            "MRIPulseSequence",
+            "MRISpoilingTechnique",
+            "MRIWeighting",
+            "SpatialEncoding",
+            "StimulationApproach",
+            "StimulationTechnique",
+            "Technique"
+          ],
+          "notes": "openMINDS `technique` (required). The binding registry row (NCIT:C16847) holds 227 values, 224 of them `openminds:technique/...`."
+        },
+        "usageCondition": {
+          "target_kind": "assertion",
+          "ndi_target": "License",
+          "value_kind": "term",
+          "notes": "openMINDS `usageCondition` (successor of v2.0 `license`) links License{fullName, legalCode, shortName} | UsageAgreement objects, not terms. The dataset's License assertion (NCIT:C43611, registered) is the source; how the export builds the License object from the term (e.g. an `spdx:` value) is open (review of 2026-11-06)."
+        },
+        "versionIdentifier": {
+          "target_kind": "assertion",
+          "ndi_target": "version number",
+          "value_kind": "text",
+          "notes": "registered as \"version number\" (IAO:0000129), which NDI-matlab's generic dataset import and software entities already write (entityDocuments.m, +migrate/+internal/softwareEntity.m); 1.1.0 named \"version\", which is not registered."
+        },
+        "versionSpecification": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `versionSpecification` (required; \"a short description (or summary) of the novelties/peculiarities of this research product version\"), the successor of v2.0 `versionInnovation`. 1.1.0 named \"version innovation\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `version_innovation` as text with no registered variable node."
         }
-      },
-      "entity_type": "Data Set"
+      }
     },
     "Person": {
       "ndi_entity": "entity",
+      "entity_type": "Person",
       "properties": {
-        "givenName": {
+        "alternateName": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS Person `alternateName` (\"any other known full name of this person\"). 1.1.0 named \"alternate name\", which is not registered. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `alternate_name` as text with no registered variable node."
+        },
+        "associatedAccount": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `associatedAccount` (new in v3.0; links AccountInformation: web service accounts held by the person) has no v2 home. An account URL could be a global_identifier IRI, but AccountInformation also requires the service."
+        },
+        "contactInformation": {
           "target_kind": "assertion",
-          "ndi_target": "given name",
-          "value_kind": "text"
+          "ndi_target": "E-mail Address",
+          "value_kind": "text",
+          "notes": "openMINDS ContactInformation{email (required)}. Registered as \"E-mail Address\" (NCIT:C42775), which NDI-matlab's generic dataset import already writes for `email` (entityDocuments.m); 1.1.0 named \"email\", which is not registered."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "orcid"
         },
         "familyName": {
           "target_kind": "assertion",
           "ndi_target": "family name",
           "value_kind": "text"
         },
-        "contactInformation": {
+        "givenName": {
           "target_kind": "assertion",
-          "ndi_target": "email",
-          "notes": "ContactInformation.email.",
+          "ndi_target": "given name",
           "value_kind": "text"
         },
-        "digitalIdentifier": {
-          "target_kind": "global_identifier",
-          "ndi_target": "orcid"
-        },
-        "affiliation": {
-          "target_kind": "relation",
-          "ndi_target": "affiliation",
-          "endpoint": "organization"
-        },
-        "alternateName": {
-          "target_kind": "assertion",
-          "ndi_target": "alternate name",
-          "value_kind": "text"
+        "preferredName": {
+          "target_kind": "field",
+          "ndi_target": "name",
+          "notes": "openMINDS `preferredName` (required): \"the person's preferred way to write their name in a professional context\". The entity's `name` is the display name ('Jess Haley'), which Person requires (entity_type_bindings)."
         }
-      },
-      "entity_type": "Person"
+      }
     },
     "Organization": {
       "ndi_entity": "entity",
+      "entity_type": "organization",
       "properties": {
-        "fullName": {
-          "target_kind": "field",
-          "ndi_target": "name"
-        },
-        "shortName": {
+        "acronym": {
           "target_kind": "assertion",
-          "ndi_target": "short name",
-          "value_kind": "text"
+          "ndi_target": "Abbreviation",
+          "value_kind": "text",
+          "notes": "successor of v2.0 `shortName`. An acronym is \"a shortened form of a word or phrase\" (Abbreviation, NCIT:C42610, registered); 1.1.0 named \"short name\", which is not registered."
+        },
+        "alternateName": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS Organization `alternateName` (\"any other known name or acronym of this organization\")."
+        },
+        "countryOfFormation": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `countryOfFormation` (required; links SovereignState). The sovereign-state values are registered (as the values of `ethics jurisdiction`), the variable is not."
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
           "ndi_target": "ror"
-        },
-        "homepage": {
-          "target_kind": "global_identifier",
-          "ndi_target": "IRI",
-          "endpoint": "web_resource",
-          "notes": "A URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a web_resource document (did_v2_entity_composition_plan.md sec. 7). "
         },
         "hasParent": {
           "target_kind": "relation",
           "ndi_target": "parentOrganization",
           "endpoint": "organization",
           "notes": "org hierarchy, kept distinct from subject/session part_of."
+        },
+        "homepage": {
+          "target_kind": "global_identifier",
+          "ndi_target": "IRI",
+          "notes": "a URL is an address for the entity it names, so it is one of that entity's global_identifier entries rather than a separate document (did_v2_entity_composition_plan.md sec. 7)."
+        },
+        "jurisdiction": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS Organization `jurisdiction` (links SovereignState | SupranationalBody: the jurisdiction under which the organization operates)."
+        },
+        "location": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `location` links a Location structure (the headquarters). \"Location\" (NCIT:C25341) is registered, but how a structured address is stored on an organization is not decided."
+        },
+        "membership": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `membership` links Membership records (one per member). The registered `member of` relation's parent type is Group only, not organization."
+        },
+        "name": {
+          "target_kind": "field",
+          "ndi_target": "name",
+          "notes": "successor of v2.0 `fullName`; required in `latest`."
+        },
+        "type": {
+          "target_kind": "deferred",
+          "notes": "needs a term: openMINDS Organization `type` (required; links OrganizationType, e.g. university, research institute) has no registered variable. The entity's own `type` is `organization`; a finer kind would be one term assertion (T1)."
         }
-      },
-      "entity_type": "organization"
+      }
     },
     "Funding": {
       "ndi_entity": "entity",
+      "entity_type": "Grant",
       "properties": {
-        "awardTitle": {
-          "target_kind": "field",
-          "ndi_target": "name"
+        "acknowledgement": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS Funding `acknowledgement` (\"Official declaration or avowal of appreciation of an act or achievement\"; in every openMINDS version)."
         },
         "awardNumber": {
           "target_kind": "field",
           "ndi_target": "local_identifier",
-          "notes": "An award number is unique only within its funder, so it is not a global identifier: a grant DOI goes in global_identifier when there is one, otherwise the number is the funding entity's local_identifier (did_v2_entity_composition_plan.md sec. 6)."
+          "notes": "an award number is unique only within its funder, so it is not a global identifier: a grant DOI goes in global_identifier when there is one, otherwise the number is the funding entity's local_identifier (did_v2_entity_composition_plan.md sec. 6)."
+        },
+        "awardTitle": {
+          "target_kind": "field",
+          "ndi_target": "name"
         },
         "funder": {
           "target_kind": "relation",
           "ndi_target": "funder",
-          "endpoint": "organization"
+          "endpoint": "organization",
+          "notes": "openMINDS `funder` (required) is an Organization or a Person. Open (review of 2026-11-06): the registered `funder` edge's parent type is organization only, so a person funder cannot be stored."
         }
-      },
-      "entity_type": "Grant"
+      }
     },
     "SoftwareVersion": {
       "ndi_entity": "entity",
+      "entity_type": "software",
       "properties": {
+        "accessibility": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `accessibility` (required) links the Accessibility structure. The registered `Open or Controlled Data Access Indicator` binding is scoped to a Data Set, and software has no accessibility statement."
+        },
+        "contribution": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `contribution` (required). the registered `author` / `contributor` relation's child type is Data Set only, so a software entity cannot carry it. The registered `producer` edge (software -> organization) is one kind of contribution, with no contribution type."
+        },
+        "contributorAffiliation": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `contributorAffiliation` follows `contribution`, which has no v2 home for software."
+        },
+        "copyright": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS Copyright{holder, year} (both required). the registered `copyrightHolder` relation's child type is Data Set only, so a software entity cannot carry it. The year has no home (see DatasetVersion.copyright)."
+        },
+        "dependency": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `dependency` links Dependency records (other software versions this one depends on). No registered relation between software entities."
+        },
+        "description": {
+          "target_kind": "field",
+          "ndi_target": "notes",
+          "notes": "openMINDS `description` (required): \"Longer statement or account giving the characteristics of someone or something.\" Carried from 1.1.0. Open (review of 2026-11-06): since 2026-11-01 `notes` is v2's last-resort free-text field, so labelled migration text there would be exported as the description."
+        },
+        "digitalIdentifier": {
+          "target_kind": "global_identifier",
+          "ndi_target": "doi",
+          "notes": "DOI or SWHID (`swh`, also registered), whichever the source supplies."
+        },
+        "documentation": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `documentation` (required) links DOI | File | ISBN | WebResource. 1.1.0 mapped the v2.0 `fullDocumentation` to relation `subjectOf` -> web_resource, but `web_resource` is not an entity type and `subjectOf`'s registered parents are protocol, publication and software. A documenting publication could be `subjectOf` -> publication; a file or web page has no registered home."
+        },
         "fullName": {
           "target_kind": "field",
           "ndi_target": "name"
         },
-        "shortName": {
-          "target_kind": "field",
-          "ndi_target": "name",
-          "notes": "the entity keeps ONE name field; per its own documentation software.name carries the fullName/shortName pair. A separate short form would be a coordinate, not a thing (T13)."
-        },
-        "versionIdentifier": {
-          "target_kind": "assertion",
-          "ndi_target": "version",
-          "value_kind": "text"
+        "funding": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `funding`. the registered `funding` relation's child type is Data Set only, so a software entity cannot carry it."
         },
         "homepage": {
           "target_kind": "global_identifier",
           "ndi_target": "IRI",
           "notes": "populated by the app->software fold from the v1 app.url."
         },
-        "repository": {
-          "target_kind": "global_identifier",
-          "ndi_target": "IRI",
-          "notes": "same URL scheme as homepage; the two are distinguished by the stored value, not by separate slots."
+        "howToCite": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `howToCite` (\"Preferred format for citing a particular object or legal person\"). 1.1.0 named \"how to cite\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `how_to_cite` as text with no registered variable node."
         },
-        "digitalIdentifier": {
-          "target_kind": "global_identifier",
-          "ndi_target": "doi",
-          "notes": "DOI or SWHID, whichever the source supplies."
+        "implements": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `implements` links InterfaceVersion (the interfaces this software version implements). No v2 home."
+        },
+        "inputFormat": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `inputFormat` (links ContentType: the data formats the software reads)."
+        },
+        "isPrecededBy": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `isPrecededBy` (the preceding software version). The Data Set row uses `wasDerivedFrom`, which has no type limits, but a previous software version is not provenance; not decided."
+        },
+        "isVariantOf": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `isVariantOf`. the registered `is version of` relation's child type is Data Set only, so a software entity cannot carry it."
+        },
+        "isVersionOf": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `isVersionOf` (required) links the version-independent Software. v2's software entity is \"a program, at a version\", with no separate version-independent entity (see DatasetVersion.isVersionOf)."
+        },
+        "keyword": {
+          "target_kind": "assertion",
+          "ndi_target": "Keyword",
+          "value_kind": "term",
+          "notes": "registered as \"Keyword\" (EDAM:data_0968); 1.1.0 named \"keyword\". openMINDS `latest` links about 110 controlled-term types plus TermSuggestion. Open (review of 2026-11-06): the export needs an openMINDS instance per keyword term (the term registry's `equivalent` column), and NDI-matlab's generic dataset import writes `keyword` as text (entityDocuments.m)."
+        },
+        "language": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `language` (links Language: the human languages the software supports)."
+        },
+        "operatingDevice": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `operatingDevice` (links OperatingDevice: the devices the software runs on)."
         },
         "operatingSystem": {
           "target_kind": "projection",
-          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured on the calculation instead: its `operating_system_id` edge names the os as a `software` document (#73 item 53) -- a property of the run, not of the software."
+          "notes": "openMINDS means the SUPPORTED os, which the entity does not store. The per-RUN os is captured on the calculation instead: its `operating_system_id` edge names the os as a `software` document (#73 item 53) -- a property of the run, not of the software. Open (review of 2026-11-06): no stored statement means \"supported os\", so on export this property is empty."
+        },
+        "outputFormat": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `outputFormat` (links ContentType: the data formats the software writes)."
         },
         "programmingLanguage": {
           "target_kind": "projection",
-          "notes": "likewise per-run: the calculation's `interpreter_id` edge names the interpreter as a `software` document (#73 item 53)."
+          "notes": "likewise per-run: the calculation's `interpreter_id` edge names the interpreter as a `software` document (#73 item 53). Open (review of 2026-11-06): the interpreter of one run is not the language the software is written in, so on export this property is empty."
+        },
+        "publicationStatus": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `publicationStatus` (links PublicationStatus: the lifecycle state of the resource, e.g. published)."
+        },
+        "relatedPublication": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `relatedPublication`. the registered `citation` relation's child type is Data Set only, so a software entity cannot carry it. `subjectOf` (child any entity, parent publication) is a candidate."
+        },
+        "releaseDate": {
+          "target_kind": "deferred",
+          "notes": "needs a decision: openMINDS `releaseDate` (required). The registered \"release date\" (EMPTY:0000346) is defined as \"The date on which a dataset was released for use\", so using it for software would widen its definition."
+        },
+        "repository": {
+          "target_kind": "global_identifier",
+          "ndi_target": "IRI",
+          "notes": "same URL scheme as homepage; the two are distinguished by the stored value, not by separate slots. Open (review of 2026-11-06): so the export cannot tell them apart, and FileRepository's required hostedBy and name have no source."
+        },
+        "scope": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `scope` (required; links SoftwareApplicationCategory, SoftwareFeature, Technique and other terms: the extent of the software)."
+        },
+        "shortName": {
+          "target_kind": "field",
+          "ndi_target": "name",
+          "notes": "the entity keeps ONE name field; per its own documentation software.name carries the fullName/shortName pair. A separate short form would be a coordinate, not a thing (T13). Open (review of 2026-11-06): both are required in `latest`, so a round trip cannot return both (the DatasetVersion row uses Abbreviation)."
+        },
+        "supportChannel": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `supportChannel` (\"Way of communication used to interact with users or customers\", an array of strings). 1.1.0 named \"support channel\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `support_channel` as text with no registered variable node."
+        },
+        "usageCondition": {
+          "target_kind": "assertion",
+          "ndi_target": "License",
+          "value_kind": "term",
+          "notes": "openMINDS `usageCondition` (successor of v2.0 `license`) links License{fullName, legalCode, shortName} | UsageAgreement objects, not terms. The software's License assertion (NCIT:C43611, registered) is the source; how the export builds the License object from the term (e.g. an `spdx:` value) is open (review of 2026-11-06)."
+        },
+        "versionIdentifier": {
+          "target_kind": "assertion",
+          "ndi_target": "version number",
+          "value_kind": "text",
+          "notes": "registered as \"version number\" (IAO:0000129), the variable NDI-matlab's software entities already write (+migrate/+internal/softwareEntity.m); 1.1.0 named \"version\"."
+        },
+        "versionSpecification": {
+          "target_kind": "deferred",
+          "notes": "needs a term: no registered variable for openMINDS `versionSpecification` (required; \"a short description (or summary) of the novelties/peculiarities of this research product version\"), the successor of v2.0 `versionInnovation`. 1.1.0 named \"version innovation\", which is not in the term registry. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `version_innovation` as text with no registered variable node."
         }
-      },
-      "entity_type": "software"
+      }
     }
+  },
+  "contribution_types": {
+    "$comment": "how a v2 contribution edge becomes an openMINDS Contribution{contributor, type} on export, and back on import. `edges`: what each registered contribution relation (Data Set -> Person | organization) exports as. `roles`: each value of directed_relation.roles (`did_contributor_role`: the 14 CRediT roles and `corresponding author`) on a `contributor` edge, with the openMINDS ContributionType instance it exports as (openMINDS_instances `instances/latest/terminologies/contributionType/`, read at a6efd17c3502abfed94da74916e65b02b4443afa), and `match`: exact or close by definition (no openMINDS instance cross-references CRediT). The mapped openMINDS types are all different, so the import recovers the role. A role with `export: false` is left out of the export and reported as not exported. Drafted from the review of 2026-11-06 (G108(2), \"Draft it\"); the pairings are Proposed (not decided) until the row review.",
+    "edges": {
+      "author": {
+        "target_kind": "relation",
+        "openminds": {
+          "node": "openminds:contributionType/authoring",
+          "name": "authoring"
+        },
+        "notes": "the author list, as one ordered authoring contribution, in the edge's order (import/export plan 3.4). The registered `author` edge's parent type is Person only, so an organization or consortium author has no edge."
+      },
+      "contributor": {
+        "target_kind": "relation",
+        "notes": "one openMINDS Contribution per CRediT role on the edge, typed as listed in `roles`."
+      },
+      "maintainer": {
+        "target_kind": "deferred",
+        "notes": "needs a decision: 1.1.0 mapped v2.0 `custodian` to `maintainer`. In `latest` the custodian is a contribution of type `custodianship` (\"responsibility for the long-term stewardship\"), while schema.org's maintainer \"manages contributions to, and/or publication of\" the work, nearer openMINDS `maintenance`. Which type a `maintainer` edge exports as is not decided; until then it is not exported."
+      }
+    },
+    "roles": [
+      {
+        "role": {
+          "name": "conceptualization",
+          "node": "credit:conceptualization"
+        },
+        "match": "none",
+        "export": false,
+        "notes": "not exported: no openMINDS contribution type matches. Decided by Jess Haley, 2026-11-06, did_v2_go_forward_class_audit.md [unmapped roles not exported]: leave it out of the export and report it as not exported (not the generic `authoring`). Nearest: design, research, leadership; none is about formulating the research goals."
+      },
+      {
+        "role": {
+          "name": "data curation",
+          "node": "credit:data-curation"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/curation",
+          "name": "curation"
+        },
+        "match": "exact",
+        "export": true,
+        "notes": "CRediT's \"maintain\" part also touches `maintenance`."
+      },
+      {
+        "role": {
+          "name": "formal analysis",
+          "node": "credit:formal-analysis"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/processing",
+          "name": "processing"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "`processing` is broader (any transformation); openMINDS has no analysis-only type."
+      },
+      {
+        "role": {
+          "name": "funding acquisition",
+          "node": "credit:funding-acquisition"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/fundraising",
+          "name": "fundraising"
+        },
+        "match": "exact",
+        "export": true,
+        "notes": "not `funding`, which is the funder providing the money."
+      },
+      {
+        "role": {
+          "name": "investigation",
+          "node": "credit:investigation"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/collection",
+          "name": "collection"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "covers data collection; \"performing the experiments\" is closer to `execution`."
+      },
+      {
+        "role": {
+          "name": "methodology",
+          "node": "credit:methodology"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/design",
+          "name": "design"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "\"creation of models\" is not covered."
+      },
+      {
+        "role": {
+          "name": "project administration",
+          "node": "credit:project-administration"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/administration",
+          "name": "administration"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "alternatives: `management`, `coordination`."
+      },
+      {
+        "role": {
+          "name": "resources",
+          "node": "credit:resources"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/provision",
+          "name": "provision"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "direction differs: openMINDS `provision` makes the target available, CRediT supplies inputs to the research. Alternative: `acquisition`."
+      },
+      {
+        "role": {
+          "name": "software",
+          "node": "credit:software"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/development",
+          "name": "development"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "the testing part also matches `testing`."
+      },
+      {
+        "role": {
+          "name": "supervision",
+          "node": "credit:supervision"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/supervision",
+          "name": "supervision"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "CRediT includes leadership, which openMINDS has separately as `leadership`."
+      },
+      {
+        "role": {
+          "name": "validation",
+          "node": "credit:validation"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/validation",
+          "name": "validation"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "CRediT means reproducibility; openMINDS means meeting requirements."
+      },
+      {
+        "role": {
+          "name": "visualization",
+          "node": "credit:visualization"
+        },
+        "match": "none",
+        "export": false,
+        "notes": "not exported: no openMINDS contribution type matches. Decided by Jess Haley, 2026-11-06, did_v2_go_forward_class_audit.md [unmapped roles not exported]: leave it out of the export and report it as not exported (not the generic `authoring`). Nearest: authoring, which is the ordered author contribution, so mapping to it would make every visualizer an author."
+      },
+      {
+        "role": {
+          "name": "writing - original draft",
+          "node": "credit:writing-original-draft"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/scientificWriting",
+          "name": "scientificWriting"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "no \"initial draft\" sense; translation is not covered."
+      },
+      {
+        "role": {
+          "name": "writing - review & editing",
+          "node": "credit:writing-review-editing"
+        },
+        "openminds": {
+          "node": "openminds:contributionType/editing",
+          "name": "editing"
+        },
+        "match": "close",
+        "export": true,
+        "notes": "the \"critical review\" part is openMINDS `review`."
+      },
+      {
+        "role": {
+          "name": "corresponding author",
+          "node": "NCIT:C164481"
+        },
+        "match": "n/a",
+        "export": false,
+        "notes": "not a CRediT role, and not exported: G108(3) (Jess Haley, 2026-11-06, did_v2_go_forward_class_audit.md [openMINDS export answers]): \"Drop it\". Nearest openMINDS type: `liaison`."
+      }
+    ]
   }
 }
