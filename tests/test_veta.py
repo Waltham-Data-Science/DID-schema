@@ -18,6 +18,7 @@ import json
 import os
 import re
 import sys
+import warnings
 
 import jsonschema
 import pytest
@@ -1087,95 +1088,216 @@ def test_dataset_controlled_term_assertions_take_ontology_terms():
         ("entity", "type")]
 
 
-OPENMINDS_DATASETVERSION_PROPS = {
-    "accessibility", "author", "copyright", "custodian", "description",
-    "digitalIdentifier", "ethicsAssessment", "experimentalApproach",
-    "fullDocumentation", "fullName", "funding", "homepage", "howToCite", "inputData",
-    "isAlternativeVersionOf", "isNewVersionOf", "keyword", "license",
-    "otherContribution", "protocol", "relatedPublication", "releaseDate", "repository",
-    "shortName", "studiedSpecimen", "supportChannel", "type", "versionIdentifier",
-    "versionInnovation",
+# openMINDS `latest` as pinned by openMINDS_MATLAB v0.12.0 (NDI-matlab's pin;
+# G108(1), Jess Haley 2026-11-06). Each type's property names, read from
+# openMetadataInitiative/openMINDS `schemas/latest/core/...<type>.schema.omi.json`
+# at commit 19412fad8f493ef33f240df4d4109ddb73966f5e; for these five types they
+# equal openMINDS_MATLAB v0.12.0's (dfd95a168ed8335cca054b241e7a5f7bea4a0de2)
+# generated `latest` classes. Moving the pin is a deliberate change: update these
+# lists, the crosswalk's `openminds` block, and the crosswalk rows together
+# (Jess Haley, 2026-11-06, did_v2_go_forward_class_audit.md [openMINDS crosswalk on latest]).
+OPENMINDS_PIN = {"version": "latest",
+                 "schema_commit": "19412fad8f493ef33f240df4d4109ddb73966f5e",
+                 "openminds_matlab": "v0.12.0"}
+OPENMINDS_LATEST_PROPS = {
+    "DatasetVersion": {
+        "accessibility", "contribution", "contributorAffiliation", "copyright",
+        "dataType", "description", "digitalIdentifier", "documentation",
+        "ethicsJurisdiction", "experimentalApproach", "fullName", "funding",
+        "homepage", "howToCite", "inputData", "isPrecededBy", "isVariantOf",
+        "isVersionOf", "keyword", "preparationType", "protocol", "publicationStatus",
+        "relatedPublication", "releaseDate", "repository", "shortName",
+        "studiedSpecimen", "studyTarget", "supportChannel", "technique",
+        "usageCondition", "versionIdentifier", "versionSpecification",
+    },
+    "Person": {
+        "alternateName", "associatedAccount", "contactInformation", "digitalIdentifier",
+        "familyName", "givenName", "preferredName",
+    },
+    "Organization": {
+        "acronym", "alternateName", "countryOfFormation", "digitalIdentifier",
+        "hasParent", "homepage", "jurisdiction", "location", "membership", "name",
+        "type",
+    },
+    "Funding": {"acknowledgement", "awardNumber", "awardTitle", "funder"},
+    "SoftwareVersion": {
+        "accessibility", "contribution", "contributorAffiliation", "copyright",
+        "dependency", "description", "digitalIdentifier", "documentation", "fullName",
+        "funding", "homepage", "howToCite", "implements", "inputFormat",
+        "isPrecededBy", "isVariantOf", "isVersionOf", "keyword", "language",
+        "operatingDevice", "operatingSystem", "outputFormat", "programmingLanguage",
+        "publicationStatus", "relatedPublication", "releaseDate", "repository",
+        "scope", "shortName", "supportChannel", "usageCondition",
+        "versionIdentifier", "versionSpecification",
+    },
 }
 
 
+def _openminds_crosswalk():
+    return _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_openminds_crosswalk.json"))
+
+
+def _deferred_ok(where, e):
+    """A deferred entry is allowed only with a non-empty note saying what it needs."""
+    assert isinstance(e.get("notes"), str) and e["notes"].strip(), \
+        f"{where} is deferred with no notes: say what it needs (a term, a decision)"
+
+
 def test_openminds_crosswalk_round_trips():
-    """Round-trip guarantee: every openMINDS property has an EXPLICIT crosswalk entry
-    whose target resolves to a real V_eta field / relation term / global_identifier --
-    or is explicitly implied/projection/deferred (visible, never silently dropped).
-    This is the enforcement point behind the openMINDS field parity."""
-    xw = _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_openminds_crosswalk.json"))
+    """Round-trip guarantee: every openMINDS property of every crosswalked type, at
+    the pinned version, has an EXPLICIT crosswalk entry whose target resolves to a
+    real entity field / registered relation / registered assertion variable /
+    global_identifier prefix -- or is explicitly implied/projection, or deferred
+    with a note (visible, never silently dropped). The number of deferred entries
+    is reported, never hidden."""
+    xw = _openminds_crosswalk()
     reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     relation_terms = {r["relation"]["name"] for r in reg["relation_bindings"]}
+    # by name (Jess Haley, 2026-11-06, [crosswalk assertions registered])
+    registered = {t["name"] for t in _load(os.path.join(
+        os.path.dirname(VETA), "registry", "did_v2_term_registry.json"))["terms"]}
 
-    # 1. completeness: the crosswalk covers the full DatasetVersion surface, exactly.
-    dv = xw["types"]["DatasetVersion"]["properties"]
-    assert set(dv) == OPENMINDS_DATASETVERSION_PROPS, (
-        "crosswalk DatasetVersion drift: "
-        f"missing={OPENMINDS_DATASETVERSION_PROPS - set(dv)} "
-        f"extra={set(dv) - OPENMINDS_DATASETVERSION_PROPS}")
+    # 0. the pin: the file says which openMINDS it was written against
+    assert xw["crosswalk_version"] == "2.0.0", xw["crosswalk_version"]
+    assert xw["openminds"]["version"] == OPENMINDS_PIN["version"]
+    assert OPENMINDS_PIN["openminds_matlab"] in xw["openminds"]["pinned_by"]
+    assert OPENMINDS_PIN["schema_commit"] in xw["openminds"]["schema_source"]
 
-    # 2. no property is deferred -- every one has a concrete home (field / relation /
-    #    global_identifier) or an explicit non-stored disposition (implied /
-    #    projection). "deferred" (a designed-but-unbuilt home) is not allowed.
-    for type_name, spec in xw["types"].items():
-        for prop, e in spec["properties"].items():
-            assert e["target_kind"] != "deferred", \
-                f"{type_name}.{prop} is deferred -- give it a home"
-    # `assertion` since 2026-10-08 (signed, did_v2_entity_composition_plan.md):
-    # a fact that was a field on the old class is a statement about the entity.
+    # 1. completeness: each type covers its pinned property list, exactly.
+    assert set(xw["types"]) == set(OPENMINDS_LATEST_PROPS), set(xw["types"])
+    for type_name, props in OPENMINDS_LATEST_PROPS.items():
+        got = set(xw["types"][type_name]["properties"])
+        assert got == props, (
+            f"crosswalk {type_name} drift from openMINDS {OPENMINDS_PIN['version']}: "
+            f"missing={sorted(props - got)} extra={sorted(got - props)}")
+
+    # 2. every entry resolves, or is explicitly not stored, or deferred with a note.
     valid_kinds = {"field", "relation", "global_identifier", "implied", "projection",
-                   "assertion"}
+                   "assertion", "deferred"}
     curie = _load(os.path.join(os.path.dirname(VETA), "registry", "CURIE_lookups_meta.json"))
     ent = _load(SP.class_path("entity"))
     types = {v["name"] for v in next(
         f for f in ent["fields"] if f["name"] == "type")["constraints"]["binding"]["values"]}
+    field_names = {f["name"] for f in ent["fields"]}
+    inspected = 0
+    by_kind = {}
     for type_name, spec in xw["types"].items():
         assert spec["ndi_entity"] == "entity", type_name
         assert spec["entity_type"] in types, f"{type_name}: unknown entity type"
-        field_names = {f["name"] for f in ent["fields"]}
         for prop, e in spec["properties"].items():
+            inspected += 1
+            where = f"{type_name}.{prop}"
             kind = e["target_kind"]
-            assert kind in valid_kinds, f"{type_name}.{prop}: bad kind {kind}"
+            assert kind in valid_kinds, f"{where}: bad kind {kind}"
+            by_kind.setdefault(kind, []).append(where)
             if kind == "field":
                 assert e["ndi_target"] in field_names, \
-                    f"{type_name}.{prop} -> field {e['ndi_target']} absent on entity"
+                    f"{where} -> field {e['ndi_target']} absent on entity"
             elif kind == "relation":
-                assert e["ndi_target"] in relation_terms, \
-                    f"{type_name}.{prop} -> unknown relation term {e['ndi_target']}"
+                rels = e["ndi_target"] if isinstance(e["ndi_target"], list) else [e["ndi_target"]]
+                assert rels, where
+                for rel in rels:
+                    assert rel in relation_terms, f"{where} -> unknown relation term {rel}"
             elif kind == "assertion":
-                assert e["ndi_target"] and e["value_kind"] in RECORDS, \
-                    f"{type_name}.{prop}: assertion needs a variable and a real value kind"
-            if kind == "global_identifier":
+                assert e["value_kind"] in RECORDS, \
+                    f"{where}: assertion needs a real value kind, not {e.get('value_kind')}"
+                assert e["ndi_target"] in registered, (
+                    f"{where} -> assertion variable {e['ndi_target']!r} is not registered "
+                    "(by name) in did_v2_term_registry.json; use a registered term or mark "
+                    "the row deferred with \"needs a term\"")
+                if "term_set" in e:
+                    assert isinstance(e["term_set"], list) and e["term_set"], where
+            elif kind == "global_identifier":
                 assert e["ndi_target"] == "IRI" or e["ndi_target"] in curie["prefixes"], \
-                    f"{type_name}.{prop}: {e['ndi_target']} is not a registered prefix"
-            elif kind in ("global_identifier", "implied", "projection", "deferred"):
-                # explicit, non-silent: must carry a target or an explaining note.
-                assert e.get("ndi_target") or e.get("notes"), \
-                    f"{type_name}.{prop}: {kind} entry must be explained"
+                    f"{where}: {e['ndi_target']} is not a registered prefix"
+            elif kind in ("implied", "projection"):
+                assert e.get("notes"), f"{where}: {kind} entry must be explained"
+            else:
+                _deferred_ok(where, e)
+                assert "ndi_target" not in e, f"{where}: a deferred row names no target"
+    assert inspected == sum(len(p) for p in OPENMINDS_LATEST_PROPS.values()), inspected
 
-    # 3. every openMINDS controlled-term statement binding is reflected in the
-    #    crosswalk with the matching term_set (registry <-> crosswalk agreement).
-    props = xw["types"]["DatasetVersion"]["properties"]
-    for row in reg["subject_statement_bindings"]:
-        if row.get("vocabulary") != "openMINDS":
-            continue
-        hit = [p for p, e in props.items()
-               if e.get("ndi_target") == row["variable"]["name"] and e.get("term_set")]
-        assert hit, f"binding {row['variable']['name']} not crosswalked as a term"
-        assert props[hit[0]]["term_set"] == row["term_set"]
+    # 3. every Data Set statement binding is crosswalked by a DatasetVersion row
+    #    (registry <-> crosswalk agreement). Denominator first: the check is not
+    #    vacuous.
+    dv_targets = {e.get("ndi_target") for e in xw["types"]["DatasetVersion"]["properties"].values()
+                  if e["target_kind"] == "assertion"}
+    ds_rows = [r for r in reg["subject_statement_bindings"] if r.get("entity_type") == "Data Set"]
+    assert ds_rows, "no Data Set statement bindings found: the agreement check would be vacuous"
+    for row in ds_rows:
+        assert row["variable"]["name"] in dv_targets, \
+            f"binding {row['variable']['name']} (Data Set) has no DatasetVersion crosswalk row"
+
+    deferred = by_kind.get("deferred", [])
+    contribution_deferred = [k for k, e in xw["contribution_types"]["edges"].items()
+                             if e["target_kind"] == "deferred"]
+    report = (f"openMINDS crosswalk: {inspected} properties inspected over "
+              f"{len(xw['types'])} types; "
+              + ", ".join(f"{k} {len(v)}" for k, v in sorted(by_kind.items()))
+              + f"; contribution edges deferred {len(contribution_deferred)}"
+              + f"; {len(ds_rows)} Data Set bindings crosswalked")
+    print(report)
+    if deferred or contribution_deferred:
+        warnings.warn(report + ". Deferred: " + ", ".join(deferred + [
+            "contribution_types.edges." + k for k in contribution_deferred]))
+
+
+def test_openminds_contribution_types():
+    """The CRediT -> openMINDS ContributionType table (G108(2); Jess Haley,
+    2026-11-06, [unmapped roles not exported]): every value of
+    directed_relation.roles has exactly one row; an exported role names an openMINDS
+    contribution type, one-to-one so the import recovers the role; a role with no
+    match is not exported, and says so."""
+    import veta_record
+    ct = _openminds_crosswalk()["contribution_types"]
+    dr = _load(SP.class_path("directed_relation"))
+    binding = next(f for f in dr["fields"] if f["name"] == "roles")["constraints"]["binding"]
+    values = {v["name"]: v["node"] for v in binding["values"]}
+    assert set(values) == set(veta_record.CREDIT_ROLES), set(values)
+    rows = ct["roles"]
+    assert len(rows) == len(values) and {r["role"]["name"] for r in rows} == set(values)
+    exported = [r for r in rows if r["export"]]
+    for r in rows:
+        assert r["role"]["node"] == values[r["role"]["name"]], r
+        if r["export"]:
+            assert r["match"] in ("exact", "close"), r
+            assert r["openminds"]["node"] == "openminds:contributionType/" + r["openminds"]["name"], r
+        else:
+            assert "openminds" not in r and r["notes"].strip(), r
+    om_types = [r["openminds"]["name"] for r in exported]
+    assert len(om_types) == len(set(om_types)), "two roles export as one openMINDS type"
+    not_exported = sorted(r["role"]["name"] for r in rows if not r["export"])
+    assert not_exported == ["conceptualization", "corresponding author", "visualization"], \
+        not_exported
+    for name in ("conceptualization", "visualization"):
+        row = next(r for r in rows if r["role"]["name"] == name)
+        assert "[unmapped roles not exported]" in row["notes"], row
+    # the contribution edges: each a registered relation, or deferred with a note
+    reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
+    relation_terms = {r["relation"]["name"] for r in reg["relation_bindings"]}
+    for edge, e in ct["edges"].items():
+        assert edge in relation_terms, edge
+        if e["target_kind"] == "deferred":
+            _deferred_ok(f"contribution_types.edges.{edge}", e)
+        else:
+            assert e["target_kind"] == "relation", (edge, e)
+    print(f"contribution types: {len(rows)} roles inspected; exported {len(exported)} "
+          f"(exact {sum(r['match'] == 'exact' for r in exported)}, "
+          f"close {sum(r['match'] == 'close' for r in exported)}); "
+          f"not exported {len(not_exported)}: {not_exported}")
 
 
 def test_software_crosswalks_to_openminds_softwareversion():
     """R1 kept the entity named `software` (not `software_version`) -- version is a
     field, not part of the name (T13). openMINDS parity is therefore a crosswalk-entry
     concern, and this is that entry."""
-    xw = _load(os.path.join(REPO_ROOT, "schemas", "registry", "did_v2_openminds_crosswalk.json"))
+    xw = _openminds_crosswalk()
     sv = xw["types"]["SoftwareVersion"]
     assert sv["ndi_entity"] == "entity" and sv["entity_type"] == "software"
     props = sv["properties"]
     assert props["fullName"]["ndi_target"] == "name"
     assert props["versionIdentifier"]["target_kind"] == "assertion"
-    assert props["versionIdentifier"]["ndi_target"] == "version"
+    assert props["versionIdentifier"]["ndi_target"] == "version number"
     # the per-run environment is NOT on the entity: openMINDS operatingSystem /
     # programmingLanguage describe the software, ours describe the run, so they are
     # explicitly projections onto the calculation's own edges (R1; #73 item 53 made
