@@ -1,5 +1,5 @@
 {
-  "description": "The carry register (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (V2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the V2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (V2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
+  "description": "The carry register (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (v2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the v2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (v2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
   "kinds": [
     "awaiting_home",
     "needs_mapping",
@@ -28,7 +28,7 @@
         "tag": "probe contact geometry carried"
       },
       "open_work": 130,
-      "home": "a V2 contact-geometry model (none yet)",
+      "home": "a v2 contact-geometry model (none yet)",
       "kind_basis": "stated"
     },
     {
@@ -47,7 +47,7 @@
         "tag": "small unread settings"
       },
       "do_not": {
-        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and v2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
         "class": "method",
         "fields": [
           "operating_system_id",
@@ -72,7 +72,7 @@
         "tag": "small unread settings"
       },
       "do_not": {
-        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and v2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
         "class": "method",
         "fields": [
           "operating_system_id",
@@ -97,7 +97,7 @@
         "tag": "small unread settings"
       },
       "do_not": {
-        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and v2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
         "class": "method",
         "fields": [
           "operating_system_id",
@@ -122,7 +122,7 @@
         "tag": "small unread settings"
       },
       "do_not": {
-        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and V2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
+        "line": "do not add OS or interpreter links to `method`: the OS in a settings document's `app` block is where the settings were saved, and v2 records a run's OS and interpreter on the interaction that ran (`operating_system_id`, `interpreter_id`)",
         "class": "method",
         "fields": [
           "operating_system_id",
@@ -433,7 +433,7 @@
         "observation (intensity)"
       ],
       "decides": "what the image's pixels are, in its dataset",
-      "resolved_by": "the dataset map entry for that image label (not yet written; JH is covered by the Haley V2 import)",
+      "resolved_by": "the dataset map entry for that image label (not yet written; JH is covered by the Haley v2 import)",
       "kind_basis": "stated"
     },
     {
@@ -806,7 +806,7 @@
         "tag": "stimulus_presentation retired"
       },
       "do_not": {
-        "line": "do not give `manipulation` the v1 presentation block (`presentation_order`, `presentation_time`, `stimuli`) or the retired `epochid`: a presentation's V2 form is a manipulation with value kind item plus method documents, made by NDI's second pass ([stimulus_presentation retired]); `epochid` is retired ([retired classes leave V2])",
+        "line": "do not give `manipulation` the v1 presentation block (`presentation_order`, `presentation_time`, `stimuli`) or the retired `epochid`: a presentation's v2 form is a manipulation with value kind item plus method documents, made by NDI's second pass ([stimulus_presentation retired]); `epochid` is retired ([retired classes leave V2])",
         "class": "manipulation",
         "fields": [
           "presentation_order",
@@ -949,7 +949,7 @@
       "id": "carry-056",
       "v1_class": "calculator",
       "fields": [
-        "a field the class's NDI template defines (or its writer writes over the template) that the tuning fold has no V2 home for yet: e.g. the contrast fits' relative_max_gain / saturation_index / sensitivity, the SF and TF `abs` block, stimulus_tuningcurve stimid / stimulus_presentation_number, tuningcurve_calc log / stim_property_list, the speed fit block names, a recognised response_units spelling"
+        "a field the class's NDI template defines (or its writer writes over the template) that the tuning fold has no v2 home for yet: e.g. the contrast fits' relative_max_gain / saturation_index / sensitivity, the SF and TF `abs` block, stimulus_tuningcurve stimid / stimulus_presentation_number, tuningcurve_calc log / stim_property_list, the speed fit block names, a recognised response_units spelling"
       ],
       "when": "a tuning-family calculator or result document (and contrastsensitivity_calc, hartley_calc, which share the fold) holds such a field with a value, or a template field whose value the fold cannot place (DID-matlab private/jCalculation.m and private/jSpeedTuning.m, split by did2.convert.v1read.calculatorTemplate); a field, block or edge outside the class's NDI template is carry-100, not this row ([tuning stray fields are malformed])",
       "kind": "awaiting_home",
@@ -1615,7 +1615,7 @@
       "id": "carry-101",
       "v1_class": "spikewaves",
       "fields": [
-        "the whole document (no V2 class is built for it)"
+        "the whole document (no v2 class is built for it)"
       ],
       "when": "always: a v1 `spikewaves` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
       "kind": "awaiting_home",
@@ -1624,14 +1624,14 @@
         "tag": "unbuilt spike classes carry as needs home"
       },
       "open_work": 153,
-      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "proposed"
     },
     {
       "id": "carry-102",
       "v1_class": "spike_clusters",
       "fields": [
-        "the whole document (no V2 class is built for it)"
+        "the whole document (no v2 class is built for it)"
       ],
       "when": "always: a v1 `spike_clusters` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
       "kind": "awaiting_home",
@@ -1640,14 +1640,14 @@
         "tag": "unbuilt spike classes carry as needs home"
       },
       "open_work": 153,
-      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "proposed"
     },
     {
       "id": "carry-103",
       "v1_class": "binnedspikeratevm",
       "fields": [
-        "the whole document (no V2 class is built for it)"
+        "the whole document (no v2 class is built for it)"
       ],
       "when": "always: a v1 `binnedspikeratevm` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
       "kind": "awaiting_home",
@@ -1656,14 +1656,14 @@
         "tag": "unbuilt spike classes carry as needs home"
       },
       "open_work": 153,
-      "home": "none decided; its `app` block already has a V2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "proposed"
     },
     {
       "id": "carry-104",
       "v1_class": "simple_calc",
       "fields": [
-        "the whole document (no V2 class is built for it)"
+        "the whole document (no v2 class is built for it)"
       ],
       "when": "always: a v1 `simple_calc` (NDI-matlab +ndi/+calc/+example/simple.m) is carried whole as v1",
       "kind": "awaiting_home",
@@ -1808,7 +1808,7 @@
       "fields": [
         "base.id"
       ],
-      "when": "no V2 document the source becomes can take its v1 id, and the source is referenced by another document (or is not fully rebuilt from other V2 documents)",
+      "when": "no v2 document the source becomes can take its v1 id, and the source is referenced by another document (or is not fully rebuilt from other v2 documents)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
@@ -1838,7 +1838,7 @@
       "fields": [
         "imageStack.dimension_order"
       ],
-      "when": "the V2 dimension labels do not map one-to-one onto the v1 axis letters through the fixed table (DID-matlab did2.convert.axisLetter)",
+      "when": "the v2 dimension labels do not map one-to-one onto the v1 axis letters through the fixed table (DID-matlab did2.convert.axisLetter)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
@@ -2328,7 +2328,7 @@
       "fields": [
         "the whole document"
       ],
-      "when": "always, until its V2 home is decided (it was reshaped into the retire class; DID-matlab +migrators_j/distance_metadata.m)",
+      "when": "always, until its v2 home is decided (it was reshaped into the retire class; DID-matlab +migrators_j/distance_metadata.m)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
@@ -2398,7 +2398,7 @@
         "tag": "control records carried in pass 1"
       },
       "do_not": {
-        "line": "do not give `manipulation` the v1 control record block (`control_stimulus_ids`): its V2 form is made by NDI's second pass ([second pass reads control stimuli from v1])",
+        "line": "do not give `manipulation` the v1 control record block (`control_stimulus_ids`): its v2 form is made by NDI's second pass ([second pass reads control stimuli from v1])",
         "class": "manipulation",
         "fields": [
           "control_stimulus_ids"
@@ -2436,7 +2436,7 @@
         "a logical calculation of the named region"
       ],
       "decides": "which region the mask marks",
-      "resolved_by": "the dataset's import map (the Haley V2 import for Haley's words)",
+      "resolved_by": "the dataset's import map (the Haley v2 import for Haley's words)",
       "kind_basis": "stated"
     },
     {
@@ -2667,32 +2667,32 @@
       "id": "carry-168",
       "v1_class": "hartley_reverse_correlation",
       "fields": [
-        "the whole document (the class has no V2 class and no migrator)"
+        "the whole document (the class has no v2 class and no migrator)"
       ],
-      "when": "always: a v1 `hartley_reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no V2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A V2 class and migrator for it replace this row (did-schema #260).",
+      "when": "always: a v1 `hartley_reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no v2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A v2 class and migrator for it replace this row (did-schema #260).",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
       "open_work": 165,
-      "home": "none decided: a V2 class and a migrator for it (did-schema #260)",
+      "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },
     {
       "id": "carry-169",
       "v1_class": "reverse_correlation",
       "fields": [
-        "the whole document (the class has no V2 class and no migrator)"
+        "the whole document (the class has no v2 class and no migrator)"
       ],
-      "when": "always: a v1 `reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no V2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A V2 class and migrator for it replace this row (did-schema #260).",
+      "when": "always: a v1 `reverse_correlation` (an NDIcalc-vis-matlab template, at the commit in tools/sibling_lock.json) has no v2 class, so it is carried whole as v1, the untouched v1 source (DID-matlab v1_to_v2.m, did2.convert.noMigratorCarryRows). A v2 class and migrator for it replace this row (did-schema #260).",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
       "open_work": 165,
-      "home": "none decided: a V2 class and a migrator for it (did-schema #260)",
+      "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },
     {

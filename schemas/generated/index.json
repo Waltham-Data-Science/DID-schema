@@ -917,7 +917,7 @@
             ],
             "path": "schemas/did_v2/retiring/stimulus_presentation.json",
             "disposition": "retire",
-            "disposition_note": "a v1 shape, not a V2 class: its V2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. did_v2_go_forward_class_audit.md [stimulus_presentation retired]"
+            "disposition_note": "a v1 shape, not a v2 class: its v2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. did_v2_go_forward_class_audit.md [stimulus_presentation retired]"
         },
         {
             "class_name": "stimulus_response",

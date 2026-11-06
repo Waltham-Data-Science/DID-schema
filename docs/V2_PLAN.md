@@ -73,7 +73,7 @@ Last updated 2026-11-03.
     to each other?", then "Yes, draft the plan":
     `docs/plans/did_v2_openminds_import_export_plan.md` (Proposed), with
     questions Q1-Q5 (Q3 is the staging order asked earlier).
-  - Asked: is the slowness a design flaw of the V2 schema? Claude's reading
+  - Asked: is the slowness a design flaw of the v2 schema? Claude's reading
     (not a decision): no. The data is correct (B is equivalent), and the
     `+vintage` compatibility readers search once per epoch per piece. A
     normalised schema makes per-item reads costly, and batched reads remove
