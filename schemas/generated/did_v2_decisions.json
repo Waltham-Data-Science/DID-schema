@@ -1889,7 +1889,7 @@
         ],
         "packages_missing": [],
         "files_read": 451,
-        "lines_read": 86989,
+        "lines_read": 87030,
         "classes_queried": 11,
         "classes_emitted_as_document_class": 2,
         "unresolved_mint_sites": [
@@ -1908,7 +1908,7 @@
           "DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:167 (CLASS)",
           "DID-matlab:convert/+roundtrip/subjectmeasurement.m:93 (CLASS)",
           "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
-          "DID-matlab:convert/+roundtrip/syncrule.m:134 (CLASS)",
+          "DID-matlab:convert/+roundtrip/syncrule.m:138 (CLASS)",
           "DID-matlab:convert/resolveEpochProbemap.m:1109 (kind.className)",
           "DID-matlab:convert/resolveEpochProbemap.m:1796 (entry.class)",
           "DID-matlab:migrators_j/gene_list_mapping.m:184 (valueClass)",
@@ -1944,8 +1944,8 @@
           "batch_post_pass": 236
         },
         "lines_read_by_group": {
-          "per_document_migrator": 46900,
-          "batch_post_pass": 40089
+          "per_document_migrator": 46936,
+          "batch_post_pass": 40094
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 2,
@@ -1989,7 +1989,7 @@
             "DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:167 (CLASS)",
             "DID-matlab:convert/+roundtrip/subjectmeasurement.m:93 (CLASS)",
             "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
-            "DID-matlab:convert/+roundtrip/syncrule.m:134 (CLASS)",
+            "DID-matlab:convert/+roundtrip/syncrule.m:138 (CLASS)",
             "DID-matlab:convert/resolveEpochProbemap.m:1109 (kind.className)",
             "DID-matlab:convert/resolveEpochProbemap.m:1796 (entry.class)"
           ]

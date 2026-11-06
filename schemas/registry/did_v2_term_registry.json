@@ -11355,6 +11355,66 @@
       ]
     },
     {
+      "name": "minimum matching file paths",
+      "node": "EMPTY:0000431",
+      "definition": "The smallest number of file paths two acquisition systems' epochs must share for a file-matching clock alignment rule to treat them as the same recording.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
+      "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "minimum embedded file overlap",
+      "node": "EMPTY:0000432",
+      "definition": "The smallest number of files that must appear in both epochs, embedded in each other's file lists, for a file-finding clock alignment rule to align them.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
+      "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "from trigger channel",
+      "node": "EMPTY:0000433",
+      "definition": "The channel, on the acquisition system whose clock is mapped from, whose trigger events a clock alignment rule matches.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
+      "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "to trigger channel",
+      "node": "EMPTY:0000434",
+      "definition": "The channel, on the acquisition system whose clock is mapped to, whose trigger events a clock alignment rule matches.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
+      "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "error on failure",
+      "node": "EMPTY:0000435",
+      "definition": "Whether a procedure stops with an error, rather than returning without a result, when it cannot complete.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
+      "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
       "name": "Conversion",
       "node": "EDAM:operation_3434",
       "definition": "Convert a data set from one form to another.",

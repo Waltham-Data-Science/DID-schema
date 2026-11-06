@@ -9,6 +9,20 @@ Last updated 2026-11-03.
 
 ## State at 2026-11-06 (read with the 2026-11-04 state below)
 
+- **Morning of 2026-11-06 (Jess Haley, in conversation):**
+  - "Merge them all for me": DID-matlab #393 (eb7b0bd7, the SQLite index
+    fix), NDI-matlab #1186 (8fccf7aa, [new dataset named by its reference])
+    and empty-ontology #38 (6c41ecbf, the five sync-rule terms) merged by
+    Claude.
+  - Dab slices: "a but I feel like dab certainly had more animals, but I
+    don't know if we had that info." Build [sliceTetanus to Dab map] now;
+    whether Dab had more animals than its 215 v1 subjects is a Dab map
+    question (the source data has not been found).
+  - Branches: "Why can't you open more than one? You can open as many as you
+    want". did-schema work may use more than one `claude/` branch; the
+    CLAUDE.md PR gets its own.
+  - OPEN_WORK row #31: "A". did-schema #94 reopened.
+
 - Steve Van Hooser closed DID-matlab #240 and #204 and NDI-matlab #1001,
   #974, #804, #168 and #787 on 2026-11-05.
 - DID-matlab #225: Jess Haley, 2026-11-06: "Finish the 225 work then close

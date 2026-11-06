@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 738,
+          "accepted_lines": 739,
           "accepted_lines_by_kind": {
-            "Decided by": 618,
+            "Decided by": 619,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5280,7 +5280,15 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1996,
+              "line": 1995,
+              "kind": "Decided by",
+              "tag": "sync rule terms",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [sync rule terms]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1997,
               "kind": "Decided by",
               "tag": "openMINDS crosswalk on latest",
               "date": "2026-11-06",
@@ -5288,7 +5296,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 1998,
+              "line": 1999,
               "kind": "Decided by",
               "tag": "crosswalk assertions registered",
               "date": "2026-11-06",
@@ -5296,7 +5304,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2000,
+              "line": 2001,
               "kind": "Decided by",
               "tag": "unmapped roles not exported",
               "date": "2026-11-06",

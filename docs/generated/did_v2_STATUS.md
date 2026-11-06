@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 215 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 236 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 0 |
-| build: migrator lines inspected | 86989 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 46900 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 40089 |
+| build: migrator lines inspected | 87030 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 46936 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 40094 |
 | build: classes queried | 11 |
 | build: open classes MINTED as a document class | 2 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 2 |
@@ -201,7 +201,7 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/+roundtrip/stimulus_response_scalar_parameters_basic.m:167` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/subjectmeasurement.m:93` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncgraph.m:40` | `CLASS` |
-| `DID-matlab:convert/+roundtrip/syncrule.m:134` | `CLASS` |
+| `DID-matlab:convert/+roundtrip/syncrule.m:138` | `CLASS` |
 | `DID-matlab:convert/resolveEpochProbemap.m:1109` | `kind.className` |
 | `DID-matlab:convert/resolveEpochProbemap.m:1796` | `entry.class` |
 | `DID-matlab:migrators_j/gene_list_mapping.m:184` | `valueClass` |
@@ -382,7 +382,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 124 document(s) read (3 generated copies excluded); 738 decision line(s) accepted, 2 rejected; 44 cited by a class, 694 cited by none.
+DENOMINATOR: 124 document(s) read (3 generated copies excluded); 739 decision line(s) accepted, 2 rejected; 44 cited by a class, 695 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -956,9 +956,10 @@ field). If one decides a class's disposition, that class should cite it.
 - open work lives in issues. "Decided by Jess Haley, 2026-11-03 [open work lives in" (did_v2_go_forward_class_audit.md:1990).
 - carry-051 and carry-095 retired. "Decided by Jess Haley, 2026-11-06 [carry-051 and carry-095" (did_v2_go_forward_class_audit.md:1992).
 - control pairing without trials stays carried. "Decided by Jess Haley, 2026-11-06 [control pairing without" (did_v2_go_forward_class_audit.md:1994).
-- openMINDS crosswalk on latest. "Decided by Jess Haley, 2026-11-06 [openMINDS crosswalk on" (did_v2_go_forward_class_audit.md:1996).
-- crosswalk assertions registered. "Decided by Jess Haley, 2026-11-06 [crosswalk assertions" (did_v2_go_forward_class_audit.md:1998).
-- unmapped roles not exported. "Decided by Jess Haley, 2026-11-06 [unmapped roles not" (did_v2_go_forward_class_audit.md:2000).
+- sync rule terms. "Decided by Jess Haley, 2026-11-06 [sync rule terms]: (" (did_v2_go_forward_class_audit.md:1995).
+- openMINDS crosswalk on latest. "Decided by Jess Haley, 2026-11-06 [openMINDS crosswalk on" (did_v2_go_forward_class_audit.md:1997).
+- crosswalk assertions registered. "Decided by Jess Haley, 2026-11-06 [crosswalk assertions" (did_v2_go_forward_class_audit.md:1999).
+- unmapped roles not exported. "Decided by Jess Haley, 2026-11-06 [unmapped roles not" (did_v2_go_forward_class_audit.md:2001).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
