@@ -51,11 +51,49 @@ Last updated 2026-11-03.
     and clean it up"; F-Q1 "Yes" (reopen #136, #146, #156; issues A and B;
     sibling issues). F-Q2 (retire carry-051 and carry-095) and F-Q3
     (carry-090's kind) are still open.
+  - Third batch, answered 2026-11-06: F-Q2 "Yes" to retiring carry-051 and
+    carry-095; F-Q3 "B" (carry-090 stays v1 by decision, both cases; she
+    asked whether a relation between the two value documents fits: the v1
+    pairing is per trial within one presentation, so no).
+  - Fourth batch, answered 2026-11-06: G107 "A" ([hartley copies kept while
+    files absent]); new dataset name "Yes" ([new dataset named by its
+    reference]); sync-rule terms "Let's do them now": five EMPTY terms
+    proposed (minimum matching file paths, minimum embedded file overlap,
+    from trigger channel, to trigger channel, error on failure), awaiting
+    approval of the wording; deleting the 5 leftover branches: "I can't
+    delete now. Queue this at the end of the questions and I'll clean up
+    later" (last in the queue).
   - Asked: is the slowness a design flaw of the V2 schema? Claude's reading
     (not a decision): no. The data is correct (B is equivalent), and the
     `+vintage` compatibility readers search once per epoch per piece. A
     normalised schema makes per-item reads costly, and batched reads remove
     the cost.
+- **v2 makers: idea to start the conversation after ingestion (G84).**
+  Jess Haley, 2026-11-06: "Note this idea (I don't approve, but it can
+  start our conversation after we finish ingestion)". Proposed (not
+  decided). Her problems with the v1 makers: "They weren't all cohesive
+  together in their methods and function. Some overwrote documents and
+  some didn't. If you made a mistake and needed to run them again, you
+  often needed to perform a database search and deletion rather than doing
+  it with a maker method."
+  - One base class, four methods: `plan(session, inputs)` builds and
+    `did2.build`-checks the v2 documents and writes nothing; `make(...,
+    'Existing', mode)` writes them in one transaction; `find(session,
+    inputs)` returns what the maker wrote for those inputs; `remove(session,
+    inputs)` deletes exactly that set.
+  - Each maker declares an identity key. Existing documents for the key:
+    `'error'` (default), `'replace'` (remove and rewrite, one transaction),
+    `'keep'`.
+  - Every document written carries a `software_id` edge to the maker
+    (versioned `software` entity) and its identity key, so `find`/`remove` is
+    one exact query.
+  - Writes final v2 shapes directly; no v1 or openMINDS intermediate.
+  - Open: the default mode; whether `remove` touches documents others
+    attached later (proposed: refuse and list); which makers.
+  - Jess Haley, 2026-11-06: "the v2 makers should work with v2. There
+    should be entity, relation, and statement makers." So the makers follow
+    the v2 model, not the v1 maker list: one maker each for `entity`,
+    `relation` and `statement` (Proposed shape to discuss after G84).
 
 ## State at 2026-11-04 (read with the 2026-11-03 state below)
 

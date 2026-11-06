@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 725,
+          "accepted_lines": 727,
           "accepted_lines_by_kind": {
-            "Decided by": 605,
+            "Decided by": 607,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5197,6 +5197,22 @@
               "tag": "v2 makers after G84",
               "date": "2026-11-06",
               "anchor": "Decided by Jess Haley, 2026-11-06 [v2 makers after G84]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1977,
+              "kind": "Decided by",
+              "tag": "hartley copies kept while files absent",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [hartley copies kept"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1979,
+              "kind": "Decided by",
+              "tag": "new dataset named by its reference",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [new dataset named by its"
             },
             {
               "document": "did_v2_image_model_plan.md",
