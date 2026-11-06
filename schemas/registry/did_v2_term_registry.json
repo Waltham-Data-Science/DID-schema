@@ -2628,6 +2628,118 @@
       "synonyms": []
     },
     {
+      "name": "Mus musculus",
+      "node": "NCBITaxon:10090",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/musMusculus"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Rattus norvegicus",
+      "node": "NCBITaxon:10116",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/rattusNorvegicus"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Homo sapiens",
+      "node": "NCBITaxon:9606",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/homoSapiens"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Macaca mulatta",
+      "node": "NCBITaxon:9544",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/macacaMulatta"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Danio rerio",
+      "node": "NCBITaxon:7955",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/danioRerio"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Drosophila melanogaster",
+      "node": "NCBITaxon:7227",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/drosophilaMelanogaster"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Mustela putorius furo",
+      "node": "NCBITaxon:9669",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/mustelaPutoriusFuro"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "Felis catus",
+      "node": "NCBITaxon:9685",
+      "definition": "",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-06 [common species registered]",
+      "first_used_in": "registered ahead of use: common laboratory species (Jess Haley, 2026-11-06)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "openminds:species/felisCatus"
+      ],
+      "synonyms": []
+    },
+    {
       "name": "hermaphrodite",
       "node": "PATO:0001340",
       "definition": "A biological sex quality inhering in an organism or a population with both male and female sexual organs in one individual.",

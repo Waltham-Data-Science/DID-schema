@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 723,
+          "accepted_lines": 725,
           "accepted_lines_by_kind": {
-            "Decided by": 603,
+            "Decided by": 605,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5181,6 +5181,22 @@
               "tag": "old names guarded in comments",
               "date": "2026-11-03",
               "anchor": "Decided by Jess Haley, 2026-11-03 [old names guarded in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1973,
+              "kind": "Decided by",
+              "tag": "common species registered",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [common species"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1975,
+              "kind": "Decided by",
+              "tag": "v2 makers after G84",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [v2 makers after G84]: ("
             },
             {
               "document": "did_v2_image_model_plan.md",

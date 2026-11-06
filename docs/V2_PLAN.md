@@ -45,6 +45,12 @@ Last updated 2026-11-03.
     `claude/v2-epoch-read-speed`. It batches the `+vintage` reads per
     acquisition system and checks the per-search cost in did2sqlite. Its PR
     removes the Dab skip.
+  - Second batch, answered 2026-11-06: species (a), recorded as [common
+    species registered]; makers after G84 with the design discussed first,
+    recorded as [v2 makers after G84]; OPEN_WORK row 45 "Mark it finished
+    and clean it up"; F-Q1 "Yes" (reopen #136, #146, #156; issues A and B;
+    sibling issues). F-Q2 (retire carry-051 and carry-095) and F-Q3
+    (carry-090's kind) are still open.
   - Asked: is the slowness a design flaw of the V2 schema? Claude's reading
     (not a decision): no. The data is correct (B is equivalent), and the
     `+vintage` compatibility readers search once per epoch per piece. A
