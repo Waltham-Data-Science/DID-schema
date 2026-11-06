@@ -893,22 +893,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-051",
-      "v1_class": "image",
-      "fields": [
-        "image.label"
-      ],
-      "when": "`image.label` is not empty (DID-matlab image.m, 'unplaced: image.label')",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "generic stage is lossless"
-      },
-      "open_work": 138,
-      "home": "none decided",
-      "kind_basis": "decided"
-    },
-    {
       "id": "carry-052",
       "v1_class": "imageStack",
       "fields": [
@@ -1451,14 +1435,19 @@
         "control_stimulus_ids.control_stimulus_ids"
       ],
       "when": "its presentation became a standalone item (no subject) or a frame sequence (Hartley), so the control pairing calculation has no subject or no trials (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
-      "kind": "awaiting_home",
+      "kind": "not_modelled",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "control pairing is a calculation"
+        "tag": "control pairing without trials stays carried"
       },
-      "open_work": 148,
-      "home": "none decided: a control pairing for a standalone item or a frame sequence",
-      "kind_basis": "proposed"
+      "do_not": {
+        "line": "do not give the control-pairing `calculation` a v1 `control_stimulus_ids` block for a presentation that became a standalone item or a frame sequence: there is no subject, or no separate trials or blanks, to pair, so that v1 document stays carried as v1 by decision ([control pairing without trials stays carried], [standalone item control stays carried])",
+        "class": "calculation",
+        "fields": [
+          "control_stimulus_ids"
+        ]
+      },
+      "kind_basis": "stated"
     },
     {
       "id": "carry-091",
@@ -1530,22 +1519,6 @@
       "open_work": 149,
       "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain",
       "kind_basis": "proposed"
-    },
-    {
-      "id": "carry-095",
-      "v1_class": "ontologyLabel",
-      "fields": [
-        "ontologyLabel.<template fields beside ontology_node that the term observation does not write>"
-      ],
-      "when": "the label states a template field the term observation does not write; a field outside the template, or an edge other than document_id, is carry-100 (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "ontologyLabel row split"
-      },
-      "open_work": 150,
-      "home": "none decided",
-      "kind_basis": "decided"
     },
     {
       "id": "carry-096",

@@ -1,0 +1,279 @@
+{
+    "fetched_at": "2026-11-06T04:46:11Z",
+    "issues": {
+        "VH-Lab/DID-matlab#395": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Correct the three comments that still say \"#30, NOT BUILT\" (did-schema OPEN_WORK #30)"
+        },
+        "VH-Lab/DID-matlab#396": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "acquisition_epoch is still the carrier of the ensemble cache (did-schema OPEN_WORK #60)"
+        },
+        "VH-Lab/DID-matlab#397": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Two code reads of the old class name session_relative_reference (did-schema OPEN_WORK #65)"
+        },
+        "VH-Lab/DID-matlab#398": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "epochMint still reads the old method_parameters class: re-check the inline method slot (did-schema OPEN_WORK #74)"
+        },
+        "VH-Lab/DID-matlab#399": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "census digest: print a denominator for EDGE-FAMILY CARDINALITY VIOLATIONS (did-schema OPEN_WORK #79)"
+        },
+        "VH-Lab/DID-matlab#400": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "epochclocktimes reaches no v2 target (did-schema OPEN_WORK #113 step 3)"
+        },
+        "VH-Lab/DID-matlab#401": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Spatial-transcriptomics migrators do not emit their decided targets (did-schema OPEN_WORK #119b / #122)"
+        },
+        "VH-Lab/DID-matlab#402": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "V_epsilon / V_zeta names left in code (did-schema OPEN_WORK #128)"
+        },
+        "VH-Lab/NDI-matlab#1184": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "ontologyImage: build the raster arm in the second pass (did-schema OPEN_WORK #47)"
+        },
+        "VH-Lab/NDI-matlab#1185": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A second pass for spike_interface_sorting_outputs, the one spike class with no carry row (did-schema OPEN_WORK #9)"
+        },
+        "Waltham-Data-Science/DID-schema#100": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Is `metadata_editor` always written alongside the openMINDS dataset graph? (blocked: needs the metadata-editor app) (OPEN_WORK #73, #72 group B)"
+        },
+        "Waltham-Data-Science/DID-schema#105": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "`daqreader_*_epochdata_ingested` declare no `epoch_id`, so their epoch arms are dead on real data (OPEN_WORK #66)"
+        },
+        "Waltham-Data-Science/DID-schema#106": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Corpus proof for the spatial-transcriptomics family (deferred: no corpus holds it) (OPEN_WORK #124)"
+        },
+        "Waltham-Data-Science/DID-schema#107": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Controlled-term bindings for the spatial-transcriptomics fields (OPEN_WORK #126)"
+        },
+        "Waltham-Data-Science/DID-schema#136": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": "reopened",
+            "title": "A home for a filter's `label` when it differs from its `type` (OPEN_WORK #131)"
+        },
+        "Waltham-Data-Science/DID-schema#146": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": "reopened",
+            "title": "A home for an `imageStack`'s `document_id` edge (OPEN_WORK #139)"
+        },
+        "Waltham-Data-Science/DID-schema#147": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A home for `position_metadata` units and dimensions (OPEN_WORK #140)"
+        },
+        "Waltham-Data-Science/DID-schema#150": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for calculator fields the tuning folds cannot place (OPEN_WORK #143)"
+        },
+        "Waltham-Data-Science/DID-schema#155": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for `stimulus_presentation` fields the decomposition does not write (OPEN_WORK #146)"
+        },
+        "Waltham-Data-Science/DID-schema#156": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": "reopened",
+            "title": "Homes for `control_stimulus_ids` fields the control calculation does not write (OPEN_WORK #147)"
+        },
+        "Waltham-Data-Science/DID-schema#158": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for openMINDS Strain and fragment fields (OPEN_WORK #149)"
+        },
+        "Waltham-Data-Science/DID-schema#197": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for spikewaves, spike_clusters and binnedspikeratevm (carried as v1, carry-101..103)"
+        },
+        "Waltham-Data-Science/DID-schema#198": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A home for simple_calc, only if a real dataset holds one (carry-104)"
+        },
+        "Waltham-Data-Science/DID-schema#199": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A home for a dataset form's subject, species, strain and sex lists (carry-105)"
+        },
+        "Waltham-Data-Science/DID-schema#200": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A home for a statement's v1 name (carry-106)"
+        },
+        "Waltham-Data-Science/DID-schema#201": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A home for a legacy ndi_document block beside base (carry-049)"
+        },
+        "Waltham-Data-Science/DID-schema#202": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Ingested stimulus data body: a proper epoch link instead of matching description text"
+        },
+        "Waltham-Data-Science/DID-schema#212": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for the carries recorded 2026-10-28 (carry-112, carry-114, carry-116, carry-117, carry-118)"
+        },
+        "Waltham-Data-Science/DID-schema#230": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Remaining quantity cell copies, and the viewer expanding a quantity reference"
+        },
+        "Waltham-Data-Science/DID-schema#232": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for an openMINDS element's openminds_id and description (carry-128)"
+        },
+        "Waltham-Data-Science/DID-schema#234": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for the retire classes now carried as v1 (carry-136..146)"
+        },
+        "Waltham-Data-Science/DID-schema#260": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for NDIcalc-vis hartley_reverse_correlation and reverse_correlation (carried as v1)"
+        },
+        "Waltham-Data-Science/DID-schema#286": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Carried v1 fields whose v2 home waits for a dataset that holds them (carry-001, carry-015, carry-075; OPEN_WORK #130, #135, #145)"
+        },
+        "Waltham-Data-Science/DID-schema#287": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Migrators or decided homes for the seven v1 classes with no migrator (carry-158..carry-164; OPEN_WORK #136, #103)"
+        },
+        "Waltham-Data-Science/DID-schema#89": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Bindings become required: `variable` on every statement, and a node on every term (OPEN_WORK #129, #32)"
+        },
+        "Waltham-Data-Science/DID-schema#91": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Spatial-transcriptomics tiles and cells onto the data_body fields (axes, format, compression) (OPEN_WORK #125)"
+        },
+        "Waltham-Data-Science/DID-schema#94": {
+            "author": "jesshaley",
+            "closed_at": "2026-10-30T12:32:52Z",
+            "state": "closed",
+            "state_reason": "completed",
+            "title": "Stimulus model: non-grating stimuli need a value model, and the unfolded presentations need a disposition (OPEN_WORK #31)"
+        },
+        "Waltham-Data-Science/DID-schema#98": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Define a value rollup for `sampled_body` to replace the dropped `summary` (OPEN_WORK #68)"
+        },
+        "Waltham-Data-Science/empty-ontology#37": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "EMPTY duplicate and synonym review, deferred until Dabrowska, Babu and Hunsberger are migrated (did-schema OPEN_WORK #127)"
+        }
+    },
+    "why": "The state of the GitHub issues the OPEN rows of docs/did_v2_OPEN_WORK.md point at, read by tools/check_open_work_issues.py, which runs offline. Written by `--refresh` (network); moved deliberately and committed. [open work lives in issues], Jess Haley, 2026-11-03."
+}

@@ -1,11 +1,23 @@
-# V_eta — OPEN WORK (the committed index)
+# V_eta — OPEN WORK (frozen: a lookup from row number to issue)
 
-**This file is the index of remaining V_eta work.** Every `#nn` in the plan documents points
-at a row here. Since 2026-10-21 each open row is one line pointing at its GitHub issue, and
-the evidence lives in the issue. The full text this file carried until then (reconciliation
-audits, long row prose, completed-row write-ups) is in git: `git show 6523cb1:docs/did_v2_OPEN_WORK.md`.
+**FROZEN on 2026-11-03. Open work lives only in GitHub issues; this file takes no new rows.**
+Jess Haley's decision of 2026-11-03, [open work lives in issues] in `did_v2_go_forward_class_audit.md`;
+the issues for the open rows were reopened or opened on 2026-11-06.
+A `#nn` in a plan document, a carry register row (`open_work`) or a sibling comment is a row
+here, and the row points at the GitHub issue that tracks it. Look the number up, then read the
+issue: the issue holds the evidence and the state. New work is a new issue, never a new row.
 
-`python3 tools/status_board.py` owns *decision* state. This file owns *build and repair* state.
+What may still change here: a row's issue link (when its issue is reopened or a new one is
+opened), and a row moving from OPEN to COMPLETED when its work is done. Nothing else.
+`python3 tools/check_open_work_issues.py` is the gate: every row under `## OPEN` points at an
+open issue (read from the committed snapshot `tools/open_work_issues.json`, refreshed with
+`--refresh`), no row is added, and the rows still waiting for an issue are listed in the
+tool's `AWAITING_ISSUE` until they get one.
+
+The full text this file carried until 2026-10-21 (reconciliation audits, long row prose,
+completed-row write-ups) is in git: `git show 6523cb1:docs/did_v2_OPEN_WORK.md`.
+
+`python3 tools/status_board.py` owns *decision* state. GitHub issues own *build and repair* state.
 
 Only Jess Haley decides. An issue marked "Proposed (not decided)" is a proposal.
 
@@ -17,10 +29,9 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 
 | # | item -> issue |
 |---|---|
-| 30 | raw recordings as typed observations: Guard A has no value kind (the assembler is live) -> https://github.com/Waltham-Data-Science/DID-schema/issues/104 (issue #104 closed 2026-10-29; kept OPEN: DID-matlab comments at the locked head still say "#30, NOT BUILT" (`check_build_claims.py` rule B); moves when they are corrected) |
+| 30 | raw recordings as typed observations: Guard A has no value kind (the assembler is live) -> https://github.com/VH-Lab/DID-matlab/issues/395 (did-schema #104 closed 2026-10-29; left: DID-matlab comments at the locked head still say "#30, NOT BUILT" (`check_build_claims.py` rule B)) |
 | 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 (issue #94 closed 2026-10-30; kept OPEN: carry-084 (`awaiting_home`) still cites this row (`check_carry_register.py` C5)) |
 | 32 | binding governance (T8): the remaining clause is #129 -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
-| 57 | clock alignment cluster: is `acquisition_channels`' own dependency set covered by the signature? -> https://github.com/Waltham-Data-Science/DID-schema/issues/95 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id` -> https://github.com/Waltham-Data-Science/DID-schema/issues/105 |
 | 68 | a value rollup for `sampled_body` -> https://github.com/Waltham-Data-Science/DID-schema/issues/98 |
 | 72 | the unattached `openminds` documents, group B (group A is NDI-side) -> https://github.com/Waltham-Data-Science/DID-schema/issues/100 |
@@ -29,21 +40,17 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 125 | spatial-transcriptomics tiles and cells onto the data_body fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/91 |
 | 126 | controlled-term bindings for the spatial-transcriptomics fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/107 |
 | 129 | bindings become `required`: `variable`, and a node on every term -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
-| 130 | a v2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/135 (issue #135 closed 2026-10-27; kept OPEN: carry-001 (`awaiting_home`) still cites this row (C5)) |
-| 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 (issue #136 closed 2026-10-29; kept OPEN: carry-007 (`awaiting_home`) still cites this row (C5)) |
-| 132 | `data_body.compression` as a {term, parameters} block, siblings first (carry-010) -> https://github.com/Waltham-Data-Science/DID-schema/issues/137 |
-| 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/140 (issue #140 closed 2026-10-27; kept OPEN: carry-015 (`awaiting_home`) still cites this row (C5)) |
-| 136 | migrators read raw v1; delete `universalRenames` -> https://github.com/Waltham-Data-Science/DID-schema/issues/143 (`universalRenames` deleted in DID-matlab dac31a67, #351; carry-049 retired; kept OPEN: carry-158..carry-164 (`awaiting_home`) still cite this row (C5)) |
-| 138 | a home for `image.label` (carry-051) -> https://github.com/Waltham-Data-Science/DID-schema/issues/145 (issue #145 closed 2026-10-29; kept OPEN: carry-051 (`awaiting_home`) still cites this row (C5)) |
-| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 (issue #146 closed 2026-10-29; kept OPEN: carry-067 (`awaiting_home`) still cites this row (C5)) |
+| 130 | a v2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-001, with carry-015 and carry-075: a home is designed only when a dataset holds the field; #135 closed 2026-10-27 on that decision) |
+| 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 (reopened 2026-11-06: the all-pass filter label, carry-007) |
+| 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-015; #140 closed 2026-10-27 on [hartley labels stay carried]) |
+| 136 | migrators read raw v1; delete `universalRenames` -> https://github.com/Waltham-Data-Science/DID-schema/issues/287 (the seven classes with no migrator, carry-158..carry-164; #143's own scope, deleting `universalRenames`, is done: DID-matlab dac31a67, #351) |
+| 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 (reopened 2026-11-06: a v1 `image`'s `document_id` edge, carry-067; the imageStack edge is carry-052, `needs_mapping`) |
 | 140 | a home for `position_metadata` units and dimensions (carry-053) -> https://github.com/Waltham-Data-Science/DID-schema/issues/147 |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
-| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/154 (issue #154 closed 2026-10-29; kept OPEN: carry-075 (`awaiting_home`) still cites this row (C5)) |
+| 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-075; #154 closed 2026-10-29 on [session opener inputs]) |
 | 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/155 |
-| 147 | homes for `control_stimulus_ids` fields the control calculation does not write (carry-089) -> https://github.com/Waltham-Data-Science/DID-schema/issues/156 (issue #156 closed 2026-10-29; kept OPEN: carry-089 (`awaiting_home`) still cites this row (C5)) |
-| 148 | control pairing for a standalone item or a frame sequence (carry-090) -> https://github.com/Waltham-Data-Science/DID-schema/issues/157 (issue #157 closed 2026-10-29; kept OPEN: carry-090 (`awaiting_home`) still cites this row (C5)) |
+| 147 | homes for `control_stimulus_ids` fields the control calculation does not write (carry-089) -> https://github.com/Waltham-Data-Science/DID-schema/issues/156 (reopened 2026-11-06: carry-089, and G34 in `docs/V2_PLAN.md`) |
 | 149 | homes for openMINDS Strain and fragment fields (carry-092, carry-094) -> https://github.com/Waltham-Data-Science/DID-schema/issues/158 |
-| 150 | homes for `ontologyLabel` fields and edges (carry-095) -> https://github.com/Waltham-Data-Science/DID-schema/issues/159 (issue #159 closed 2026-10-29; kept OPEN: carry-095 (`awaiting_home`) still cites this row (C5)) |
 | 153 | homes for `spikewaves`, `spike_clusters` and `binnedspikeratevm`, carried as v1 (carry-101, carry-102, carry-103) -> https://github.com/Waltham-Data-Science/DID-schema/issues/197 |
 | 154 | a home for `simple_calc`, designed only if a real dataset holds one (carry-104) -> https://github.com/Waltham-Data-Science/DID-schema/issues/198 |
 | 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/199 |
@@ -62,24 +69,29 @@ Open items without a row number: none (the last two, #108 and #104, are under CO
 
 | row | repository | what is open |
 |---|---|---|
-| 9 | DID-matlab / NDI-matlab | D-C spike half: 7 spike classes (`spikewaves`, `spike_clusters`, `vmspikesummary`, `binnedspikeratevm`, `site2channelmap`, `vmneuralresponseresiduals`, `spike_interface_sorting_outputs`) pass through to an NDI second pass that does not exist |
-| 45 | DID-matlab / NDI-matlab | data_body: the schema tier is built; `sample_time` is still named in 15 `.m` files under DID-matlab `src` at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`), 4 of them on non-comment lines (`grep -rl sample_time --include=*.m src`; was 25 on ecstatic before the port, 2026-10-21) |
-| 47 | DID-matlab | the `ontology_image` vintage-B raster arm in `+migrators_j/ontology_image.m`; decided target `observation + intensity` + `sampled_body` (ledger); at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) the migrator emits `observation + term` and `relative_time_reference` only, so the ledger row `ontologyImage` still reads rung 3 `no` |
-| 60 | DID-matlab / NDI-matlab | epoch family migrator half: `acquisition_epoch` stays the carrier until the ensemble second pass lands |
-| 61 | DID-matlab | `stimulus_response_scalar.m` is a passthrough; the ledger names a `harmonic_component` calculation as the decided target, which it does not emit (rung 3 `no`) |
-| 65 | DID-matlab / NDI-matlab | time-reference collapse: the schema side is complete. At DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) NO `+convert` file mints `session_relative_reference` (the status board's mint detector over 190 V_eta-path files finds 0 sites; `private/jSessionAnchor.m:36` mints `relative_time_reference` through `did2.build.relativeTimeReference`), and NDI `claude/v-eta-migration-plan-35jj1z` (`095debb22`) names it only in comments and messages. Residual: two code READS of the old name (`epochMint.m:2502`, `resolveSessionAnchors.m:423`) and the PARTIAL `treatment` target row, which can only gain. Closing the row is Jess's call |
-| 74 | DID-matlab | settings model migrator half (`method_parameters`, now `method`): retype the inline slot in lockstep with `jCalculation.m`; the four spike-settings classes. At DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) the four (`sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`) emit `method` (`private/jMethodParameters.m:150`; ledger rung 3 `yes` on all four); whether the inline slot is done was not re-checked |
-| 79 | DID-matlab | family-count measurement: the port-88 digest prints `EDGE-FAMILY CARDINALITY VIOLATIONS: 0` with no denominator line, so it is not evidence yet |
-| 103 | DID-matlab | `valid_interval`: the decided target is `observation + time` (was spelled `time_observation`; ledger); `resolveValidIntervals` is dormant and emits nothing (rung 3 `no`; its header still reads "DORMANT BY DECISION" at `c74f4e0`) |
-| 113 step 3 | DID-matlab | see the epoch-extent sign-off below: steps 1-2 built, step 3 ruled out; the ledger row `epochclocktimes` -> `relative_time_reference` still reads rung 3 `no` |
-| 119b / 122 | DID-matlab | spatial-transcriptomics migrators exist (8); on #88 the pyramid passes through |
-| 127 | empty-ontology | EMPTY duplicate and synonym review, deferred until the Dabrowska, Babu and Hunsberger datasets are migrated (Jess Haley, 2026-10-21); full list in `git show 6523cb1:docs/did_v2_OPEN_WORK.md` |
-| 128 | DID-matlab / NDI-matlab | the DID-schema half is done (`tools/build_v_eta.py` and the `V_alpha`..`V_zeta` trees are deleted); residual: NDI `stimulusBathToBath.m:122` defaults `targetVersion = 'V_zeta'`, and DID-matlab has 25 `.m` files that mention V_epsilon or V_zeta at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) (`grep -rlE 'V_epsilon|V_zeta' --include=*.m .`; was 28) |
+| 9 | DID-matlab / NDI-matlab | D-C spike half: 7 spike classes (`spikewaves`, `spike_clusters`, `vmspikesummary`, `binnedspikeratevm`, `site2channelmap`, `vmneuralresponseresiduals`, `spike_interface_sorting_outputs`) pass through to an NDI second pass that does not exist -> https://github.com/VH-Lab/NDI-matlab/issues/1185 (`spike_interface_sorting_outputs`; the other six are carried, rows #153 and #164) |
+| 47 | DID-matlab | the `ontology_image` vintage-B raster arm in `+migrators_j/ontology_image.m`; decided target `observation + intensity` + `sampled_body` (ledger); at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) the migrator emits `observation + term` and `relative_time_reference` only, so the ledger row `ontologyImage` still reads rung 3 `no` -> https://github.com/VH-Lab/NDI-matlab/issues/1184 |
+| 60 | DID-matlab / NDI-matlab | epoch family migrator half: `acquisition_epoch` stays the carrier until the ensemble second pass lands -> https://github.com/VH-Lab/DID-matlab/issues/396 |
+| 65 | DID-matlab / NDI-matlab | time-reference collapse: the schema side is complete. At DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) NO `+convert` file mints `session_relative_reference` (the status board's mint detector over 190 V_eta-path files finds 0 sites; `private/jSessionAnchor.m:36` mints `relative_time_reference` through `did2.build.relativeTimeReference`), and NDI `claude/v-eta-migration-plan-35jj1z` (`095debb22`) names it only in comments and messages. Residual: two code READS of the old name (`epochMint.m:2502`, `resolveSessionAnchors.m:423`) and the PARTIAL `treatment` target row, which can only gain. Closing the row is Jess's call -> https://github.com/VH-Lab/DID-matlab/issues/397 |
+| 74 | DID-matlab | settings model migrator half (`method_parameters`, now `method`): retype the inline slot in lockstep with `jCalculation.m`; the four spike-settings classes. At DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) the four (`sorting_parameters`, `spike_extraction_parameters`, `spike_extraction_parameters_modification`, `vmspikefilteringparameters`) emit `method` (`private/jMethodParameters.m:150`; ledger rung 3 `yes` on all four); whether the inline slot is done was not re-checked -> https://github.com/VH-Lab/DID-matlab/issues/398 |
+| 79 | DID-matlab | family-count measurement: the port-88 digest prints `EDGE-FAMILY CARDINALITY VIOLATIONS: 0` with no denominator line, so it is not evidence yet -> https://github.com/VH-Lab/DID-matlab/issues/399 |
+| 103 | DID-matlab | `valid_interval`: the decided target is `observation + time` (was spelled `time_observation`; ledger); `resolveValidIntervals` is dormant and emits nothing (rung 3 `no`; its header still reads "DORMANT BY DECISION" at `c74f4e0`) -> https://github.com/Waltham-Data-Science/DID-schema/issues/287 (`valid_interval` is carry-164 there) |
+| 113 step 3 | DID-matlab | see the epoch-extent sign-off below: steps 1-2 built, step 3 ruled out; the ledger row `epochclocktimes` -> `relative_time_reference` still reads rung 3 `no` -> https://github.com/VH-Lab/DID-matlab/issues/400 |
+| 119b / 122 | DID-matlab | spatial-transcriptomics migrators exist (8); on #88 the pyramid passes through -> https://github.com/VH-Lab/DID-matlab/issues/401 |
+| 127 | empty-ontology | EMPTY duplicate and synonym review, deferred until the Dabrowska, Babu and Hunsberger datasets are migrated (Jess Haley, 2026-10-21); full list in `git show 6523cb1:docs/did_v2_OPEN_WORK.md` -> https://github.com/Waltham-Data-Science/empty-ontology/issues/37 |
+| 128 | DID-matlab / NDI-matlab | the DID-schema half is done (`tools/build_v_eta.py` and the `V_alpha`..`V_zeta` trees are deleted); residual: NDI `stimulusBathToBath.m:122` defaults `targetVersion = 'V_zeta'`, and DID-matlab has 25 `.m` files that mention V_epsilon or V_zeta at DID-matlab #218 `c74f4e0` (port to #88 merged at `229c12e`) (`grep -rlE 'V_epsilon|V_zeta' --include=*.m .`; was 28) -> https://github.com/VH-Lab/DID-matlab/issues/402 (DID-matlab) and https://github.com/VH-Lab/NDI-matlab/issues/1183 (NDI-matlab) |
 
 ## COMPLETED (kept so the `#nn` numbering stays stable)
 
 | # | what completed |
 |---|---|
+| 57 | `acquisition_channels`' dependency set and the sync-configuration signature: moot, the class is retired (`acquisition_channels` in `tools/veta_record.py` RETIRED_CLASSES; the class file and `interaction.acquisition_channels_id` removed in #273, merged 2026-11-02); #95 closed (not planned) 2026-11-03 |
+| 132 | `data_body.compression` as a {term, parameters} block: built in all four repositories ([compression block and empty levels] reads Built: did-schema, DID-matlab 4d4026d #340, NDI-matlab d746642 #1128; empty-ontology 89c949e #35); declared in `schemas/did_v2/data_body/data_body.json`; #137 closed 2026-11-03 |
+| 61 | `stimulus_response_scalar` emits its decided target: DID-matlab `+migrators_j/stimulus_response_scalar.m` (locked head b34a6bae; still rung 3 at 638d03c8) builds a `calculation` with value kind `harmonic_component`, and the coverage ledger row reads rung 3 "the migrator emits THE DECIDED targets"; no issue was opened (sibling-repo row), moved 2026-11-03 under [open work lives in issues] |
+| 138 | a home for `image.label`: none needed. [image label goes to the observation's notes] writes a non-empty v1 `image.label` to the observation's `notes` (built, DID-matlab 96ba2a0a), so carry-051 was retired under [carry-051 and carry-095 retired] (Jess Haley, 2026-11-06); #145 closed 2026-10-29 |
+| 150 | homes for `ontologyLabel` fields and edges: none needed. Under [ontologyLabel row split] a field outside the template or an extra edge is carry-100 (malformed), and no template field is left for carry-095 (DID-matlab `+migrators_j/ontology_label.m` and NDI-matlab `+migrate/+internal/ontologyLabelSubjects.m` both say it has no site), so carry-095 was retired under [carry-051 and carry-095 retired] (Jess Haley, 2026-11-06); #159 closed 2026-10-29 |
+| 45 | data_body `sample_time`: finished (Jess Haley, 2026-11-06, "Mark it finished and clean it up"). At DID-matlab `V2` 638d03c8 `grep -rnw sample_time --include=*.m src` finds 15 lines in 8 files, all comments, and none in NDI-matlab `V2` 0fe20152. Comment cleanup built: DID-matlab 20f322e5 (#394, merged into `V2`; comments only). One stale claim it did not touch, `+migrators_j/vmspikefilteringparameters.m` ("#45 is not built"), still fails `check_build_claims.py` rule B |
+| 148 | control pairing for a standalone item or a frame sequence: none needed. Such a v1 `control_stimulus_ids` stays carried as v1 by decision ([control pairing without trials stays carried], Jess Haley, 2026-11-06; the standalone-item case was already [standalone item control stays carried]); carry-090 is now `not_modelled`; #157 closed 2026-10-29 |
 | 46 | `ngrid` retired: `retiring/ngrid.json` deleted in #250 (2d58d2b) under [retire check now]; DID-matlab `+migrators/ngrid.m` carries every v1 `ngrid`, its last consumer `reverse_correlation` deleted (c648f65); #92 closed 2026-10-31 |
 | 62 | `stimulus_parameter` dissolution: not completed; closed as a duplicate of #234 (row #164, still open), which tracks it as carry-140 with this issue's open points (decision A not built; gates (a) and (b)); #96 closed (duplicate) 2026-10-31 |
 | 67 | the four NDI clocktype terms minted and filled (`wikidata:Q1536`, `EMPTY:0000403`..`EMPTY:0000405`) on `relative_time_reference` and `clock_alignment_configuration` (#251, e580e04; siblings first: DID-matlab #328, NDI-matlab #1117); [clock terms get nodes] reads Built; #97 closed 2026-10-31 |

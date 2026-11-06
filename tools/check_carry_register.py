@@ -36,7 +36,10 @@ missing a field". This checks, and fails on any of:
       "## OPEN" section of docs/did_v2_OPEN_WORK.md (a completed row fails:
       the home is no longer tracked as awaited).
       (Jess Haley, 2026-10-26: "make the register check fail when missing
-      the open work entry".)
+      the open work entry".) The row number stays the citation after the
+      file was frozen ([open work lives in issues], 2026-11-03);
+      `check_open_work_issues.py` checks that every OPEN row points at an
+      open GitHub issue, so a home a carry awaits is tracked by one.
 
 It prints its denominator first. A `proposed` kind is reported, never
 failed: it is open, not wrong.
