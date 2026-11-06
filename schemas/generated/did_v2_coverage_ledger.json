@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 735,
+          "accepted_lines": 736,
           "accepted_lines_by_kind": {
-            "Decided by": 615,
+            "Decided by": 616,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5277,6 +5277,14 @@
               "tag": "control pairing without trials stays carried",
               "date": "2026-11-06",
               "anchor": "Decided by Jess Haley, 2026-11-06 [control pairing without"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1995,
+              "kind": "Decided by",
+              "tag": "sync rule terms",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [sync rule terms]: ("
             },
             {
               "document": "did_v2_image_model_plan.md",
