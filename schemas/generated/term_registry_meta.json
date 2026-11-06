@@ -11415,9 +11415,7 @@
             "obsolete": false,
             "number_unit": false,
             "equivalent": [],
-            "synonyms": [
-                "errorOnFailure"
-            ]
+            "synonyms": []
         },
         {
             "name": "Conversion",
