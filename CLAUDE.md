@@ -1,6 +1,6 @@
 # DID-schema: working context for Claude
 
-This repository holds V_eta, the schema that NDI V2 is built on. It also holds
+This repository holds V_eta, the schema that NDI v2 is built on. It also holds
 the tools that check it and the record of every decision about it. This file
 says how to work here today. It is not a history. The history is in git and in
 the plan documents under `docs/`.
@@ -105,7 +105,7 @@ names: "Bar-1" there means integrity, "Bar-2" means done.)*
   [migration not generalizable], [v1 import stages])*: integrity AND lossless
   (every v1 item is carried, at a V_eta shape or unchanged as v1). Generic
   migration is plumbing and is frozen; a v1 document carried unchanged is not a
-  defect of the generic stage. A *publishable* V2 dataset is a per-dataset
+  defect of the generic stage. A *publishable* v2 dataset is a per-dataset
   import whose meaning decisions are recorded in its decision workbook; the
   definition above applies to that import, not to the generic stage.
 - Report each corpus as **done** or **not done**, with the list of what is
@@ -171,11 +171,22 @@ Rung 4 of the coverage ladder (corpus-proven) is answered by DID-matlab's
 reads `not measured` on every row. That is a property of the container, not a
 result.
 
-The open-work index is `docs/did_v2_OPEN_WORK.md`. Cite a row as
-"`did_v2_OPEN_WORK.md` row #51", never with a colon after the file name (that
-reads as a line number). A finding is
-not recorded until it is committed: the task list does not survive a container
-being re-provisioned.
+Open work lives only in GitHub issues *(Jess Haley's decision of 2026-11-03,
+`did_v2_go_forward_class_audit.md` [open work lives in issues])*. A new piece of
+work is a new issue (label `V2` in this repository; in a sibling's repository
+when the work is there), never a new row. `docs/did_v2_OPEN_WORK.md` is frozen:
+a lookup from an old row number (`#nn`, as plan documents, the carry register's
+`open_work` and sibling comments cite it) to the issue that tracks it. Cite a
+row as "`did_v2_OPEN_WORK.md` row #51", never with a colon after the file name
+(that reads as a line number). A row changes only to point at a reopened or new
+issue, or to move to COMPLETED when its work is done.
+`python3 tools/check_open_work_issues.py` is the gate: every OPEN row points at
+an issue the committed snapshot `tools/open_work_issues.json` records as open,
+and no row is added; a row still waiting for an issue is listed in the tool's
+`AWAITING_ISSUE`, a list that may only shrink (`--refresh` rewrites the
+snapshot from GitHub, `--live` compares it with GitHub now; the gate itself
+runs offline). A finding is not recorded until it is in an issue or
+committed: the task list does not survive a container being re-provisioned.
 
 ---
 
@@ -183,18 +194,18 @@ being re-provisioned.
 
 ### The repositories
 
-| repo | branch line | V2 migration PR (merged 2026-10-23) | what lives there |
+| repo | branch line | v2 migration PR (merged 2026-10-23) | what lives there |
 |---|---|---|---|
 | did-schema (Waltham-Data-Science) | `main` | #88 (and #120) | V_eta JSON, registries, plan documents, gate tools |
-| DID-matlab (VH-Lab) | `V2` | #218 | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (V2 document builder), `+did2/+schema/cache.m` (validator) |
-| NDI-matlab (VH-Lab) | `V2` | #1021 | the V2 object layer, the Haley V2 import, NDI's second pass; `origin/main` templates (at the locked sha, `tools/sibling_lock.json`) are the v1 truth |
+| DID-matlab (VH-Lab) | `V2` | #218 | `+did2/+convert/+migrators_j` (per-document migrators), `+did2/+convert/*.m` (batch post-passes), `+did2/+build` (v2 document builder), `+did2/+schema/cache.m` (validator) |
+| NDI-matlab (VH-Lab) | `V2` | #1021 | the v2 object layer, the Haley v2 import, NDI's second pass; `origin/main` templates (at the locked sha, `tools/sibling_lock.json`) are the v1 truth |
 | empty-ontology (Waltham-Data-Science) | `V2` | none (#22-#25 merged) | EMPTY terms, `src/ontology/empty-edit.owl`; term rules in `docs/conventions.md` (#25) |
 | ndi-ontology-matlab (Waltham-Data-Science) | `main` | none (#11, #12, #14 merged) | ontology lookups, `NDIC.txt` |
 
 did-schema also has a `V2` branch. Check with `git rev-parse origin/V2
 origin/main` before assuming what it holds.
 
-The V2 migration is merged: did-schema #88 into `main`, then DID-matlab #218
+The v2 migration is merged: did-schema #88 into `main`, then DID-matlab #218
 and NDI-matlab #1021 into `V2` (2026-10-23), after empty-ontology #22-#25 and
 ndi-ontology-matlab #11, #12 and #14. Read a head with `git ls-remote` or
 `git rev-parse` when you need it, never from this file.
@@ -346,7 +357,7 @@ retired name means deleting it there.
 
 - Source: `schemas/registry/did_v2_term_registry.json`. Built copy:
   `schemas/generated/term_registry_meta.json` (derived; do not edit).
-- It holds every ontology term a V2 import writes in a vocabulary slot.
+- It holds every ontology term a v2 import writes in a vocabulary slot.
   DID-matlab's `did2.build` refuses a term it does not hold (strict mode
   `TermRegistry`, armed by default; `did2.convert` turns it off while
   migrating).
@@ -374,7 +385,7 @@ retired name means deleting it there.
 
 ---
 
-## 4. The V2 model in brief
+## 4. The v2 model in brief
 
 Read `docs/did_v2_tenets.md` (T1–T20, each with its amendments and the
 sign-off lines at the bottom) before any design or naming question. Answer from
@@ -480,8 +491,18 @@ or the status board.
 - **NDI `+daq/reader.m` reads `document_properties.epochid.epochid`** for
   ingested epochs. Whether this breaks on a migrated ingested corpus is
   unverified.
-- **`readtimeseries` has no test on migrated data.** The corpus zips are
-  document-only and carry no binary files. Unverified whether that changed.
+- **`readtimeseries` on migrated data is tested on a built fixture, not on a
+  corpus.** NDI-matlab #1164 (fc26ccbc) added
+  `ndi.unittest.migrate.TestReadTimeseriesEquivalence`: v1 sessions built from
+  NDI's example Intan file, read before and after `ndi.migrate.local`
+  (samples, times, epoch tables); #1166 and #1168 made the migrated ingested
+  probe read the same. #1173 (8a85dc3c) added corpus-wide object equivalence
+  (`corpusObjectEquivalence`, in the on-demand B and Dab end-to-end
+  workflows): subjects, elements, probes and epoch tables, not samples, because
+  the corpus zips still carry no binary files (NDI-matlab #785). Its PR reports
+  B equivalent and Dab not finishing inside the workflow's time limit. A
+  `readtimeseries` read on the Haley dataset has not been timed after
+  migration; NDI-matlab #1018 stays open for it.
 - **Migrated `element` name and reference are stored together** as
   `'%s (ref %s)'` in `local_identifier`, without escaping
   (NDI `+vintage/elementFields.m`).
