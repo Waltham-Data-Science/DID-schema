@@ -379,6 +379,14 @@ STEPS = [
     Step("check_carry_register", _t("check_carry_register.py"), "gate",
          r"^carry register rows read: (\d+)", "carry register rows"),
 
+    # [open work lives in issues] (Jess Haley, 2026-11-03,
+    # did_v2_go_forward_class_audit.md): docs/did_v2_OPEN_WORK.md is frozen as
+    # a lookup from row number to GitHub issue, and every OPEN row points at an
+    # open issue. Offline: issue state is the committed snapshot
+    # tools/open_work_issues.json (`--refresh` rewrites it from GitHub).
+    Step("check_open_work_issues", _t("check_open_work_issues.py"), "gate",
+         r"^OPEN rows read: (\d+)", "OPEN_WORK rows read"),
+
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",
          r"V_eta schema files inspected\s+: (\d+)", "schema files inspected",
          requires=["DID-matlab"]),
