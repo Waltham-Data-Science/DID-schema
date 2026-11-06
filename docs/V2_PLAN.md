@@ -63,6 +63,16 @@ Last updated 2026-11-03.
     approval of the wording; deleting the 5 leftover branches: "I can't
     delete now. Queue this at the end of the questions and I'll clean up
     later" (last in the queue).
+  - Late batch, answered 2026-11-06: sync-rule terms "Approve all five"
+    ([sync rule terms]; empty-ontology PR for Jess to merge); receptive field
+    "1. A" ([receptive field is SNOMED's]); JSON lowercase "2. Yes" ([JSON
+    descriptions lowercase too]); #820 "3. Yes" ([pipeline is a software
+    entity]); G108 items 1-6 ([openMINDS export answers]); patch "Read back
+    patch" ([unrecorded probe reads general type]).
+  - openMINDS: Jess asked "Should we plan out both import and export next
+    to each other?", then "Yes, draft the plan":
+    `docs/plans/did_v2_openminds_import_export_plan.md` (Proposed), with
+    questions Q1-Q5 (Q3 is the staging order asked earlier).
   - Asked: is the slowness a design flaw of the V2 schema? Claude's reading
     (not a decision): no. The data is correct (B is equivalent), and the
     `+vintage` compatibility readers search once per epoch per piece. A

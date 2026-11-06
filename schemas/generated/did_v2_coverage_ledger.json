@@ -696,7 +696,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 123,
+          "documents_read": 124,
           "documents_read_outside_docs": [],
           "documents_excluded_as_generated": [
             "did_v2_STATUS.md",
@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 727,
+          "accepted_lines": 732,
           "accepted_lines_by_kind": {
-            "Decided by": 607,
+            "Decided by": 612,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5213,6 +5213,46 @@
               "tag": "new dataset named by its reference",
               "date": "2026-11-06",
               "anchor": "Decided by Jess Haley, 2026-11-06 [new dataset named by its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1981,
+              "kind": "Decided by",
+              "tag": "receptive field is SNOMED's",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [receptive field is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1983,
+              "kind": "Decided by",
+              "tag": "JSON descriptions lowercase too",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [JSON descriptions"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1985,
+              "kind": "Decided by",
+              "tag": "pipeline is a software entity",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [pipeline is a software"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1987,
+              "kind": "Decided by",
+              "tag": "openMINDS export answers",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [openMINDS export"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 1989,
+              "kind": "Decided by",
+              "tag": "unrecorded probe reads general type",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [unrecorded probe reads"
             },
             {
               "document": "did_v2_image_model_plan.md",
