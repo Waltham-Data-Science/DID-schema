@@ -32,6 +32,24 @@ Last updated 2026-11-03.
   'patch'; makers; receptive field; batches 3 and 4; JSON lowercase;
   NDI-matlab #820; openMINDS second pass; 5 leftover branches.
 - Owed by Claude: G87, a concrete home for the four gene-list facts.
+- **Answers 2026-11-06 (Jess Haley, in conversation)** to the four questions
+  of 2026-11-04 (the three #1173 questions, plus "merge #1175 yourself or
+  should I?"):
+  - #1175: "You do it". Merged into NDI-matlab `V2` as fdeb3db3.
+  - #1173: "A". Merge with corpus B as the proven corpus. The Dab object
+    equivalence is skipped by name (reported Incomplete, never Passed, with
+    a `::warning::` annotation) until the speed fix lands (7aa72281).
+  - The four NDI read-side fixes in #1173: "Yes", kept.
+  - The migrated epoch-read speed fix: "Yes, build the speed fix now. Report
+    back the comparison between v1 and v2". Building on NDI-matlab branch
+    `claude/v2-epoch-read-speed`. It batches the `+vintage` reads per
+    acquisition system and checks the per-search cost in did2sqlite. Its PR
+    removes the Dab skip.
+  - Asked: is the slowness a design flaw of the V2 schema? Claude's reading
+    (not a decision): no. The data is correct (B is equivalent), and the
+    `+vintage` compatibility readers search once per epoch per piece. A
+    normalised schema makes per-item reads costly, and batched reads remove
+    the cost.
 
 ## State at 2026-11-04 (read with the 2026-11-03 state below)
 
