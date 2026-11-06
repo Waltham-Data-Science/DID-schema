@@ -149,20 +149,26 @@ never invented.
 Export can be built before the makers. Import code can be written and tested
 in stage 2, but it is wired into writers only by the makers design.
 
-## 5. Questions for the team (Proposed, not decided)
+## 5. Questions for the team
 
-- **Q1.** Is `did_v2_openminds_crosswalk.json` (1.1.0) the decided mapping
-  for the five types it covers, so that code may read it? It still calls
-  itself a proposal.
-- **Q2.** Package name and place: `+ndi/+openminds/` in NDI-matlab, or under
-  `+ndi/+cloud/` next to the Crossref conversion?
-- **Q3.** Stage order: subjects in stage 2 as above, or together with the
-  dataset level in stage 1? (Asked 2026-11-06, not yet answered.)
-- **Q4.** The CRediT -> openMINDS contribution-type table, once Claude drafts
-  it.
-- **Q5.** For a required openMINDS field the dataset does not state, should
-  export fail, or write the objects and report the gap (Claude's
-  recommendation: report)?
+Jess Haley answered on 2026-11-06. These are operational answers to this
+plan, not decision lines; the plan stays Proposed until it is decided.
+
+- **Q1.** Is `did_v2_openminds_crosswalk.json` (1.1.0) the decided mapping?
+  Answer: "I don't know. Explain", then "The review table sounds good. Prep
+  it, but don't give it to me til tomorrow when we start reviewing the next
+  set of open questions." **Open:** Claude reviews the crosswalk row by row
+  with Jess, starting from a prepared review table.
+- **Q2.** Package name and place: "Your proposal sounds good".
+  `+ndi/+openminds/` in NDI-matlab.
+- **Q3.** Stage order: "Whatever you think". Claude's choice: subjects in
+  stage 2, as in section 4. The crosswalk has no subject types yet, and they
+  bring in the import side, which waits on the makers.
+- **Q4.** The CRediT -> openMINDS contribution-type table: "Explain", then
+  "Yes". Claude drafts it for review.
+- **Q5.** A required openMINDS field the dataset does not state: "Report".
+  The export writes what it can and reports each missing field; it never
+  invents a value.
 
 ## 6. Decisions recorded so far (G108, 2026-11-06)
 
