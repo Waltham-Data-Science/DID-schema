@@ -7,6 +7,36 @@ disagree, they win.
 
 Last updated 2026-11-03.
 
+## State at 2026-11-07 (read with the 2026-11-06 state below)
+
+- Built overnight from Jess Haley's 2026-11-07 answers: did-schema #294
+  (f3d43c3), #295 (29631d2), #296 (c1793bb); DID-matlab #420 (180bc8cc,
+  the gene-list C2 split); DID-matlab speed stack #414-#419 (last d93497a0);
+  NDI-matlab #1182 (52516f0a9). empty-ontology #39 (EMPTY:0000436
+  identifier namespace, 0000437 symbol namespace, 0000438 unique molecular
+  identifier count) is open for Jess to merge.
+- **Questions for Jess raised by the overnight builds (not decided):**
+  - N-Q1. "UMI count" was added to EMPTY:0000438 as an abbreviation
+    synonym, which she did not ask for. Keep or drop?
+  - N-Q2. EFO:0008994 "spatial transcriptomics" ("3. Efo") cannot be
+    registered as is: the registry already holds ILX:0739396 under the same
+    name, and a name has one entry. Replace the ILX row with EFO, or keep
+    both under different names?
+  - N-Q3. The gene list's derived_from relations carry the v1 text as a
+    method parameter: the annotation source under GENEPIO:0000096 (decided)
+    and the genome assembly under NCIT:C164815 "Reference Genome Assembly
+    Version" (from the G87 proposal, never named in a decision). Keep NCIT
+    for the assembly?
+  - N-Q4. The copyright year is registered as `schema:copyrightYear`
+    (schema.org, found in OLS4, T19), not a new EMPTY term. Confirm.
+- Build pending, no question: NDI-matlab must not read a gene list's minimal
+  annotation or assembly Data Set entity as the run's dataset
+  (`ndi.migrate.internal.datasetScope`, `ndi.migrate.local`'s dataset
+  census, `ndi.v2.datasetSessions`); DID-matlab #420 made `migrationRecord`
+  skip such an entity.
+- Speed: Dab getprobes still over the margin (17.5 s against 8.6 s for v1,
+  limit 10.4 s; run 42341429541); NDI-matlab #1198 is the next fix.
+
 ## State at 2026-11-06 (read with the 2026-11-04 state below)
 
 - **Morning of 2026-11-06 (Jess Haley, in conversation):**
