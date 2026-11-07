@@ -22,7 +22,8 @@
           "target_kind": "relation",
           "ndi_target": [
             "author",
-            "contributor"
+            "contributor",
+            "maintainer"
           ],
           "endpoint": [
             "Person",
@@ -37,8 +38,33 @@
           "notes": "openMINDS Affiliation{organization, person}, listed per dataset version. Moved here from Person.affiliation (v4.0), which `latest` no longer has. G108(4) (Jess Haley, 2026-11-06): a person's affiliations are those listed for that person within the dataset. Open: the registered `affiliation` edge is Person -> organization, person-wide; how v2 ties it to one dataset is to check (import/export plan 3.4)."
         },
         "copyright": {
-          "target_kind": "deferred",
-          "notes": "needs a decision: openMINDS Copyright{holder (required), year (required), customUsageClause}. The holder has a registered relation, `copyrightHolder` (Data Set -> organization | Person), but the required `year` has no home: 1.1.0 named a `copyright_year` field the entity does not have, and no year variable is registered; `customUsageClause` has none either. NDI-matlab's generic dataset import (+ndi/+setup/+V2/entityDocuments.m) writes `copyright_year` as text with no registered variable node."
+          "target_kind": "relation",
+          "ndi_target": "copyrightHolder",
+          "endpoint": [
+            "organization",
+            "Person"
+          ],
+          "parts": {
+            "holder": {
+              "target_kind": "relation",
+              "ndi_target": "copyrightHolder",
+              "endpoint": [
+                "organization",
+                "Person"
+              ]
+            },
+            "year": {
+              "target_kind": "assertion",
+              "ndi_target": "copyrightYear",
+              "value_kind": "date",
+              "notes": "a date assertion about the dataset entity, variable schema:copyrightYear (registered \"copyrightYear\", synonym \"copyright year\"; T19: an existing term, so no EMPTY term was minted)."
+            },
+            "customUsageClause": {
+              "target_kind": "deferred",
+              "notes": "needs a decision: openMINDS `customUsageClause` (optional) has no v2 home and was not part of the 2026-11-07 question."
+            }
+          },
+          "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [copyright year is a date assertion]: openMINDS Copyright{holder (required), year (required), customUsageClause} is built from the dataset's `copyrightHolder` relation (the holder) and a date assertion about the dataset entity (the year). `parts` maps each Copyright property."
         },
         "dataType": {
           "target_kind": "assertion",
@@ -59,8 +85,14 @@
           "ndi_target": "doi"
         },
         "documentation": {
-          "target_kind": "deferred",
-          "notes": "needs a decision: openMINDS `documentation` (required) links DOI | File | ISBN | WebResource. 1.1.0 mapped the v2.0 `fullDocumentation` to relation `subjectOf` -> web_resource, but `web_resource` is not an entity type and `subjectOf`'s registered parents are protocol, publication and software. A documenting publication could be `subjectOf` -> publication; a file or web page has no registered home."
+          "target_kind": "relation",
+          "ndi_target": "subjectOf",
+          "endpoint": [
+            "publication",
+            "protocol",
+            "software"
+          ],
+          "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [documentation from subjectOf]: openMINDS `documentation` (required) is taken from the dataset's `subjectOf` relations to `publication`, `protocol` or `software` entities, each written with that document's `global_identifier`. With none, the export reports documentation missing. The dataset's own DOI stays its `global_identifier` (openMINDS `digitalIdentifier`)."
         },
         "ethicsJurisdiction": {
           "target_kind": "assertion",
@@ -117,8 +149,8 @@
           "notes": "successor of v2.0 `isAlternativeVersionOf`. Carried from 1.1.0. Open (review of 2026-11-06): SIO:000497 means \"a subsequent or alternate version\", so it overlaps `isPrecededBy`."
         },
         "isVersionOf": {
-          "target_kind": "deferred",
-          "notes": "needs a decision: openMINDS `isVersionOf` (required) links the version-independent Dataset. v2 has one Data Set entity, \"a published body of data, at a version\", and no separate version-independent entity: whether the export builds the Dataset from the Data Set, or v2 records it, is not decided."
+          "target_kind": "implied",
+          "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [one dataset exports as Dataset and version]: one v2 Data Set entity exports as one openMINDS Dataset and one DatasetVersion that `isVersionOf` it, so the link is implied by the same entity and not stored. A dataset-version entity type waits until a dataset has a second release."
         },
         "keyword": {
           "target_kind": "assertion",
@@ -495,8 +527,12 @@
         "notes": "one openMINDS Contribution per CRediT role on the edge, typed as listed in `roles`."
       },
       "maintainer": {
-        "target_kind": "deferred",
-        "notes": "needs a decision: 1.1.0 mapped v2.0 `custodian` to `maintainer`. In `latest` the custodian is a contribution of type `custodianship` (\"responsibility for the long-term stewardship\"), while schema.org's maintainer \"manages contributions to, and/or publication of\" the work, nearer openMINDS `maintenance`. Which type a `maintainer` edge exports as is not decided; until then it is not exported."
+        "target_kind": "relation",
+        "openminds": {
+          "node": "openminds:contributionType/custodianship",
+          "name": "custodianship"
+        },
+        "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [custodian exports as custodianship]: a dataset's `maintainer` relation exports as an openMINDS contribution of type custodianship."
       }
     },
     "roles": [
