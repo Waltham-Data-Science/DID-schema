@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 739,
+          "accepted_lines": 744,
           "accepted_lines_by_kind": {
-            "Decided by": 619,
+            "Decided by": 624,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5309,6 +5309,46 @@
               "tag": "unmapped roles not exported",
               "date": "2026-11-06",
               "anchor": "Decided by Jess Haley, 2026-11-06 [unmapped roles not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2003,
+              "kind": "Decided by",
+              "tag": "read speed margin",
+              "date": "2026-11-06",
+              "anchor": "Decided by Jess Haley, 2026-11-06 [read speed margin]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2005,
+              "kind": "Decided by",
+              "tag": "custodian exports as custodianship",
+              "date": "2026-11-07",
+              "anchor": "Decided by Jess Haley, 2026-11-07 [custodian exports as"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2007,
+              "kind": "Decided by",
+              "tag": "copyright year is a date assertion",
+              "date": "2026-11-07",
+              "anchor": "Decided by Jess Haley, 2026-11-07 [copyright year is a date"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2009,
+              "kind": "Decided by",
+              "tag": "one dataset exports as Dataset and version",
+              "date": "2026-11-07",
+              "anchor": "Decided by Jess Haley, 2026-11-07 [one dataset exports as"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2011,
+              "kind": "Decided by",
+              "tag": "documentation from subjectOf",
+              "date": "2026-11-07",
+              "anchor": "Decided by Jess Haley, 2026-11-07 [documentation from"
             },
             {
               "document": "did_v2_image_model_plan.md",
