@@ -29,13 +29,25 @@ Last updated 2026-11-03.
     for the assembly?
   - N-Q4. The copyright year is registered as `schema:copyrightYear`
     (schema.org, found in OLS4, T19), not a new EMPTY term. Confirm.
-- Build pending, no question: NDI-matlab must not read a gene list's minimal
-  annotation or assembly Data Set entity as the run's dataset
-  (`ndi.migrate.internal.datasetScope`, `ndi.migrate.local`'s dataset
-  census, `ndi.v2.datasetSessions`); DID-matlab #420 made `migrationRecord`
-  skip such an entity.
-- Speed: Dab getprobes still over the margin (17.5 s against 8.6 s for v1,
-  limit 10.4 s; run 42341429541); NDI-matlab #1198 is the next fix.
+- Built: NDI-matlab no longer reads a gene list's minimal annotation or
+  assembly Data Set entity as the run's dataset (#1199, 1036f024; DID-matlab
+  #420 made `migrationRecord` skip such an entity).
+- Speed: NDI-matlab #1198 (058388be), #1200 (de608caf), #1201 (6e816fa8),
+  #1202 (338ab462) and DID-matlab #421 (b6c29eda, `searchEdges(Q, '*')`)
+  merged into `V2`, each with every check and workflow run on its head
+  green. Dab getprobes went from 2.2x to about 1.8x v1 and is still over the
+  margin (9.3 s v1 against 16.7 s v2, limit 11.2 s; run 42371196456). Dab
+  getelements is over on slow runners (0.7/1.9 against 1.8; run
+  42372408796). B meets the margin in every phase. NDI-matlab #1192 (the CI
+  speed check) stays unmerged until Dab passes.
+  - N-Q5 (Proposed, not decided). The remaining gap is structural: v1 reads
+    each epoch's probe map and clocks stored in its ingested-epoch document;
+    v2 rebuilds them on every epoch-table build from about 5,000 statements,
+    8,000 anchors and 4,700 wiring relations, and further trimming gains a
+    few percent per step. Reaching the margin probably needs a derived,
+    cached record of each acquisition system's epoch table, kept in step
+    with its source documents. Build that (a design to draft first), or
+    accept a different margin for the Dab probe read?
 
 ## State at 2026-11-06 (read with the 2026-11-04 state below)
 
