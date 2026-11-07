@@ -1143,6 +1143,39 @@ def _deferred_ok(where, e):
         f"{where} is deferred with no notes: say what it needs (a term, a decision)"
 
 
+def _check_crosswalk_entry(where, e, valid_kinds, field_names, relation_terms,
+                           registered, curie):
+    """One crosswalk entry (a property row, or one of its `parts`) resolves to a
+    real target, or is explicitly not stored, or is deferred with a note."""
+    kind = e["target_kind"]
+    assert kind in valid_kinds, f"{where}: bad kind {kind}"
+    if kind == "field":
+        assert e["ndi_target"] in field_names, \
+            f"{where} -> field {e['ndi_target']} absent on entity"
+    elif kind == "relation":
+        rels = e["ndi_target"] if isinstance(e["ndi_target"], list) else [e["ndi_target"]]
+        assert rels, where
+        for rel in rels:
+            assert rel in relation_terms, f"{where} -> unknown relation term {rel}"
+    elif kind == "assertion":
+        assert e["value_kind"] in RECORDS, \
+            f"{where}: assertion needs a real value kind, not {e.get('value_kind')}"
+        assert e["ndi_target"] in registered, (
+            f"{where} -> assertion variable {e['ndi_target']!r} is not registered "
+            "(by name) in did_v2_term_registry.json; use a registered term or mark "
+            "the row deferred with \"needs a term\"")
+        if "term_set" in e:
+            assert isinstance(e["term_set"], list) and e["term_set"], where
+    elif kind == "global_identifier":
+        assert e["ndi_target"] == "IRI" or e["ndi_target"] in curie["prefixes"], \
+            f"{where}: {e['ndi_target']} is not a registered prefix"
+    elif kind in ("implied", "projection"):
+        assert e.get("notes"), f"{where}: {kind} entry must be explained"
+    else:
+        _deferred_ok(where, e)
+        assert "ndi_target" not in e, f"{where}: a deferred row names no target"
+
+
 def test_openminds_crosswalk_round_trips():
     """Round-trip guarantee: every openMINDS property of every crosswalked type, at
     the pinned version, has an EXPLICIT crosswalk entry whose target resolves to a
@@ -1184,37 +1217,17 @@ def test_openminds_crosswalk_round_trips():
     for type_name, spec in xw["types"].items():
         assert spec["ndi_entity"] == "entity", type_name
         assert spec["entity_type"] in types, f"{type_name}: unknown entity type"
-        for prop, e in spec["properties"].items():
+        for prop, top in spec["properties"].items():
             inspected += 1
-            where = f"{type_name}.{prop}"
-            kind = e["target_kind"]
-            assert kind in valid_kinds, f"{where}: bad kind {kind}"
-            by_kind.setdefault(kind, []).append(where)
-            if kind == "field":
-                assert e["ndi_target"] in field_names, \
-                    f"{where} -> field {e['ndi_target']} absent on entity"
-            elif kind == "relation":
-                rels = e["ndi_target"] if isinstance(e["ndi_target"], list) else [e["ndi_target"]]
-                assert rels, where
-                for rel in rels:
-                    assert rel in relation_terms, f"{where} -> unknown relation term {rel}"
-            elif kind == "assertion":
-                assert e["value_kind"] in RECORDS, \
-                    f"{where}: assertion needs a real value kind, not {e.get('value_kind')}"
-                assert e["ndi_target"] in registered, (
-                    f"{where} -> assertion variable {e['ndi_target']!r} is not registered "
-                    "(by name) in did_v2_term_registry.json; use a registered term or mark "
-                    "the row deferred with \"needs a term\"")
-                if "term_set" in e:
-                    assert isinstance(e["term_set"], list) and e["term_set"], where
-            elif kind == "global_identifier":
-                assert e["ndi_target"] == "IRI" or e["ndi_target"] in curie["prefixes"], \
-                    f"{where}: {e['ndi_target']} is not a registered prefix"
-            elif kind in ("implied", "projection"):
-                assert e.get("notes"), f"{where}: {kind} entry must be explained"
-            else:
-                _deferred_ok(where, e)
-                assert "ndi_target" not in e, f"{where}: a deferred row names no target"
+            # a structured openMINDS property (Copyright{holder, year, ...}) maps
+            # each of its own properties under `parts`; each part is checked like
+            # a row (Jess Haley, 2026-11-07, [copyright year is a date assertion])
+            parts = [(f"{type_name}.{prop}", top)] + [
+                (f"{type_name}.{prop}.{p}", pe) for p, pe in top.get("parts", {}).items()]
+            for where, e in parts:
+                _check_crosswalk_entry(where, e, valid_kinds, field_names,
+                                       relation_terms, registered, curie)
+            by_kind.setdefault(top["target_kind"], []).append(f"{type_name}.{prop}")
     assert inspected == sum(len(p) for p in OPENMINDS_LATEST_PROPS.values()), inspected
 
     # 3. every Data Set statement binding is crosswalked by a DatasetVersion row
@@ -1281,6 +1294,9 @@ def test_openminds_contribution_types():
             _deferred_ok(f"contribution_types.edges.{edge}", e)
         else:
             assert e["target_kind"] == "relation", (edge, e)
+            if "openminds" in e:
+                assert e["openminds"]["node"] == \
+                    "openminds:contributionType/" + e["openminds"]["name"], (edge, e)
     print(f"contribution types: {len(rows)} roles inspected; exported {len(exported)} "
           f"(exact {sum(r['match'] == 'exact' for r in exported)}, "
           f"close {sum(r['match'] == 'close' for r in exported)}); "

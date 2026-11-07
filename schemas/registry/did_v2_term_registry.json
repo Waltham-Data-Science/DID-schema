@@ -11653,6 +11653,82 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "identifier namespace",
+      "node": "EMPTY:0000436",
+      "definition": "The namespace that the identifiers in a set of values are drawn from, such as a database's accession scheme.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-07 [namespace variable terms], did_v2_go_forward_class_audit.md (\"Approve\"): the variable of the condition on a gene list's opaque_body holding v1 geneList.gene_id_namespace ([gene-list facts split]); under SIO:000067 \"namespace\"; minted in empty-ontology #39 (open, for her review)",
+      "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): a condition on the genes.tsv opaque_body",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "symbol namespace",
+      "node": "EMPTY:0000437",
+      "definition": "The naming authority that the symbols or short names in a set of values follow.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-07 [namespace variable terms], did_v2_go_forward_class_audit.md (\"Approve\"): the variable of the condition on a gene list's opaque_body holding v1 geneList.gene_symbol_namespace ([gene-list facts split], [gene symbol namespace kept]); under SIO:000067 \"namespace\"; minted in empty-ontology #39 (open, for her review)",
+      "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): a condition on the genes.tsv opaque_body",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "unique molecular identifier count",
+      "node": "EMPTY:0000438",
+      "definition": "The number of distinct molecules detected for a feature, counted by their unique molecular identifiers.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-07 [UMI count term], did_v2_spatial_transcriptomics_plan.md (\"4. Ok\"): the count variable when a v1 geneExpression count_type is UMI; minted in empty-ontology #39 (open, for her review)",
+      "first_used_in": "no dataset yet: the spatial-transcriptomics migrator (DID-matlab, Build pending; it waits for the other eight G109 details)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "UMI count"
+      ]
+    },
+    {
+      "name": "genome annotation source",
+      "node": "GENEPIO:0000096",
+      "definition": "For cases where annotation was provided by a community jamboree or model organism database rather than by a specific submitter",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-07 [annotation source is GENEPIO], did_v2_go_forward_class_audit.md (\"A\"): the variable of the parameter that holds v1 geneList.annotation_source on the gene list's derived_from relation to its annotation entity ([gene-list facts split]); T19: an existing ontology term (OLS4); the definition is GENEPIO's, narrower than v1's meaning, as Claude reported when she chose it",
+      "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): the derived_from relation's method parameter",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Reference Genome Assembly Version",
+      "node": "NCIT:C164815",
+      "definition": "The source-specific version of the published genome assembly.",
+      "status": "decided",
+      "decided": "Claude's pick, not named in a decision: the variable G87's proposal gave v1 geneList.genome_assembly (OLS4, 2026-11-06; T19: an existing NCIT term); used because [gene-list facts split] (did_v2_go_forward_class_audit.md, Jess Haley, 2026-11-07, \"C2\") puts the genome assembly on the derived_from relation's method, so the relation to the assembly entity still carries the v1 text",
+      "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): the derived_from relation's method parameter",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "copyrightYear",
+      "node": "schema:copyrightYear",
+      "definition": "The year during which the claimed copyright for the CreativeWork was first asserted.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-07 [copyright year is a date assertion], did_v2_go_forward_class_audit.md (\"2. A\"): the variable of the date assertion holding a dataset's copyright year; T19: an existing term (schema.org copyrightYear, OLS4 2026-11-07), so no EMPTY term was minted",
+      "first_used_in": "no dataset yet: did-schema did_v2_openminds_crosswalk.json DatasetVersion.copyright (the openMINDS export, NDI-matlab, Build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "copyright year"
+      ]
     }
   ]
 }

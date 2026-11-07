@@ -914,7 +914,7 @@
    "citation": {
     "anchor": "goes by what its pixels measure",
     "doc": "docs/plans/did_v2_spatial_transcriptomics_plan.md",
-    "line": 251,
+    "line": 259,
     "quote": "goes by what its pixels measure, keyed [y, x, (channel)]: brightness or fluorescence"
    },
    "class_registers": {

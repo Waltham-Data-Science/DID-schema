@@ -46,6 +46,7 @@ Last updated 2026-11-03.
   'patch'; makers; receptive field; batches 3 and 4; JSON lowercase;
   NDI-matlab #820; openMINDS second pass; 5 leftover branches.
 - Owed by Claude: G87, a concrete home for the four gene-list facts.
+  ANSWERED 2026-11-07 (G87 below).
 - **Answers 2026-11-06 (Jess Haley, in conversation)** to the four questions
   of 2026-11-04 (the three #1173 questions, plus "merge #1175 yourself or
   should I?"):
@@ -892,6 +893,7 @@ whose DID-matlab build waits on GL1-GL7.
     elsewhere (e.g. method parameters of the gene list)? [method parameters:
     they say how the list was made]
     Jess 2026-11-03: "5. Yes" -- Claude to work out a concrete home for the four gene-list facts and bring the shape.
+    ANSWERED 2026-11-07 (did_v2_go_forward_class_audit.md): [gene-list facts split], [gene-list history entities], [gene-list history filled by import], [gene symbol namespace kept], [annotation source is GENEPIO], [namespace variable terms], [no source-facts list].
   - **G88. The gene-list mapping's two proposed terms (from build C).**
     The migrator writes SIO:000752 "row" for the mapping's one dimension and
     NCIT:C150832 "Software Name" for the method text's parameter
@@ -1113,6 +1115,7 @@ whose DID-matlab build waits on GL1-GL7.
     `notes`, as lightsheet. Until answered, these classes are carried as v1
     (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
     Proposed (not decided).
+    PARTLY ANSWERED 2026-11-07 (did_v2_spatial_transcriptomics_plan.md section H): the counts' entity [tissue section counts], the tile files [tiles are opaque bodies], the `assay` method term [spatial transcriptomics is EFO], the UMI count term [UMI count term]. The other eight details are open; the migrator waits for them.
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,

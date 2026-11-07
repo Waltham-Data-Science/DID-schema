@@ -857,6 +857,20 @@
             "synonyms": [
                 "MMO"
             ]
+        },
+        "genepio": {
+            "label": "Genomic Epidemiology Ontology",
+            "uri_base": "http://purl.obolibrary.org/obo/GENEPIO_",
+            "uri_style": "obo_underscore",
+            "approximate": false,
+            "documentation": "Bioregistry prefix `genepio`. Added for GENEPIO:0000096 genome annotation source (Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [annotation source is GENEPIO]).",
+            "pattern_source": "https://bioregistry.io/api/registry/genepio (2026-11-07)",
+            "pattern": "^\\d{7}$",
+            "spelling": "GENEPIO",
+            "spelling_source": "OLS4 gives `obo_id` `GENEPIO:0000096` and IRI `http://purl.obolibrary.org/obo/GENEPIO_0000096` (checked 2026-11-07); Bioregistry's preferred prefix is `GENEPIO`",
+            "synonyms": [
+                "GENEPIO"
+            ]
         }
     },
     "uri_styles": {

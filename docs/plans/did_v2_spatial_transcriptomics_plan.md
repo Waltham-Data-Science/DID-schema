@@ -99,7 +99,13 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
 22. **Provenance of reference content** is a `directed_relation` `derived_from`: gene
     list → annotation → assembly, each a **`dataset`** entity (a `web_resource` is WHERE
     a thing lives, per the signed D-F). "Ours" vs "reference" is read off the graph.
+    Amended 2026-11-07 by [gene-list history entities] (Jess Haley, did_v2_go_forward_class_audit.md): the
+    generic migration creates both entities, each a minimal `Data Set` named by the v1
+    text, and a later per-dataset import fills them in and keeps their ids
+    ([gene-list history filled by import]).
 23. `gene_symbol_namespace` is dropped (the annotation it came from is recorded).
+    Amended 2026-11-07 by [gene symbol namespace kept] (Jess Haley, did_v2_go_forward_class_audit.md): it is
+    kept, as a condition on the gene list's `opaque_body` ([gene-list facts split]).
 24. **The gene-list mapping** is a `directed_relation` (list A → list B; relation
     "orthologous gene mapping" | "gene alias mapping"; `method` = tool + version) with
     `value_id` to a standalone `score` (or `logical`) document keyed [gene of A, gene of
@@ -142,6 +148,8 @@ reference** (the source `.gef`, not held) and a shared **geneExpression** mixin.
     `count_calculation` over [gene]. The chip is an instrument subject; the pipeline a
     `software` entity; the other pyramid fields are the coordinate system, key origins,
     or computable.
+    Amended 2026-11-07 by [tiles are opaque bodies] (section H): the tile files
+    of each level are kept whole, an `opaque_body` per level.
 34. **DID-matlab checks:** unheld bodies validate today only because
     `canfindonefile` passes any location that is not an existing file; four
     `derived_from_#` misuses (one NDI term_observation breaks against PR #76); the file
@@ -616,3 +624,18 @@ Decided by Jess Haley, 2026-10-22 [calculation-software-optional decided]: optio
 Decided by Jess Haley, 2026-10-22 [non-area image node, revisited]: [non-area image node] (2026-10-21) is reopened and NOT decided. Her reason: "Ontology label was meant to add conditions or other qualifiers to the image that couldn't be held by the image schema. I think we need to wait and see what those values actually are." NCIT:C211970 "Image Annotation" is not used. Until real values are seen, a migrated ontologyImage's non-area node is kept on the observation as a condition with a plain label variable ("ontology node") and counted, so nothing is lost and the cases are visible.
 
 Decided by Jess Haley, 2026-10-22 [coordinate system names]: `coordinate_system.dimensions` is renamed `axes`, and `coordinate_system.origin` is renamed `reference_point` (NCIT:C45793); `data` is unchanged (answer "a"). Built: the two renames; `reference_point` carries NCIT:C45793 Reference Point as its field ontology.
+
+## H. Amendment 2 — G109 answers (2026-11-07)
+
+Jess Haley answered four of the twelve spatial-transcriptomics migrator details
+(docs/V2_PLAN.md G109) on 2026-11-07. The other eight are still open, and the
+spatial-transcriptomics migrator is not built until they are answered: until then
+these classes stay carried as v1.
+
+Decided by Jess Haley, 2026-11-07 [tissue section counts]: ("1. B", to Claude's G109 question whether the counts are about the animal or a minted tissue-section entity) the counts are about a tissue-section entity, of type `tissue`, `part_of` the animal. Build pending: DID-matlab (the spatial-transcriptomics migrator, which waits for the other eight G109 details).
+
+Decided by Jess Haley, 2026-11-07 [tiles are opaque bodies]: ("2. A. Does that make it an opaque body?", to Claude's G109 question whether tile files, in NDI's packed "tile format 1", are kept whole or re-encoded) tile files are kept whole in NDI's tile format 1. Claude answered her question: yes, the tiles become an `opaque_body` per zoom level, and this amends the [spatial_transcriptomics_family] sign-off of 2026-09-29, which used a `sampled_body` per level (item 29); the levels are still `redundant` except level 0, and they can still declare the y, x and gene keys. The amendment is recorded from her "2. A" and that question; the explanation is Claude's. Build pending: DID-matlab (the spatial-transcriptomics migrator, which waits for the other eight G109 details).
+
+Decided by Jess Haley, 2026-11-07 [spatial transcriptomics is EFO]: ("3. Efo", to Claude's G109 question on the method term for v1 `assay`) the method term is EFO:0008994 "spatial transcriptomics". Build pending: did-schema (the term registry row: the registry holds one entry per name, and "spatial transcriptomics" is already the name of ILX:0739396, an `experimental approach` value adopted from openMINDS, so the row's name needs a decision), DID-matlab (the spatial-transcriptomics migrator, which waits for the other eight G109 details).
+
+Decided by Jess Haley, 2026-11-07 [UMI count term]: ("4. Ok", to Claude's G109 question on a term for "UMI count" and on carrying a v1 `count_type` other than UMI as v1) a new EMPTY term "unique molecular identifier count", defined "The number of distinct molecules detected for a feature, counted by their unique molecular identifiers.", is EMPTY:0000438. A v1 `count_type` other than UMI stays carried as v1. Built: did-schema (the term registry row). Build pending: empty-ontology (#39, open for her review: the term), DID-matlab (the spatial-transcriptomics migrator, which waits for the other eight G109 details).
