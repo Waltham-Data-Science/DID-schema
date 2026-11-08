@@ -382,7 +382,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 124 document(s) read (3 generated copies excluded); 755 decision line(s) accepted, 2 rejected; 44 cited by a class, 711 cited by none.
+DENOMINATOR: 124 document(s) read (3 generated copies excluded); 758 decision line(s) accepted, 2 rejected; 44 cited by a class, 714 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -970,8 +970,9 @@ field). If one decides a class's disposition, that class should cite it.
 - read speed margin. "Decided by Jess Haley, 2026-11-06 [read speed margin]: (" (did_v2_go_forward_class_audit.md:2017).
 - custodian exports as custodianship. "Decided by Jess Haley, 2026-11-07 [custodian exports as" (did_v2_go_forward_class_audit.md:2019).
 - copyright year is a date assertion. "Decided by Jess Haley, 2026-11-07 [copyright year is a date" (did_v2_go_forward_class_audit.md:2021).
-- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2023).
-- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2025).
+- copyright year term confirmed. "Decided by Jess Haley, 2026-11-08 [copyright year term" (did_v2_go_forward_class_audit.md:2023).
+- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2025).
+- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2027).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1025,6 +1026,8 @@ field). If one decides a class's disposition, that class should cite it.
 - tiles are opaque bodies. "Decided by Jess Haley, 2026-11-07 [tiles are opaque" (did_v2_spatial_transcriptomics_plan.md:637).
 - spatial transcriptomics is EFO. "Decided by Jess Haley, 2026-11-07 [spatial transcriptomics" (did_v2_spatial_transcriptomics_plan.md:639).
 - UMI count term. "Decided by Jess Haley, 2026-11-07 [UMI count term]: (" (did_v2_spatial_transcriptomics_plan.md:641).
+- spatial transcriptomics row is EFO. "Decided by Jess Haley, 2026-11-08 [spatial transcriptomics" (did_v2_spatial_transcriptomics_plan.md:643).
+- UMI count synonym kept. "Decided by Jess Haley, 2026-11-08 [UMI count synonym kept]" (did_v2_spatial_transcriptomics_plan.md:645).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

@@ -3555,14 +3555,16 @@
         },
         {
             "name": "spatial transcriptomics",
-            "node": "ILX:0739396",
-            "definition": "Any experimental approach focused on mapping the spatial location of gene activity in biological tissue.",
+            "node": "EFO:0008994",
+            "definition": "assay that allows visualization and quantitative analysis of the transcriptome with spatial resolution in individual tissue sections",
             "status": "decided",
-            "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
-            "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+            "decided": "Jess Haley, 2026-11-08 [spatial transcriptomics row is EFO], did_v2_spatial_transcriptomics_plan.md (\"2. A\"): EFO:0008994 (OLS4, 2026-11-08) replaces ILX:0739396, which was adopted from openMINDS (latest) experimentalApproach (Jess Haley 2026-10-21) and is kept as its equivalent",
+            "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings); the spatial-transcriptomics migrator's method term (DID-matlab, Build pending)",
             "obsolete": false,
             "number_unit": false,
-            "equivalent": [],
+            "equivalent": [
+                "ILX:0739396"
+            ],
             "synonyms": []
         },
         {
