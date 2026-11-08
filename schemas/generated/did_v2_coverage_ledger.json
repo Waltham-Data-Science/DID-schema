@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 755,
+          "accepted_lines": 759,
           "accepted_lines_by_kind": {
-            "Decided by": 635,
+            "Decided by": 639,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5394,13 +5394,29 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2023,
               "kind": "Decided by",
+              "tag": "copyright year term confirmed",
+              "date": "2026-11-08",
+              "anchor": "Decided by Jess Haley, 2026-11-08 [copyright year term"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2025,
+              "kind": "Decided by",
+              "tag": "genome assembly term",
+              "date": "2026-11-08",
+              "anchor": "Decided by Jess Haley, 2026-11-08 [genome assembly term]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2027,
+              "kind": "Decided by",
               "tag": "one dataset exports as Dataset and version",
               "date": "2026-11-07",
               "anchor": "Decided by Jess Haley, 2026-11-07 [one dataset exports as"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2025,
+              "line": 2029,
               "kind": "Decided by",
               "tag": "documentation from subjectOf",
               "date": "2026-11-07",
@@ -5829,6 +5845,22 @@
               "tag": "UMI count term",
               "date": "2026-11-07",
               "anchor": "Decided by Jess Haley, 2026-11-07 [UMI count term]: ("
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 643,
+              "kind": "Decided by",
+              "tag": "spatial transcriptomics row is EFO",
+              "date": "2026-11-08",
+              "anchor": "Decided by Jess Haley, 2026-11-08 [spatial transcriptomics"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 645,
+              "kind": "Decided by",
+              "tag": "UMI count synonym kept",
+              "date": "2026-11-08",
+              "anchor": "Decided by Jess Haley, 2026-11-08 [UMI count synonym kept]"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",

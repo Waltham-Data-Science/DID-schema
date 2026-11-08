@@ -3552,14 +3552,16 @@
     },
     {
       "name": "spatial transcriptomics",
-      "node": "ILX:0739396",
-      "definition": "Any experimental approach focused on mapping the spatial location of gene activity in biological tissue.",
+      "node": "EFO:0008994",
+      "definition": "assay that allows visualization and quantitative analysis of the transcriptome with spatial resolution in individual tissue sections",
       "status": "decided",
-      "decided": "adopted from openMINDS (latest) experimentalApproach, Jess Haley 2026-10-21",
-      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings)",
+      "decided": "Jess Haley, 2026-11-08 [spatial transcriptomics row is EFO], did_v2_spatial_transcriptomics_plan.md (\"2. A\"): EFO:0008994 (OLS4, 2026-11-08) replaces ILX:0739396, which was adopted from openMINDS (latest) experimentalApproach (Jess Haley 2026-10-21) and is kept as its equivalent",
+      "first_used_in": "no dataset yet: a did-schema binding value set (binding_registry_meta.json subject_statement_bindings); the spatial-transcriptomics migrator's method term (DID-matlab, Build pending)",
       "obsolete": false,
       "number_unit": false,
-      "equivalent": [],
+      "equivalent": [
+        "ILX:0739396"
+      ],
       "synonyms": []
     },
     {
@@ -11709,7 +11711,7 @@
       "node": "NCIT:C164815",
       "definition": "The source-specific version of the published genome assembly.",
       "status": "decided",
-      "decided": "Claude's pick, not named in a decision: the variable G87's proposal gave v1 geneList.genome_assembly (OLS4, 2026-11-06; T19: an existing NCIT term); used because [gene-list facts split] (did_v2_go_forward_class_audit.md, Jess Haley, 2026-11-07, \"C2\") puts the genome assembly on the derived_from relation's method, so the relation to the assembly entity still carries the v1 text",
+      "decided": "Jess Haley, 2026-11-08 [genome assembly term], did_v2_go_forward_class_audit.md (\"3. A\", to Claude's N-Q3): the variable of the derived_from relation's method parameter that carries v1 geneList.genome_assembly; first proposed by Claude in G87 (OLS4, 2026-11-06; T19: an existing NCIT term) and used since [gene-list facts split] (Jess Haley, 2026-11-07, \"C2\")",
       "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): the derived_from relation's method parameter",
       "obsolete": false,
       "number_unit": false,

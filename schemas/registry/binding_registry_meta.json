@@ -1202,7 +1202,7 @@
                     "name": "radiology"
                 },
                 {
-                    "node": "ILX:0739396",
+                    "node": "EFO:0008994",
                     "name": "spatial transcriptomics"
                 },
                 {
