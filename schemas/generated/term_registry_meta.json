@@ -11714,7 +11714,7 @@
             "node": "NCIT:C164815",
             "definition": "The source-specific version of the published genome assembly.",
             "status": "decided",
-            "decided": "Claude's pick, not named in a decision: the variable G87's proposal gave v1 geneList.genome_assembly (OLS4, 2026-11-06; T19: an existing NCIT term); used because [gene-list facts split] (did_v2_go_forward_class_audit.md, Jess Haley, 2026-11-07, \"C2\") puts the genome assembly on the derived_from relation's method, so the relation to the assembly entity still carries the v1 text",
+            "decided": "Jess Haley, 2026-11-08 [genome assembly term], did_v2_go_forward_class_audit.md (\"3. A\", to Claude's N-Q3): the variable of the derived_from relation's method parameter that carries v1 geneList.genome_assembly; first proposed by Claude in G87 (OLS4, 2026-11-06; T19: an existing NCIT term) and used since [gene-list facts split] (Jess Haley, 2026-11-07, \"C2\")",
             "first_used_in": "DID-matlab +migrators_j/gene_list.m (v1 geneList): the derived_from relation's method parameter",
             "obsolete": false,
             "number_unit": false,

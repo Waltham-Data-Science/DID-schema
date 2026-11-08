@@ -15,7 +15,7 @@ Last updated 2026-11-03.
   NDI-matlab #1182 (52516f0a9). empty-ontology #39 (EMPTY:0000436
   identifier namespace, 0000437 symbol namespace, 0000438 unique molecular
   identifier count) is open for Jess to merge.
-- **Answers 2026-11-08 (Jess Haley, in conversation):** N-Q1 "Keep it" ([UMI count synonym kept]); N-Q2 "A" ([spatial transcriptomics row is EFO]); N-Q4 "A" ([copyright year term confirmed]). N-Q3 and N-Q5 were answered with questions ("What is that Ncit term?", "Where do the numbers come from?"), explained in conversation; both stay open.
+- **Answers 2026-11-08 (Jess Haley, in conversation):** N-Q1 "Keep it" ([UMI count synonym kept]); N-Q2 "A" ([spatial transcriptomics row is EFO]); N-Q4 "A" ([copyright year term confirmed]). N-Q3 "A" after Claude showed the OLS4 entry ([genome assembly term]). N-Q5 stays open: Jess Haley asked why migration makes so many documents (14,644 v1 to 39,100 v2 on Dab); Claude is measuring the per-class census.
 - **Questions for Jess raised by the overnight builds (not decided):**
   - N-Q1. "UMI count" was added to EMPTY:0000438 as an abbreviation
     synonym, which she did not ask for. Keep or drop?
