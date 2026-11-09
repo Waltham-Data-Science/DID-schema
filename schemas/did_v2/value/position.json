@@ -43,6 +43,64 @@
                     "ontology": null,
                     "documentation": "One number per coordinate-system dimension.",
                     "constraints": {}
+                },
+                {
+                    "name": "approximate",
+                    "type": "boolean",
+                    "blank_value": false,
+                    "default_value": false,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "True when the coordinates are approximate (Jess Haley 2026-11-09 [tenet audit 6 8 11], did_v2_go_forward_class_audit.md).",
+                    "constraints": {}
+                },
+                {
+                    "name": "tolerance",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The bound on these coordinates: each true coordinate lies between `coordinate - minus` and `coordinate + plus`, in the coordinate system's spacing units, for the whole set. ABSENT means no tolerance is stated. A bound, not a standard deviation (CHANGE 7; Jess Haley 2026-11-09 [tenet audit 6 8 11], did_v2_go_forward_class_audit.md).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "minus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (meters) (for a time: how much EARLIER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        },
+                        {
+                            "name": "plus",
+                            "type": "double",
+                            "blank_value": 0.0,
+                            "default_value": 0.0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (meters) (for a time: how much LATER). Non-negative.",
+                            "constraints": {
+                                "minimum": 0
+                            }
+                        }
+                    ]
                 }
             ]
         }

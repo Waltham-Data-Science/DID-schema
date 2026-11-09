@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-09T18:52:39Z",
+    "fetched_at": "2026-11-09T19:11:45Z",
     "issues": {
         "VH-Lab/DID-matlab#395": {
             "author": "jesshaley",
@@ -91,13 +91,6 @@
             "state": "open",
             "state_reason": null,
             "title": "Corpus proof for the spatial-transcriptomics family (deferred: no corpus holds it) (OPEN_WORK #124)"
-        },
-        "Waltham-Data-Science/DID-schema#107": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Controlled-term bindings for the spatial-transcriptomics fields (OPEN_WORK #126)"
         },
         "Waltham-Data-Science/DID-schema#136": {
             "author": "jesshaley",
@@ -231,6 +224,13 @@
             "state": "open",
             "state_reason": null,
             "title": "Migrators or decided homes for the seven v1 classes with no migrator (carry-158..carry-164; OPEN_WORK #136, #103)"
+        },
+        "Waltham-Data-Science/DID-schema#308": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "cellTypeLabels migrator: homes for its fields, including taxonomy_level and assignment_method"
         },
         "Waltham-Data-Science/DID-schema#89": {
             "author": "jesshaley",

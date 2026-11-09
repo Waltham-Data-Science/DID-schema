@@ -335,8 +335,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The coordinate basis for angle-valued independent variables (e.g., 'compass', 'cartesian'). Absent for non-angular curves.",
-                    "constraints": {}
+                    "documentation": "The coordinate basis for angle-valued independent variables (e.g., 'compass', 'cartesian'). Absent for non-angular curves. A closed list: 'compass' (what NDI-matlab +app/oridirtuning.m and NDIcalc-vis-matlab oridir_tuning.m write) or 'cartesian' (the other convention NDIcalc-vis's polar plots know) (Jess Haley 2026-11-09 [tenet audit 6 8 11], did_v2_go_forward_class_audit.md).",
+                    "constraints": {
+                        "enum": [
+                            "compass",
+                            "cartesian"
+                        ]
+                    }
                 },
                 {
                     "name": "model_fit",

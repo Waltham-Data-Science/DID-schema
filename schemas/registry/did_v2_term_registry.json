@@ -11841,6 +11841,18 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "capture spot",
+      "node": "EMPTY:0000439",
+      "definition": "A region of a spatial transcriptomics array whose capture probes share one spatial barcode.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [cell table terms]",
+      "first_used_in": "no dataset yet: the spatial-transcriptomics migrator's cell table (v1 spatialGeneExpressionCells cells.tsv dnb_count)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
