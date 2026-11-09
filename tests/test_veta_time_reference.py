@@ -140,6 +140,27 @@ def _subnames(field):
     return [f["name"] for f in field.get("fields", [])]
 
 
+def _through_reference(field):
+    """A nested quantity names its value class as its `type` and carries no cell
+    of its own (Decided by Jess Haley, 2026-10-27 [quantity reference type];
+    2026-11-09 [remaining quantity copies removed], did_v2_go_forward_class_audit.md):
+    its cell is that class's `value` cell, read here as the validators read it
+    (DID-matlab did2.schema.cache, d121479b). A field that declares its own
+    sub-fields is returned unchanged. A field naming a value class whose cell
+    cannot be found raises, so a broken reference is never read as an empty cell.
+    """
+    if field.get("fields"):
+        return field
+    built = BUILT.get(field.get("type"))
+    if built is None:
+        return field
+    cell = next((x for x in built[1].get("fields", [])
+                 if x["name"] == "value" and x.get("type") == field["type"]), None)
+    assert cell is not None and cell.get("fields"), (
+        "{!r} names {!r}, which declares no `value` cell".format(field["name"], field["type"]))
+    return dict(field, fields=cell["fields"])
+
+
 # ---------------------------------------------------------------- the family
 
 def test_the_two_targets_exist_under_the_abstract_root():
@@ -234,13 +255,13 @@ def test_the_three_precisions_are_distinct_and_none_restates_another():
 
     _t, rel = BUILT["relative_time_reference"]
     value = _field(rel, "value")
-    assert _sub(_sub(value, "start"), "approximate")["type"] == "boolean"
-    assert _sub(_sub(value, "duration"), "approximate")["type"] == "boolean"
+    assert _sub(_through_reference(_sub(value, "start")), "approximate")["type"] == "boolean"
+    assert _sub(_through_reference(_sub(value, "duration")), "approximate")["type"] == "boolean"
 
     _t, absolute = BUILT["absolute_time_reference"]
     value = _field(absolute, "value")
     assert _sub(_sub(value, "start"), "approximate")["type"] == "boolean"
-    assert _sub(_sub(value, "duration"), "approximate")["type"] == "boolean"
+    assert _sub(_through_reference(_sub(value, "duration")), "approximate")["type"] == "boolean"
 
 
 def test_change_4_clock_tolerance_sits_on_the_ROOT_not_the_relative_child():
@@ -308,7 +329,11 @@ def test_source_end_is_not_renamed_source_duration():
         "approximate", "tolerance"], _subnames(end)
     assert _sub(end, "source_value")["type"] == "char"
     assert "source_duration" not in _subnames(value)
-    assert "source_duration" not in _subnames(_sub(value, "duration"))
+    # The duration cell is read through its reference (`time`), and pinned
+    # non-empty first, so the `not in` below cannot pass on an empty list.
+    duration_cell = _subnames(_through_reference(_sub(value, "duration")))
+    assert duration_cell, "absolute_time_reference.value.duration: no cell was read"
+    assert "source_duration" not in duration_cell, duration_cell
 
 
 def test_end_is_checked_against_start_and_duration():
@@ -520,7 +545,7 @@ def test_change_7_every_time_value_can_state_an_asymmetric_tolerance():
                        ("relative_time_reference", ("start", "duration", "end"))):
         value = _field(BUILT[cls][1], "value")
         for c in cells:
-            check(_sub(value, c), f"{cls}.value.{c}")
+            check(_through_reference(_sub(value, c)), f"{cls}.value.{c}")
             n += 1
     assert n == 6
     dims = 0

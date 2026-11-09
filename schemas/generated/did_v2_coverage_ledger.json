@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 781,
+          "accepted_lines": 782,
           "accepted_lines_by_kind": {
-            "Decided by": 661,
+            "Decided by": 662,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5454,6 +5454,14 @@
               "tag": "term picks batch 3",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [term picks batch 3]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2037,
+              "kind": "Decided by",
+              "tag": "remaining quantity copies removed",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [remaining quantity"
             },
             {
               "document": "did_v2_image_model_plan.md",
