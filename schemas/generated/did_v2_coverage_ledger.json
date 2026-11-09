@@ -696,7 +696,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 124,
+          "documents_read": 125,
           "documents_read_outside_docs": [],
           "documents_excluded_as_generated": [
             "did_v2_STATUS.md",
@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 763,
+          "accepted_lines": 764,
           "accepted_lines_by_kind": {
-            "Decided by": 643,
+            "Decided by": 644,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5893,6 +5893,14 @@
               "tag": "spatial chip is a device",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [spatial chip is a"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 655,
+              "kind": "Decided by",
+              "tag": "pipeline version as text",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",

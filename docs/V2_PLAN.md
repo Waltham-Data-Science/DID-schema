@@ -7,6 +7,20 @@ disagree, they win.
 
 Last updated 2026-11-03.
 
+## State at 2026-11-09 (read with the 2026-11-07 state below)
+
+- Speed: Jess Haley, 2026-11-09: "Build the derived index": an epoch-table
+  index in DID-matlab's SQLite store, derived from the documents, disposable,
+  kept in step in the same write and tested against a fresh computation.
+  Building (DID-matlab first, then NDI-matlab), into `V2`.
+- Wiring: `did_v2_standing_wiring_plan.md` (Proposed, not decided), written at
+  Jess Haley's request: one wiring relation per distinct wiring, not per
+  epoch (Dab: 4,737 relations hold 600 facts; run 42535319383). Q1 and Q2
+  there are for Jess Haley and Steve Van Hooser.
+- NDI-matlab branch `claude/scratch-dab-census` (throwaway): Jess Haley asked
+  for it to be deleted; the session's proxy refuses branch deletion (HTTP
+  403), so it is left for her to delete.
+
 ## State at 2026-11-07 (read with the 2026-11-06 state below)
 
 - Built overnight from Jess Haley's 2026-11-07 answers: did-schema #294
@@ -1159,7 +1173,7 @@ whose DID-matlab build waits on GL1-GL7.
     (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
     Proposed (not decided).
     PARTLY ANSWERED 2026-11-07 (did_v2_spatial_transcriptomics_plan.md section H): the counts' entity [tissue section counts], the tile files [tiles are opaque bodies], the `assay` method term [spatial transcriptomics is EFO], the UMI count term [UMI count term]. The other eight details are open; the migrator waits for them.
-    ANSWERED 2026-11-09: item 7 [gene totals kept whole], item 9 [spatial counts during the session], item 12 [spatial label as notes]. Item 5 (the chip): Jess Haley asked "Is the chip an instrument? If yes, I think A makes sense"; Claude answered that it is a single-use capture device, not a measuring instrument, and asked her to confirm A as a `device` entity. ANSWERED 2026-11-09 "Chip A" [spatial chip is a device]. Item 6 (`pipeline_version`): "I genuinely don't know. I think there is a dataset on NDI cloud that has this data type"; NDI-matlab only passes the caller's text through, so it waits on reading that dataset's value. Claude found it (NDI Cloud 6af091807a7d768be9ae22e6, "Stereo-seq spatial transcriptomics of developing ferret visual cortex"): `pipeline_version` is empty on all three pyramids; Claude proposed keeping non-empty text as a plain "pipeline version" method parameter (Proposed, not decided). Items 8, 10, 11 not yet asked.
+    ANSWERED 2026-11-09: item 7 [gene totals kept whole], item 9 [spatial counts during the session], item 12 [spatial label as notes]. Item 5 (the chip): Jess Haley asked "Is the chip an instrument? If yes, I think A makes sense"; Claude answered that it is a single-use capture device, not a measuring instrument, and asked her to confirm A as a `device` entity. ANSWERED 2026-11-09 "Chip A" [spatial chip is a device]. Item 6 (`pipeline_version`): "I genuinely don't know. I think there is a dataset on NDI cloud that has this data type"; NDI-matlab only passes the caller's text through, so it waits on reading that dataset's value. Claude found it (NDI Cloud 6af091807a7d768be9ae22e6, "Stereo-seq spatial transcriptomics of developing ferret visual cortex"): `pipeline_version` is empty on all three pyramids; Claude proposed keeping non-empty text as a plain "pipeline version" method parameter (Proposed, not decided). ANSWERED 2026-11-09 "Pipeline version C" [pipeline version as text]. Items 8, 10, 11 not yet asked.
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
