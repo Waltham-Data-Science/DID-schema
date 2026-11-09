@@ -49,7 +49,9 @@ LEDGER_JSON = os.path.join(SCHEMAS, "generated", "did_v2_coverage_ledger.json")
 LEDGER_MD = os.path.join(DOCS, "generated", "did_v2_coverage_ledger.md")
 
 # 115: NDI-matlab#979 added lightsheetZarrPyramid + lightsheetZarrLevel (2026-10).
-V1_UNIVERSE = 115
+# 116: NDI-matlab main added spatialGeneExpressionROI (2026-11-02); the lock
+# moved to it on 2026-11-09 ([lock moved to NDI main]).
+V1_UNIVERSE = 116
 
 
 def _ledger():

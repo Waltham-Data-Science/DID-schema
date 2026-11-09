@@ -1,8 +1,8 @@
 # Standing probe wiring: one relation per wiring, not per epoch
 
-**Status: Proposed (not decided).** Drafted by Claude on 2026-11-09, at Jess
-Haley's request ("Write the standing wiring plan for me"). Nothing here is
-decided until a `Decided by` line below records a team member's decision.
+**Status: partly decided.** Drafted by Claude on 2026-11-09, at Jess Haley's
+request ("Write the standing wiring plan for me"). Decided: [wiring recorded
+once] (section 5). Proposed (not decided): how, P1 to P4 (Q3, Q4).
 
 ## 1. The finding
 
@@ -35,71 +35,95 @@ They are per-epoch facts and are not part of this proposal.
 
 ## 2. Proposal
 
-**P1. One wiring relation per distinct wiring.** The migrator (and any v2
-writer) writes one `connected to` relation for each distinct (probe,
-acquisition system, `directed_relation` block). Its time-reference edges name
-every epoch in which that wiring holds, as a `time_reference_id_#` family
-numbered from 0:
+**Correction (2026-11-09, Claude).** The first version of this section (merged
+in did-schema #302) proposed listing the epochs as a `time_reference_id_#`
+family on the wiring relation and said "the class needs no change". That was
+wrong. The family's own documentation (did_v2_time_reference_model_plan.md
+CHANGE 5, #52; amended by [device clocks on one epoch]) says: "within this
+family every member describes THE SAME instant or extent, and `value.clock`
+on the REFERENCED document must be unique across the family". Several time
+references are one time on several clocks or referents, not a list of
+different times. Jess Haley asked "Is multiple time references meant to be
+multiple clocks? Or multiple points in time?", which found it. The proposal
+below replaces it.
+
+**P1. One wiring relation per distinct wiring, listing its epochs on a new
+edge.** The wiring relation gains an edge family for the epochs it holds in,
+separate from time references, for example `epoch_id_#`, each member naming
+one epoch entity. Time references keep their meaning. This is a schema change
+(a new edge on `directed_relation`), so it lands in NDI-matlab and DID-matlab
+first (CLAUDE.md, "Changes the siblings must follow land in the siblings
+first"). The name is a proposal.
 
 ```json
 {"directed_relation": {"relation": {"node": "RO:0002170", "name": "connected to"}, "order": -1,
    "conditions": {"variable": {"node": "EMPTY:0000370", "name": "analog input channel"}, "matrix": [[1]]}},
  "depends_on": [{"name": "child_id",  "value": "<probe>"},
                 {"name": "parent_id", "value": "<acquisition system>"},
-                {"name": "time_reference_id_0", "value": "<anchor of the first epoch>"},
-                {"name": "time_reference_id_1", "value": "<anchor of the second epoch>"},
+                {"name": "epoch_id_0", "value": "<epoch 1>"},
+                {"name": "epoch_id_1", "value": "<epoch 2>"},
                 {"name": "session_id", "value": "<session>"}]}
 ```
 
-`directed_relation.time_reference_id` is already declared `multiple: true`
-(`schemas/did_v2/relation/directed_relation.json`), so the class needs no
-change.
+**P2. One relation per ingest, never edited.** Each ingest (and each migrated
+session) writes one relation per distinct wiring, listing that ingest's
+epochs. A later ingest that adds epochs with the same wiring writes a new
+relation for its own epochs; no document is edited after it is written, as
+in v1 and v2 today. Repetition is bounded by the number of ingests, not
+epochs. A migrated Dab session gets 600 relations.
 
-**P2. Rewiring stays exact.** A probe whose wiring changes between epochs
+**P3. Rewiring stays exact.** A probe whose wiring changes between epochs
 gets one relation per distinct wiring, each naming only its own epochs.
-Nothing about per-epoch wiring is lost; each distinct fact is stored once.
 
-**P3. Reading is unchanged in meaning.** An epoch's wiring is the set of
-wiring relations with an edge to that epoch's anchor. The edge index answers
-this in one query. NDI-matlab #1202 (338ab462) made the readers take numbered
-`time_reference_id_<n>` edges.
+**P4. Reading.** An epoch's wiring is the set of wiring relations with an
+`epoch_id_#` edge to that epoch. The edge index answers this in one query.
 
-**P4. Which anchor.** The edges point at the same epoch anchor the per-epoch
-relation points at today. Which of an epoch's anchors that is has not been
-checked; it is checked before building.
+**Effect on Dab:** 4,737 wiring relations become 600. That alone does not
+bring the Dab probe read to v1 speed; the derived epoch-table index (Jess
+Haley, 2026-11-09, "1 yes, 2 a, 3 yes", docs/V2_PLAN.md) does that and does
+not depend on this plan.
 
-**Effect on Dab:** 4,737 wiring relations become 600. Epoch-table reads join
-about 4,100 fewer documents. That alone does not bring the Dab probe read to
-v1 speed, because the per-epoch anchors and observations remain. The derived
-epoch-table index (Jess Haley, 2026-11-09: "Build the derived index") is
-being built separately and does not depend on this plan.
+**Compared with v1.** v1 also records the wiring once per epoch: each
+`epochfiles_ingested` document holds that epoch's probe map beside its
+clocks. P1-P2 give up v1's self-contained epoch document (the wiring is one
+indexed query away) and keep its write-only history.
 
 ## 3. Alternatives considered
 
-- **A time span** (one anchor from the first to the last epoch): wrong when a
-  probe's epochs are interleaved with epochs where it was wired differently.
-- **No time at all** (the wiring holds for all of the probe's epochs):
-  simplest, but cannot express rewiring.
-- **Keep one relation per epoch** and rely on the derived index for speed:
-  keeps today's repetition. This is the right choice if each epoch's wiring
-  is a separate observation whose provenance matters (Q1).
+- **Several time references** (this plan's first version): conflicts with
+  CHANGE 5, see the correction above.
+- **Change CHANGE 5** so time-reference members may be different times:
+  blurs what a time reference means everywhere, not only for wiring.
+- **A group of epochs** (T20): the wiring is timed "during group G", each
+  epoch a `member_of` G. No new edge, but one membership relation per epoch,
+  so no fewer documents.
+- **One time reference for "during the session"**: wrong; a Dab probe is in
+  3 to 23 of its session's epochs.
+- **A time span** (first to last epoch): wrong when a probe's epochs are
+  interleaved with epochs where it was wired differently.
+- **Edit one relation per wiring as epochs arrive**: fewest documents, but
+  documents change after they are written (P2 avoids it).
+- **Keep one relation per epoch** and rely on the derived index for speed.
 
 ## 4. What it would touch (siblings first)
 
-1. **NDI-matlab:** readers and writers take a wiring relation with several
-   epoch edges (mostly done by #1202; to be checked against the probe-map
-   readers `ndi.vintage.ingestedEpochs`, `ndi.vintage.wiredDeviceString`,
-   `ndi.file.navigator.bodies`), and the round trip still rebuilds each
-   epoch's v1 probe map.
-2. **DID-matlab:** `resolveEpochProbemap` groups identical wirings across a
-   session's epochs before writing; the round-trip tests rebuild v1's
-   per-epoch devicestring from the grouped relation.
-3. **did-schema:** the decision line only; no class change (P1).
+1. **NDI-matlab:** readers take the wiring from `epoch_id_#` edges (and the
+   old per-epoch shape, while both exist), writers write P1-P2; the round
+   trip still rebuilds each epoch's v1 probe map.
+2. **DID-matlab:** `resolveEpochProbemap` groups identical wirings of a
+   session's epochs into one relation; `did2.build` accepts the new edge;
+   round-trip tests.
+3. **did-schema:** the new edge on `directed_relation`, after 1 and 2.
 
 ## 5. Questions for the team
 
-- **Q1.** Is "the same wiring in many epochs" one fact with many times (this
-  proposal), or one fact per epoch, because each epoch's wiring was recorded
-  separately and that record matters?
-- **Q2.** If P1: does the same grouping apply to any other per-epoch relation
-  that repeats? None has been counted.
+- **Q1.** Is "the same wiring in many epochs" one fact? ANSWERED below
+  [wiring recorded once].
+- **Q2.** Do other per-epoch documents repeat the same way? Being counted on
+  Dab and B (Jess Haley, 2026-11-09: "Count them").
+- **Q3.** When a later ingest adds epochs with an existing wiring: write a new
+  relation for them (P2), or edit the existing one? Claude recommends P2.
+- **Q4.** The mechanism: a new epoch edge on the relation (P1), a group of
+  epochs, or a change to CHANGE 5? Claude recommends P1.
+
+Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("I think the same fact only needs to be recorded once", to Q1 of this plan) a probe's wiring that holds in several epochs is recorded once, not once per epoch. How (Q3, Q4) is not decided. Build pending: NDI-matlab (readers and writers of the grouped wiring), DID-matlab (`resolveEpochProbemap` groups identical wirings), did-schema (the edge that lists the epochs), all after Q3 and Q4.

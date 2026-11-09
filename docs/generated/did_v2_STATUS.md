@@ -382,7 +382,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 764 decision line(s) accepted, 2 rejected; 44 cited by a class, 720 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 767 decision line(s) accepted, 2 rejected; 44 cited by a class, 723 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -972,8 +972,9 @@ field). If one decides a class's disposition, that class should cite it.
 - copyright year is a date assertion. "Decided by Jess Haley, 2026-11-07 [copyright year is a date" (did_v2_go_forward_class_audit.md:2021).
 - copyright year term confirmed. "Decided by Jess Haley, 2026-11-08 [copyright year term" (did_v2_go_forward_class_audit.md:2023).
 - genome assembly term. "Decided by Jess Haley, 2026-11-08 [genome assembly term]: (" (did_v2_go_forward_class_audit.md:2025).
-- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2027).
-- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2029).
+- lock moved to NDI main. "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]" (did_v2_go_forward_class_audit.md:2027).
+- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2029).
+- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2031).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1034,6 +1035,8 @@ field). If one decides a class's disposition, that class should cite it.
 - spatial label as notes. "Decided by Jess Haley, 2026-11-09 [spatial label as notes]" (did_v2_spatial_transcriptomics_plan.md:651).
 - spatial chip is a device. "Decided by Jess Haley, 2026-11-09 [spatial chip is a" (did_v2_spatial_transcriptomics_plan.md:653).
 - pipeline version as text. "Decided by Jess Haley, 2026-11-09 [pipeline version as" (did_v2_spatial_transcriptomics_plan.md:655).
+- spatial ROI is an outline. "Decided by Jess Haley, 2026-11-09 [spatial ROI is an" (did_v2_spatial_transcriptomics_plan.md:657).
+- wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:129).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
@@ -1116,7 +1119,7 @@ field). If one decides a class's disposition, that class should cite it.
 | consumed by migrator (no tombstone) | 89 |
 | retire | 10 |
 | no V_eta home, no migrator -- UNVERIFIED | 9 |
-| UNMAPPED (needs a V_eta home) | 3 |
+| UNMAPPED (needs a V_eta home) | 4 |
 | test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
 | persist | 1 |

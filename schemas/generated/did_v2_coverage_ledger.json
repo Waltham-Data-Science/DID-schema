@@ -2,7 +2,7 @@
   "title": "V_eta migration coverage ledger",
   "description": "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production templates (read from NDI-matlab `origin/main`, not a lagging feature branch) AND the vhlab app/calculator classes that appear in real corpora but ship no NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, not v1 sources, and are excluded.",
   "summary": {
-    "total": 115,
+    "total": 116,
     "batch_pass": {
       "measured": true,
       "why": null,
@@ -22,7 +22,7 @@
       "missing": [],
       "invalid": [],
       "accounting_disagreement": [],
-      "denominator_rows": 115,
+      "denominator_rows": 116,
       "credited_rung_1": [
         {
           "v1_class": "epochid",
@@ -318,22 +318,22 @@
       "retire": 10,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 3,
+      "UNMAPPED (needs a V_eta home)": 4,
       "no V_eta home, no migrator -- UNVERIFIED": 9
     },
     "by_source": {
-      "ndi": 104,
+      "ndi": 105,
       "app": 11
     },
     "with_migrator": 95,
-    "gaps": 3,
+    "gaps": 4,
     "no_target": {
-      "rows_naming_no_target": 29,
+      "rows_naming_no_target": 30,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 19
+        "unrecorded": 20
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
@@ -349,6 +349,7 @@
         "ontologyTableRow",
         "openminds",
         "site2channelmap",
+        "spatialGeneExpressionROI",
         "spike_clusters",
         "spikewaves",
         "stimulus_parameter",
@@ -365,20 +366,20 @@
       "stimulus_presentation"
     ],
     "stage_rollup": {
-      "classified": 115,
+      "classified": 116,
       "unclassifiable": 0,
       "unclassifiable_rows": [],
       "headline": {
         "rung": 1,
         "name": "a migrator CONSUMES it",
-        "denominator": 115,
+        "denominator": 116,
         "yes": 100,
-        "no": 15,
+        "no": 16,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 15,
+        "0": 16,
         "1": 25,
         "2": 15,
         "3": 60,
@@ -391,21 +392,21 @@
       "per_stage_state_counts": {
         "1": {
           "yes": 100,
-          "no": 15
+          "no": 16
         },
         "2": {
-          "not measured": 32,
+          "not measured": 33,
           "yes": 75,
           "n/a": 8
         },
         "3": {
-          "not measured": 32,
+          "not measured": 33,
           "yes": 58,
           "no": 17,
           "n/a": 8
         },
         "4": {
-          "not measured": 115
+          "not measured": 116
         }
       },
       "per_stage_satisfied_independently": {
@@ -415,20 +416,20 @@
         "4": 0
       },
       "capped": {
-        "denominator": 115,
+        "denominator": 116,
         "rows": 2,
         "row_names": [
           "ensemble",
           "epochclocktimes"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 13,
+          "0": 14,
           "1": 27,
           "2": 17,
           "3": 58,
           "4": 0
         },
-        "genuinely_untouched": 7,
+        "genuinely_untouched": 8,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
@@ -436,7 +437,8 @@
           "demoNDISeries",
           "demoNDISeriesMixed",
           "imageStack_parameters",
-          "mock"
+          "mock",
+          "spatialGeneExpressionROI"
         ],
         "genuinely_untouched_detail": [
           {
@@ -480,6 +482,12 @@
             "disposition": "test/demo fixture (non-production)",
             "target_source": "unknown",
             "governance": "proposed (not decided)"
+          },
+          {
+            "v1_class": "spatialGeneExpressionROI",
+            "disposition": "UNMAPPED (needs a V_eta home)",
+            "target_source": "unknown",
+            "governance": "proposed (not decided)"
           }
         ],
         "genuinely_untouched_recorded_passthrough": 2,
@@ -494,8 +502,8 @@
         ]
       },
       "no_target_recorded": {
-        "denominator": 115,
-        "rows": 40,
+        "denominator": 116,
+        "rows": 41,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -527,6 +535,7 @@
           "session_in_a_dataset",
           "simple_calc",
           "site2channelmap",
+          "spatialGeneExpressionROI",
           "spike_clusters",
           "spikewaves",
           "stimulus_parameter",
@@ -594,19 +603,19 @@
         "what_would_light_it_up": "a DID-matlab corpus run's `<corpus>-summary.json` reports reachable from this repo -- pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS. Each report must carry `source_census.by_class` (per v1 SOURCE class) plus `quarantine_count`, `fragment_count`, `reference_integrity.orphan_count` and `silent_loss.empty_required_dependency`."
       },
       "governance": {
-        "denominator": 115,
+        "denominator": 116,
         "by_state": {
           "decided": 71,
           "DISPUTED": 0,
           "citation UNRESOLVED": 0,
-          "proposed (not decided)": 44
+          "proposed (not decided)": 45
         },
         "signed_by": {
           "cited by the class": 58,
           "checked transcription on the row": 13
         },
         "join": {
-          "rows_inspected": 115,
+          "rows_inspected": 116,
           "rows_with_a_resolved_citation": 71,
           "matched_on": {
             "v1_class": 71
@@ -638,7 +647,7 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 19,
+            "no citation names this class, and the row has no V_eta class and no target either": 20,
             "no decision citation names this class": 25
           },
           "unmoved_rows_by_cause": {
@@ -657,6 +666,7 @@
               "openminds_stimulus",
               "simple_calc",
               "site2channelmap",
+              "spatialGeneExpressionROI",
               "spike_clusters",
               "spikewaves",
               "treatment_transfer",
@@ -704,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 764,
+          "accepted_lines": 767,
           "accepted_lines_by_kind": {
-            "Decided by": 644,
+            "Decided by": 647,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5410,13 +5420,21 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2027,
               "kind": "Decided by",
+              "tag": "lock moved to NDI main",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2029,
+              "kind": "Decided by",
               "tag": "one dataset exports as Dataset and version",
               "date": "2026-11-07",
               "anchor": "Decided by Jess Haley, 2026-11-07 [one dataset exports as"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2029,
+              "line": 2031,
               "kind": "Decided by",
               "tag": "documentation from subjectOf",
               "date": "2026-11-07",
@@ -5901,6 +5919,22 @@
               "tag": "pipeline version as text",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 657,
+              "kind": "Decided by",
+              "tag": "spatial ROI is an outline",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 129,
+              "kind": "Decided by",
+              "tag": "wiring recorded once",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
@@ -16128,6 +16162,94 @@
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
+        "only_excused": false,
+        "corpus_rung_state": "not measured"
+      }
+    },
+    {
+      "v1_class": "spatialGeneExpressionROI",
+      "veta_class": null,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": true,
+      "targets": [],
+      "decided_targets": [],
+      "decided_targets_source": null,
+      "decided_signoff": null,
+      "target_source": "unknown",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "no_target_account": null,
+      "no_target_signoff": null,
+      "target_gap": true,
+      "build_state": {
+        "schema_targets_named": 0,
+        "schema_targets_built": [],
+        "schema_targets_missing": [],
+        "migrator_emits_decided_targets": false,
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
+        "emitted_by_migrator": null,
+        "emitted_by_targets": [],
+        "emitted_by_emits_decided_targets": false
+      },
+      "carried": [],
+      "second_pass": [],
+      "how": "",
+      "target_flags": "",
+      "decided_by_citation": null,
+      "decision_citations": [],
+      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
+      "governance": {
+        "state": "proposed (not decided)",
+        "signoff": null,
+        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+      },
+      "stage": {
+        "unclassifiable": false,
+        "unclassifiable_why": null,
+        "reached": 0,
+        "reached_name": "source identified",
+        "blocked_by": 1,
+        "blocked_by_state": "no",
+        "ladder": [
+          {
+            "stage": 1,
+            "name": "a migrator CONSUMES it",
+            "state": "no",
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
+          },
+          {
+            "stage": 2,
+            "name": "its decided target classes EXIST in the build",
+            "state": "not measured",
+            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+          },
+          {
+            "stage": 3,
+            "name": "the migrator emits THE DECIDED targets",
+            "state": "not measured",
+            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+          },
+          {
+            "stage": 4,
+            "name": "CORPUS-PROVEN",
+            "state": "not measured",
+            "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
+          }
+        ],
+        "anomalies": [],
+        "highest_rung_satisfied_independently": 0,
+        "capped": false,
+        "nothing_built": true,
+        "nothing_satisfied": true,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }

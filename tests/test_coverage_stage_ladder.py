@@ -80,10 +80,12 @@ LEDGER_MD = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_coverage_ledger
 # spatialGeneExpressionCells/Pyramid/Tiles -- and #67 added `calculator` as a
 # V_eta class whose NDI v1 name matches, so it enters the ledger by the join).
 # NDI-matlab origin/main then gained lightsheetZarrPyramid and lightsheetZarrLevel
-# (NDI-matlab#979, 2026-10), so 115.
+# (NDI-matlab#979, 2026-10), so 115. NDI-matlab main then gained
+# spatialGeneExpressionROI (2026-11-02; the lock moved to it 2026-11-09,
+# [lock moved to NDI main]), so 116.
 # A classifier whose denominator quietly shrinks is the failure every operating
 # rule in CLAUDE.md is written against.
-V1_UNIVERSE = 115
+V1_UNIVERSE = 116
 
 # The completion rungs, written out here rather than imported so a change to
 # coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
