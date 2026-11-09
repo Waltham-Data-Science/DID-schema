@@ -84,10 +84,8 @@ FROZEN_MAX = 165
 # list when its issue is reopened or created (and the row and the snapshot
 # updated), or when the row moves to COMPLETED.
 AWAITING_ISSUE = {
-    # did-schema issue closed; a carry register row (awaiting_home) still
-    # cites the row (check_carry_register.py C5). Not covered by the issues
-    # agreed on 2026-11-06 (F-Q1), so it waits for the team.
-    "31": "reopen DID-schema #94, or open a new issue (carry-084)",
+    # empty: row 31's issue, DID-schema #94, is open again (snapshot refreshed
+    # 2026-11-09), so it no longer waits for an issue.
 }
 
 ISSUE_RE = re.compile(r"https://github\.com/([\w.-]+)/([\w.-]+)/issues/(\d+)")

@@ -30,7 +30,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | # | item -> issue |
 |---|---|
 | 30 | raw recordings as typed observations: Guard A has no value kind (the assembler is live) -> https://github.com/VH-Lab/DID-matlab/issues/395 (did-schema #104 closed 2026-10-29; left: DID-matlab comments at the locked head still say "#30, NOT BUILT" (`check_build_claims.py` rule B)) |
-| 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 (issue #94 closed 2026-10-30; kept OPEN: carry-084 (`awaiting_home`) still cites this row (`check_carry_register.py` C5)) |
+| 31 | stimulus model: non-grating stimuli need a value model; unfolded presentations need a disposition -> https://github.com/Waltham-Data-Science/DID-schema/issues/94 (issue #94 closed 2026-10-30 and open again by 2026-11-09; carry-084 (`awaiting_home`) still cites this row (`check_carry_register.py` C5)) |
 | 32 | binding governance (T8): the remaining clause is #129 -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id` -> https://github.com/Waltham-Data-Science/DID-schema/issues/105 |
 | 68 | a value rollup for `sampled_body` -> https://github.com/Waltham-Data-Science/DID-schema/issues/98 |
@@ -55,7 +55,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 154 | a home for `simple_calc`, designed only if a real dataset holds one (carry-104) -> https://github.com/Waltham-Data-Science/DID-schema/issues/198 |
 | 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/199 |
 | 156 | a home for a statement's v1 name (carry-106) -> https://github.com/Waltham-Data-Science/DID-schema/issues/200 |
-| 157 | a home for a legacy `ndi_document` block beside `base` (carry-049) -> https://github.com/Waltham-Data-Science/DID-schema/issues/201 |
 | 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/202 |
 | 159 | homes for four carries recorded 2026-10-28: v1 ids with no v2 document, axis letters, openMINDS ids, session lists (carry-112, carry-114, carry-116, carry-118; the fifth, lab strain ids, was retired 2026-11-01 when NDI-matlab's second pass wrote them on the strain entity) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
 | 162 | six nested quantity cells still hand-copied (time references, `time_reference.clock_tolerance`, `coordinate_system.axes.spacing`), and the web viewer does not expand a quantity reference -> https://github.com/Waltham-Data-Science/DID-schema/issues/230 |
@@ -85,6 +84,7 @@ Open items without a row number: none (the last two, #108 and #104, are under CO
 
 | # | what completed |
 |---|---|
+| 157 | a home for a legacy `ndi_document` block beside `base`: [ndi_document read as base] (2026-10-31), built in DID-matlab 218fc861 (#331) and dac31a67 (#351), NDI-matlab c648e3d1 (#1144), did-schema e6d92da6 (carry-049 retired); issue #201 closed 2026-11-09 with that evidence. |
 | 57 | `acquisition_channels`' dependency set and the sync-configuration signature: moot, the class is retired (`acquisition_channels` in `tools/veta_record.py` RETIRED_CLASSES; the class file and `interaction.acquisition_channels_id` removed in #273, merged 2026-11-02); #95 closed (not planned) 2026-11-03 |
 | 132 | `data_body.compression` as a {term, parameters} block: built in all four repositories ([compression block and empty levels] reads Built: did-schema, DID-matlab 4d4026d #340, NDI-matlab d746642 #1128; empty-ontology 89c949e #35); declared in `schemas/did_v2/data_body/data_body.json`; #137 closed 2026-11-03 |
 | 61 | `stimulus_response_scalar` emits its decided target: DID-matlab `+migrators_j/stimulus_response_scalar.m` (locked head b34a6bae; still rung 3 at 638d03c8) builds a `calculation` with value kind `harmonic_component`, and the coverage ledger row reads rung 3 "the migrator emits THE DECIDED targets"; no issue was opened (sibling-repo row), moved 2026-11-03 under [open work lives in issues] |
