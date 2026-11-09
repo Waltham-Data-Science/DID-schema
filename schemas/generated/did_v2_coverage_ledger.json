@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 786,
+          "accepted_lines": 787,
           "accepted_lines_by_kind": {
-            "Decided by": 666,
+            "Decided by": 667,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5478,6 +5478,14 @@
               "tag": "external parents imported",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [external parents"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2043,
+              "kind": "Decided by",
+              "tag": "purpose written by the dataset map",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [purpose written by the"
             },
             {
               "document": "did_v2_image_model_plan.md",
