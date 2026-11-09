@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-06T04:46:11Z",
+    "fetched_at": "2026-11-09T18:52:39Z",
     "issues": {
         "VH-Lab/DID-matlab#395": {
             "author": "jesshaley",
@@ -176,13 +176,6 @@
             "state_reason": null,
             "title": "A home for a statement's v1 name (carry-106)"
         },
-        "Waltham-Data-Science/DID-schema#201": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "A home for a legacy ndi_document block beside base (carry-049)"
-        },
         "Waltham-Data-Science/DID-schema#202": {
             "author": "jesshaley",
             "closed_at": null,
@@ -255,9 +248,9 @@
         },
         "Waltham-Data-Science/DID-schema#94": {
             "author": "jesshaley",
-            "closed_at": "2026-10-30T12:32:52Z",
-            "state": "closed",
-            "state_reason": "completed",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": "reopened",
             "title": "Stimulus model: non-grating stimuli need a value model, and the unfolded presentations need a disposition (OPEN_WORK #31)"
         },
         "Waltham-Data-Science/DID-schema#98": {

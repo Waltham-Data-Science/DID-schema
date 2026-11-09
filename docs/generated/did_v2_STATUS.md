@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 780 decision line(s) accepted, 2 rejected; 45 cited by a class, 735 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 781 decision line(s) accepted, 2 rejected; 45 cited by a class, 736 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1121,6 +1121,7 @@ field). If one decides a class's disposition, that class should cite it.
 - contrast sensitivity lossless. "Decided by Jess Haley, 2026-10-23 [contrast sensitivity" (did_v2_tuning_model_plan.md:273).
 - oridir half-height values. "Decided by Jess Haley, 2026-11-09 [oridir half-height" (did_v2_tuning_model_plan.md:275).
 - frequency tuning keeps Inf. "Decided by Jess Haley, 2026-11-09 [frequency tuning keeps" (did_v2_tuning_model_plan.md:277).
+- tuning selection rule stated once. "Decided by Jess Haley, 2026-11-09 [tuning selection rule" (did_v2_tuning_model_plan.md:279).
 - calculator mixin dropped (#73). "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (team_signoff_lines_DRAFT.md:13).
 - observation vs calculation (#73). "TEAM-SIGN-OFF [observation vs calculation (#73)]" (team_signoff_lines_DRAFT.md:16).
 - tuning restructure (#73). "TEAM-SIGN-OFF [tuning restructure (#73)]" (team_signoff_lines_DRAFT.md:19).
