@@ -5953,7 +5953,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 610,
+              "line": 612,
               "kind": "Decided by",
               "tag": "response parameters as a shared method",
               "date": "2026-10-21",
@@ -5961,7 +5961,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 612,
+              "line": 614,
               "kind": "Decided by",
               "tag": "control input told apart by its document",
               "date": "2026-10-21",
@@ -5969,7 +5969,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 614,
+              "line": 616,
               "kind": "Decided by",
               "tag": "empty response settings",
               "date": "2026-10-21",
@@ -5977,7 +5977,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 616,
+              "line": 618,
               "kind": "Decided by",
               "tag": "control record is a calculation",
               "date": "2026-10-21",
@@ -5985,7 +5985,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 622,
+              "line": 624,
               "kind": "Decided by",
               "tag": "presentation times from the file",
               "date": "2026-10-22",
@@ -5993,7 +5993,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 625,
+              "line": 627,
               "kind": "Decided by",
               "tag": "presentation file declared",
               "date": "2026-10-22",
@@ -7771,7 +7771,7 @@
         "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "control as covariate",
         "resolved": true,
-        "line": 620,
+        "line": 622,
         "kind": "Decided by",
         "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
         "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
@@ -7785,7 +7785,7 @@
           "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "control as covariate",
           "resolved": true,
-          "line": 620,
+          "line": 622,
           "kind": "Decided by",
           "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
           "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",

@@ -299,3 +299,5 @@ RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `o
 RE-DERIVED 2026-10-23 (ndi_m_files, sibling drift; `check_prose_counts`): NDI `origin/main` at `3cb19a85f`: 1,307 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1307). Only the denominator moved. Re-derive, do not quote.
 
 RE-DERIVED 2026-10-27 (ndi_m_files, sibling lock moved by [move the locked mains]; `check_prose_counts`): NDI `origin/main` at `441530d0f`: 1,319 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1319). Only the denominator moved. Re-derive, do not quote.
+
+RE-DERIVED 2026-11-09 (sibling lock's NDI `main` moved to `73f46d194` by [lock moved to NDI main], which brought in `spatialGeneExpressionROI`; `check_prose_counts`): **105 NDI templates** on origin/main (was 104); NDI `origin/main` at `73f46d194`: 1,374 .m files (`git ls-tree -r origin/main | grep -c '\.m$'` = 1374). Re-derive, do not quote.

@@ -308,7 +308,7 @@ DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve
 | `binaryseries_parameters` | consumed by migrator (no tombstone) | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9). |
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (did_v2_subject_calculation_plan.md:371). |
 | `cellTypeLabels` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
-| `control_stimulus_ids` | consumed by migrator (no tombstone) | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (did_v2_stimulus_response_model_plan.md:620). |
+| `control_stimulus_ids` | consumed by migrator (no tombstone) | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (did_v2_stimulus_response_model_plan.md:622). |
 | `daqmetadatareader` | consumed by migrator (no tombstone) | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (did_v2_daq_family_decisions.md:489). |
 | `daqmetadatareader_epochdata_ingested` | consumed by migrator (no tombstone) | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (did_v2_ingested_payload_findings.md:276). |
 | `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (did_v2_daq_family_decisions.md:489). |
@@ -1040,12 +1040,12 @@ field). If one decides a class's disposition, that class should cite it.
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
-- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (did_v2_stimulus_response_model_plan.md:610).
-- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (did_v2_stimulus_response_model_plan.md:612).
-- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (did_v2_stimulus_response_model_plan.md:614).
-- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (did_v2_stimulus_response_model_plan.md:616).
-- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (did_v2_stimulus_response_model_plan.md:622).
-- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (did_v2_stimulus_response_model_plan.md:625).
+- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (did_v2_stimulus_response_model_plan.md:612).
+- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (did_v2_stimulus_response_model_plan.md:614).
+- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (did_v2_stimulus_response_model_plan.md:616).
+- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (did_v2_stimulus_response_model_plan.md:618).
+- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (did_v2_stimulus_response_model_plan.md:624).
+- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (did_v2_stimulus_response_model_plan.md:627).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (did_v2_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (did_v2_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (did_v2_study_plan.md:29).
