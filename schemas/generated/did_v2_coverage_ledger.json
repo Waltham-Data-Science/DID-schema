@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 775,
+          "accepted_lines": 776,
           "accepted_lines_by_kind": {
-            "Decided by": 655,
+            "Decided by": 656,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6558,6 +6558,14 @@
               "tag": "contrast sensitivity lossless",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [contrast sensitivity"
+            },
+            {
+              "document": "did_v2_tuning_model_plan.md",
+              "line": 275,
+              "kind": "Decided by",
+              "tag": "oridir half-height values",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [oridir half-height"
             },
             {
               "document": "team_signoff_lines_DRAFT.md",
