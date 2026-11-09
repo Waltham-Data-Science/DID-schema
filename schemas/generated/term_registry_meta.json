@@ -11734,6 +11734,18 @@
             "synonyms": [
                 "copyright year"
             ]
+        },
+        {
+            "name": "cartesian spatial coordinate origin",
+            "node": "STATO:0000026",
+            "definition": "A cartesian spatial coordinate datum chosen as a fixed point of reference in a spatial region.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-09 [one coordinate system per chip]",
+            "first_used_in": "no dataset yet: the spatial-transcriptomics migrator's coordinate_system reference point (the zero of a Stereo-seq chip's spot grid)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }

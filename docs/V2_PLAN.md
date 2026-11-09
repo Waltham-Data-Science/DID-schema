@@ -20,10 +20,20 @@ Last updated 2026-11-03.
   points to, with a test that changes every kind of input and compares the
   index with a fresh computation; (3) migration and the v2 import build the
   index as their last step, with a build on first read as the fallback.
-- Wiring: `did_v2_standing_wiring_plan.md` (Proposed, not decided), written at
-  Jess Haley's request: one wiring relation per distinct wiring, not per
-  epoch (Dab: 4,737 relations hold 600 facts; run 42535319383). Q1 and Q2
-  there are for Jess Haley and Steve Van Hooser.
+  Built: DID-matlab #422 (d1fb5672) and NDI-matlab #1206 (b432e0f4), both in
+  `V2`. Dab getprobes is still over the margin on a fast runner (v1 8.5 s, v2
+  11.2 s, limit 10.4 s; run 42601612127); the remaining time is element-side.
+  Jess Haley, 2026-11-09: "Add elements to the derived index" (one derived row
+  per migrated element: name, reference, type, class, underlying element,
+  subject). Building in NDI-matlab, into `V2`. A DID-matlab index on the v1
+  `element.*` fields (option 2) is explained, not decided: it waits on whether
+  the element rows answer the 16 new-probe element queries.
+- Wiring: `did_v2_standing_wiring_plan.md`, written at Jess Haley's request:
+  one wiring relation per distinct wiring, not per epoch (Dab: 4,737
+  relations hold 600 facts; run 42535319383). Decided there: [wiring recorded
+  once], [wiring per ingest] (Q3), [stimulator manipulation dropped] (Q5).
+  Open: Q4, the mechanism (Claude recommends the `epoch_id_#` edge). A count
+  of distinct epoch sets on Dab and B is running.
 - NDI-matlab branch `claude/scratch-dab-census` (throwaway): Jess Haley asked
   for it to be deleted; the session's proxy refuses branch deletion (HTTP
   403), so it is left for her to delete.
@@ -1180,7 +1190,7 @@ whose DID-matlab build waits on GL1-GL7.
     (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
     Proposed (not decided).
     PARTLY ANSWERED 2026-11-07 (did_v2_spatial_transcriptomics_plan.md section H): the counts' entity [tissue section counts], the tile files [tiles are opaque bodies], the `assay` method term [spatial transcriptomics is EFO], the UMI count term [UMI count term]. The other eight details are open; the migrator waits for them.
-    ANSWERED 2026-11-09: item 7 [gene totals kept whole], item 9 [spatial counts during the session], item 12 [spatial label as notes]. Item 5 (the chip): Jess Haley asked "Is the chip an instrument? If yes, I think A makes sense"; Claude answered that it is a single-use capture device, not a measuring instrument, and asked her to confirm A as a `device` entity. ANSWERED 2026-11-09 "Chip A" [spatial chip is a device]. Item 6 (`pipeline_version`): "I genuinely don't know. I think there is a dataset on NDI cloud that has this data type"; NDI-matlab only passes the caller's text through, so it waits on reading that dataset's value. Claude found it (NDI Cloud 6af091807a7d768be9ae22e6, "Stereo-seq spatial transcriptomics of developing ferret visual cortex"): `pipeline_version` is empty on all three pyramids; Claude proposed keeping non-empty text as a plain "pipeline version" method parameter (Proposed, not decided). ANSWERED 2026-11-09 "Pipeline version C" [pipeline version as text]. Items 8, 10, 11 not yet asked.
+    ANSWERED 2026-11-09: item 7 [gene totals kept whole], item 9 [spatial counts during the session], item 12 [spatial label as notes]. Item 5 (the chip): Jess Haley asked "Is the chip an instrument? If yes, I think A makes sense"; Claude answered that it is a single-use capture device, not a measuring instrument, and asked her to confirm A as a `device` entity. ANSWERED 2026-11-09 "Chip A" [spatial chip is a device]. Item 6 (`pipeline_version`): "I genuinely don't know. I think there is a dataset on NDI cloud that has this data type"; NDI-matlab only passes the caller's text through, so it waits on reading that dataset's value. Claude found it (NDI Cloud 6af091807a7d768be9ae22e6, "Stereo-seq spatial transcriptomics of developing ferret visual cortex"): `pipeline_version` is empty on all three pyramids; Claude proposed keeping non-empty text as a plain "pipeline version" method parameter (Proposed, not decided). ANSWERED 2026-11-09 "Pipeline version C" [pipeline version as text]. Item 8 ANSWERED 2026-11-09 "Yes, one per chip" [one coordinate system per chip] (after "A, but check the file first"; the file check showed the three sections share one chip grid); its reference-point term ANSWERED "A", STATO:0000026. Item 10 ANSWERED 2026-11-09 "A" [cell table split]; its terms are open (Claude proposes PATO:0001323 area, EMPTY:0000081 identifier, counts of NCIT:C16612 Gene and of capture spots; the unit of `area` unverified). Item 11 not yet asked.
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,

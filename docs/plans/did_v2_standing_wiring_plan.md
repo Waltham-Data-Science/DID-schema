@@ -2,7 +2,8 @@
 
 **Status: partly decided.** Drafted by Claude on 2026-11-09, at Jess Haley's
 request ("Write the standing wiring plan for me"). Decided: [wiring recorded
-once] (section 5). Proposed (not decided): how, P1 to P4 (Q3, Q4).
+once] and [wiring per ingest] (section 5). Proposed (not decided): the
+mechanism, P1 and P4 (Q4). Q5 is answered by [stimulator manipulation dropped].
 
 ## 1. The finding
 
@@ -146,6 +147,20 @@ indexed query away) and keep its write-only history.
   manipulation is an interaction, and `interaction.time_reference_id` has
   `min_count: 1`, so the epoch-list edge would sit beside a required time
   reference, or the statement belongs elsewhere. Not proposed yet.
+  ANSWERED below [stimulator manipulation dropped]: the body-less Stimulator
+  manipulation says nothing the wiring relation and the stimulator element do
+  not already say (its value is the term "Stimulator" as both variable and
+  value; it owns no data body since [ingested stimulus file is a body of the
+  presentation] moved the stimulus file to the presentation manipulation, NDI-matlab
+  `+migrate/+internal/ingestedStimulusBodies.m`). The stimuli are in the
+  `timed_sequence_manipulation` that NDI's second pass builds from v1
+  `stimulus_presentation`. Its readers today: DID-matlab
+  `+did2/+convert/+roundtrip/private/manifestProbemap.m` rebuilds the v1
+  probe map's stimulator row from it; NDI's presentation attribution reads the
+  stimulator element's own subject instead (`bodyResolver.m`
+  `subjectsViaStimulator`). Before it is dropped, the build confirms that the
+  migrated stimulator element keeps its subject and moves the round trip to
+  the wiring and the element.
 - **Who writes wiring.** Today only the migration writes wiring relations,
   from v1 ingested epochs (`resolveEpochProbemap`). For new data, which v2
   writer writes them at ingest is part of the parked ingest questions
@@ -154,7 +169,19 @@ indexed query away) and keep its write-only history.
   once Q3 and Q4 are answered.
 - **Q3.** When a later ingest adds epochs with an existing wiring: write a new
   relation for them (P2), or edit the existing one? Claude recommends P2.
+  ANSWERED below [wiring per ingest].
 - **Q4.** The mechanism: a new epoch edge on the relation (P1), a group of
-  epochs, or a change to CHANGE 5? Claude recommends P1.
+  epochs, or a change to CHANGE 5? Claude recommends P1 if Q5 is no. If the
+  Stimulator manipulations are grouped too (Q5 yes), the wiring and the
+  manipulations would list the same set of epochs, and T20 ("a set referred
+  to as a unit is a group entity"; statements "never list its members") then
+  points to a group of epochs instead. How many distinct epoch sets Dab and B
+  hold is not measured. Under P1 the relation carries no time reference
+  (`time_reference_id` is optional on `directed_relation`); its time is its
+  epochs' own anchors.
 
 Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("I think the same fact only needs to be recorded once", to Q1 of this plan) a probe's wiring that holds in several epochs is recorded once, not once per epoch. How (Q3, Q4) is not decided. Build pending: NDI-matlab (readers and writers of the grouped wiring), DID-matlab (`resolveEpochProbemap` groups identical wirings), did-schema (the edge that lists the epochs), all after Q3 and Q4.
+
+Decided by Jess Haley, 2026-11-09 [wiring per ingest]: ("Q3: yes", to Q3 of this plan, Claude recommending P2) a later ingest that adds epochs with an existing wiring writes a new wiring relation for its own epochs; no wiring relation is edited after it is written. Build pending: NDI-matlab (writers write one relation per wiring per ingest), DID-matlab (`resolveEpochProbemap` writes one per migrated session), after Q4.
+
+Decided by Jess Haley, 2026-11-09 [stimulator manipulation dropped]: ("If stimulator manipulations carry nothing new, they should be dropped. The timed sequence manipulations are where the stimuli lie") the body-less per-epoch Stimulator (SNOMEDCT:36645008) manipulation that DID-matlab's `resolveEpochProbemap` writes for each stimulator row of a v1 probe map is no longer written, once the build confirms it carries nothing the wiring relation and the stimulator element do not; the stimuli are recorded by the stimulus-presentation `timed_sequence_manipulation`. Build pending: DID-matlab (the round trip rebuilds the stimulator row from the wiring and the element, then `mkManipulation` is no longer called), NDI-matlab (readers that read it, including the derived epoch index, checked and moved).

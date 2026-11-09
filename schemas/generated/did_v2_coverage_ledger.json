@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 767,
+          "accepted_lines": 771,
           "accepted_lines_by_kind": {
-            "Decided by": 647,
+            "Decided by": 651,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5920,12 +5920,44 @@
               "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
             },
             {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 659,
+              "kind": "Decided by",
+              "tag": "one coordinate system per chip",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [one coordinate system"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 661,
+              "kind": "Decided by",
+              "tag": "cell table split",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell table split]: ("
+            },
+            {
               "document": "did_v2_standing_wiring_plan.md",
-              "line": 160,
+              "line": 183,
               "kind": "Decided by",
               "tag": "wiring recorded once",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 185,
+              "kind": "Decided by",
+              "tag": "wiring per ingest",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: ("
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 187,
+              "kind": "Decided by",
+              "tag": "stimulator manipulation dropped",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [stimulator manipulation"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
