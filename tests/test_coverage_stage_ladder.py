@@ -80,10 +80,12 @@ LEDGER_MD = os.path.join(REPO_ROOT, "docs", "generated", "did_v2_coverage_ledger
 # spatialGeneExpressionCells/Pyramid/Tiles -- and #67 added `calculator` as a
 # V_eta class whose NDI v1 name matches, so it enters the ledger by the join).
 # NDI-matlab origin/main then gained lightsheetZarrPyramid and lightsheetZarrLevel
-# (NDI-matlab#979, 2026-10), so 115.
+# (NDI-matlab#979, 2026-10), so 115. NDI-matlab main then gained
+# spatialGeneExpressionROI (2026-11-02; the lock moved to it 2026-11-09,
+# [lock moved to NDI main]), so 116.
 # A classifier whose denominator quietly shrinks is the failure every operating
 # rule in CLAUDE.md is written against.
-V1_UNIVERSE = 115
+V1_UNIVERSE = 116
 
 # The completion rungs, written out here rather than imported so a change to
 # coverage.py's tuple is a test failure and not a silent redefinition. A FIFTH
@@ -799,7 +801,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         # is still not built. Schema ahead of migrator, which is what this
         # list names. (`filter`, deleted the same way, climbs through the
         # authored `emitted_by` channel instead: pyraview writes its `method`.)
-        self.assertEqual(failed, ["ensemble", "epochclocktimes"])
+        # `spatialGeneExpressionROI` joined on 2026-11-09, when the lock's NDI
+        # `main` moved to 73f46d19 and brought the class in ([lock moved to NDI
+        # main]): its decided targets ([spatial ROI is an outline]) are built,
+        # and its migrator waits for G109 items 8, 10, 11. Schema ahead of
+        # migrator.
+        self.assertEqual(failed, ["ensemble", "epochclocktimes", "spatialGeneExpressionROI"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

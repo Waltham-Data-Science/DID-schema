@@ -13,6 +13,13 @@ Last updated 2026-11-03.
   index in DID-matlab's SQLite store, derived from the documents, disposable,
   kept in step in the same write and tested against a fresh computation.
   Building (DID-matlab first, then NDI-matlab), into `V2`.
+  Its three design questions, answered by Jess Haley 2026-11-09 ("1 yes, 2 a,
+  3 yes"): (1) DID-matlab stores the derived rows, NDI-matlab computes them
+  and is their only writer; (2) a row records the documents it was derived
+  from, and a write drops the rows that name the changed document or what it
+  points to, with a test that changes every kind of input and compares the
+  index with a fresh computation; (3) migration and the v2 import build the
+  index as their last step, with a build on first read as the fallback.
 - Wiring: `did_v2_standing_wiring_plan.md` (Proposed, not decided), written at
   Jess Haley's request: one wiring relation per distinct wiring, not per
   epoch (Dab: 4,737 relations hold 600 facts; run 42535319383). Q1 and Q2

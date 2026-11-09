@@ -1,9 +1,9 @@
 {
   "_comment": "GROUND TRUTH for the did_v1 side of the V_eta migration: the NDI document templates, read from origin/main. THIS FILE IS AUTHORITATIVE -- schemas/V_alpha and the V_delta conversion markdown are history, not evidence. Where a template and its WRITER disagree, the writer wins (see writer_divergence): the data follows the writer. Regenerate with tools/ndi_ground_truth.py. See did_v2_ground_truth_plan.md.",
   "ndi_ref": "origin/main",
-  "ndi_main_commit": "441530d0f41cf09a03249eaad4800ecdbc450711",
+  "ndi_main_commit": "73f46d19416e44f2f2dccaf05aef100d629d6656",
   "summary": {
-    "ndi_classes": 104,
+    "ndi_classes": 105,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
     "migrator_suspects": 17,
@@ -11,8 +11,8 @@
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
     "writer_dependency_scan": {
-      "m_files_scanned": 1319,
-      "dependency_call_sites": 163,
+      "m_files_scanned": 1374,
+      "dependency_call_sites": 172,
       "distinct_dependencies_written": [
         "cells_document_id",
         "daqmetadatareader_id",
@@ -52,24 +52,24 @@
       ]
     },
     "ndi_schema_document_scan": {
-      "candidates": 106,
+      "candidates": 107,
       "unreadable": 0,
       "listing_failed": false,
-      "files": 106,
-      "flat_form": 66,
+      "files": 107,
+      "flat_form": 67,
       "json_schema_form": 5,
       "unparseable": 0
     },
     "ndi_required_dependency_scan": {
-      "ndi_classes": 104,
-      "classes_with_flat_schema_document": 99,
+      "ndi_classes": 105,
+      "classes_with_flat_schema_document": 100,
       "classes_with_json_schema_document": 5,
       "classes_with_no_schema_document": 0,
       "templates_carrying_mustbenotempty": 0,
-      "dependency_names_total": 110,
-      "dependency_names_with_a_required_statement": 101,
+      "dependency_names_total": 112,
+      "dependency_names_with_a_required_statement": 103,
       "dependency_names_required": 69,
-      "dependency_names_optional": 32,
+      "dependency_names_optional": 34,
       "dependency_names_ndi_states_nothing_about": 9
     },
     "ndicalc_vis_template_scan": {
@@ -3502,6 +3502,50 @@
       "depends_on_required": {
         "geneList_id": true,
         "subject_id": true
+      }
+    },
+    "spatialGeneExpressionROI": {
+      "fields": [
+        "coord_space",
+        "coord_units",
+        "label",
+        "n_records_in",
+        "n_vertices",
+        "roi_format_version",
+        "vertices_x",
+        "vertices_y"
+      ],
+      "raw_fields": [
+        "coord_space",
+        "coord_units",
+        "label",
+        "n_records_in",
+        "n_vertices",
+        "roi_format_version",
+        "vertices_x",
+        "vertices_y"
+      ],
+      "depends_on": [
+        "spatialGeneExpressionPyramid_id",
+        "source_file_id"
+      ],
+      "files": [],
+      "superclasses": [
+        "base"
+      ],
+      "path": "src/ndi/ndi_common/database_documents/data/spatialGeneExpressionROI.json @origin/main",
+      "depends_on_template": [
+        "spatialGeneExpressionPyramid_id",
+        "source_file_id"
+      ],
+      "schema_document_form": "flat",
+      "depends_on_schema": [
+        "source_file_id",
+        "spatialGeneExpressionPyramid_id"
+      ],
+      "depends_on_required": {
+        "source_file_id": false,
+        "spatialGeneExpressionPyramid_id": false
       }
     },
     "spatialGeneExpressionTiles": {

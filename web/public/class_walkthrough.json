@@ -7064,6 +7064,60 @@
    "v_alpha_divergence": null,
    "writer_divergence": []
   },
+  "spatialGeneExpressionROI": {
+   "consumers": {
+    "convert_package_mentions": [],
+    "per_class_migrators": []
+   },
+   "migrator_reads": [],
+   "ndi": {
+    "depends_on": [
+     "spatialGeneExpressionPyramid_id",
+     "source_file_id"
+    ],
+    "depends_on_required": {
+     "source_file_id": false,
+     "spatialGeneExpressionPyramid_id": false
+    },
+    "depends_on_schema": [
+     "source_file_id",
+     "spatialGeneExpressionPyramid_id"
+    ],
+    "depends_on_template": [
+     "spatialGeneExpressionPyramid_id",
+     "source_file_id"
+    ],
+    "fields": [
+     "coord_space",
+     "coord_units",
+     "label",
+     "n_records_in",
+     "n_vertices",
+     "roi_format_version",
+     "vertices_x",
+     "vertices_y"
+    ],
+    "files": [],
+    "path": "src/ndi/ndi_common/database_documents/data/spatialGeneExpressionROI.json @origin/main",
+    "raw_fields": [
+     "coord_space",
+     "coord_units",
+     "label",
+     "n_records_in",
+     "n_vertices",
+     "roi_format_version",
+     "vertices_x",
+     "vertices_y"
+    ],
+    "schema_document_form": "flat",
+    "superclasses": [
+     "base"
+    ]
+   },
+   "ndi_absent_reason": null,
+   "v_alpha_divergence": null,
+   "writer_divergence": []
+  },
   "spatialGeneExpressionTiles": {
    "consumers": {
     "convert_package_mentions": [
@@ -10114,15 +10168,15 @@
   "convert_package_files_scanned": 59,
   "did_matlab_available": true,
   "ledger_disagreements": [],
-  "ledger_rows_read": 115,
+  "ledger_rows_read": 116,
   "migrator_packages_searched": [
    "migrators_j",
    "migrators",
    "migrators_i"
   ],
-  "ndi_ground_truth_classes": 104,
+  "ndi_ground_truth_classes": 105,
   "rows_with_a_per_class_migrator_file": 95,
-  "rows_with_an_ndi_declaration": 104,
+  "rows_with_an_ndi_declaration": 105,
   "rows_without_one": 11
  },
  "description": "For each did_v1 source class: what NDI actually declares, what consumes it in DID-matlab, and the built V_eta schemas its targets resolve to (joined in the viewer against the schema index it already loads). A projection of generated artifacts plus a file:line search of the convert package -- no new facts.",

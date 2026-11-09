@@ -2,7 +2,7 @@
   "title": "V_eta migration coverage ledger",
   "description": "One row per did_v1 SOURCE class, from BOTH v1 writers: the NDI production templates (read from NDI-matlab `origin/main`, not a lagging feature branch) AND the vhlab app/calculator classes that appear in real corpora but ship no NDI template (footprint = a bespoke migrator that consumes them). Post-v1 DID intermediate classes (zarr, directory, the `*_observation` leaves, ...) are V_eta TARGETS, not v1 sources, and are excluded.",
   "summary": {
-    "total": 115,
+    "total": 116,
     "batch_pass": {
       "measured": true,
       "why": null,
@@ -22,7 +22,7 @@
       "missing": [],
       "invalid": [],
       "accounting_disagreement": [],
-      "denominator_rows": 115,
+      "denominator_rows": 116,
       "credited_rung_1": [
         {
           "v1_class": "epochid",
@@ -318,15 +318,15 @@
       "retire": 10,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 3,
+      "UNMAPPED (needs a V_eta home)": 4,
       "no V_eta home, no migrator -- UNVERIFIED": 9
     },
     "by_source": {
-      "ndi": 104,
+      "ndi": 105,
       "app": 11
     },
     "with_migrator": 95,
-    "gaps": 3,
+    "gaps": 4,
     "no_target": {
       "rows_naming_no_target": 29,
       "by_reason": {
@@ -365,20 +365,20 @@
       "stimulus_presentation"
     ],
     "stage_rollup": {
-      "classified": 115,
+      "classified": 116,
       "unclassifiable": 0,
       "unclassifiable_rows": [],
       "headline": {
         "rung": 1,
         "name": "a migrator CONSUMES it",
-        "denominator": 115,
+        "denominator": 116,
         "yes": 100,
-        "no": 15,
+        "no": 16,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 15,
+        "0": 16,
         "1": 25,
         "2": 15,
         "3": 60,
@@ -391,40 +391,41 @@
       "per_stage_state_counts": {
         "1": {
           "yes": 100,
-          "no": 15
+          "no": 16
         },
         "2": {
           "not measured": 32,
-          "yes": 75,
+          "yes": 76,
           "n/a": 8
         },
         "3": {
           "not measured": 32,
           "yes": 58,
-          "no": 17,
+          "no": 18,
           "n/a": 8
         },
         "4": {
-          "not measured": 115
+          "not measured": 116
         }
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 75,
+        "2": 76,
         "3": 58,
         "4": 0
       },
       "capped": {
-        "denominator": 115,
-        "rows": 2,
+        "denominator": 116,
+        "rows": 3,
         "row_names": [
           "ensemble",
-          "epochclocktimes"
+          "epochclocktimes",
+          "spatialGeneExpressionROI"
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 13,
           "1": 27,
-          "2": 17,
+          "2": 18,
           "3": 58,
           "4": 0
         },
@@ -494,7 +495,7 @@
         ]
       },
       "no_target_recorded": {
-        "denominator": 115,
+        "denominator": 116,
         "rows": 40,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
@@ -547,14 +548,14 @@
         "why_the_join_moves_none_of_them": "a decision citation names a decision LINE, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 2,
-        "classes": 2,
+        "total": 3,
+        "classes": 3,
         "by_kind": {
-          "over_failed": 2
+          "over_failed": 3
         },
         "by_stage": {
           "1": 0,
-          "2": 2,
+          "2": 3,
           "3": 0,
           "4": 0
         },
@@ -574,6 +575,14 @@
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
             "v1_class": "epochclocktimes"
+          },
+          {
+            "stage": 2,
+            "stage_name": "its decided target classes EXIST in the build",
+            "satisfied_over": 1,
+            "satisfied_over_name": "a migrator CONSUMES it",
+            "kind": "over_failed",
+            "v1_class": "spatialGeneExpressionROI"
           }
         ]
       },
@@ -594,28 +603,28 @@
         "what_would_light_it_up": "a DID-matlab corpus run's `<corpus>-summary.json` reports reachable from this repo -- pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS. Each report must carry `source_census.by_class` (per v1 SOURCE class) plus `quarantine_count`, `fragment_count`, `reference_integrity.orphan_count` and `silent_loss.empty_required_dependency`."
       },
       "governance": {
-        "denominator": 115,
+        "denominator": 116,
         "by_state": {
-          "decided": 71,
+          "decided": 72,
           "DISPUTED": 0,
           "citation UNRESOLVED": 0,
           "proposed (not decided)": 44
         },
         "signed_by": {
-          "cited by the class": 58,
+          "cited by the class": 59,
           "checked transcription on the row": 13
         },
         "join": {
-          "rows_inspected": 115,
-          "rows_with_a_resolved_citation": 71,
+          "rows_inspected": 116,
+          "rows_with_a_resolved_citation": 72,
           "matched_on": {
-            "v1_class": 71
+            "v1_class": 72
           },
           "decided_by_document": {
             "did_v2_tenet_audit.md": 1,
             "did_v2_go_forward_class_audit.md": 13,
             "did_v2_subject_calculation_plan.md": 1,
-            "did_v2_spatial_transcriptomics_plan.md": 15,
+            "did_v2_spatial_transcriptomics_plan.md": 16,
             "did_v2_stimulus_response_model_plan.md": 5,
             "did_v2_daq_family_decisions.md": 5,
             "did_v2_ingested_payload_findings.md": 3,
@@ -704,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 764,
+          "accepted_lines": 767,
           "accepted_lines_by_kind": {
-            "Decided by": 644,
+            "Decided by": 647,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -729,10 +738,10 @@
               "cited_by_classes": []
             }
           ],
-          "classes_citing": 73,
-          "citations_total": 86,
+          "classes_citing": 74,
+          "citations_total": 87,
           "citations_unresolved": [],
-          "lines_cited": 44,
+          "lines_cited": 45,
           "uncited_lines": [
             {
               "document": "OPEN_ITEMS.md",
@@ -5410,13 +5419,21 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2027,
               "kind": "Decided by",
+              "tag": "lock moved to NDI main",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2029,
+              "kind": "Decided by",
               "tag": "one dataset exports as Dataset and version",
               "date": "2026-11-07",
               "anchor": "Decided by Jess Haley, 2026-11-07 [one dataset exports as"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2029,
+              "line": 2031,
               "kind": "Decided by",
               "tag": "documentation from subjectOf",
               "date": "2026-11-07",
@@ -5903,6 +5920,14 @@
               "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
             },
             {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 129,
+              "kind": "Decided by",
+              "tag": "wiring recorded once",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("
+            },
+            {
               "document": "did_v2_stimulus_model_plan.md",
               "line": 304,
               "kind": "TEAM-SIGN-OFF",
@@ -5928,7 +5953,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 610,
+              "line": 612,
               "kind": "Decided by",
               "tag": "response parameters as a shared method",
               "date": "2026-10-21",
@@ -5936,7 +5961,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 612,
+              "line": 614,
               "kind": "Decided by",
               "tag": "control input told apart by its document",
               "date": "2026-10-21",
@@ -5944,7 +5969,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 614,
+              "line": 616,
               "kind": "Decided by",
               "tag": "empty response settings",
               "date": "2026-10-21",
@@ -5952,7 +5977,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 616,
+              "line": 618,
               "kind": "Decided by",
               "tag": "control record is a calculation",
               "date": "2026-10-21",
@@ -5960,7 +5985,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 622,
+              "line": 624,
               "kind": "Decided by",
               "tag": "presentation times from the file",
               "date": "2026-10-22",
@@ -5968,7 +5993,7 @@
             },
             {
               "document": "did_v2_stimulus_response_model_plan.md",
-              "line": 625,
+              "line": 627,
               "kind": "Decided by",
               "tag": "presentation file declared",
               "date": "2026-10-22",
@@ -7746,7 +7771,7 @@
         "document": "did_v2_stimulus_response_model_plan.md",
         "tag": "control as covariate",
         "resolved": true,
-        "line": 620,
+        "line": 622,
         "kind": "Decided by",
         "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
         "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
@@ -7760,7 +7785,7 @@
           "document": "did_v2_stimulus_response_model_plan.md",
           "tag": "control as covariate",
           "resolved": true,
-          "line": 620,
+          "line": 622,
           "kind": "Decided by",
           "decision": "the control of a stimulus presentation is a `logical` covariate `control condition` (XCO:0000099) along the presentation dimension of the stimulus `item` value (data_body plan AMENDMENT 6): true where the presentation was a control. A v1 record saying no trial was a control (NaN) gives all false; a presentation with no v1 control record gives no covariate. A v1 `control_stimulus_ids` document becomes no V2 document; responses point at the presentation only. This supersedes [control record is a calculation] and [control input told apart by its document], withdraws the proposed [control record with no control], and keeps signed item 67's intent (the per-trial pairing is dropped; NDI's vintage layer rebuilds the v1 vector). Answer \"1a\".",
           "anchor": "Decided by Jess Haley, 2026-10-22 [control as covariate]",
@@ -16126,6 +16151,146 @@
         "anomalies": [],
         "highest_rung_satisfied_independently": 2,
         "capped": false,
+        "nothing_built": false,
+        "nothing_satisfied": false,
+        "only_excused": false,
+        "corpus_rung_state": "not measured"
+      }
+    },
+    {
+      "v1_class": "spatialGeneExpressionROI",
+      "veta_class": null,
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "migrator": false,
+      "source": "ndi",
+      "nonprod": false,
+      "gap": true,
+      "targets": [],
+      "decided_targets": [
+        "calculation + position",
+        "calculation + count"
+      ],
+      "decided_targets_source": "curated_targets_file",
+      "decided_signoff": null,
+      "target_source": "decided",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
+      "no_target_account": null,
+      "no_target_signoff": null,
+      "target_gap": false,
+      "build_state": {
+        "schema_targets_named": 2,
+        "schema_targets_built": [
+          "calculation + count",
+          "calculation + position"
+        ],
+        "schema_targets_missing": [],
+        "migrator_emits_decided_targets": false,
+        "has_per_class_migrator": false,
+        "batch_pass_consumers": [],
+        "batch_pass_emits": {},
+        "batch_pass_emits_decided_targets": false,
+        "helper_consumers": [],
+        "helper_emits": {},
+        "helper_emits_decided_targets": false,
+        "emitted_by_migrator": null,
+        "emitted_by_targets": [],
+        "emitted_by_emits_decided_targets": false
+      },
+      "carried": [],
+      "second_pass": [],
+      "how": "Jess Haley, 2026-11-09 [spatial ROI is an outline] (did_v2_spatial_transcriptomics_plan.md section H): the outline (vertices_x, vertices_y in coord_space gef_base_pixel) is a position calculation over [vertex] whose key is cyclic, in the section's coordinate system (item 11); n_records_in is a count calculation about the same region; label -> notes. No migrator yet: the spatial-transcriptomics migrator waits for G109 items 8, 10, 11.",
+      "target_flags": "A v1 class NDI-matlab main gained on 2026-11-02, after the sibling lock; it entered the ledger with [lock moved to NDI main] (2026-11-09).",
+      "decided_by_citation": {
+        "document": "did_v2_spatial_transcriptomics_plan.md",
+        "tag": "spatial ROI is an outline",
+        "resolved": true,
+        "line": 657,
+        "kind": "Decided by",
+        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+        "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+        "matches": 1,
+        "why": null,
+        "matched_name": "spatialGeneExpressionROI",
+        "matched_on": "v1_class"
+      },
+      "decision_citations": [
+        {
+          "document": "did_v2_spatial_transcriptomics_plan.md",
+          "tag": "spatial ROI is an outline",
+          "resolved": true,
+          "line": 657,
+          "kind": "Decided by",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+          "matches": 1,
+          "why": null,
+          "matched_name": "spatialGeneExpressionROI",
+          "matched_on": "v1_class"
+        }
+      ],
+      "governance_gap": null,
+      "governance": {
+        "state": "decided",
+        "signoff": {
+          "document": "did_v2_spatial_transcriptomics_plan.md",
+          "tag": "spatial ROI is an outline",
+          "resolved": true,
+          "line": 657,
+          "kind": "Decided by",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+          "matches": 1,
+          "why": null,
+          "matched_name": "spatialGeneExpressionROI",
+          "matched_on": "v1_class"
+        },
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial ROI is an outline] (as `spatialGeneExpressionROI`), which resolves to the Decided by line at `did_v2_spatial_transcriptomics_plan.md`:657. Re-resolved on every build (tools/decision_citations.py)"
+      },
+      "stage": {
+        "unclassifiable": false,
+        "unclassifiable_why": null,
+        "reached": 0,
+        "reached_name": "source identified",
+        "blocked_by": 1,
+        "blocked_by_state": "no",
+        "ladder": [
+          {
+            "stage": 1,
+            "name": "a migrator CONSUMES it",
+            "state": "no",
+            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
+          },
+          {
+            "stage": 2,
+            "name": "its decided target classes EXIST in the build",
+            "state": "yes",
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
+          },
+          {
+            "stage": 3,
+            "name": "the migrator emits THE DECIDED targets",
+            "state": "no",
+            "why": "the decided target(s) `calculation + position`, `calculation + count` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+          },
+          {
+            "stage": 4,
+            "name": "CORPUS-PROVEN",
+            "state": "not measured",
+            "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
+          }
+        ],
+        "anomalies": [
+          {
+            "stage": 2,
+            "stage_name": "its decided target classes EXIST in the build",
+            "satisfied_over": 1,
+            "satisfied_over_name": "a migrator CONSUMES it",
+            "kind": "over_failed"
+          }
+        ],
+        "highest_rung_satisfied_independently": 2,
+        "capped": true,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,

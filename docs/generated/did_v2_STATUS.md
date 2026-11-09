@@ -299,7 +299,7 @@ DENOMINATOR: 11 open class(es); 11 cite a decision line that exists. The decisio
 
 ## Every decision citation
 
-DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
@@ -308,7 +308,7 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `binaryseries_parameters` | consumed by migrator (no tombstone) | 2 of 2 | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9). |
 | `calculator` | retire | no target recorded | [calculator mixin dropped (#73)]. "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (did_v2_subject_calculation_plan.md:371). |
 | `cellTypeLabels` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
-| `control_stimulus_ids` | consumed by migrator (no tombstone) | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (did_v2_stimulus_response_model_plan.md:620). |
+| `control_stimulus_ids` | consumed by migrator (no tombstone) | no target recorded | [control as covariate]. "Decided by Jess Haley, 2026-10-22 [control as covariate]" (did_v2_stimulus_response_model_plan.md:622). |
 | `daqmetadatareader` | consumed by migrator (no tombstone) | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (did_v2_daq_family_decisions.md:489). |
 | `daqmetadatareader_epochdata_ingested` | consumed by migrator (no tombstone) | 1 of 1 | [daq ingested payloads]. "TEAM-SIGN-OFF [daq ingested payloads]" (did_v2_ingested_payload_findings.md:276). |
 | `daqreader` | retire | 1 of 1 | [daq configuration]. "TEAM-SIGN-OFF [daq configuration]" (did_v2_daq_family_decisions.md:489). |
@@ -355,6 +355,7 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `sorting_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `spatialGeneExpressionCells` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `spatialGeneExpressionPyramid` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
+| `spatialGeneExpressionROI` | UNMAPPED (needs a V_eta home) | 2 of 2 | [spatial ROI is an outline]. "Decided by Jess Haley, 2026-11-09 [spatial ROI is an" (did_v2_spatial_transcriptomics_plan.md:657). |
 | `spatialGeneExpressionTiles` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `spike_extraction_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `spike_extraction_parameters_modification` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
@@ -382,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 764 decision line(s) accepted, 2 rejected; 44 cited by a class, 720 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 767 decision line(s) accepted, 2 rejected; 45 cited by a class, 722 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -972,8 +973,9 @@ field). If one decides a class's disposition, that class should cite it.
 - copyright year is a date assertion. "Decided by Jess Haley, 2026-11-07 [copyright year is a date" (did_v2_go_forward_class_audit.md:2021).
 - copyright year term confirmed. "Decided by Jess Haley, 2026-11-08 [copyright year term" (did_v2_go_forward_class_audit.md:2023).
 - genome assembly term. "Decided by Jess Haley, 2026-11-08 [genome assembly term]: (" (did_v2_go_forward_class_audit.md:2025).
-- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2027).
-- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2029).
+- lock moved to NDI main. "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]" (did_v2_go_forward_class_audit.md:2027).
+- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2029).
+- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2031).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1034,15 +1036,16 @@ field). If one decides a class's disposition, that class should cite it.
 - spatial label as notes. "Decided by Jess Haley, 2026-11-09 [spatial label as notes]" (did_v2_spatial_transcriptomics_plan.md:651).
 - spatial chip is a device. "Decided by Jess Haley, 2026-11-09 [spatial chip is a" (did_v2_spatial_transcriptomics_plan.md:653).
 - pipeline version as text. "Decided by Jess Haley, 2026-11-09 [pipeline version as" (did_v2_spatial_transcriptomics_plan.md:655).
+- wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:129).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
-- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (did_v2_stimulus_response_model_plan.md:610).
-- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (did_v2_stimulus_response_model_plan.md:612).
-- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (did_v2_stimulus_response_model_plan.md:614).
-- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (did_v2_stimulus_response_model_plan.md:616).
-- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (did_v2_stimulus_response_model_plan.md:622).
-- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (did_v2_stimulus_response_model_plan.md:625).
+- response parameters as a shared method. "Decided by Jess Haley, 2026-10-21 [response parameters as a" (did_v2_stimulus_response_model_plan.md:612).
+- control input told apart by its document. "Decided by Jess Haley, 2026-10-21 [control input told apart" (did_v2_stimulus_response_model_plan.md:614).
+- empty response settings. "Decided by Jess Haley, 2026-10-21 [empty response" (did_v2_stimulus_response_model_plan.md:616).
+- control record is a calculation. "Decided by Jess Haley, 2026-10-21 [control record is a" (did_v2_stimulus_response_model_plan.md:618).
+- presentation times from the file. "Decided by Jess Haley, 2026-10-22 [presentation times from" (did_v2_stimulus_response_model_plan.md:624).
+- presentation file declared. "Decided by Jess Haley, 2026-10-22 [presentation file" (did_v2_stimulus_response_model_plan.md:627).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the study entity" (did_v2_study_plan.md:21).
 - 2026-10-21. "TEAM-SIGN-OFF: jess@walthamdatascience.com / 2026-10-21" (did_v2_study_plan.md:28).
 - 2026-09-30. "TEAM-SIGN-OFF: jess / 2026-09-30 -- add the instance_of" (did_v2_study_plan.md:29).
@@ -1116,7 +1119,7 @@ field). If one decides a class's disposition, that class should cite it.
 | consumed by migrator (no tombstone) | 89 |
 | retire | 10 |
 | no V_eta home, no migrator -- UNVERIFIED | 9 |
-| UNMAPPED (needs a V_eta home) | 3 |
+| UNMAPPED (needs a V_eta home) | 4 |
 | test/demo fixture (non-production) | 2 |
 | dissolved → subject | 1 |
 | persist | 1 |
