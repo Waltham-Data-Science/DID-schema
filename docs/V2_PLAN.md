@@ -20,10 +20,20 @@ Last updated 2026-11-03.
   points to, with a test that changes every kind of input and compares the
   index with a fresh computation; (3) migration and the v2 import build the
   index as their last step, with a build on first read as the fallback.
-- Wiring: `did_v2_standing_wiring_plan.md` (Proposed, not decided), written at
-  Jess Haley's request: one wiring relation per distinct wiring, not per
-  epoch (Dab: 4,737 relations hold 600 facts; run 42535319383). Q1 and Q2
-  there are for Jess Haley and Steve Van Hooser.
+  Built: DID-matlab #422 (d1fb5672) and NDI-matlab #1206 (b432e0f4), both in
+  `V2`. Dab getprobes is still over the margin on a fast runner (v1 8.5 s, v2
+  11.2 s, limit 10.4 s; run 42601612127); the remaining time is element-side.
+  Jess Haley, 2026-11-09: "Add elements to the derived index" (one derived row
+  per migrated element: name, reference, type, class, underlying element,
+  subject). Building in NDI-matlab, into `V2`. A DID-matlab index on the v1
+  `element.*` fields (option 2) is explained, not decided: it waits on whether
+  the element rows answer the 16 new-probe element queries.
+- Wiring: `did_v2_standing_wiring_plan.md`, written at Jess Haley's request:
+  one wiring relation per distinct wiring, not per epoch (Dab: 4,737
+  relations hold 600 facts; run 42535319383). Decided there: [wiring recorded
+  once], [wiring per ingest] (Q3), [stimulator manipulation dropped] (Q5).
+  Open: Q4, the mechanism (Claude recommends the `epoch_id_#` edge). A count
+  of distinct epoch sets on Dab and B is running.
 - NDI-matlab branch `claude/scratch-dab-census` (throwaway): Jess Haley asked
   for it to be deleted; the session's proxy refuses branch deletion (HTTP
   403), so it is left for her to delete.

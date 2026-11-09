@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 768,
+          "accepted_lines": 769,
           "accepted_lines_by_kind": {
-            "Decided by": 648,
+            "Decided by": 649,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5921,7 +5921,7 @@
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
-              "line": 169,
+              "line": 183,
               "kind": "Decided by",
               "tag": "wiring recorded once",
               "date": "2026-11-09",
@@ -5929,11 +5929,19 @@
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
-              "line": 171,
+              "line": 185,
               "kind": "Decided by",
               "tag": "wiring per ingest",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: ("
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 187,
+              "kind": "Decided by",
+              "tag": "stimulator manipulation dropped",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [stimulator manipulation"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
