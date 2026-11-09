@@ -11743,6 +11743,32 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Identifier",
+      "node": "NCIT:C25364",
+      "definition": "One or more characters used to identify, name, or characterize the nature, properties, or contents of a thing.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [cell id is NCIT Identifier]",
+      "first_used_in": "no dataset yet: the spatial-transcriptomics migrator's cell table (v1 spatialGeneExpressionCells cells.tsv): the cell id, with identifier namespace EMPTY:0000436",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [
+        "EMPTY:0000081"
+      ],
+      "synonyms": []
+    },
+    {
+      "name": "area",
+      "node": "PATO:0001323",
+      "definition": "A 2-D extent quality inhering in a bearer by virtue of the bearer's two dimensional extent.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [cell table terms]",
+      "first_used_in": "no dataset yet: the spatial-transcriptomics migrator's cell table (v1 spatialGeneExpressionCells cells.tsv): area",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

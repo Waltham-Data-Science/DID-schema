@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 771 decision line(s) accepted, 2 rejected; 45 cited by a class, 726 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 775 decision line(s) accepted, 2 rejected; 45 cited by a class, 730 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1038,9 +1038,13 @@ field). If one decides a class's disposition, that class should cite it.
 - pipeline version as text. "Decided by Jess Haley, 2026-11-09 [pipeline version as" (did_v2_spatial_transcriptomics_plan.md:655).
 - one coordinate system per chip. "Decided by Jess Haley, 2026-11-09 [one coordinate system" (did_v2_spatial_transcriptomics_plan.md:659).
 - cell table split. "Decided by Jess Haley, 2026-11-09 [cell table split]: (" (did_v2_spatial_transcriptomics_plan.md:661).
+- cell id is NCIT Identifier. "Decided by Jess Haley, 2026-11-09 [cell id is NCIT" (did_v2_spatial_transcriptomics_plan.md:663).
+- cell table terms. "Decided by Jess Haley, 2026-11-09 [cell table terms]: (" (did_v2_spatial_transcriptomics_plan.md:665).
+- cell outlines converted. "Decided by Jess Haley, 2026-11-09 [cell outlines" (did_v2_spatial_transcriptomics_plan.md:667).
 - wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:183).
 - wiring per ingest. "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: (" (did_v2_standing_wiring_plan.md:185).
 - stimulator manipulation dropped. "Decided by Jess Haley, 2026-11-09 [stimulator manipulation" (did_v2_standing_wiring_plan.md:187).
+- repeat on a time. "Decided by Jess Haley, 2026-11-09 [repeat on a time]: (" (did_v2_standing_wiring_plan.md:193).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

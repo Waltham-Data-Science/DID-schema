@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 771,
+          "accepted_lines": 775,
           "accepted_lines_by_kind": {
-            "Decided by": 651,
+            "Decided by": 655,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5936,6 +5936,30 @@
               "anchor": "Decided by Jess Haley, 2026-11-09 [cell table split]: ("
             },
             {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 663,
+              "kind": "Decided by",
+              "tag": "cell id is NCIT Identifier",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell id is NCIT"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 665,
+              "kind": "Decided by",
+              "tag": "cell table terms",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell table terms]: ("
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 667,
+              "kind": "Decided by",
+              "tag": "cell outlines converted",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell outlines"
+            },
+            {
               "document": "did_v2_standing_wiring_plan.md",
               "line": 183,
               "kind": "Decided by",
@@ -5958,6 +5982,14 @@
               "tag": "stimulator manipulation dropped",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [stimulator manipulation"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 193,
+              "kind": "Decided by",
+              "tag": "repeat on a time",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [repeat on a time]: ("
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
