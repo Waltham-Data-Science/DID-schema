@@ -299,7 +299,7 @@ DENOMINATOR: 11 open class(es); 11 cite a decision line that exists. The decisio
 
 ## Every decision citation
 
-DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
+DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve. "targets built" counts the class's decided targets present in the built set (a target equal to the class is a passthrough and is not counted).
 
 | class | disposition | targets built | decided in |
 |---|---|---|---|
@@ -355,6 +355,7 @@ DENOMINATOR: 73 class(es) cite 86 decision line(s); 0 citation(s) do not resolve
 | `sorting_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `spatialGeneExpressionCells` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `spatialGeneExpressionPyramid` | consumed by migrator (no tombstone) | 5 of 5 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
+| `spatialGeneExpressionROI` | UNMAPPED (needs a V_eta home) | 2 of 2 | [spatial ROI is an outline]. "Decided by Jess Haley, 2026-11-09 [spatial ROI is an" (did_v2_spatial_transcriptomics_plan.md:657). |
 | `spatialGeneExpressionTiles` | consumed by migrator (no tombstone) | 1 of 1 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `spike_extraction_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `spike_extraction_parameters_modification` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
@@ -382,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 767 decision line(s) accepted, 2 rejected; 44 cited by a class, 723 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 767 decision line(s) accepted, 2 rejected; 45 cited by a class, 722 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1035,7 +1036,6 @@ field). If one decides a class's disposition, that class should cite it.
 - spatial label as notes. "Decided by Jess Haley, 2026-11-09 [spatial label as notes]" (did_v2_spatial_transcriptomics_plan.md:651).
 - spatial chip is a device. "Decided by Jess Haley, 2026-11-09 [spatial chip is a" (did_v2_spatial_transcriptomics_plan.md:653).
 - pipeline version as text. "Decided by Jess Haley, 2026-11-09 [pipeline version as" (did_v2_spatial_transcriptomics_plan.md:655).
-- spatial ROI is an outline. "Decided by Jess Haley, 2026-11-09 [spatial ROI is an" (did_v2_spatial_transcriptomics_plan.md:657).
 - wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:129).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).

@@ -801,7 +801,12 @@ class TestTheCommittedLedger(unittest.TestCase):
         # is still not built. Schema ahead of migrator, which is what this
         # list names. (`filter`, deleted the same way, climbs through the
         # authored `emitted_by` channel instead: pyraview writes its `method`.)
-        self.assertEqual(failed, ["ensemble", "epochclocktimes"])
+        # `spatialGeneExpressionROI` joined on 2026-11-09, when the lock's NDI
+        # `main` moved to 73f46d19 and brought the class in ([lock moved to NDI
+        # main]): its decided targets ([spatial ROI is an outline]) are built,
+        # and its migrator waits for G109 items 8, 10, 11. Schema ahead of
+        # migrator.
+        self.assertEqual(failed, ["ensemble", "epochclocktimes", "spatialGeneExpressionROI"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

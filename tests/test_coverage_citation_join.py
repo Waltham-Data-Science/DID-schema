@@ -287,9 +287,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         # decision ("Decided by Jess Haley", which names the
         # `daqreader_*_epochdata_ingested` archives). 70 -> 71 and DISPUTED
         # 1 -> 0 on 2026-10-23: `ngrid` resolved by [ngrid block into
-        # sampled_body]. Re-derive, do not bump.
+        # sampled_body]. 71 -> 72 on 2026-11-09: `spatialGeneExpressionROI`,
+        # new with [lock moved to NDI main], cites [spatial ROI is an outline].
+        # Re-derive, do not bump.
         st = self.gov["by_state"]
-        self.assertEqual(st[coverage.G_SIGNED], 71)
+        self.assertEqual(st[coverage.G_SIGNED], 72)
         self.assertEqual(st[coverage.G_DISPUTED], 0)
         self.assertEqual(st[coverage.G_UNSIGNED], 0)
         self.assertEqual(st[coverage.G_NOT_FOUND], 44)

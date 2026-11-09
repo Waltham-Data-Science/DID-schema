@@ -799,6 +799,16 @@
         "entity (software)"
       ]
     },
+    "spatial_gene_expression_roi": {
+      "carried": [],
+      "second_pass": [],
+      "how": "Jess Haley, 2026-11-09 [spatial ROI is an outline] (did_v2_spatial_transcriptomics_plan.md section H): the outline (vertices_x, vertices_y in coord_space gef_base_pixel) is a position calculation over [vertex] whose key is cyclic, in the section's coordinate system (item 11); n_records_in is a count calculation about the same region; label -> notes. No migrator yet: the spatial-transcriptomics migrator waits for G109 items 8, 10, 11.",
+      "flags": "A v1 class NDI-matlab main gained on 2026-11-02, after the sibling lock; it entered the ledger with [lock moved to NDI main] (2026-11-09).",
+      "decided_targets": [
+        "calculation + position",
+        "calculation + count"
+      ]
+    },
     "spatial_gene_expression_tiles": {
       "carried": [],
       "second_pass": [],

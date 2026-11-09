@@ -328,12 +328,12 @@
     "with_migrator": 95,
     "gaps": 4,
     "no_target": {
-      "rows_naming_no_target": 30,
+      "rows_naming_no_target": 29,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 20
+        "unrecorded": 19
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
@@ -349,7 +349,6 @@
         "ontologyTableRow",
         "openminds",
         "site2channelmap",
-        "spatialGeneExpressionROI",
         "spike_clusters",
         "spikewaves",
         "stimulus_parameter",
@@ -395,14 +394,14 @@
           "no": 16
         },
         "2": {
-          "not measured": 33,
-          "yes": 75,
+          "not measured": 32,
+          "yes": 76,
           "n/a": 8
         },
         "3": {
-          "not measured": 33,
+          "not measured": 32,
           "yes": 58,
-          "no": 17,
+          "no": 18,
           "n/a": 8
         },
         "4": {
@@ -411,25 +410,26 @@
       },
       "per_stage_satisfied_independently": {
         "1": 100,
-        "2": 75,
+        "2": 76,
         "3": 58,
         "4": 0
       },
       "capped": {
         "denominator": 116,
-        "rows": 2,
+        "rows": 3,
         "row_names": [
           "ensemble",
-          "epochclocktimes"
+          "epochclocktimes",
+          "spatialGeneExpressionROI"
         ],
         "highest_rung_satisfied_independently_histogram": {
-          "0": 14,
+          "0": 13,
           "1": 27,
-          "2": 17,
+          "2": 18,
           "3": 58,
           "4": 0
         },
-        "genuinely_untouched": 8,
+        "genuinely_untouched": 7,
         "genuinely_untouched_rows": [
           "animalsubject",
           "base",
@@ -437,8 +437,7 @@
           "demoNDISeries",
           "demoNDISeriesMixed",
           "imageStack_parameters",
-          "mock",
-          "spatialGeneExpressionROI"
+          "mock"
         ],
         "genuinely_untouched_detail": [
           {
@@ -482,12 +481,6 @@
             "disposition": "test/demo fixture (non-production)",
             "target_source": "unknown",
             "governance": "proposed (not decided)"
-          },
-          {
-            "v1_class": "spatialGeneExpressionROI",
-            "disposition": "UNMAPPED (needs a V_eta home)",
-            "target_source": "unknown",
-            "governance": "proposed (not decided)"
           }
         ],
         "genuinely_untouched_recorded_passthrough": 2,
@@ -503,7 +496,7 @@
       },
       "no_target_recorded": {
         "denominator": 116,
-        "rows": 41,
+        "rows": 40,
         "row_names": [
           "SpikeInterfaceSortingOutputs",
           "animalsubject",
@@ -535,7 +528,6 @@
           "session_in_a_dataset",
           "simple_calc",
           "site2channelmap",
-          "spatialGeneExpressionROI",
           "spike_clusters",
           "spikewaves",
           "stimulus_parameter",
@@ -556,14 +548,14 @@
         "why_the_join_moves_none_of_them": "a decision citation names a decision LINE, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 2,
-        "classes": 2,
+        "total": 3,
+        "classes": 3,
         "by_kind": {
-          "over_failed": 2
+          "over_failed": 3
         },
         "by_stage": {
           "1": 0,
-          "2": 2,
+          "2": 3,
           "3": 0,
           "4": 0
         },
@@ -583,6 +575,14 @@
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
             "v1_class": "epochclocktimes"
+          },
+          {
+            "stage": 2,
+            "stage_name": "its decided target classes EXIST in the build",
+            "satisfied_over": 1,
+            "satisfied_over_name": "a migrator CONSUMES it",
+            "kind": "over_failed",
+            "v1_class": "spatialGeneExpressionROI"
           }
         ]
       },
@@ -605,26 +605,26 @@
       "governance": {
         "denominator": 116,
         "by_state": {
-          "decided": 71,
+          "decided": 72,
           "DISPUTED": 0,
           "citation UNRESOLVED": 0,
-          "proposed (not decided)": 45
+          "proposed (not decided)": 44
         },
         "signed_by": {
-          "cited by the class": 58,
+          "cited by the class": 59,
           "checked transcription on the row": 13
         },
         "join": {
           "rows_inspected": 116,
-          "rows_with_a_resolved_citation": 71,
+          "rows_with_a_resolved_citation": 72,
           "matched_on": {
-            "v1_class": 71
+            "v1_class": 72
           },
           "decided_by_document": {
             "did_v2_tenet_audit.md": 1,
             "did_v2_go_forward_class_audit.md": 13,
             "did_v2_subject_calculation_plan.md": 1,
-            "did_v2_spatial_transcriptomics_plan.md": 15,
+            "did_v2_spatial_transcriptomics_plan.md": 16,
             "did_v2_stimulus_response_model_plan.md": 5,
             "did_v2_daq_family_decisions.md": 5,
             "did_v2_ingested_payload_findings.md": 3,
@@ -647,7 +647,7 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 20,
+            "no citation names this class, and the row has no V_eta class and no target either": 19,
             "no decision citation names this class": 25
           },
           "unmoved_rows_by_cause": {
@@ -666,7 +666,6 @@
               "openminds_stimulus",
               "simple_calc",
               "site2channelmap",
-              "spatialGeneExpressionROI",
               "spike_clusters",
               "spikewaves",
               "treatment_transfer",
@@ -739,10 +738,10 @@
               "cited_by_classes": []
             }
           ],
-          "classes_citing": 73,
-          "citations_total": 86,
+          "classes_citing": 74,
+          "citations_total": 87,
           "citations_unresolved": [],
-          "lines_cited": 44,
+          "lines_cited": 45,
           "uncited_lines": [
             {
               "document": "OPEN_ITEMS.md",
@@ -5919,14 +5918,6 @@
               "tag": "pipeline version as text",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
-            },
-            {
-              "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 657,
-              "kind": "Decided by",
-              "tag": "spatial ROI is an outline",
-              "date": "2026-11-09",
-              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
@@ -16175,18 +16166,24 @@
       "nonprod": false,
       "gap": true,
       "targets": [],
-      "decided_targets": [],
-      "decided_targets_source": null,
+      "decided_targets": [
+        "calculation + position",
+        "calculation + count"
+      ],
+      "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
-      "target_source": "unknown",
-      "no_target_reason": "unrecorded",
-      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "target_source": "decided",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": true,
+      "target_gap": false,
       "build_state": {
-        "schema_targets_named": 0,
-        "schema_targets_built": [],
+        "schema_targets_named": 2,
+        "schema_targets_built": [
+          "calculation + count",
+          "calculation + position"
+        ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": false,
@@ -16202,15 +16199,53 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "",
-      "target_flags": "",
-      "decided_by_citation": null,
-      "decision_citations": [],
-      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
+      "how": "Jess Haley, 2026-11-09 [spatial ROI is an outline] (did_v2_spatial_transcriptomics_plan.md section H): the outline (vertices_x, vertices_y in coord_space gef_base_pixel) is a position calculation over [vertex] whose key is cyclic, in the section's coordinate system (item 11); n_records_in is a count calculation about the same region; label -> notes. No migrator yet: the spatial-transcriptomics migrator waits for G109 items 8, 10, 11.",
+      "target_flags": "A v1 class NDI-matlab main gained on 2026-11-02, after the sibling lock; it entered the ledger with [lock moved to NDI main] (2026-11-09).",
+      "decided_by_citation": {
+        "document": "did_v2_spatial_transcriptomics_plan.md",
+        "tag": "spatial ROI is an outline",
+        "resolved": true,
+        "line": 657,
+        "kind": "Decided by",
+        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+        "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+        "matches": 1,
+        "why": null,
+        "matched_name": "spatialGeneExpressionROI",
+        "matched_on": "v1_class"
+      },
+      "decision_citations": [
+        {
+          "document": "did_v2_spatial_transcriptomics_plan.md",
+          "tag": "spatial ROI is an outline",
+          "resolved": true,
+          "line": 657,
+          "kind": "Decided by",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+          "matches": 1,
+          "why": null,
+          "matched_name": "spatialGeneExpressionROI",
+          "matched_on": "v1_class"
+        }
+      ],
+      "governance_gap": null,
       "governance": {
-        "state": "proposed (not decided)",
-        "signoff": null,
-        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "state": "decided",
+        "signoff": {
+          "document": "did_v2_spatial_transcriptomics_plan.md",
+          "tag": "spatial ROI is an outline",
+          "resolved": true,
+          "line": 657,
+          "kind": "Decided by",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
+          "matches": 1,
+          "why": null,
+          "matched_name": "spatialGeneExpressionROI",
+          "matched_on": "v1_class"
+        },
+        "why": "the class cites `did_v2_spatial_transcriptomics_plan.md` [spatial ROI is an outline] (as `spatialGeneExpressionROI`), which resolves to the Decided by line at `did_v2_spatial_transcriptomics_plan.md`:657. Re-resolved on every build (tools/decision_citations.py)"
       },
       "stage": {
         "unclassifiable": false,
@@ -16229,14 +16264,14 @@
           {
             "stage": 2,
             "name": "its decided target classes EXIST in the build",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no target class is named for this row, so there is nothing to look for in the built set. This is NOT 'all targets present': an empty `schema_targets_missing` is empty here because the question was never asked"
+            "state": "yes",
+            "why": "all 2 decided target class(es) are present in the built V_eta set (`build_state.schema_targets_missing` is empty AND `schema_targets_named` is non-zero)"
           },
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "not measured",
-            "why": "`build_state.schema_targets_named` is 0 -- no decided target to check an emission against"
+            "state": "no",
+            "why": "the decided target(s) `calculation + position`, `calculation + count` are not all among what the migrator emits today (nothing). 1 of 77 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -16245,11 +16280,19 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [],
-        "highest_rung_satisfied_independently": 0,
-        "capped": false,
-        "nothing_built": true,
-        "nothing_satisfied": true,
+        "anomalies": [
+          {
+            "stage": 2,
+            "stage_name": "its decided target classes EXIST in the build",
+            "satisfied_over": 1,
+            "satisfied_over_name": "a migrator CONSUMES it",
+            "kind": "over_failed"
+          }
+        ],
+        "highest_rung_satisfied_independently": 2,
+        "capped": true,
+        "nothing_built": false,
+        "nothing_satisfied": false,
         "only_excused": false,
         "corpus_rung_state": "not measured"
       }

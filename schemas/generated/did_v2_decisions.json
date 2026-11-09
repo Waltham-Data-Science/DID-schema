@@ -2,13 +2,13 @@
   "title": "V_eta decisions, per class (GENERATED -- do not hand-edit)",
   "description": "Regenerate with `python3 tools/status_board.py`. The human-readable twin is docs/generated/did_v2_STATUS.md. A class is decided ONLY when it cites a decision line that exists -- a `TEAM-SIGN-OFF [tag]` line or a `Decided by <team member>, <date> [<tag>]:` line in the cited document (tools/decision_citations.py). Everything else is proposed (not decided).",
   "summary": {
-    "classes": 73,
-    "classes_citing": 73,
-    "citations": 86,
+    "classes": 74,
+    "classes_citing": 74,
+    "citations": 87,
     "citations_unresolved": 0,
     "open_classes": 11,
     "by_state": {
-      "decided": 73,
+      "decided": 74,
       "proposed (not decided)": 0
     },
     "open_by_state": {
@@ -1353,6 +1353,30 @@
           "resolved": true,
           "line": 584,
           "kind": "TEAM-SIGN-OFF",
+          "why": null
+        }
+      ]
+    },
+    "spatialGeneExpressionROI": {
+      "class_name": "spatialGeneExpressionROI",
+      "disposition": "UNMAPPED (needs a V_eta home)",
+      "open": false,
+      "state": "decided",
+      "state_label": "decided: cites a decision line that exists",
+      "decided_in": {
+        "document": "did_v2_spatial_transcriptomics_plan.md",
+        "tag": "spatial ROI is an outline",
+        "line": 657,
+        "kind": "Decided by"
+      },
+      "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+      "citations": [
+        {
+          "document": "did_v2_spatial_transcriptomics_plan.md",
+          "tag": "spatial ROI is an outline",
+          "resolved": true,
+          "line": 657,
+          "kind": "Decided by",
           "why": null
         }
       ]

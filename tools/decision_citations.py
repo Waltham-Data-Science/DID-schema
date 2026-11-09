@@ -213,6 +213,10 @@ CITATIONS = {
     "spatialGeneExpressionPyramid": [_ST_REVIEW],
     "spatialGeneExpressionCells": [_ST_REVIEW],
     "spatialGeneExpressionTiles": [_ST_REVIEW],
+    # ADDED 2026-11-09: a v1 class NDI-matlab main gained after the lock (it
+    # entered the ledger with [lock moved to NDI main]); its decision line
+    # names it.
+    "spatialGeneExpressionROI": [(_ST, "spatial ROI is an outline")],
     "cellTypeLabels": [_ST_REVIEW],
     "geneListMapping": [_ST_REVIEW],
     "fileReference": [_ST_REVIEW],
