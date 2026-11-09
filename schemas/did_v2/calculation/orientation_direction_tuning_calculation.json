@@ -116,6 +116,73 @@
                     "constraints": {}
                 }
             ]
+        },
+        {
+            "name": "interpolated_values",
+            "type": "structure",
+            "blank_value": [],
+            "default_value": [],
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "Fit-less half-height summaries of the direction curve (v1 `vector.half_low`, `half_high`, `fwhh`, `bandwidth`, written by NDIcalc-vis-matlab +vis/+oridir/+index/oridir_vectorindexes.m). The same names as the spatial- and temporal-frequency tuning calculations' interpolated values. Jess Haley 2026-11-09 [oridir half-height values], did_v2_tuning_model_plan.md.",
+            "constraints": {},
+            "fields": [
+                {
+                    "name": "half_maximum_below",
+                    "type": "double",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Walking from the peak toward lower directions, wrapping around the circle, the first direction where the mean response falls to half its maximum, in degrees, in [0, 360) (v1 `vector.half_low`). NaN when the calculator found no such point (T14: attempted, not obtained; the reason is in `notes`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "half_maximum_above",
+                    "type": "double",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The same, walking toward higher directions (v1 `vector.half_high`). NaN when the calculator found no such point (T14: attempted, not obtained; the reason is in `notes`).",
+                    "constraints": {}
+                },
+                {
+                    "name": "full_width_half_height",
+                    "type": "double",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The angular distance from half_maximum_below up to half_maximum_above across the peak, in degrees (v1 `vector.fwhh`; on a circle it is not their plain difference). NaN where the writer wrote Inf (either point not found); the reason is in `notes` and the v1 round trip writes Inf back.",
+                    "constraints": {}
+                },
+                {
+                    "name": "bandwidth",
+                    "type": "double",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "log2(half_maximum_above / half_maximum_below), in octaves, as the calculator reports it (v1 `vector.bandwidth`). NaN where the writer wrote Inf (a point not found, or half_maximum_below exactly 0 degrees); the reason is in `notes` and the v1 round trip writes Inf back. An octave bandwidth of a direction depends on where 0 degrees sits.",
+                    "constraints": {}
+                }
+            ]
         }
     ]
 }

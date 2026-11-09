@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 772,
+          "accepted_lines": 782,
           "accepted_lines_by_kind": {
-            "Decided by": 652,
+            "Decided by": 662,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5443,6 +5443,22 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2033,
               "kind": "Decided by",
+              "tag": "receptive field is SNOMED",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [receptive field is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2035,
+              "kind": "Decided by",
+              "tag": "term picks batch 3",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [term picks batch 3]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2037,
+              "kind": "Decided by",
               "tag": "remaining quantity copies removed",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [remaining quantity"
@@ -5944,6 +5960,38 @@
               "anchor": "Decided by Jess Haley, 2026-11-09 [cell table split]: ("
             },
             {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 663,
+              "kind": "Decided by",
+              "tag": "cell id is NCIT Identifier",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell id is NCIT"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 665,
+              "kind": "Decided by",
+              "tag": "cell table terms",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell table terms]: ("
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 667,
+              "kind": "Decided by",
+              "tag": "cell outlines converted",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [cell outlines"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 669,
+              "kind": "Decided by",
+              "tag": "area written without a unit",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [area written without a"
+            },
+            {
               "document": "did_v2_standing_wiring_plan.md",
               "line": 183,
               "kind": "Decided by",
@@ -5966,6 +6014,14 @@
               "tag": "stimulator manipulation dropped",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [stimulator manipulation"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 193,
+              "kind": "Decided by",
+              "tag": "repeat on a time",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [repeat on a time]: ("
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
@@ -6534,6 +6590,30 @@
               "tag": "contrast sensitivity lossless",
               "date": "2026-10-23",
               "anchor": "Decided by Jess Haley, 2026-10-23 [contrast sensitivity"
+            },
+            {
+              "document": "did_v2_tuning_model_plan.md",
+              "line": 275,
+              "kind": "Decided by",
+              "tag": "oridir half-height values",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [oridir half-height"
+            },
+            {
+              "document": "did_v2_tuning_model_plan.md",
+              "line": 277,
+              "kind": "Decided by",
+              "tag": "frequency tuning keeps Inf",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [frequency tuning keeps"
+            },
+            {
+              "document": "did_v2_tuning_model_plan.md",
+              "line": 279,
+              "kind": "Decided by",
+              "tag": "tuning selection rule stated once",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [tuning selection rule"
             },
             {
               "document": "team_signoff_lines_DRAFT.md",
