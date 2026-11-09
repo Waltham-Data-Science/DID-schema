@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 779,
+          "accepted_lines": 780,
           "accepted_lines_by_kind": {
-            "Decided by": 659,
+            "Decided by": 660,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5446,6 +5446,14 @@
               "tag": "receptive field is SNOMED",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [receptive field is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2035,
+              "kind": "Decided by",
+              "tag": "term picks batch 3",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [term picks batch 3]: ("
             },
             {
               "document": "did_v2_image_model_plan.md",

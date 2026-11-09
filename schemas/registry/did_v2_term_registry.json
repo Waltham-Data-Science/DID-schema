@@ -11781,6 +11781,66 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Independent Variable",
+      "node": "NCIT:C191277",
+      "definition": "A variable that is not affected by other variables that the study is trying to understand. Independent variables influence dependent variables. [After AMA Manual of Style] See also dependent variable.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [term picks batch 3]",
+      "first_used_in": "20211116 (v1 tuningcurve_calc input_parameters.independent_parameter)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Algorithm",
+      "node": "NCIT:C16275",
+      "definition": "A defined procedure for solving a problem. Applied to a problem-solving procedure implemented in software to be executed by a computer.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [term picks batch 3]",
+      "first_used_in": "20211116 (v1 tuningcurve_calc input_parameters.best_algorithm, e.g. empirical_maximum)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "selection criterion",
+      "node": "OBI:0001755",
+      "definition": "A directive information entity which defines and states a principle of standard by which selection process may take place.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [term picks batch 3]",
+      "first_used_in": "20211116 (v1 tuningcurve_calc input_parameters.selection)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Horizontal Pixel Spacing",
+      "node": "NCIT:C69201",
+      "definition": "The horizontal distance between the centers of adjacent pixels in an image.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [term picks batch 3]",
+      "first_used_in": "20211116 (NDIcalc-vis-matlab hartley.m X_sample: the step between reconstructed receptive-field grid columns, in stimulus pixels)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Vertical Pixel Spacing",
+      "node": "NCIT:C69210",
+      "definition": "The vertical distance between the centers of adjacent pixels in an image.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-09 [term picks batch 3]",
+      "first_used_in": "20211116 (NDIcalc-vis-matlab hartley.m Y_sample: the step between reconstructed receptive-field grid rows, in stimulus pixels)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
