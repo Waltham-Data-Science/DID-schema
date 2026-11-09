@@ -119,8 +119,39 @@ indexed query away) and keep its write-only history.
 
 - **Q1.** Is "the same wiring in many epochs" one fact? ANSWERED below
   [wiring recorded once].
-- **Q2.** Do other per-epoch documents repeat the same way? Being counted on
-  Dab and B (Jess Haley, 2026-11-09: "Count them").
+- **Q2.** Do other per-epoch documents repeat the same way? Counted on Dab
+  and B (Jess Haley, 2026-11-09: "Count them"): NDI-matlab Dab run
+  42558437238 and B run 42558440061, test `testEpochRepeats` on the
+  throwaway branch, same key as section 1:
+
+      Dab  directed_relation |  4762 |  602 | 0    | 3/7/23  | 4160 (87.4%)
+      Dab  observation       |  3208 |  408 | 0    | 3/7/23  | 2800 (87.3%)
+      Dab  manipulation      |  2037 |  637 | 433  | 1/1/23  | 1400 (68.7%)
+      B    directed_relation |  2484 |  156 | 1    | 1/9/142 | 2328 (93.7%)
+      B    manipulation      |  2484 | 1255 | 1242 | 1/1/142 | 1229 (49.5%)
+      B    observation       |  1242 |  143 | 1    | 1/9/18  | 1099 (88.5%)
+      (documents | distinct keys | keys in exactly 1 epoch | epochs per key | repeats)
+
+  `ingestion_manifest` never repeats. The observations' keys repeat, but each
+  observation's `opaque_body` names its own file (Dab: 6,416 bodies, 6,416
+  distinct files; B: 4,968 and 4,968), so they hold different data and are
+  not repeats; whether the bytes differ is not measured (no hashes, no
+  binaries in the corpus zips, NDI-matlab #785). B's 1,242 manipulations
+  that own a body each have a key of their own. The true repeats are the
+  wiring relations and the body-less "Stimulator" (SNOMEDCT:36645008)
+  manipulations. (The Dab figures here count 1,605 typed epochs; section 1
+  counted the 1,579 a manifest names.)
+- **Q5.** Should the "Stimulator" manipulation be grouped like the wiring?
+  It is the same kind of standing fact, repeated per epoch. But a
+  manipulation is an interaction, and `interaction.time_reference_id` has
+  `min_count: 1`, so the epoch-list edge would sit beside a required time
+  reference, or the statement belongs elsewhere. Not proposed yet.
+- **Who writes wiring.** Today only the migration writes wiring relations,
+  from v1 ingested epochs (`resolveEpochProbemap`). For new data, which v2
+  writer writes them at ingest is part of the parked ingest questions
+  (docs/V2_PLAN.md G84, with G75, G76); P2 assumes ingestion writes them, as
+  in v1, and is settled with G84 for new data. For migration it can be built
+  once Q3 and Q4 are answered.
 - **Q3.** When a later ingest adds epochs with an existing wiring: write a new
   relation for them (P2), or edit the existing one? Claude recommends P2.
 - **Q4.** The mechanism: a new epoch edge on the relation (P1), a group of
