@@ -47,15 +47,12 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "year|month|day|hour|minute|second.",
+                    "documentation": "year|month|day|hour|minute|second. Calendar units only (year, month, day): a time written to the hour, minute or second is an instant with a `tolerance` that covers it (T14; Jess Haley 2026-11-09 [tenet audit 6 8 11], did_v2_go_forward_class_audit.md).",
                     "constraints": {
                         "enum": [
                             "year",
                             "month",
-                            "day",
-                            "hour",
-                            "minute",
-                            "second"
+                            "day"
                         ]
                     }
                 },
