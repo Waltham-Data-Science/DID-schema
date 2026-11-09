@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 781,
+          "accepted_lines": 782,
           "accepted_lines_by_kind": {
-            "Decided by": 661,
+            "Decided by": 662,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5982,6 +5982,14 @@
               "tag": "area written without a unit",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [area written without a"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 671,
+              "kind": "Decided by",
+              "tag": "spatial field bindings superseded",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial field bindings"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",

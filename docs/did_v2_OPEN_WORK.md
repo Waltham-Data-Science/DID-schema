@@ -38,7 +38,7 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 73 | is `metadata_editor` always written with the openMINDS dataset graph? -> https://github.com/Waltham-Data-Science/DID-schema/issues/100 |
 | 124 | corpus proof for the spatial-transcriptomics family, deferred -> https://github.com/Waltham-Data-Science/DID-schema/issues/106 |
 | 125 | spatial-transcriptomics tiles and cells onto the data_body fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/91 |
-| 126 | controlled-term bindings for the spatial-transcriptomics fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/107 |
+| 126 | controlled-term bindings for the spatial-transcriptomics fields -> https://github.com/Waltham-Data-Science/DID-schema/issues/308 (#107 closed 2026-11-09 as superseded; its two remaining fields, taxonomy_level and assignment_method, moved to #308) |
 | 129 | bindings become `required`: `variable`, and a node on every term -> https://github.com/Waltham-Data-Science/DID-schema/issues/89 |
 | 130 | a v2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-001, with carry-015 and carry-075: a home is designed only when a dataset holds the field; #135 closed 2026-10-27 on that decision) |
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/136 (reopened 2026-11-06: the all-pass filter label, carry-007) |
