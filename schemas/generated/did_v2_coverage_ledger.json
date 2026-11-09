@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 759,
+          "accepted_lines": 762,
           "accepted_lines_by_kind": {
-            "Decided by": 639,
+            "Decided by": 642,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5861,6 +5861,30 @@
               "tag": "UMI count synonym kept",
               "date": "2026-11-08",
               "anchor": "Decided by Jess Haley, 2026-11-08 [UMI count synonym kept]"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 647,
+              "kind": "Decided by",
+              "tag": "gene totals kept whole",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [gene totals kept whole]"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 649,
+              "kind": "Decided by",
+              "tag": "spatial counts during the session",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial counts during"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 651,
+              "kind": "Decided by",
+              "tag": "spatial label as notes",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial label as notes]"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",

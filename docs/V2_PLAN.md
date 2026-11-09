@@ -1159,6 +1159,7 @@ whose DID-matlab build waits on GL1-GL7.
     (lossless; DID-matlab run 41602607945 round-trips the writer fixtures).
     Proposed (not decided).
     PARTLY ANSWERED 2026-11-07 (did_v2_spatial_transcriptomics_plan.md section H): the counts' entity [tissue section counts], the tile files [tiles are opaque bodies], the `assay` method term [spatial transcriptomics is EFO], the UMI count term [UMI count term]. The other eight details are open; the migrator waits for them.
+    ANSWERED 2026-11-09: item 7 [gene totals kept whole], item 9 [spatial counts during the session], item 12 [spatial label as notes]. Item 5 (the chip): Jess Haley asked "Is the chip an instrument? If yes, I think A makes sense"; Claude answered that it is a single-use capture device, not a measuring instrument, and asked her to confirm A as a `device` entity. Item 6 (`pipeline_version`): "I genuinely don't know. I think there is a dataset on NDI cloud that has this data type"; NDI-matlab only passes the caller's text through, so it waits on reading that dataset's value. Items 8, 10, 11 not yet asked.
   - **G105. Handed-on documents once their retire-class files are gone
     (from build W).** The five handed-on kinds (syncrule, epochfiles_ingested,
     stimulus_response_scalar, stimulus_response_scalar_parameters_basic,
