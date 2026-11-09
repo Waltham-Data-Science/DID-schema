@@ -382,7 +382,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 124 document(s) read (3 generated copies excluded); 762 decision line(s) accepted, 2 rejected; 44 cited by a class, 718 cited by none.
+DENOMINATOR: 124 document(s) read (3 generated copies excluded); 763 decision line(s) accepted, 2 rejected; 44 cited by a class, 719 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1032,6 +1032,7 @@ field). If one decides a class's disposition, that class should cite it.
 - gene totals kept whole. "Decided by Jess Haley, 2026-11-09 [gene totals kept whole]" (did_v2_spatial_transcriptomics_plan.md:647).
 - spatial counts during the session. "Decided by Jess Haley, 2026-11-09 [spatial counts during" (did_v2_spatial_transcriptomics_plan.md:649).
 - spatial label as notes. "Decided by Jess Haley, 2026-11-09 [spatial label as notes]" (did_v2_spatial_transcriptomics_plan.md:651).
+- spatial chip is a device. "Decided by Jess Haley, 2026-11-09 [spatial chip is a" (did_v2_spatial_transcriptomics_plan.md:653).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

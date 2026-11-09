@@ -704,9 +704,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 762,
+          "accepted_lines": 763,
           "accepted_lines_by_kind": {
-            "Decided by": 642,
+            "Decided by": 643,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5885,6 +5885,14 @@
               "tag": "spatial label as notes",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [spatial label as notes]"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 653,
+              "kind": "Decided by",
+              "tag": "spatial chip is a device",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial chip is a"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
