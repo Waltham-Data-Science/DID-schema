@@ -47,7 +47,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists.",
+                    "documentation": "The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists: the response stays above half its maximum down to the lowest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md).",
                     "constraints": {}
                 },
                 {
@@ -60,7 +60,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists.",
+                    "documentation": "The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists: the response stays above half its maximum up to the highest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md).",
                     "constraints": {}
                 },
                 {
@@ -73,7 +73,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite.",
+                    "documentation": "Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite (beyond the tested range; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md).",
                     "constraints": {}
                 },
                 {

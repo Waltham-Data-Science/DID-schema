@@ -11772,6 +11772,18 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "Receptive field",
+            "node": "SNOMEDCT:68015005",
+            "definition": "",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-09 [receptive field is SNOMED]",
+            "first_used_in": "20211116 (NDIcalc-vis-matlab hartley_calc.m: the receptive field reconstruction's variable)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }

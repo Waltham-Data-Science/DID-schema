@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 776 decision line(s) accepted, 2 rejected; 45 cited by a class, 731 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 779 decision line(s) accepted, 2 rejected; 45 cited by a class, 734 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -976,6 +976,7 @@ field). If one decides a class's disposition, that class should cite it.
 - lock moved to NDI main. "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]" (did_v2_go_forward_class_audit.md:2027).
 - one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2029).
 - documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2031).
+- receptive field is SNOMED. "Decided by Jess Haley, 2026-11-09 [receptive field is" (did_v2_go_forward_class_audit.md:2033).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1041,6 +1042,7 @@ field). If one decides a class's disposition, that class should cite it.
 - cell id is NCIT Identifier. "Decided by Jess Haley, 2026-11-09 [cell id is NCIT" (did_v2_spatial_transcriptomics_plan.md:663).
 - cell table terms. "Decided by Jess Haley, 2026-11-09 [cell table terms]: (" (did_v2_spatial_transcriptomics_plan.md:665).
 - cell outlines converted. "Decided by Jess Haley, 2026-11-09 [cell outlines" (did_v2_spatial_transcriptomics_plan.md:667).
+- area written without a unit. "Decided by Jess Haley, 2026-11-09 [area written without a" (did_v2_spatial_transcriptomics_plan.md:669).
 - wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:183).
 - wiring per ingest. "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: (" (did_v2_standing_wiring_plan.md:185).
 - stimulator manipulation dropped. "Decided by Jess Haley, 2026-11-09 [stimulator manipulation" (did_v2_standing_wiring_plan.md:187).
@@ -1117,6 +1119,7 @@ field). If one decides a class's disposition, that class should cite it.
 - calculator units. "Decided by Jess Haley, 2026-10-22 [calculator units]" (did_v2_tuning_model_plan.md:271).
 - contrast sensitivity lossless. "Decided by Jess Haley, 2026-10-23 [contrast sensitivity" (did_v2_tuning_model_plan.md:273).
 - oridir half-height values. "Decided by Jess Haley, 2026-11-09 [oridir half-height" (did_v2_tuning_model_plan.md:275).
+- frequency tuning keeps Inf. "Decided by Jess Haley, 2026-11-09 [frequency tuning keeps" (did_v2_tuning_model_plan.md:277).
 - calculator mixin dropped (#73). "TEAM-SIGN-OFF [calculator mixin dropped (#73)]" (team_signoff_lines_DRAFT.md:13).
 - observation vs calculation (#73). "TEAM-SIGN-OFF [observation vs calculation (#73)]" (team_signoff_lines_DRAFT.md:16).
 - tuning restructure (#73). "TEAM-SIGN-OFF [tuning restructure (#73)]" (team_signoff_lines_DRAFT.md:19).

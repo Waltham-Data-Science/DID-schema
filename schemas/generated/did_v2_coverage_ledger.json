@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 776,
+          "accepted_lines": 779,
           "accepted_lines_by_kind": {
-            "Decided by": 656,
+            "Decided by": 659,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5440,6 +5440,14 @@
               "anchor": "Decided by Jess Haley, 2026-11-07 [documentation from"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2033,
+              "kind": "Decided by",
+              "tag": "receptive field is SNOMED",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [receptive field is"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -5958,6 +5966,14 @@
               "tag": "cell outlines converted",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [cell outlines"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 669,
+              "kind": "Decided by",
+              "tag": "area written without a unit",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [area written without a"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
@@ -6566,6 +6582,14 @@
               "tag": "oridir half-height values",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [oridir half-height"
+            },
+            {
+              "document": "did_v2_tuning_model_plan.md",
+              "line": 277,
+              "kind": "Decided by",
+              "tag": "frequency tuning keeps Inf",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [frequency tuning keeps"
             },
             {
               "document": "team_signoff_lines_DRAFT.md",
