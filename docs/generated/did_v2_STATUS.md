@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 769 decision line(s) accepted, 2 rejected; 45 cited by a class, 724 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 770 decision line(s) accepted, 2 rejected; 45 cited by a class, 725 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1036,6 +1036,7 @@ field). If one decides a class's disposition, that class should cite it.
 - spatial label as notes. "Decided by Jess Haley, 2026-11-09 [spatial label as notes]" (did_v2_spatial_transcriptomics_plan.md:651).
 - spatial chip is a device. "Decided by Jess Haley, 2026-11-09 [spatial chip is a" (did_v2_spatial_transcriptomics_plan.md:653).
 - pipeline version as text. "Decided by Jess Haley, 2026-11-09 [pipeline version as" (did_v2_spatial_transcriptomics_plan.md:655).
+- one coordinate system per chip. "Decided by Jess Haley, 2026-11-09 [one coordinate system" (did_v2_spatial_transcriptomics_plan.md:659).
 - wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:183).
 - wiring per ingest. "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: (" (did_v2_standing_wiring_plan.md:185).
 - stimulator manipulation dropped. "Decided by Jess Haley, 2026-11-09 [stimulator manipulation" (did_v2_standing_wiring_plan.md:187).

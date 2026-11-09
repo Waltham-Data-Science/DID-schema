@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 769,
+          "accepted_lines": 770,
           "accepted_lines_by_kind": {
-            "Decided by": 649,
+            "Decided by": 650,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5918,6 +5918,14 @@
               "tag": "pipeline version as text",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [pipeline version as"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 659,
+              "kind": "Decided by",
+              "tag": "one coordinate system per chip",
+              "date": "2026-11-09",
+              "anchor": "Decided by Jess Haley, 2026-11-09 [one coordinate system"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
