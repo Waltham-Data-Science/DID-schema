@@ -2,7 +2,8 @@
 
 **Status: partly decided.** Drafted by Claude on 2026-11-09, at Jess Haley's
 request ("Write the standing wiring plan for me"). Decided: [wiring recorded
-once] (section 5). Proposed (not decided): how, P1 to P4 (Q3, Q4).
+once] and [wiring per ingest] (section 5). Proposed (not decided): the
+mechanism, P1 and P4 (Q4), and Q5.
 
 ## 1. The finding
 
@@ -154,7 +155,17 @@ indexed query away) and keep its write-only history.
   once Q3 and Q4 are answered.
 - **Q3.** When a later ingest adds epochs with an existing wiring: write a new
   relation for them (P2), or edit the existing one? Claude recommends P2.
+  ANSWERED below [wiring per ingest].
 - **Q4.** The mechanism: a new epoch edge on the relation (P1), a group of
-  epochs, or a change to CHANGE 5? Claude recommends P1.
+  epochs, or a change to CHANGE 5? Claude recommends P1 if Q5 is no. If the
+  Stimulator manipulations are grouped too (Q5 yes), the wiring and the
+  manipulations would list the same set of epochs, and T20 ("a set referred
+  to as a unit is a group entity"; statements "never list its members") then
+  points to a group of epochs instead. How many distinct epoch sets Dab and B
+  hold is not measured. Under P1 the relation carries no time reference
+  (`time_reference_id` is optional on `directed_relation`); its time is its
+  epochs' own anchors.
 
 Decided by Jess Haley, 2026-11-09 [wiring recorded once]: ("I think the same fact only needs to be recorded once", to Q1 of this plan) a probe's wiring that holds in several epochs is recorded once, not once per epoch. How (Q3, Q4) is not decided. Build pending: NDI-matlab (readers and writers of the grouped wiring), DID-matlab (`resolveEpochProbemap` groups identical wirings), did-schema (the edge that lists the epochs), all after Q3 and Q4.
+
+Decided by Jess Haley, 2026-11-09 [wiring per ingest]: ("Q3: yes", to Q3 of this plan, Claude recommending P2) a later ingest that adds epochs with an existing wiring writes a new wiring relation for its own epochs; no wiring relation is edited after it is written. Build pending: NDI-matlab (writers write one relation per wiring per ingest), DID-matlab (`resolveEpochProbemap` writes one per migrated session), after Q4.
