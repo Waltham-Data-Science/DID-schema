@@ -316,6 +316,20 @@ export interface FieldDef {
   fields?: FieldDef[];
 }
 
+// schemas/generated/quantity_list_meta.json (tools/validate_v_eta.py D6): every
+// value class with a `value` cell. A nested field whose `type` is one of these
+// names that class and carries no cell of its own ([quantity reference type],
+// Jess Haley 2026-10-27; [remaining quantity copies removed], 2026-11-09).
+export interface QuantityListMeta {
+  quantities: {
+    class_name: string;
+    canonicals: string[];
+    has_source_unit: boolean;
+    source_unit_values: unknown[] | null;
+    named_by: string[];
+  }[];
+}
+
 export interface DependsOnEntry {
   name: string;
   mustBeNonEmpty?: boolean;

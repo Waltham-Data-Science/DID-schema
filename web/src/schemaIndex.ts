@@ -2,7 +2,9 @@ import type {
   BindingRegistryMeta,
   CoverageLedger,
   DecisionsDoc,
+  FieldDef,
   IndexEntry,
+  QuantityListMeta,
   SchemaDocument,
   SchemaIndex,
   TenetsDoc,
@@ -99,6 +101,101 @@ export async function loadSchema(entry: IndexEntry): Promise<SchemaDocument> {
   const res = await fetch(`${BASE}${entry.path}`);
   if (!res.ok) throw new Error(`Failed to load ${entry.path}: ${res.status}`);
   return res.json();
+}
+
+// ---- quantity references ---------------------------------------------------
+//
+// A nested quantity names its value class as its `type` and carries no cell of
+// its own (Decided by Jess Haley, 2026-10-27 [quantity reference type];
+// 2026-11-09 [remaining quantity copies removed], did_v2_go_forward_class_audit.md).
+// The viewer expands it the way the validators do (DID-matlab
+// did2.schema.cache, d121479b): into the named class's `value` cell. Which
+// types are value classes is read from the derived quantity list
+// (schemas/generated/quantity_list_meta.json), found through the did_v2 index
+// at the path the index gives it; no class name is written here.
+
+const QUANTITY_SET = "did_v2";
+
+let quantityEntries: Promise<Map<string, IndexEntry>> | null = null;
+
+// {value class name: its index entry}, for every class the quantity list holds.
+function loadQuantityEntries(): Promise<Map<string, IndexEntry>> {
+  if (!quantityEntries) {
+    quantityEntries = (async () => {
+      const index = await loadIndex(QUANTITY_SET);
+      const byName = new Map(index.schemas.map((e) => [e.class_name, e]));
+      const listEntry = byName.get("quantity_list_meta");
+      if (!listEntry) throw new Error("the did_v2 index lists no quantity_list_meta");
+      const res = await fetch(`${BASE}${listEntry.path}`);
+      if (!res.ok) throw new Error(`Failed to load ${listEntry.path}: ${res.status}`);
+      const list = (await res.json()) as QuantityListMeta;
+      const out = new Map<string, IndexEntry>();
+      for (const q of list.quantities ?? []) {
+        const e = byName.get(q.class_name);
+        if (e) out.set(q.class_name, e);
+      }
+      return out;
+    })();
+    // A failed load is retried on the next call rather than cached.
+    quantityEntries.catch(() => {
+      quantityEntries = null;
+    });
+  }
+  return quantityEntries;
+}
+
+const cellCache = new Map<string, Promise<FieldDef[] | null>>();
+
+function loadCell(entry: IndexEntry): Promise<FieldDef[] | null> {
+  let p = cellCache.get(entry.class_name);
+  if (!p) {
+    p = loadSchema(entry).then((d) => {
+      const cell = (d.fields ?? []).find(
+        (f) => f.name === "value" && f.type === entry.class_name,
+      );
+      return cell?.fields?.length ? cell.fields : null;
+    });
+    p.catch(() => cellCache.delete(entry.class_name));
+    cellCache.set(entry.class_name, p);
+  }
+  return p;
+}
+
+// Every type named, at any depth, by a field that carries no sub-fields.
+function referencedTypes(fields: FieldDef[], out: Set<string>): Set<string> {
+  for (const f of fields) {
+    if (f.fields?.length) referencedTypes(f.fields, out);
+    else out.add(f.type);
+  }
+  return out;
+}
+
+// {value class: its `value` cell's fields} for every value class the fields
+// reference, followed through the cells themselves (a cell may reference
+// another value class). A type that is not a value class is left out.
+export async function loadQuantityCells(
+  fields: FieldDef[],
+): Promise<Record<string, FieldDef[]>> {
+  const entries = await loadQuantityEntries();
+  const cells: Record<string, FieldDef[]> = {};
+  const seen = new Set<string>();
+  let todo = [...referencedTypes(fields, new Set())];
+  while (todo.length > 0) {
+    const next = new Set<string>();
+    await Promise.all(
+      todo.map(async (t) => {
+        seen.add(t);
+        const e = entries.get(t);
+        if (!e) return;
+        const cell = await loadCell(e);
+        if (!cell) return;
+        cells[t] = cell;
+        for (const u of referencedTypes(cell, new Set())) next.add(u);
+      }),
+    );
+    todo = [...next].filter((t) => !seen.has(t));
+  }
+  return cells;
 }
 
 // The binding_registry_meta entry is a meta-file, not a document class: it has

@@ -8,7 +8,7 @@ import type {
   DecisionsDoc,
 } from "./types";
 import { superclassName } from "./types";
-import { loadDecisions, loadSchema } from "./schemaIndex";
+import { loadDecisions, loadQuantityCells, loadSchema } from "./schemaIndex";
 
 interface Props {
   entry: IndexEntry;
@@ -216,7 +216,24 @@ export function Detail({ entry }: Props) {
 // same way this one does. A second field renderer beside this one would drift,
 // and the two would then disagree about the same schema in two panels of the
 // same app.
+//
+// A field that names a value class as its type and carries no sub-fields of its
+// own is a quantity reference ([quantity reference type], Jess Haley
+// 2026-10-27; [remaining quantity copies removed], 2026-11-09): its rows are
+// the named class's `value` cell, expanded here as the validators expand it.
+// Until the cells load (or if they cannot), a reference shows as its type name.
 export function FieldsTable({ fields }: { fields: FieldDef[] }) {
+  const [cells, setCells] = useState<Record<string, FieldDef[]>>({});
+  useEffect(() => {
+    let cancelled = false;
+    setCells({});
+    loadQuantityCells(fields)
+      .then((c) => !cancelled && setCells(c))
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [fields]);
   return (
     <table className="fields-table">
       <thead>
@@ -230,7 +247,7 @@ export function FieldsTable({ fields }: { fields: FieldDef[] }) {
         </tr>
       </thead>
       <tbody>
-        {fields.flatMap((f) => renderFieldRows(f, 0, ""))}
+        {fields.flatMap((f) => renderFieldRows(f, 0, "", cells, []))}
       </tbody>
     </table>
   );
@@ -240,8 +257,15 @@ function renderFieldRows(
   field: FieldDef,
   depth: number,
   parentKey: string,
+  cells: Record<string, FieldDef[]>,
+  expanding: string[],
 ): ReactElement[] {
   const key = parentKey ? `${parentKey}.${field.name}` : field.name;
+  // A reference is expanded unless it is already being expanded above this row
+  // (a cell that named its own class would otherwise recurse without end).
+  const own = field.fields ?? [];
+  const referenced =
+    own.length === 0 && !expanding.includes(field.type) ? cells[field.type] : undefined;
   const row = (
     <tr key={key} className={depth > 0 ? "field-row-nested" : undefined}>
       <td>
@@ -255,6 +279,11 @@ function renderFieldRows(
       </td>
       <td>
         <TypeBadge type={field.type} />
+        {referenced && (
+          <div className="field-ref-note">
+            cell of <code>{field.type}</code>
+          </div>
+        )}
       </td>
       <td>
         <code>{formatValue(field.default_value)}</code>
@@ -275,9 +304,11 @@ function renderFieldRows(
       <td className="doc-cell">{field.documentation ?? ""}</td>
     </tr>
   );
-  const childRows = (field.fields ?? []).flatMap((sub) =>
-    renderFieldRows(sub, depth + 1, key),
-  );
+  const childRows = referenced
+    ? referenced.flatMap((sub) =>
+        renderFieldRows(sub, depth + 1, key, cells, [...expanding, field.type]),
+      )
+    : own.flatMap((sub) => renderFieldRows(sub, depth + 1, key, cells, expanding));
   return [row, ...childRows];
 }
 

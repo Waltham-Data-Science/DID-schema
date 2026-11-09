@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 783,
+          "accepted_lines": 782,
           "accepted_lines_by_kind": {
-            "Decided by": 663,
+            "Decided by": 662,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5459,9 +5459,9 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2037,
               "kind": "Decided by",
-              "tag": "tenet audit 6 8 11",
+              "tag": "remaining quantity copies removed",
               "date": "2026-11-09",
-              "anchor": "Decided by Jess Haley, 2026-11-09 [tenet audit 6 8 11]: ("
+              "anchor": "Decided by Jess Haley, 2026-11-09 [remaining quantity"
             },
             {
               "document": "did_v2_image_model_plan.md",
@@ -5990,14 +5990,6 @@
               "tag": "area written without a unit",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [area written without a"
-            },
-            {
-              "document": "did_v2_spatial_transcriptomics_plan.md",
-              "line": 671,
-              "kind": "Decided by",
-              "tag": "spatial field bindings superseded",
-              "date": "2026-11-09",
-              "anchor": "Decided by Jess Haley, 2026-11-09 [spatial field bindings"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
