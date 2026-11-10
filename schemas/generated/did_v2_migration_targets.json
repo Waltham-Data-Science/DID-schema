@@ -299,7 +299,9 @@
     "gene_list": {
       "targets": [
         "opaque_body",
-        "term"
+        "term",
+        "directed_relation",
+        "entity"
       ],
       "target_completeness": {
         "state": "full",
@@ -699,6 +701,13 @@
         "unresolved_sites": []
       }
     },
+    "spatial_gene_expression_roi": {
+      "targets": [],
+      "target_completeness": {
+        "state": "carry_forward",
+        "unresolved_sites": []
+      }
+    },
     "spatial_gene_expression_tiles": {
       "targets": [],
       "target_completeness": {
@@ -767,9 +776,16 @@
       }
     },
     "spikewaves": {
-      "targets": [],
+      "targets": [
+        "assertion + text",
+        "calculation + time",
+        "calculation + voltage",
+        "entity",
+        "relative_time_reference",
+        "sampled_body"
+      ],
       "target_completeness": {
-        "state": "carry_forward",
+        "state": "full",
         "unresolved_sites": []
       }
     },

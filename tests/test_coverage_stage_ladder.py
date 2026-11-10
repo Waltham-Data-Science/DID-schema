@@ -806,7 +806,9 @@ class TestTheCommittedLedger(unittest.TestCase):
         # main]): its decided targets ([spatial ROI is an outline]) are built,
         # and its migrator waits for G109 items 8, 10, 11. Schema ahead of
         # migrator.
-        self.assertEqual(failed, ["ensemble", "epochclocktimes", "spatialGeneExpressionROI"])
+        # `spatialGeneExpressionROI` LEFT on 2026-11-10: DID-matlab #436 (e97900f3) gave it a
+        # migrator (a passthrough), which the sibling lock reached at DID-matlab 6faa80e8.
+        self.assertEqual(failed, ["ensemble", "epochclocktimes"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "
