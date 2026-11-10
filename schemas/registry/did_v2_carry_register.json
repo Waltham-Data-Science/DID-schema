@@ -1985,23 +1985,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-128",
-      "v1_class": "openminds_element",
-      "fields": [
-        "openminds_element.openminds_id",
-        "openminds_element.fields.description"
-      ],
-      "when": "either is non-empty",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "openMINDS element leftovers carried"
-      },
-      "open_work": 163,
-      "home": "built: the description goes to the assertion's `notes`, the id is not stored ([openMINDS element description in notes], DID-matlab 66ff3674, #435); the row is retired once DID-matlab's last citation (+migrators_j/openminds_element.m) is gone",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-129",
       "v1_class": "daqmetadatareader",
       "fields": [
@@ -2112,11 +2095,11 @@
         "depends_on element_id",
         "depends_on subject_id"
       ],
-      "when": "neither names an entity, so the fit's statement has no entity_id (DID-matlab #293, private/jModelFit.m)",
+      "when": "a v1 `fitcurve` with no subject of its own whose input chain names none (DID-matlab ee131a8a, #439: the note gives the reason, no_input / input_not_in_batch / chain_names_none / session / cycle)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "one folder, final classes only"
+        "tag": "a fit is about its input's subject"
       },
       "open_work": 164,
       "home": "none decided: a fit with no subject",
@@ -2129,11 +2112,11 @@
         "depends_on element_id",
         "depends_on subject_id"
       ],
-      "when": "neither names an entity (DID-matlab #293, private/jModelFit.m)",
+      "when": "a v1 `vmspikefit` with no subject of its own whose input chain names none (DID-matlab ee131a8a, #439)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "one folder, final classes only"
+        "tag": "a fit is about its input's subject"
       },
       "open_work": 164,
       "home": "none decided: a fit with no subject",
@@ -2146,11 +2129,11 @@
         "depends_on element_id",
         "depends_on subject_id"
       ],
-      "when": "neither names an entity (DID-matlab #293, +migrators_j/hartley_calc.m)",
+      "when": "a v1 `hartley_calc` with no subject of its own whose input chain names none (DID-matlab ee131a8a, #439)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "one folder, final classes only"
+        "tag": "a fit is about its input's subject"
       },
       "open_work": 164,
       "home": "none decided: a calculation with no subject",

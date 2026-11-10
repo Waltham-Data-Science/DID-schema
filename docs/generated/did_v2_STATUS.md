@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 817 decision line(s) accepted, 2 rejected; 45 cited by a class, 772 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 820 decision line(s) accepted, 2 rejected; 45 cited by a class, 775 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1011,6 +1011,8 @@ field). If one decides a class's disposition, that class should cite it.
 - probes read from the derived index. "Decided by Jess Haley, 2026-11-10 [probes read from the" (did_v2_go_forward_class_audit.md:2097).
 - assertion wins while written. "Decided by Jess Haley, 2026-11-10 [assertion wins while" (did_v2_go_forward_class_audit.md:2099).
 - probes from the index keep v1's duplicates. "Decided by Jess Haley, 2026-11-10 [probes from the index" (did_v2_go_forward_class_audit.md:2101).
+- valid interval waits for a dataset. "Decided by Jess Haley, 2026-11-10 [valid interval waits for" (did_v2_go_forward_class_audit.md:2103).
+- focus on classes in the corpora. "Decided by Jess Haley, 2026-11-10 [focus on classes in the" (did_v2_go_forward_class_audit.md:2105).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1079,6 +1081,7 @@ field). If one decides a class's disposition, that class should cite it.
 - area written without a unit. "Decided by Jess Haley, 2026-11-09 [area written without a" (did_v2_spatial_transcriptomics_plan.md:669).
 - spatial field bindings superseded. "Decided by Jess Haley, 2026-11-09 [spatial field bindings" (did_v2_spatial_transcriptomics_plan.md:671).
 - cell type label settings are method parameters. "Decided by Jess Haley, 2026-11-10 [cell type label settings" (did_v2_spatial_transcriptomics_plan.md:673).
+- spatial transcriptomics waits for a dataset. "Decided by Jess Haley, 2026-11-10 [spatial transcriptomics" (did_v2_spatial_transcriptomics_plan.md:675).
 - wiring recorded once. "Decided by Jess Haley, 2026-11-09 [wiring recorded once]: (" (did_v2_standing_wiring_plan.md:183).
 - wiring per ingest. "Decided by Jess Haley, 2026-11-09 [wiring per ingest]: (" (did_v2_standing_wiring_plan.md:185).
 - stimulator manipulation dropped. "Decided by Jess Haley, 2026-11-09 [stimulator manipulation" (did_v2_standing_wiring_plan.md:187).
