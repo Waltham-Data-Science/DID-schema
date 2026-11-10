@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 792,
+          "accepted_lines": 795,
           "accepted_lines_by_kind": {
-            "Decided by": 672,
+            "Decided by": 675,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5526,6 +5526,30 @@
               "tag": "intensity slot named for the quantity",
               "date": "2026-11-10",
               "anchor": "Decided by Jess Haley, 2026-11-10 [intensity slot named for"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2055,
+              "kind": "Decided by",
+              "tag": "culture and alignment nodes",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [culture and alignment"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2057,
+              "kind": "Decided by",
+              "tag": "tuning summaries in the value",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [tuning summaries in the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2059,
+              "kind": "Decided by",
+              "tag": "T15 inventory corrected",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [T15 inventory"
             },
             {
               "document": "did_v2_image_model_plan.md",
