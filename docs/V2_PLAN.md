@@ -378,7 +378,7 @@ whose DID-matlab build waits on GL1-GL7.
   - GL11. The `row` dimension's `n` is required. Take it from v1 `n_pairs` (GL5 drops the count as a field, but it is exactly the row count), or count the rows of `mapping.tsv` (reading the file)? [Recommend `n_pairs`; a mapping whose `n_pairs` is 0 while `mapping.tsv` is non-empty is carried whole as v1.] ANSWERED 2026-11-01 (count the rows of `mapping.tsv`, malformed when that disagrees with `n_pairs`; gene indices 0-based): [mapping rows counted, indices 0-based].
 - Also held: ids for minted documents with no source id; carry-087 into
   carry-100; recognising a migrated element without the "ndi element class"
-  assertion; Group vs ensemble; widening the equivalents fill (66 rows); a
+  assertion (ANSWERED 2026-11-10: [element recognised by its links]); Group vs ensemble (ANSWERED 2026-11-10: [ensemble has members]); widening the equivalents fill (66 rows); a
   second-pass emitter for `purpose`; #1680 (Haley region names as "the map").
 
 ## Waiting for Jess

@@ -741,7 +741,7 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 `interpreter_id` and `operating_system_id` → `software`; item 59 added `ingredient_id`
 (repeated, **ordered**), `formulation_id`, `product_id` and `vendor_id`; audit 2 D9 added
 `strain.product_id`; 2026-10-21 [dose per ingredient] added `dose.ingredient_id` (repeated,
-**ordered**, paired with `value.ingredients` like the formulation's).
+**ordered**, paired with `value.ingredients` like the formulation's). Later changes (2026-11-10, tenet audit, did-schema #309; Jess Haley [T15 inventory corrected], `did_v2_go_forward_class_audit.md`): `session_id` returned as a required edge on `base` on 2026-10-20 (`did_v2_relation_inheritance_plan.md`, "`session_id` is an edge"; T17), so every document carries it; `subject_id` and `strain_id` went with the 2026-10-08 entity merge (T1: a statement points at its entity by `entity_id`; strain is an `instance_of` relation); `method_parameters_id` went when `method_parameters` became `method` (2026-10-21); `filter_id` went when `frequency_filter` was deleted (`did_v2_frequency_filter_model_plan.md` [filters are methods]); `vendor_id` became the relation `sold_by` (`did_v2_entity_composition_plan.md`). None of these five is an edge of a persist class today.
 
 | class | today | T15 | repeats | ordered |
 |---|---|---|:-:|:-:|
@@ -754,8 +754,8 @@ excluded). 14 names were unchanged by T15: `subject_id`, `software_id`, `epoch_i
 | ~~`control_designation`~~ | `timed_sequence_id` | *(class deleted, #73 item 67)* | | |
 | `calculation` | `derived_from_#` | `input_id` | yes | no |
 | ~~`control_designation`~~ | `derived_from_#` | *(class deleted, #73 item 67)* | yes | no |
-| `interaction`, `directed_relation`, `epoch` | `time_reference_#` | `time_reference_id` | yes | no |
-| `undirected_relation` | `entities_#` | `entity_id` | yes (exactly 2) | no |
+| `interaction`, `directed_relation` (and `epoch`, now the entity type "recording epoch", EMPTY:0000383) | `time_reference_#` | `time_reference_id` | yes | no |
+| `undirected_relation` | `entities_#` | `relatum_id` (`entity_id` until 2026-11-01, `did_v2_go_forward_class_audit.md` [undirected ends are relata]) | yes (exactly 2) | no |
 | `item` (`timed_sequence` until 2026-10-04) | `presented_id_#` | `item_id` | yes | **yes** |
 | `data` (items 60, 65; was `statement`, `data_body`) | `axis_labels_#` | `key_id` (`key_labels_id` until 2026-10-05) | yes | **yes** |
 | ~~`strain`~~ | `background_strain_#` | *(no edge: a strain is an entity since 2026-10-08 and its pedigree a `derived_from` relation)* | | |
