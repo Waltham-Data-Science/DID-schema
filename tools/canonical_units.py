@@ -52,7 +52,7 @@ CANONICAL_UNITS = {
     "conductance": [("siemens", "siemens", "om:siemens")],
     "capacitance": [("farads", "farad", "om:farad")],
     "substance_amount": [("moles", "mole", "om:mole")],
-    "intensity": [("arbitrary_units", "Arbitrary Unit", "NCIT:C75765")],
+    "intensity": [("intensity", "Arbitrary Unit", "NCIT:C75765")],  # slot named for the quantity (Jess Haley 2026-11-10 [intensity slot named for the quantity])
     "irradiance": [("watts_per_square_meter", "watt per square metre", "om:wattPerSquareMetre")],
     # a part of a whole (Jess Haley 2026-10-26 [fraction value kind]); a percent is
     # kept as its source_value with source_unit om:percent.

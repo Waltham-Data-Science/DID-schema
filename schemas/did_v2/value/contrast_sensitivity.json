@@ -628,7 +628,7 @@
                             "constraints": {}
                         },
                         {
-                            "name": "c50",
+                            "name": "half_maximum_below",
                             "type": "matrix",
                             "blank_value": [],
                             "default_value": [],
@@ -637,7 +637,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "C50 per spatial frequency, from THIS fit (`empirical_c50` until 2026-10-22, Jess Haley [significance with results]).",
+                            "documentation": "C50 per spatial frequency, from THIS fit (`empirical_c50` until 2026-10-22, Jess Haley [significance with results]). The contrast at half the maximum response (C50), named as on every other tuning class (`c50` until 2026-11-10, T11; Jess Haley 2026-11-10 [one spelling for the half-maximum point], did_v2_go_forward_class_audit.md).",
                             "constraints": {}
                         },
                         {
@@ -669,7 +669,7 @@
                     "constraints": {},
                     "fields": [
                         {
-                            "name": "c50",
+                            "name": "half_maximum_below",
                             "type": "matrix",
                             "blank_value": [],
                             "default_value": [],
@@ -678,7 +678,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Fit-less interpolated C50 per spatial frequency (v1 `fitless_interpolated_c50`).",
+                            "documentation": "Fit-less interpolated C50 per spatial frequency (v1 `fitless_interpolated_c50`). The contrast at half the maximum response (C50), named as on every other tuning class (`c50` until 2026-11-10, T11; Jess Haley 2026-11-10 [one spelling for the half-maximum point], did_v2_go_forward_class_audit.md).",
                             "constraints": {}
                         },
                         {

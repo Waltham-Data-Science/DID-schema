@@ -26,8 +26,8 @@ Last updated 2026-11-03.
   Jess Haley, 2026-11-09: "Add elements to the derived index" (one derived row
   per migrated element: name, reference, type, class, underlying element,
   subject). Building in NDI-matlab, into `V2`. A DID-matlab index on the v1
-  `element.*` fields (option 2) is explained, not decided: it waits on whether
-  the element rows answer the 16 new-probe element queries.
+  `element.*` fields (option 2) is not built: Jess Haley, 2026-11-10
+  [probes read from the derived index], `did_v2_go_forward_class_audit.md`.
 - Wiring: `did_v2_standing_wiring_plan.md`, written at Jess Haley's request:
   one wiring relation per distinct wiring, not per epoch (Dab: 4,737
   relations hold 600 facts; run 42535319383). Decided there: [wiring recorded

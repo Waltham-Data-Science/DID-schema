@@ -45,15 +45,14 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 139 | a home for an `imageStack`'s `document_id` edge (carry-052) -> https://github.com/Waltham-Data-Science/DID-schema/issues/146 (reopened 2026-11-06: a v1 `image`'s `document_id` edge, carry-067; the imageStack edge is carry-052, `needs_mapping`) |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 | 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-075; #154 closed 2026-10-29 on [session opener inputs]) |
-| 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/155 |
+| 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (moved to #286, 2026-11-10 [stimulus presentation leftovers wait for a dataset]; #155 closed) |
 | 149 | homes for openMINDS Strain and fragment fields (carry-092, carry-094) -> https://github.com/Waltham-Data-Science/DID-schema/issues/158 |
 | 153 | homes for `spikewaves`, `spike_clusters` and `binnedspikeratevm`, carried as v1 (carry-101, carry-102, carry-103) -> https://github.com/Waltham-Data-Science/DID-schema/issues/197 |
 | 154 | a home for `simple_calc`, designed only if a real dataset holds one (carry-104) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (moved to #286, the standing issue for homes designed only when a dataset holds one, 2026-11-10 [closing issues 2026-11-10]; #198 closed) |
-| 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/199 |
+| 155 | a home for a dataset form's subject, species, strain and sex lists (carry-105) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (moved to #286, 2026-11-10 [assertion wins while written] (2); #199 closed) |
 | 156 | a home for a statement's v1 name (carry-106) -> https://github.com/Waltham-Data-Science/DID-schema/issues/200 |
 | 158 | the ingested stimulus data body gets a proper epoch link instead of matching description text -> https://github.com/Waltham-Data-Science/DID-schema/issues/306 (folded into the time model, #306, 2026-11-10 [stimulus body link waits on the time model]; #202 closed) |
 | 159 | homes for four carries recorded 2026-10-28: v1 ids with no v2 document, axis letters, openMINDS ids, session lists (carry-112, carry-114, carry-116, carry-118; the fifth, lab strain ids, was retired 2026-11-01 when NDI-matlab's second pass wrote them on the strain entity) -> https://github.com/Waltham-Data-Science/DID-schema/issues/212 |
-| 163 | homes for an openMINDS element's `openminds_id` and description (carry-128) -> https://github.com/Waltham-Data-Science/DID-schema/issues/232 |
 | 164 | homes for the retire classes now carried as v1: fits and calculations with no subject, site2channelmap, stimulus_parameter, vmneuralresponseresiduals, vmspikesummary, vmspikefilteringparameters, a subjectmeasurement with no quantity kind, distance_metadata, a oneepoch on a global clock, openminds_stimulus (carry-136..143, carry-145, carry-147, carry-148, carry-165) -> https://github.com/Waltham-Data-Science/DID-schema/issues/234 |
 | 165 | homes for NDIcalc-vis `hartley_reverse_correlation` and `reverse_correlation`, carried as v1 (carry-168, carry-169) -> https://github.com/Waltham-Data-Science/DID-schema/issues/260 |
 
@@ -79,6 +78,7 @@ Open items without a row number: none (the last two, #108 and #104, are under CO
 
 | # | what completed |
 |---|---|
+| 163 | homes for an openMINDS element's `openminds_id` and description: the description goes to the assertion's `notes`, the id is not stored ([openMINDS element description in notes]; DID-matlab 66ff3674, #435); carry-128 retired; #232 closed 2026-11-10 |
 | 162 | the remaining nested quantity cells and the web viewer's quantity references: built by [remaining quantity copies removed] (did-schema #310, merge 30812a1); #230 closed 2026-11-09 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id`: superseded; both classes are handed on as v1 wrote them, so no `epoch_id` is stamped ([handed-on are v1 as written]; DID-matlab 5339621a #372, da487311 #374); #105 closed 2026-11-10 [closing issues 2026-11-10] |
 | 68 | a value rollup for `sampled_body`: not built, by decision ([no value rollup now]); #98 closed 2026-11-10, a new issue if it comes up again [closing issues 2026-11-10] |

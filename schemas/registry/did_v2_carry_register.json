@@ -1985,23 +1985,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-128",
-      "v1_class": "openminds_element",
-      "fields": [
-        "openminds_element.openminds_id",
-        "openminds_element.fields.description"
-      ],
-      "when": "either is non-empty",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "openMINDS element leftovers carried"
-      },
-      "open_work": 163,
-      "home": "proposed (not decided): the description in the term assertion's `notes`, the openMINDS id as an identifier on it (did-schema #232)",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-129",
       "v1_class": "daqmetadatareader",
       "fields": [
@@ -2259,14 +2242,17 @@
         "subjectmeasurement.measurement"
       ],
       "when": "the measurement names no quantity kind (DID-matlab #293, guard 4; when jMeasurementFold already wrote carry-059 that note stands)",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "one folder, final classes only"
+        "tag": "unnamed measurement kind needs a map"
       },
-      "open_work": 164,
-      "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "stated",
+      "homes": [
+        "a statement of the quantity kind the dataset map names for that measurement name, in its unit"
+      ],
+      "decides": "what quantity the measurement name is (the name alone does not say)",
+      "resolved_by": "the dataset map entry for that measurement name (Jess Haley, 2026-11-10 [unnamed measurement kind needs a map])"
     },
     {
       "id": "carry-146",
@@ -2289,14 +2275,17 @@
         "the whole document"
       ],
       "when": "always, until its v2 home is decided (it was reshaped into the retire class; DID-matlab +migrators_j/distance_metadata.m)",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "reshaped retire classes carried"
+        "tag": "distance and its metadata are one statement"
       },
-      "open_work": 164,
-      "home": "none decided (docs/V2_PLAN.md G50)",
-      "kind_basis": "decided"
+      "kind_basis": "stated",
+      "homes": [
+        "one statement of the distance between ends A and B in `units`, built where the dataset map names the distance element (carry-063)"
+      ],
+      "decides": "what the distance element is (carry-063); its metadata follows it",
+      "resolved_by": "the dataset map entry for that element type (carry-063; Jess Haley, 2026-11-10 [distance and its metadata are one statement])"
     },
     {
       "id": "carry-149",
@@ -2585,7 +2574,7 @@
         "tag": "v1 passthroughs accepted"
       },
       "open_work": 164,
-      "home": "none decided in pass 1: NDI's second pass reads it toward interaction_purpose",
+      "home": "none in the generic migration: a `purpose` is written only by a dataset's own map or import ([purpose written by the dataset map]); the Dabrowska map drops these labels as derivable (2026-10-21 decision 4)",
       "kind_basis": "proposed"
     },
     {

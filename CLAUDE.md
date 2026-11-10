@@ -508,6 +508,7 @@ or the status board.
   (NDI `+vintage/elementFields.m`).
 - **`imageStack_parameters` and the demo-series classes have no target and no
   dissolution recorded.** See the coverage ledger's no-target census.
-- **`binnedspikeratevm`'s unit (Hz vs spikes per bin) cannot be read**: the
-  `vhlab_voltage2firingrate` writer is in no repository we hold. Unverified
-  whether that is still true.
+- **`binnedspikeratevm`'s firing rate is in Hz** (spikes per second): its
+  writer is VH-Lab/vhlab-v2fr-matlab `Intracell/intracell_strf_binnedspikeratevm.m`,
+  and the rate is computed as `conv(spikes/dt, ...)` (`did_v2_go_forward_class_audit.md`
+  [voltage-to-firing-rate writers found]).

@@ -237,7 +237,7 @@
         {
             "class_name": "intensity",
             "canonicals": [
-                "arbitrary_units"
+                "intensity"
             ],
             "has_source_unit": true,
             "source_unit_values": null,

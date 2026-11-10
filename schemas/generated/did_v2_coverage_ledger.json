@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 805,
+          "accepted_lines": 816,
           "accepted_lines_by_kind": {
-            "Decided by": 685,
+            "Decided by": 696,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5632,6 +5632,86 @@
               "anchor": "Decided by Jess Haley, 2026-11-10 [spike waveforms are two"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2081,
+              "kind": "Decided by",
+              "tag": "spike waveforms built now",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [spike waveforms built"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2083,
+              "kind": "Decided by",
+              "tag": "no-migrator classes: build one, count six",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [no-migrator classes"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2085,
+              "kind": "Decided by",
+              "tag": "a fit is about its input's subject",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [a fit is about its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2087,
+              "kind": "Decided by",
+              "tag": "voltage-to-firing-rate writers found",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [voltage-to-firing-rate"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2089,
+              "kind": "Decided by",
+              "tag": "site map waits with contact geometry",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [site map waits with"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2091,
+              "kind": "Decided by",
+              "tag": "unnamed measurement kind needs a map",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [unnamed measurement kind"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2093,
+              "kind": "Decided by",
+              "tag": "distance and its metadata are one statement",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [distance and its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2095,
+              "kind": "Decided by",
+              "tag": "stimulus presentation leftovers wait for a dataset",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [stimulus presentation"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2097,
+              "kind": "Decided by",
+              "tag": "probes read from the derived index",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [probes read from the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2099,
+              "kind": "Decided by",
+              "tag": "assertion wins while written",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [assertion wins while"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6166,6 +6246,14 @@
               "tag": "spatial field bindings superseded",
               "date": "2026-11-09",
               "anchor": "Decided by Jess Haley, 2026-11-09 [spatial field bindings"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 673,
+              "kind": "Decided by",
+              "tag": "cell type label settings are method parameters",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [cell type label settings"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
