@@ -11856,6 +11856,30 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "cell culture",
+            "node": "OBI:0001876",
+            "definition": "A material entity comprised of cultured cells and the media in which they are being propagated or stored.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-10 [culture and alignment nodes]",
+            "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley, bacterial lawn cultures): the node of the entity type `culture`",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "temporally aligned with",
+            "node": "EMPTY:0000440",
+            "definition": "A relation between two time references in which the times of the first are mapped onto the times of the second by a clock alignment.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-10 [culture and alignment nodes]",
+            "first_used_in": "NDI v2 clock alignments (did-schema clock_alignment relation; v1 syncrule mappings)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }

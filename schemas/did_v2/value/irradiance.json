@@ -149,7 +149,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (arbitrary_units) (for a time: how much EARLIER). Non-negative.",
+                            "documentation": "How far BELOW the stated value the true value may lie, in the canonical unit (watts_per_square_meter) (for a time: how much EARLIER). Non-negative.",
                             "constraints": {
                                 "minimum": 0
                             }
@@ -164,7 +164,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (arbitrary_units) (for a time: how much LATER). Non-negative.",
+                            "documentation": "How far ABOVE the stated value the true value may lie, in the canonical unit (watts_per_square_meter) (for a time: how much LATER). Non-negative.",
                             "constraints": {
                                 "minimum": 0
                             }

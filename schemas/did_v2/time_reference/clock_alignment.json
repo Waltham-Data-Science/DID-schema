@@ -62,7 +62,7 @@
                     "expansion": "value_set",
                     "values": [
                         {
-                            "node": "",
+                            "node": "EMPTY:0000440",
                             "name": "temporally aligned with"
                         }
                     ],

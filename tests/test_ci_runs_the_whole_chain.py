@@ -48,7 +48,7 @@ SIBLINGS = ("NDI-matlab", "DID-matlab")
 # 2026-10-27, `did_v2_go_forward_class_audit.md` [lock NDIcalc-vis-matlab]. It has
 # no V2 line, so its locked head is its locked main.
 LOCKED_ONLY = ("NDIcalc-vis-matlab",)
-NDICALC_VIS_LOCKED = "00e3e0f10eb113aebcfb6428059403e9e6685df8"
+NDICALC_VIS_LOCKED = "8d9541373b037dc27d198b84957b6a6c113552e5"
 
 
 # PARSED FROM THE TEXT, NOT WITH PyYAML, AND THAT IS DELIBERATE. The first
@@ -182,7 +182,7 @@ def test_the_lock_names_both_siblings_with_a_head_off_main():
 
 def test_the_lock_names_ndicalc_vis_at_the_tuning_template_commit():
     """NDIcalc-vis-matlab is locked at the commit the tuning templates are read
-    from (00e3e0f), on its `main`: it has no V2 line, so head and main are the
+    from (8d95413 since 2026-11-10, the commit DID-matlab #426's oridir fixture came from; 00e3e0f before), on its `main`: it has no V2 line, so head and main are the
     same commit. A lock that moved it without a deliberate edit here fails."""
     sib = _lock()["siblings"]
     print(f"DENOMINATOR: {len(sib)} sibling(s) in the lock, {len(LOCKED_ONLY)} locked-only required")

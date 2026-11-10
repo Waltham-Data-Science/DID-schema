@@ -299,7 +299,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists.",
+                    "documentation": "A categorical value: one term ({node, name}), or a LABEL ({name}, no node) when no term exists. Open by design: no binding on this slot, because what it may hold depends on the entry's `variable`; a `subject_statement_bindings` row with `values` closes it per variable (Jess Haley 2026-11-10 [unbound term fields sorted], did_v2_go_forward_class_audit.md).",
                     "constraints": {},
                     "fields": [
                         {

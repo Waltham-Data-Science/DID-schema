@@ -2821,7 +2821,7 @@
         },
         {
             "relation": {
-                "node": "",
+                "node": "EMPTY:0000440",
                 "name": "temporally aligned with"
             },
             "class": "clock_alignment",
