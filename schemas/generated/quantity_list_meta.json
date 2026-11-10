@@ -451,7 +451,9 @@
                 "response_type",
                 "coordinates",
                 "model_fit",
-                "significance"
+                "significance",
+                "circular_statistics",
+                "interpolated_values"
             ],
             "has_source_unit": false,
             "source_unit_values": null,

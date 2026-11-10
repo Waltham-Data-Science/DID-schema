@@ -1241,6 +1241,235 @@
                             "constraints": {}
                         }
                     ]
+                },
+                {
+                    "name": "circular_statistics",
+                    "type": "structure",
+                    "blank_value": {},
+                    "default_value": {},
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Vector-space summary of the RAW (unfitted) direction curve (v1 `vector`). Set only on an orientation/direction calculation. Moved from `orientation_direction_tuning_calculation` into the value, beside `model_fit` and `significance` (Jess Haley 2026-11-10 [tuning summaries in the value], did_v2_go_forward_class_audit.md).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "circular_variance",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Circular variance in orientation space; related to selectivity and tuning width.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_circular_variance",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Circular variance in direction space.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "hotelling_t2_p",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "p-value of Hotelling's T-squared test of whether the orientation vectors differ from [0,0] (v1 `hotelling2test`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_hotelling_t2_p",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "p-value of Hotelling's T-squared test on the direction vectors (v1 `direction_hotelling2test`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_dot_product_p",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "p-value of the direction dot-product test, which uses both orientation and direction vectors to assess direction selectivity (Mazurek et al.; v1 `dot_direction_significance`).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "orientation_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Orientation with the highest response in orientation vector space. In degrees, fixed (Jess Haley 2026-10-22 [calculator units]).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "direction_preference",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Direction with the highest response in direction vector space. In degrees, fixed (Jess Haley 2026-10-22 [calculator units]).",
+                            "constraints": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "interpolated_values",
+                    "type": "structure",
+                    "blank_value": [],
+                    "default_value": [],
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": false,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "Fit-less summaries read off the raw curve by interpolation (v1 `fitless`; for orientation/direction v1 `vector.half_low`, `half_high`, `fwhh`, `bandwidth`). A LIST of entries ([interpolated values are a list]): one per reading of the curve, the one read from |response| marked by `response_transform`. Set only on a calculation. Its fields are the union of what the four tuning calculators write; each field says which calculator sets it (Jess Haley 2026-11-10 [tuning summaries in the value], did_v2_go_forward_class_audit.md). Moved from the calculator classes, beside `model_fit` and `significance` (T14: one payload slot).",
+                    "constraints": {},
+                    "fields": [
+                        {
+                            "name": "preferred_value",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the spatial frequency, temporal frequency calculator(s). spatial frequency: The independent-variable value at which the peak response occurs (v1 `pref`). In cycles per degree (Jess Haley 2026-10-22 [calculator units]). | temporal frequency: The independent-variable value at which the peak response occurs (v1 `pref`). In hertz (Jess Haley 2026-10-22 [calculator units]).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "half_maximum_below",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the orientation/direction, spatial frequency, temporal frequency, contrast calculator(s). orientation/direction: Walking from the peak toward lower directions, wrapping around the circle, the first direction where the mean response falls to half its maximum, in degrees, in [0, 360) (v1 `vector.half_low`). NaN when the calculator found no such point (T14: attempted, not obtained; the reason is in `notes`). | spatial frequency: The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists: the response stays above half its maximum down to the lowest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md). | temporal frequency: The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists: the response stays above half its maximum down to the lowest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md). | contrast: The independent-variable value BELOW the peak where the response falls to half the maximum (v1 `l50`; on a contrast curve, which only rises, this is C50 -- v1 `interpolated_c50`). -Inf if no such point exists.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "half_maximum_above",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the orientation/direction, spatial frequency, temporal frequency calculator(s). orientation/direction: The same, walking toward higher directions (v1 `vector.half_high`). NaN when the calculator found no such point (T14: attempted, not obtained; the reason is in `notes`). | spatial frequency: The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists: the response stays above half its maximum up to the highest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md). | temporal frequency: The independent-variable value ABOVE the peak where the response falls to half the maximum (v1 `h50`). +Inf if no such point exists: the response stays above half its maximum up to the highest value tested, so the bound lies beyond the tested range (a real result, not a missing value; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "full_width_half_height",
+                            "type": "double",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the orientation/direction calculator(s). orientation/direction: The angular distance from half_maximum_below up to half_maximum_above across the peak, in degrees (v1 `vector.fwhh`; on a circle it is not their plain difference). NaN where the writer wrote Inf (either point not found); the reason is in `notes` and the v1 round trip writes Inf back.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "bandwidth",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the orientation/direction, spatial frequency, temporal frequency calculator(s). orientation/direction: log2(half_maximum_above / half_maximum_below), in octaves, as the calculator reports it (v1 `vector.bandwidth`). NaN where the writer wrote Inf (a point not found, or half_maximum_below exactly 0 degrees); the reason is in `notes` and the v1 round trip writes Inf back. An octave bandwidth of a direction depends on where 0 degrees sits. | spatial frequency: Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite (beyond the tested range; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md). | temporal frequency: Bandwidth between half_maximum_below and half_maximum_above, in OCTAVES: log2(half_maximum_above / half_maximum_below). Inf if either bound is infinite (beyond the tested range; Jess Haley 2026-11-09 [frequency tuning keeps Inf], did_v2_tuning_model_plan.md).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "low_pass_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the spatial frequency, temporal frequency calculator(s). spatial frequency: Response at the lowest tested value divided by the response at the peak (responses rectified to be non-negative). | temporal frequency: Response at the lowest tested value divided by the response at the peak (responses rectified to be non-negative).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "high_pass_index",
+                            "type": "double",
+                            "blank_value": 0,
+                            "default_value": 0,
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the spatial frequency, temporal frequency calculator(s). spatial frequency: Response at the highest tested value divided by the response at the peak (responses rectified to be non-negative). | temporal frequency: Response at the highest tested value divided by the response at the peak (responses rectified to be non-negative).",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "response_transform",
+                            "type": "char",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "Set by the spatial frequency, temporal frequency, contrast calculator(s). spatial frequency: OPTIONAL: a transform applied to the responses before these values were read off the curve, when it is not the curve as stated ('absolute value': read from |response|, v1 `abs.fitless`). Empty: read from the responses as stated. Jess Haley 2026-10-30 [interpolated values are a list], extending [absolute-value fits are fit entries]: one calculator output is one calculation (T10). | temporal frequency: OPTIONAL: a transform applied to the responses before these values were read off the curve, when it is not the curve as stated ('absolute value': read from |response|, v1 `abs.fitless`). Empty: read from the responses as stated. Jess Haley 2026-10-30 [interpolated values are a list], extending [absolute-value fits are fit entries]: one calculator output is one calculation (T10). | contrast: OPTIONAL: a transform applied to the responses before these values were read off the curve, when it is not the curve as stated ('absolute value': read from |response|, v1 `abs.fitless`). Empty: read from the responses as stated. Jess Haley 2026-10-30 [interpolated values are a list], extending [absolute-value fits are fit entries]: one calculator output is one calculation (T10).",
+                            "constraints": {
+                                "enum": [
+                                    "absolute value"
+                                ]
+                            }
+                        }
+                    ]
                 }
             ]
         }

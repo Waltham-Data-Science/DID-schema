@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-10T17:54:50Z",
+    "fetched_at": "2026-11-10T20:11:11Z",
     "issues": {
         "VH-Lab/DID-matlab#395": {
             "author": "jesshaley",
@@ -99,13 +99,6 @@
             "state_reason": null,
             "title": "Homes for calculator fields the tuning folds cannot place (OPEN_WORK #143)"
         },
-        "Waltham-Data-Science/DID-schema#155": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Homes for `stimulus_presentation` fields the decomposition does not write (OPEN_WORK #146)"
-        },
         "Waltham-Data-Science/DID-schema#158": {
             "author": "jesshaley",
             "closed_at": null,
@@ -120,13 +113,6 @@
             "state_reason": null,
             "title": "Homes for spikewaves, spike_clusters and binnedspikeratevm (carried as v1, carry-101..103)"
         },
-        "Waltham-Data-Science/DID-schema#199": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "A home for a dataset form's subject, species, strain and sex lists (carry-105)"
-        },
         "Waltham-Data-Science/DID-schema#200": {
             "author": "jesshaley",
             "closed_at": null,
@@ -140,13 +126,6 @@
             "state": "open",
             "state_reason": null,
             "title": "Homes for the carries recorded 2026-10-28 (carry-112, carry-114, carry-116, carry-117, carry-118)"
-        },
-        "Waltham-Data-Science/DID-schema#230": {
-            "author": "jesshaley",
-            "closed_at": "2026-11-09T19:49:58Z",
-            "state": "closed",
-            "state_reason": "completed",
-            "title": "Remaining quantity cell copies, and the viewer expanding a quantity reference"
         },
         "Waltham-Data-Science/DID-schema#232": {
             "author": "jesshaley",
