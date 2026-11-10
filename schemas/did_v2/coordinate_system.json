@@ -97,8 +97,29 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The line this coordinate runs along (image horizontal axis, anterior-posterior axis, shank axis) -- an AXIS term, not a coordinate-value term.",
-                    "constraints": {},
+                    "documentation": "The line this coordinate runs along (image horizontal axis, anterior-posterior axis, shank axis) -- an AXIS term, not a coordinate-value term. Bound (preferred) to the registered axes in use (DID-matlab +migrators_j/probe_geometry.m, NDI-matlab +setup/+conv/+haley), grown as datasets need (Jess Haley 2026-11-10 [four term fields bound], did_v2_go_forward_class_audit.md).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "root": "did_coordinate_axis",
+                            "source": "value_set",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "STATO:0000006",
+                                    "name": "x-axis"
+                                },
+                                {
+                                    "node": "STATO:0000008",
+                                    "name": "y-axis"
+                                },
+                                {
+                                    "node": "STATO:0000012",
+                                    "name": "z-axis"
+                                }
+                            ]
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",
@@ -144,8 +165,33 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Which end of `axis` is positive; must say WHOSE direction ('image right', 'posterior').",
-                    "constraints": {},
+                    "documentation": "Which end of `axis` is positive; must say WHOSE direction ('image right', 'posterior'). Bound (preferred) to the registered directions in use, grown as datasets need (Jess Haley 2026-11-10 [four term fields bound], did_v2_go_forward_class_audit.md).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "root": "did_axis_direction",
+                            "source": "value_set",
+                            "expansion": "value_set",
+                            "values": [
+                                {
+                                    "node": "PATO:0000367",
+                                    "name": "right"
+                                },
+                                {
+                                    "node": "PATO:0001901",
+                                    "name": "back"
+                                },
+                                {
+                                    "node": "EMPTY:0000311",
+                                    "name": "image right"
+                                },
+                                {
+                                    "node": "EMPTY:0000312",
+                                    "name": "image down"
+                                }
+                            ]
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

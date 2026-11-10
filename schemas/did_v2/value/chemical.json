@@ -47,8 +47,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The PURE substance (ChEBI; NCBITaxon for a virus). The bottle's dilution is `concentration`, so 'hydrochloric acid' + 1 M would count the water twice.",
-                    "constraints": {},
+                    "documentation": "The PURE substance (ChEBI; NCBITaxon for a virus). The bottle's dilution is `concentration`, so 'hydrochloric acid' + 1 M would count the water twice. Bound (preferred, a CURIE): a ChEBI term, or an NCBITaxon term for a virus (Jess Haley 2026-11-10 [four term fields bound], did_v2_go_forward_class_audit.md).",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

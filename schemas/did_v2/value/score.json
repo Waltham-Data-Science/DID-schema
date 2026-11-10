@@ -70,8 +70,13 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The scoring rubric (e.g. Murine Body Condition Score). Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
-                    "constraints": {},
+                    "documentation": "The scoring rubric (e.g. Murine Body Condition Score): a rubric only, never the kind of number (a probability or proportion is a `fraction`). OPTIONAL when the statement's `variable` already says what the number is; the range is in `scale_min` / `scale_max`. Bound (preferred, a CURIE) to rubric terms, none registered yet (Jess Haley 2026-11-10 [four term fields bound], did_v2_go_forward_class_audit.md). Absent otherwise only when the run's migration report lists it as a gap ([gap accepted when the report lists it]) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "constraints": {
+                        "binding": {
+                            "strength": "preferred",
+                            "node_form": "curie"
+                        }
+                    },
                     "fields": [
                         {
                             "name": "node",

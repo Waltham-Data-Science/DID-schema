@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 817,
+          "accepted_lines": 820,
           "accepted_lines_by_kind": {
-            "Decided by": 697,
+            "Decided by": 700,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5720,6 +5720,22 @@
               "anchor": "Decided by Jess Haley, 2026-11-10 [probes from the index"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2103,
+              "kind": "Decided by",
+              "tag": "valid interval waits for a dataset",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [valid interval waits for"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2105,
+              "kind": "Decided by",
+              "tag": "focus on classes in the corpora",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [focus on classes in the"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6262,6 +6278,14 @@
               "tag": "cell type label settings are method parameters",
               "date": "2026-11-10",
               "anchor": "Decided by Jess Haley, 2026-11-10 [cell type label settings"
+            },
+            {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 675,
+              "kind": "Decided by",
+              "tag": "spatial transcriptomics waits for a dataset",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [spatial transcriptomics"
             },
             {
               "document": "did_v2_standing_wiring_plan.md",
