@@ -6,7 +6,7 @@
     "ndi_classes": 105,
     "v_alpha_classes_compared": 80,
     "v_alpha_divergences": 67,
-    "migrator_suspects": 17,
+    "migrator_suspects": 18,
     "migrator_suspects_confirmed_vocabulary": 14,
     "writer_divergences": 3,
     "writer_dependencies_no_template": 0,
@@ -1559,6 +1559,26 @@
       "template_fields": [
         "ndi_daqreader_ndr_class",
         "ndr_reader_string"
+      ]
+    },
+    {
+      "migrator": "distance_metadata.m",
+      "ndi_class": "distance_metadata",
+      "confidence": "possible",
+      "reads_names_absent_from_template": [],
+      "mentions_names_absent_from_template": [
+        "distance"
+      ],
+      "template_fields": [
+        "integer_i_ds_a",
+        "integer_i_ds_b",
+        "ontology_node_a",
+        "ontology_node_b",
+        "ontology_numeric_values_a",
+        "ontology_numeric_values_b",
+        "ontology_string_values_a",
+        "ontology_string_values_b",
+        "units"
       ]
     },
     {

@@ -210,6 +210,12 @@
           ]
         },
         {
+          "v1_class": "spikewaves",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
           "v1_class": "stimulus_bath",
           "passes": [
             "resolveDeferredBaths"
@@ -287,6 +293,12 @@
           ]
         },
         {
+          "v1_class": "spikewaves",
+          "passes": [
+            "epochMint"
+          ]
+        },
+        {
           "v1_class": "stimulus_response_scalar",
           "passes": [
             "epochMint"
@@ -313,27 +325,27 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 89,
+      "consumed by migrator (no tombstone)": 90,
       "dissolved \u2192 subject": 1,
       "retire": 10,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 4,
+      "UNMAPPED (needs a V_eta home)": 3,
       "no V_eta home, no migrator -- UNVERIFIED": 9
     },
     "by_source": {
       "ndi": 105,
       "app": 11
     },
-    "with_migrator": 95,
-    "gaps": 4,
+    "with_migrator": 96,
+    "gaps": 3,
     "no_target": {
-      "rows_naming_no_target": 29,
+      "rows_naming_no_target": 28,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 19
+        "unrecorded": 18
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
@@ -350,7 +362,6 @@
         "openminds",
         "site2channelmap",
         "spike_clusters",
-        "spikewaves",
         "stimulus_parameter",
         "treatment_transfer",
         "vmneuralresponseresiduals",
@@ -372,16 +383,16 @@
         "rung": 1,
         "name": "a migrator CONSUMES it",
         "denominator": 116,
-        "yes": 100,
-        "no": 16,
+        "yes": 101,
+        "no": 15,
         "n/a": 0,
         "not measured": 0
       },
       "by_stage_reached": {
-        "0": 16,
+        "0": 15,
         "1": 25,
         "2": 15,
-        "3": 60,
+        "3": 61,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -390,8 +401,8 @@
       ],
       "per_stage_state_counts": {
         "1": {
-          "yes": 100,
-          "no": 16
+          "yes": 101,
+          "no": 15
         },
         "2": {
           "not measured": 32,
@@ -400,8 +411,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 58,
-          "no": 18,
+          "yes": 59,
+          "no": 17,
           "n/a": 8
         },
         "4": {
@@ -409,24 +420,23 @@
         }
       },
       "per_stage_satisfied_independently": {
-        "1": 100,
+        "1": 101,
         "2": 76,
-        "3": 58,
+        "3": 59,
         "4": 0
       },
       "capped": {
         "denominator": 116,
-        "rows": 3,
+        "rows": 2,
         "row_names": [
           "ensemble",
-          "epochclocktimes",
-          "spatialGeneExpressionROI"
+          "epochclocktimes"
         ],
         "highest_rung_satisfied_independently_histogram": {
           "0": 13,
           "1": 27,
-          "2": 18,
-          "3": 58,
+          "2": 17,
+          "3": 59,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -548,14 +558,14 @@
         "why_the_join_moves_none_of_them": "a decision citation names a decision LINE, not a per-class target list. The join can say a class is decided; it cannot say WHAT it becomes. Naming a target from it would be inventing one"
       },
       "anomalies": {
-        "total": 3,
-        "classes": 3,
+        "total": 2,
+        "classes": 2,
         "by_kind": {
-          "over_failed": 3
+          "over_failed": 2
         },
         "by_stage": {
           "1": 0,
-          "2": 3,
+          "2": 2,
           "3": 0,
           "4": 0
         },
@@ -575,14 +585,6 @@
             "satisfied_over_name": "a migrator CONSUMES it",
             "kind": "over_failed",
             "v1_class": "epochclocktimes"
-          },
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed",
-            "v1_class": "spatialGeneExpressionROI"
           }
         ]
       },
@@ -647,8 +649,8 @@
           "unmoved_by_cause": {
             "the class cites a decision line that does not resolve": 0,
             "no citation names this class; a class it EMITS cites a decision": 0,
-            "no citation names this class, and the row has no V_eta class and no target either": 19,
-            "no decision citation names this class": 25
+            "no citation names this class, and the row has no V_eta class and no target either": 18,
+            "no decision citation names this class": 26
           },
           "unmoved_rows_by_cause": {
             "no citation names this class, and the row has no V_eta class and no target either": [
@@ -667,7 +669,6 @@
               "simple_calc",
               "site2channelmap",
               "spike_clusters",
-              "spikewaves",
               "treatment_transfer",
               "vmneuralresponseresiduals",
               "vmspikesummary"
@@ -692,6 +693,7 @@
               "spatial_frequency_tuning_calc",
               "speed_tuning",
               "speed_tuning_calc",
+              "spikewaves",
               "stimulus_tuningcurve",
               "subject_group",
               "temporal_frequency_tuning",
@@ -11680,7 +11682,9 @@
       "gap": false,
       "targets": [
         "opaque_body",
-        "term"
+        "term",
+        "directed_relation",
+        "entity"
       ],
       "decided_targets": [
         "term",
@@ -11705,7 +11709,7 @@
           "term"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -11770,10 +11774,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -11790,8 +11794,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `term`, `opaque_body`, `entity`, `directed_relation` are not all among what the migrator emits today (`opaque_body`, `term`). 1 of 77 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -11801,7 +11805,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -16584,11 +16588,11 @@
     {
       "v1_class": "spatialGeneExpressionROI",
       "veta_class": null,
-      "disposition": "UNMAPPED (needs a V_eta home)",
-      "migrator": false,
+      "disposition": "consumed by migrator (no tombstone)",
+      "migrator": true,
       "source": "ndi",
       "nonprod": false,
-      "gap": true,
+      "gap": false,
       "targets": [],
       "decided_targets": [
         "calculation + position",
@@ -16610,7 +16614,7 @@
         ],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
-        "has_per_class_migrator": false,
+        "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
@@ -16674,16 +16678,16 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 0,
-        "reached_name": "source identified",
-        "blocked_by": 1,
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
         "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
             "name": "a migrator CONSUMES it",
-            "state": "no",
-            "why": "neither `build_state.has_per_class_migrator`, a `second_pass` entry, nor a batch post-pass declaring it. All 10 batch post-pass(es) in the derived chain were read and none declares this class."
+            "state": "yes",
+            "why": "`build_state.has_per_class_migrator` -- a per-class migrator file named after this class exists in one of the three convert packages"
           },
           {
             "stage": 2,
@@ -16704,17 +16708,9 @@
             "why": "*** NOT MEASURED *** -- no corpus report root was supplied (pass --corpus-reports DIR or set V_ETA_CORPUS_REPORTS)"
           }
         ],
-        "anomalies": [
-          {
-            "stage": 2,
-            "stage_name": "its decided target classes EXIST in the build",
-            "satisfied_over": 1,
-            "satisfied_over_name": "a migrator CONSUMES it",
-            "kind": "over_failed"
-          }
-        ],
+        "anomalies": [],
         "highest_rung_satisfied_independently": 2,
-        "capped": true,
+        "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
         "only_excused": false,
@@ -17627,23 +17623,32 @@
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [],
+      "targets": [
+        "assertion + text",
+        "calculation + time",
+        "calculation + voltage",
+        "entity",
+        "relative_time_reference",
+        "sampled_body"
+      ],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "decided",
-      "no_target_reason": "unrecorded",
-      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
+      "target_source": "emitted",
+      "no_target_reason": null,
+      "no_target_reason_label": null,
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": true,
+      "target_gap": false,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
         "schema_targets_missing": [],
         "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
-        "batch_pass_consumers": [],
+        "batch_pass_consumers": [
+          "epochMint"
+        ],
         "batch_pass_emits": {},
         "batch_pass_emits_decided_targets": false,
         "helper_consumers": [],
@@ -17659,11 +17664,11 @@
       "target_flags": "SUPERSEDED how (before the carry): GUARDED PASSTHROUGH, deferred to the NDI second pass. The real NDI class has ONE property field (`extraction_name`), the edges element_id and extraction_parameters_id, and the files spikewaves.vsw + spiketimes.bin. The spike count and the waveform extent live in the .vsw BINARY HEADER, and a single-document migrator carries files without reading their bytes (the pyraview precedent) -- so the shape of this series is not knowable in pass 1 by any means; the field names were never the obstacle. | WAS a body-backed voltage_observation + sampled_body + anchor; that fold read `num_spikes` and `samples_per_spike`, NEITHER OF WHICH EXISTS, so both defaulted to 0 and every document produced a sampled_body declaring ZERO SPIKES OF ZERO SAMPLES EACH -- a cleanly-validating description of an empty extraction that NEITHER Phase 1 counter can see (the values are the number 0, not blanks, and output WAS produced). Pass 1 now returns {preBody} at :58.",
       "decided_by_citation": null,
       "decision_citations": [],
-      "governance_gap": "no citation names this class, and the row has no V_eta class and no target either",
+      "governance_gap": "no decision citation names this class",
       "governance": {
         "state": "proposed (not decided)",
         "signoff": null,
-        "why": "no citation names this class, and the row has no V_eta class and no target either. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
+        "why": "no decision citation names this class. Proposed (not decided): no decision line is cited for this class. If one exists, the class should cite it in tools/decision_citations.py"
       },
       "stage": {
         "unclassifiable": false,
