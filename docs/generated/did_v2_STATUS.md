@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 787 decision line(s) accepted, 2 rejected; 45 cited by a class, 742 cited by none.
+DENOMINATOR: 125 document(s) read (3 generated copies excluded); 788 decision line(s) accepted, 2 rejected; 45 cited by a class, 743 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -982,6 +982,7 @@ field). If one decides a class's disposition, that class should cite it.
 - tenet audit 6 8 11. "Decided by Jess Haley, 2026-11-09 [tenet audit 6 8 11]: (" (did_v2_go_forward_class_audit.md:2039).
 - external parents imported. "Decided by Jess Haley, 2026-11-09 [external parents" (did_v2_go_forward_class_audit.md:2041).
 - purpose written by the dataset map. "Decided by Jess Haley, 2026-11-09 [purpose written by the" (did_v2_go_forward_class_audit.md:2043).
+- element recognised by its links. "Decided by Jess Haley, 2026-11-10 [element recognised by" (did_v2_go_forward_class_audit.md:2045).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
