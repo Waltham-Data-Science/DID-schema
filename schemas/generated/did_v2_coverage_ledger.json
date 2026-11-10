@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 816,
+          "accepted_lines": 817,
           "accepted_lines_by_kind": {
-            "Decided by": 696,
+            "Decided by": 697,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5710,6 +5710,14 @@
               "tag": "assertion wins while written",
               "date": "2026-11-10",
               "anchor": "Decided by Jess Haley, 2026-11-10 [assertion wins while"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2101,
+              "kind": "Decided by",
+              "tag": "probes from the index keep v1's duplicates",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [probes from the index"
             },
             {
               "document": "did_v2_image_model_plan.md",

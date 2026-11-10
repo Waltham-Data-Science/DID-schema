@@ -1985,6 +1985,23 @@
       "kind_basis": "decided"
     },
     {
+      "id": "carry-128",
+      "v1_class": "openminds_element",
+      "fields": [
+        "openminds_element.openminds_id",
+        "openminds_element.fields.description"
+      ],
+      "when": "either is non-empty",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "openMINDS element leftovers carried"
+      },
+      "open_work": 163,
+      "home": "built: the description goes to the assertion's `notes`, the id is not stored ([openMINDS element description in notes], DID-matlab 66ff3674, #435); the row is retired once DID-matlab's last citation (+migrators_j/openminds_element.m) is gone",
+      "kind_basis": "proposed"
+    },
+    {
       "id": "carry-129",
       "v1_class": "daqmetadatareader",
       "fields": [
