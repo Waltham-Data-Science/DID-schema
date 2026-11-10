@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 788,
+          "accepted_lines": 792,
           "accepted_lines_by_kind": {
-            "Decided by": 668,
+            "Decided by": 672,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5494,6 +5494,38 @@
               "tag": "element recognised by its links",
               "date": "2026-11-10",
               "anchor": "Decided by Jess Haley, 2026-11-10 [element recognised by"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2047,
+              "kind": "Decided by",
+              "tag": "ensemble has members",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [ensemble has members]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2049,
+              "kind": "Decided by",
+              "tag": "sync configuration edges are input and output",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [sync configuration edges"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2051,
+              "kind": "Decided by",
+              "tag": "one spelling for the half-maximum point",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [one spelling for the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2053,
+              "kind": "Decided by",
+              "tag": "intensity slot named for the quantity",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [intensity slot named for"
             },
             {
               "document": "did_v2_image_model_plan.md",
