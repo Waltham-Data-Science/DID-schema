@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-09T19:11:45Z",
+    "fetched_at": "2026-11-10T17:54:50Z",
     "issues": {
         "VH-Lab/DID-matlab#395": {
             "author": "jesshaley",
@@ -78,13 +78,6 @@
             "state_reason": null,
             "title": "Is `metadata_editor` always written alongside the openMINDS dataset graph? (blocked: needs the metadata-editor app) (OPEN_WORK #73, #72 group B)"
         },
-        "Waltham-Data-Science/DID-schema#105": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "`daqreader_*_epochdata_ingested` declare no `epoch_id`, so their epoch arms are dead on real data (OPEN_WORK #66)"
-        },
         "Waltham-Data-Science/DID-schema#106": {
             "author": "jesshaley",
             "closed_at": null,
@@ -92,26 +85,12 @@
             "state_reason": null,
             "title": "Corpus proof for the spatial-transcriptomics family (deferred: no corpus holds it) (OPEN_WORK #124)"
         },
-        "Waltham-Data-Science/DID-schema#136": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": "reopened",
-            "title": "A home for a filter's `label` when it differs from its `type` (OPEN_WORK #131)"
-        },
         "Waltham-Data-Science/DID-schema#146": {
             "author": "jesshaley",
             "closed_at": null,
             "state": "open",
             "state_reason": "reopened",
             "title": "A home for an `imageStack`'s `document_id` edge (OPEN_WORK #139)"
-        },
-        "Waltham-Data-Science/DID-schema#147": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "A home for `position_metadata` units and dimensions (OPEN_WORK #140)"
         },
         "Waltham-Data-Science/DID-schema#150": {
             "author": "jesshaley",
@@ -127,13 +106,6 @@
             "state_reason": null,
             "title": "Homes for `stimulus_presentation` fields the decomposition does not write (OPEN_WORK #146)"
         },
-        "Waltham-Data-Science/DID-schema#156": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": "reopened",
-            "title": "Homes for `control_stimulus_ids` fields the control calculation does not write (OPEN_WORK #147)"
-        },
         "Waltham-Data-Science/DID-schema#158": {
             "author": "jesshaley",
             "closed_at": null,
@@ -147,13 +119,6 @@
             "state": "open",
             "state_reason": null,
             "title": "Homes for spikewaves, spike_clusters and binnedspikeratevm (carried as v1, carry-101..103)"
-        },
-        "Waltham-Data-Science/DID-schema#198": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "A home for simple_calc, only if a real dataset holds one (carry-104)"
         },
         "Waltham-Data-Science/DID-schema#199": {
             "author": "jesshaley",
@@ -169,13 +134,6 @@
             "state_reason": null,
             "title": "A home for a statement's v1 name (carry-106)"
         },
-        "Waltham-Data-Science/DID-schema#202": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Ingested stimulus data body: a proper epoch link instead of matching description text"
-        },
         "Waltham-Data-Science/DID-schema#212": {
             "author": "jesshaley",
             "closed_at": null,
@@ -185,9 +143,9 @@
         },
         "Waltham-Data-Science/DID-schema#230": {
             "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
+            "closed_at": "2026-11-09T19:49:58Z",
+            "state": "closed",
+            "state_reason": "completed",
             "title": "Remaining quantity cell copies, and the viewer expanding a quantity reference"
         },
         "Waltham-Data-Science/DID-schema#232": {
@@ -225,6 +183,13 @@
             "state_reason": null,
             "title": "Migrators or decided homes for the seven v1 classes with no migrator (carry-158..carry-164; OPEN_WORK #136, #103)"
         },
+        "Waltham-Data-Science/DID-schema#306": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Time model: one time per record, with its clock readings"
+        },
         "Waltham-Data-Science/DID-schema#308": {
             "author": "jesshaley",
             "closed_at": null,
@@ -252,13 +217,6 @@
             "state": "open",
             "state_reason": "reopened",
             "title": "Stimulus model: non-grating stimuli need a value model, and the unfolded presentations need a disposition (OPEN_WORK #31)"
-        },
-        "Waltham-Data-Science/DID-schema#98": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Define a value rollup for `sampled_body` to replace the dropped `summary` (OPEN_WORK #68)"
         },
         "Waltham-Data-Science/empty-ontology#37": {
             "author": "jesshaley",

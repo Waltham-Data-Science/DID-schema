@@ -1746,7 +1746,9 @@ def test_relation_bindings_present():
     per_class_names = {(r["class"], r["relation"]["name"]) for r in rows}
     per_class_nodes = {(r["class"], r["relation"]["node"]) for r in rows if r["relation"]["node"]}
     assert len(per_class_names) == len(rows), "two relation rows of one class share a name"
-    assert len(per_class_nodes) == len(rows) - 1, "two relation rows of one class share a node"
+    # every relation row has a node since 2026-11-10: "temporally aligned with"
+    # took EMPTY:0000440 (Jess Haley [culture and alignment nodes]); it was the one without
+    assert len(per_class_nodes) == len(rows), "two relation rows of one class share a node, or a row has none"
     both = sorted(n for c, n in per_class_nodes if c == "undirected_relation"
                   and ("directed_relation", n) in per_class_nodes)
     assert both == ["EMPTY:0000381", "EMPTY:0000386"], both
@@ -1821,10 +1823,11 @@ def test_relation_bindings_present():
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
     # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints])
     assert by_node["RO:0002350"]["parent_types"] == ["Group"]
-    # every relation has a node except the clock alignment kind
-    # (Jess Haley 2026-10-22 [vocabulary nodes])
-    assert [n for n, r in vocab.items() if not r["relation"]["node"]] == [
-        "temporally aligned with"]
+    # every relation has a node (Jess Haley 2026-10-22 [vocabulary nodes]); the
+    # clock alignment kind, the last without one, took EMPTY:0000440 on 2026-11-10
+    # ([culture and alignment nodes])
+    assert [n for n, r in vocab.items() if not r["relation"]["node"]] == []
+    assert vocab["temporally aligned with"]["relation"]["node"] == "EMPTY:0000440"
     for gone in ("recorded_by", "measured_distance_to", "aliquot_of", "passage_of"):
         assert gone not in vocab, f"{gone} was retired 2026-10-22"
     # entity-layer endpoint types match what the migrators mint (has_author)

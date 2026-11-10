@@ -713,9 +713,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 795,
+          "accepted_lines": 805,
           "accepted_lines_by_kind": {
-            "Decided by": 675,
+            "Decided by": 685,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5550,6 +5550,86 @@
               "tag": "T15 inventory corrected",
               "date": "2026-11-10",
               "anchor": "Decided by Jess Haley, 2026-11-10 [T15 inventory"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2061,
+              "kind": "Decided by",
+              "tag": "unbound term fields sorted",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [unbound term fields"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2063,
+              "kind": "Decided by",
+              "tag": "display label compared loosely",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [display label compared"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2065,
+              "kind": "Decided by",
+              "tag": "four term fields bound",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [four term fields bound]"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2067,
+              "kind": "Decided by",
+              "tag": "closing issues 2026-11-10",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [closing issues"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2069,
+              "kind": "Decided by",
+              "tag": "culture renamed cell culture",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [culture renamed cell"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2071,
+              "kind": "Decided by",
+              "tag": "openMINDS element description in notes",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [openMINDS element"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2073,
+              "kind": "Decided by",
+              "tag": "dataset form lists rebuilt",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [dataset form lists"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2075,
+              "kind": "Decided by",
+              "tag": "two corpus counts",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [two corpus counts]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2077,
+              "kind": "Decided by",
+              "tag": "stimulus body link waits on the time model",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [stimulus body link waits"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2079,
+              "kind": "Decided by",
+              "tag": "spike waveforms are two calculations",
+              "date": "2026-11-10",
+              "anchor": "Decided by Jess Haley, 2026-11-10 [spike waveforms are two"
             },
             {
               "document": "did_v2_image_model_plan.md",

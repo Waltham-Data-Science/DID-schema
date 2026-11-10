@@ -920,14 +920,17 @@
         "position_metadata.ontologyNode"
       ],
       "when": "always, until its element's position values are mapped (carry-063): units, dimensions and the body part (`ontologyNode`) become one position calculation with them, and no term observation is written (DID-matlab position_metadata.m)",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "position and its metadata are one statement"
       },
-      "open_work": 140,
-      "home": "one `calculation` with the `position` value-kind mixin, built where the element is mapped (carry-063)",
-      "kind_basis": "decided"
+      "kind_basis": "stated",
+      "homes": [
+        "one `calculation` with the `position` value-kind mixin (units, dimensions and body part as one position), built where the dataset map names the element (carry-063)"
+      ],
+      "decides": "what the element is (carry-063); its position metadata follows it",
+      "resolved_by": "the dataset map entry for that element type (carry-063; Jess Haley, 2026-11-10 [closing issues 2026-11-10])"
     },
     {
       "id": "carry-056",
@@ -1411,22 +1414,6 @@
       "decides": "which presentation the stimulus file belongs to, when none in its session and epoch was decomposed (e.g. it was carried as v1 or became a standalone item)",
       "resolved_by": "the dataset map entry for that epoch (not yet written)",
       "kind_basis": "proposed"
-    },
-    {
-      "id": "carry-089",
-      "v1_class": "control_stimulus_ids",
-      "fields": [
-        "control_stimulus_ids.<template fields the control calculation does not write>"
-      ],
-      "when": "it holds a template field the control calculation does not write; extra `app` fields go to the software entity and a field or edge outside the template is carry-100 (NDI-matlab +migrate/+internal/stimulusPresentationToItem.m controlUnplaced)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "control record fields split"
-      },
-      "open_work": 147,
-      "home": "none decided",
-      "kind_basis": "decided"
     },
     {
       "id": "carry-090",

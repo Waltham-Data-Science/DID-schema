@@ -450,7 +450,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The variable, as a term or a label ({name}, no node).",
+                                    "documentation": "The variable, as a term or a label ({name}, no node). Open by design: no binding, because it names the model's own symbol, a term or a label (Jess Haley 2026-11-10 [unbound term fields sorted], did_v2_go_forward_class_audit.md).",
                                     "constraints": {},
                                     "fields": [
                                         {
@@ -564,7 +564,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The variable, as a term or a label ({name}, no node).",
+                                    "documentation": "The variable, as a term or a label ({name}, no node). Open by design: no binding, because it names the model's own symbol, a term or a label (Jess Haley 2026-11-10 [unbound term fields sorted], did_v2_go_forward_class_audit.md).",
                                     "constraints": {},
                                     "fields": [
                                         {
@@ -678,7 +678,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Which coefficient: a term, or a label ({name}, no node).",
+                                    "documentation": "Which coefficient: a term, or a label ({name}, no node). Open by design: no binding, because it names the model's own symbol, a term or a label (Jess Haley 2026-11-10 [unbound term fields sorted], did_v2_go_forward_class_audit.md).",
                                     "constraints": {},
                                     "fields": [
                                         {
@@ -753,7 +753,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "Which coefficient: a term, or a label naming the symbol in `equation` (\"a\", \"b\", \"c\").",
+                                    "documentation": "Which coefficient: a term, or a label naming the symbol in `equation` (\"a\", \"b\", \"c\"). Open by design: no binding, because it names the model's own symbol, a term or a label (Jess Haley 2026-11-10 [unbound term fields sorted], did_v2_go_forward_class_audit.md).",
                                     "constraints": {},
                                     "fields": [
                                         {
