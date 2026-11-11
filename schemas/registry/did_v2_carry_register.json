@@ -2663,6 +2663,21 @@
       "decides": "the Dabrowska dataset map",
       "resolved_by": "the Dabrowska dataset map row for these probes",
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-171",
+      "v1_class": "spikewaves",
+      "fields": [
+        "files spikewaves.vsw",
+        "files spiketimes.bin"
+      ],
+      "when": "a file the `spikewaves` attaches cannot be read in this run (did2.convert.v1Files byte mode: the v1 file reader NDI passes cannot return it, or, with no reader, no local `file` location exists), so its spike times and waveforms cannot be parsed into the two calculations of [spike waveforms are two calculations] (DID-matlab +migrators_j/spikewaves.m). NDI's writer (NDI-matlab +app/spikeextractor.m) always writes both files, so a DID-only run given no reader carries every spikewaves this way; that is a property of the run, not of the document. Files that are read but are not the writer's shape (an unexpected `.vsw` header, sizes that disagree) carry under carry-120.",
+      "kind": "malformed",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "spike waveforms built now"
+      },
+      "kind_basis": "proposed"
     }
   ]
 }
