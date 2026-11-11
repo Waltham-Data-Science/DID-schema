@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 821,
+          "accepted_lines": 822,
           "accepted_lines_by_kind": {
-            "Decided by": 701,
+            "Decided by": 702,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5744,6 +5744,14 @@
               "tag": "unlinked device is not an element",
               "date": "2026-11-11",
               "anchor": "Decided by Jess Haley, 2026-11-11 [unlinked device is not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2110,
+              "kind": "Decided by",
+              "tag": "jrclust settings-file name dropped",
+              "date": "2026-11-11",
+              "anchor": "Decided by Jess Haley, 2026-11-11 [jrclust settings-file"
             },
             {
               "document": "did_v2_image_model_plan.md",
