@@ -12,8 +12,8 @@ REG = ROOT / "schemas" / "registry" / "binding_registry_meta.json"
 BASE = ROOT / "schemas" / "did_v2" / "base.json"
 PASSES = {"assertions", "distributive", "context", "nothing"}
 # entity types are stored by their ontology label since 2026-10-22 (Jess Haley
-# [vocabulary nodes] L2); culture has no node and keeps its name
-PHYSICAL = ["organism", "culture", "tissue", "cell", "Group", "device", "material entity"]
+# [vocabulary nodes] L2); culture is "cell culture" (OBI:0001876) since 2026-11-11 ([culture renamed cell culture])
+PHYSICAL = ["organism", "cell culture", "tissue", "cell", "Group", "device", "material entity"]
 
 
 def _rows():

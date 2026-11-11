@@ -100,7 +100,7 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # directly, role-named, and no longer points at `acquisition_channels`.
     cac_edges = {e["name"]: e for e in cac["depends_on"]}
     assert "acquisition_channels_id" not in cac_edges
-    for name in ("from_acquisition_system_id", "to_acquisition_system_id"):
+    for name in ("input_id", "output_id"):
         assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system"
 INDEX = _load(SP.INDEX)
 
@@ -391,7 +391,7 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     # rows keyed by the stored type, the ontology label since 2026-10-22 (Jess
     # Haley [vocabulary nodes] L2): group, material, session, epoch / dataset,
     # person, funding, strain
-    for t in ("organism", "culture", "tissue", "cell", "Group", "device", "material entity",
+    for t in ("organism", "cell culture", "tissue", "cell", "Group", "device", "material entity",
               "Session", "recording epoch"):
         assert "local_identifier" in req[t], t
     for t in ("Data Set", "Person", "publication", "Grant",
@@ -3440,7 +3440,7 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     # Jess Haley 2026-10-22 [member_of endpoints]: a member of a group entity;
     # software joins the members (a software pipeline, T20)
     # entity types by their label ([vocabulary nodes] L2)
-    phys = ["organism", "culture", "tissue", "cell", "Group", "device", "material entity",
+    phys = ["organism", "cell culture", "tissue", "cell", "Group", "device", "material entity",
             "software"]
     assert row["child_types"] == phys and row["parent_types"] == ["Group"], (
         "a neuron is a member of an ensemble group")

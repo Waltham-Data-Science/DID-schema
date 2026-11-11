@@ -28,9 +28,9 @@ def test_subject_type_is_an_optional_bound_term_over_seven_values():
     assert b["strength"] == "required"
     assert b["root"] == "did_entity_type"
     # stored by the ontology label of each node since 2026-10-22 (Jess Haley
-    # [vocabulary nodes] L2, L3); culture has no node
+    # [vocabulary nodes] L2, L3); culture took OBI:0001876 as "cell culture" on 2026-11-11 ([culture renamed cell culture])
     assert [(v["node"], v["name"]) for v in b["values"]][:7] == [
-        ("COB:0000022", "organism"), ("", "culture"), ("UBERON:0000479", "tissue"),
+        ("COB:0000022", "organism"), ("OBI:0001876", "cell culture"), ("UBERON:0000479", "tissue"),
         ("CL:0000000", "cell"), ("NCIT:C43359", "Group"), ("COB:0001300", "device"),
         ("BFO:0000040", "material entity")]
     # The two values the design turned on: no "cell population", no "population".

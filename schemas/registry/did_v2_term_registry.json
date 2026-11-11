@@ -11381,9 +11381,9 @@
       "synonyms": []
     },
     {
-      "name": "from trigger channel",
+      "name": "input trigger channel",
       "node": "EMPTY:0000433",
-      "definition": "The channel, on the acquisition system whose clock is mapped from, whose trigger events a clock alignment rule matches.",
+      "definition": "The channel, on the input acquisition system (the one whose clock is mapped), whose trigger events a clock alignment rule matches.",
       "status": "decided",
       "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
       "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
@@ -11393,9 +11393,9 @@
       "synonyms": []
     },
     {
-      "name": "to trigger channel",
+      "name": "output trigger channel",
       "node": "EMPTY:0000434",
-      "definition": "The channel, on the acquisition system whose clock is mapped to, whose trigger events a clock alignment rule matches.",
+      "definition": "The channel, on the output acquisition system (the one whose clock is mapped onto), whose trigger events a clock alignment rule matches.",
       "status": "decided",
       "decided": "Jess Haley, 2026-11-06 [sync rule terms]",
       "first_used_in": "DID-matlab +migrators_j/syncrule.m (v1 syncrule parameters)",
