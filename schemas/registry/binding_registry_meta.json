@@ -2184,7 +2184,7 @@
             "parent_role": "the whole",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2193,7 +2193,7 @@
             ],
             "parent_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2234,7 +2234,7 @@
             "parent_role": "the container (a physical entity); a record filed under a record uses included_in",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "material entity",
@@ -2243,7 +2243,7 @@
             ],
             "parent_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "material entity",
@@ -2264,7 +2264,7 @@
             "parent_role": "the group (an entity of type group, T20)",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2303,7 +2303,7 @@
             "parent_role": "the source it was taken from",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2312,7 +2312,7 @@
             ],
             "parent_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2333,7 +2333,7 @@
             "parent_role": "the encountered subject",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2342,7 +2342,7 @@
             ],
             "parent_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2603,7 +2603,7 @@
             "parent_role": "the product or strain it is an instance of",
             "child_types": [
                 "organism",
-                "culture",
+                "cell culture",
                 "tissue",
                 "cell",
                 "Group",
@@ -2866,8 +2866,8 @@
             ]
         },
         {
-            "type": "culture",
-            "node": "",
+            "type": "cell culture",
+            "node": "OBI:0001876",
             "description": "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture",
             "requires": [
                 "local_identifier"

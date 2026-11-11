@@ -35,8 +35,8 @@ def test_contained_in_may_carry_a_time_reference():
     assert len(row) == 1
     assert row[0]["relation"]["name"] == "located in"
     # physical entities only; records use included_in ([contained_in endpoints]);
-    # entity types by their label (L2), culture has no node
-    phys = ["organism", "culture", "tissue", "cell", "material entity", "device", "Group"]
+    # entity types by their label (L2), culture is "cell culture" (OBI:0001876) since 2026-11-11
+    phys = ["organism", "cell culture", "tissue", "cell", "material entity", "device", "Group"]
     assert row[0]["child_types"] == phys and row[0]["parent_types"] == phys
     assert row[0]["timed"] is True
     assert row[0]["ordered"] is False

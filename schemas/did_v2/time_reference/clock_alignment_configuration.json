@@ -16,15 +16,15 @@
             "must_refer_to_document_class": "entity"
         },
         {
-            "name": "from_acquisition_system_id",
+            "name": "input_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps FROM: v1 `daqsystem1` (Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], did_v2_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
+            "documentation": "The rig whose clock this rule maps (its input): v1 `daqsystem1` (named `from_acquisition_system_id` until 2026-11-11, Jess Haley 2026-11-10 [sync configuration edges are input and output]; Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], did_v2_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
             "must_refer_to_document_class": "acquisition_system"
         },
         {
-            "name": "to_acquisition_system_id",
+            "name": "output_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps TO: v1 `daqsystem2`. See `from_acquisition_system_id`.",
+            "documentation": "The rig whose clock this rule maps onto (its output): v1 `daqsystem2` (named `to_acquisition_system_id` until 2026-11-11). See `input_id`.",
             "must_refer_to_document_class": "acquisition_system"
         }
     ],
@@ -112,7 +112,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "HOW the rule runs: `term` the technique (usually blank: the implementation is `software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: `clock`, the `from_acquisition_system_id` / `to_acquisition_system_id` edges and `software_id` stay first-class. (`method_parameters`, the list alone, until 2026-10-21.)",
+            "documentation": "HOW the rule runs: `term` the technique (usually blank: the implementation is `software_id`) and `parameters` its settings. WHAT the rule aligns is NOT here: `clock`, the `input_id` / `output_id` edges and `software_id` stay first-class. (`method_parameters`, the list alone, until 2026-10-21.)",
             "constraints": {},
             "fields": [
                 {
