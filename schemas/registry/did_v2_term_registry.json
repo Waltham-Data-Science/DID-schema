@@ -11877,6 +11877,68 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "double Gaussian direction tuning function",
+      "node": "EMPTY:0000441",
+      "definition": "A function of stimulus direction that is a constant plus two Gaussians of one width, one centred on the preferred direction and one on the opposite direction, R(theta) = Rsp + Rp exp(-angdiff(Op - theta)^2 / (2 sig^2)) + Rn exp(-angdiff(180 + Op - theta)^2 / (2 sig^2)), where angdiff is the circular difference of two angles; used to describe the direction tuning of a neuron.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-11 [tuning fit coefficients named by symbol], did_v2_go_forward_class_audit.md; minted in empty-ontology #47",
+      "first_used_in": "no dataset yet: the model of a migrated orientation and direction tuning fit (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "difference of Gaussians function",
+      "node": "EMPTY:0000442",
+      "definition": "A function that is one Gaussian centred at zero minus another, R(x) = a1 exp(-x^2 / (2 b1^2)) - a2 exp(-x^2 / (2 b2^2)); used, for example, to describe the spatial or temporal frequency tuning of a neuron.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-11 [tuning fit coefficients named by symbol], did_v2_go_forward_class_audit.md; minted in empty-ontology #47",
+      "first_used_in": "no dataset yet: the model of a migrated spatial or temporal frequency difference-of-Gaussians fit (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": [
+        "DoG"
+      ]
+    },
+    {
+      "name": "Movshon 2005 frequency tuning function",
+      "node": "EMPTY:0000443",
+      "definition": "A function of spatial or temporal frequency that is a Gaussian high-frequency limb divided by a power-law low-frequency limb, plus a constant, R(f) = k exp(-(f/fc)^2) / (1 + (fh/f)^B) + C, from Movshon et al. (2005, J Neurosci 25:2712-2722); used to describe the frequency tuning of a neuron.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-11 [tuning fit coefficients named by symbol], did_v2_go_forward_class_audit.md; minted in empty-ontology #47",
+      "first_used_in": "no dataset yet: the model of a migrated spatial or temporal frequency Movshon fit, with or without its constant (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "log-Gaussian function",
+      "node": "EMPTY:0000444",
+      "definition": "A function that is a constant plus a Gaussian of the logarithm of its argument, R(x) = a + b exp(-(log10 x - log10 c)^2 / (2 d^2)); used, for example, to describe the spatial or temporal frequency tuning of a neuron.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-11 [tuning fit coefficients named by symbol], did_v2_go_forward_class_audit.md; minted in empty-ontology #47",
+      "first_used_in": "no dataset yet: the model of a migrated spatial or temporal frequency log-Gaussian fit (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "cubic spline interpolation",
+      "node": "EMPTY:0000445",
+      "definition": "A data transformation that fills a value between known points with a piecewise cubic polynomial that passes through every known point and has continuous first and second derivatives.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-11 [tuning fit coefficients named by symbol], did_v2_go_forward_class_audit.md; minted in empty-ontology #47",
+      "first_used_in": "no dataset yet: the interpolation of a migrated spatial or temporal frequency spline fit (DID-matlab jTuningCurve; build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

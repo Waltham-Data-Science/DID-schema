@@ -34,7 +34,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "ARRAY of fitted models, one per Naka-Rushton variant (RB / RBN / RBNS): THE fit entry (model_fit.value's shape, Jess Haley 2026-10-22 [one fit entry]) with the four per-spatial-frequency values derived from THIS fit beside it.",
+                    "documentation": "ARRAY of fitted models, one per Naka-Rushton variant (RB / RBN / RBNS) and spatial frequency, in spatial-frequency order within each variant (the j-th fit of a variant is at the j-th value of the spatial-frequency dimension; Jess Haley 2026-11-11 [tuning fit coefficients named by symbol]): THE fit entry (model_fit.value's shape, Jess Haley 2026-10-22 [one fit entry]), model EMPTY:0000416 Naka-Rushton function, coefficients named by symbol (Rm, c50, n, s) and the variant's fixed values as constraints, with the per-spatial-frequency values derived from THIS fit beside it.",
                     "constraints": {},
                     "fields": [
                         {
