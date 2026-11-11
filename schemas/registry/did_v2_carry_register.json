@@ -1572,22 +1572,6 @@
       "kind_basis": "decided"
     },
     {
-      "id": "carry-101",
-      "v1_class": "spikewaves",
-      "fields": [
-        "the whole document (no v2 class is built for it)"
-      ],
-      "when": "always: a v1 `spikewaves` is carried whole as v1 through the carry path, not passed through unchanged on the old path; its dependents carry under [dependents of a carried document carry] (carry-064)",
-      "kind": "awaiting_home",
-      "decision": {
-        "document": "did_v2_go_forward_class_audit.md",
-        "tag": "unbuilt spike classes carry as needs home"
-      },
-      "open_work": 153,
-      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
-      "kind_basis": "proposed"
-    },
-    {
       "id": "carry-102",
       "v1_class": "spike_clusters",
       "fields": [
