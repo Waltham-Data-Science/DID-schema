@@ -1821,8 +1821,9 @@ def test_relation_bindings_present():
         for t in r.get("child_types", []) + r.get("parent_types", []) + \
                 r.get("relatum_types", []):
             assert t in known, f"{r['relation']['name']} endpoint {t} unknown"
-    # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints])
-    assert by_node["RO:0002350"]["parent_types"] == ["Group"]
+    # member_of: a member of a group entity (Jess Haley 2026-10-22 [member_of endpoints]),
+    # or a program of a software pipeline (2026-11-12 [pipeline steps use member of])
+    assert by_node["RO:0002350"]["parent_types"] == ["Group", "software"]
     # every relation has a node (Jess Haley 2026-10-22 [vocabulary nodes]); the
     # clock alignment kind, the last without one, took EMPTY:0000440 on 2026-11-10
     # ([culture and alignment nodes])
@@ -3442,7 +3443,9 @@ def test_member_of_registry_row_is_timed_and_ordered_as_the_signoff_requires():
     # entity types by their label ([vocabulary nodes] L2)
     phys = ["organism", "cell culture", "tissue", "cell", "Group", "device", "material entity",
             "software"]
-    assert row["child_types"] == phys and row["parent_types"] == ["Group"], (
+    # parent: a group, or a software pipeline (Jess Haley 2026-11-12 [pipeline
+    # steps use member of], amending [member_of endpoints])
+    assert row["child_types"] == phys and row["parent_types"] == ["Group", "software"], (
         "a neuron is a member of an ensemble group")
 
 
