@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 845,
+          "accepted_lines": 848,
           "accepted_lines_by_kind": {
-            "Decided by": 725,
+            "Decided by": 728,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5936,6 +5936,30 @@
               "tag": "spike unit quality and mean waveform terms",
               "date": "2026-11-12",
               "anchor": "Decided by Jess Haley, 2026-11-12 [spike unit quality and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2158,
+              "kind": "Decided by",
+              "tag": "observes retires on a matching manipulation",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [observes retires on a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2160,
+              "kind": "Decided by",
+              "tag": "response type harmonics are integers",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [response type harmonics"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2162,
+              "kind": "Decided by",
+              "tag": "response computed from the spike times",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [response computed from"
             },
             {
               "document": "did_v2_image_model_plan.md",
