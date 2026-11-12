@@ -169,3 +169,50 @@ def test_tool_runs_as_script(tmp_path):
     assert "INTEGRITY" in out.stdout
     assert "DONE on the DID side" in out.stdout
     assert "BAR-" not in out.stdout.upper().replace("BAR2_GAP", "")
+
+
+# ---- LOSSLESS (integrity + lossless is "done" for the generic stage) --------
+def _rt(**kw):
+    base = {"sources_inspected": 10, "sources_compared": 10, "sources_ok": 10,
+            "sources_stored_as_v1": 3, "ids_lost": 0, "ids_accepted_lost": 1,
+            "sources_changed_by_batch_pass": 0, "sources_no_inverse": 0,
+            "failures_total": 0}
+    base.update(kw)
+    return {"whole_batch_round_trip": base}
+
+
+def test_lossless_clean_round_trip_passes():
+    assert B.lossless_for(_rt())[0] == "PASS"
+
+
+def test_lossless_lost_id_fails():
+    assert B.lossless_for(_rt(ids_lost=1))[0] == "FAIL"
+
+
+def test_lossless_unclean_source_fails():
+    assert B.lossless_for(_rt(sources_ok=9, failures_total=1))[0] == "FAIL"
+
+
+def test_lossless_unchecked_batch_pass_is_not_measured():
+    # B on DID-matlab 299fa0f2: 1242 sources changed by a batch pass with no
+    # round-trip inverse. Not checked is not lost and not clean.
+    st, detail = B.lossless_for(_rt(sources_inspected=12, sources_changed_by_batch_pass=2))
+    assert st == "NOT MEASURED"
+    assert "2 changed by a batch pass" in detail
+
+
+def test_lossless_without_round_trip_is_not_measured():
+    assert B.lossless_for({})[0] == "NOT MEASURED"
+    assert B.lossless_for(_rt(sources_inspected=0))[0] == "NOT MEASURED"
+
+
+def test_generic_verdict_printed(tmp_path, capsys):
+    rep = {"corpus": "Z", "quarantine_count": 0, "fragment_count": 0,
+           "reference_integrity": {"orphan_count": 0},
+           "source_census": {"by_class": {}}}
+    rep.update(_rt())
+    (tmp_path / "Z-summary.json").write_text(json.dumps(rep))
+    B.run([str(tmp_path)], ledger_path=TOOLS.parent / "schemas" / "generated" / "did_v2_coverage_ledger.json")
+    out = capsys.readouterr().out
+    assert "LOSSLESS" in out and "-> PASS" in out
+    assert "GENERIC MIGRATION (integrity + lossless): DONE" in out
