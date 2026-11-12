@@ -2261,7 +2261,7 @@
             },
             "class": "directed_relation",
             "child_role": "the member",
-            "parent_role": "the group (an entity of type group, T20)",
+            "parent_role": "the group (an entity of type group, T20), or a pipeline (a software entity whose programs are its ordered members, [pipeline steps use member of])",
             "child_types": [
                 "organism",
                 "cell culture",
@@ -2273,7 +2273,8 @@
                 "software"
             ],
             "parent_types": [
-                "Group"
+                "Group",
+                "software"
             ],
             "timed": true,
             "ordered": true,

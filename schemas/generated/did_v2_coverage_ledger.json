@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 835,
+          "accepted_lines": 845,
           "accepted_lines_by_kind": {
-            "Decided by": 715,
+            "Decided by": 725,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5856,6 +5856,86 @@
               "tag": "copyright from another tool is emitted",
               "date": "2026-11-12",
               "anchor": "Decided by Jess Haley, 2026-11-12 [copyright from another"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2138,
+              "kind": "Decided by",
+              "tag": "pipeline steps use member of",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [pipeline steps use"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2140,
+              "kind": "Decided by",
+              "tag": "dataset DOI on the version",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [dataset DOI on the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2142,
+              "kind": "Decided by",
+              "tag": "first documentation exported",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [first documentation"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2144,
+              "kind": "Decided by",
+              "tag": "v2 makers write v2 directly",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [v2 makers write v2"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2146,
+              "kind": "Decided by",
+              "tag": "author roles read from author edges",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [author roles read from"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2148,
+              "kind": "Decided by",
+              "tag": "depends on name not written when it equals the edge",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [depends on name not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2150,
+              "kind": "Decided by",
+              "tag": "tuning axes named from the varied property",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [tuning axes named from"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2152,
+              "kind": "Decided by",
+              "tag": "openMINDS terms map through equivalent",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [openMINDS terms map"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2154,
+              "kind": "Decided by",
+              "tag": "input signal treatment is a method parameter",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [input signal treatment"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2156,
+              "kind": "Decided by",
+              "tag": "spike unit quality and mean waveform terms",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [spike unit quality and"
             },
             {
               "document": "did_v2_image_model_plan.md",
