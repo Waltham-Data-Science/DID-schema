@@ -201,6 +201,24 @@ def test_lossless_unchecked_batch_pass_is_not_measured():
     assert "2 changed by a batch pass" in detail
 
 
+def test_lossless_deferred_fields_pass_but_are_listed():
+    # [archive segment lengths measured after the second pass]: a value the
+    # second pass writes is not a loss, and a PASS still names it.
+    rep = _rt()
+    rep["whole_batch_round_trip"]["deferred_to_second_pass"] = {
+        "sources_compared": 10, "sources": 2, "sources_ok": 2, "values": 4,
+        "fields": [{"class_name": "daqreader_mfdaq_epochdata_ingested",
+                    "path": "parameters.sample_analog_segment", "sources": 2}]}
+    st, detail = B.lossless_for(rep)
+    assert st == "PASS"
+    assert "4 value(s) deferred to the second pass on 2 source(s)" in detail
+    assert "parameters.sample_analog_segment x2" in detail
+
+
+def test_lossless_report_without_deferred_block_says_not_reported():
+    assert "deferred to the second pass: not reported" in B.lossless_for(_rt())[1]
+
+
 def test_lossless_without_round_trip_is_not_measured():
     assert B.lossless_for({})[0] == "NOT MEASURED"
     assert B.lossless_for(_rt(sources_inspected=0))[0] == "NOT MEASURED"

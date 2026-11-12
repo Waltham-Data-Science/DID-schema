@@ -1759,30 +1759,27 @@ Dataset map:
 5. (Drafted: `docs/v2_working/DAB_COLUMN_ROWS_DRAFT.md`; its Dab questions
    wait, see "Dab map questions (later)".)
 6. (Moved to "Dab map questions (later)".)
-7. Babu: a map, or a v2 import from the source data? Its media and heat
-   routing is now covered by nothing.
+7. (Decided, [babu-media]: the generic migration writes media and air as
+   exposures of the worms and heat as a temperature manipulation; plates
+   are minted in a Babu V2 import from source.)
 
 Migration:
 
-8. Bath variable: a bath statement's variable is the first mixture row
-   (1,172 Dab ACSF baths say "sodium chloride"). One fixed generic variable,
-   or the manipulated ingredient named by the dataset map?
-9. Element entity types: should "device" be used only for direct
-   acquisition elements?
-10. 20211116: its 252 element epochs cannot be tied to an acquisition system,
-    so they are carried. Option: keep the session-anchored reference when
-    all of an epoch's extents come from one untied source and agree.
-11. Ingested sessions: where does `session_reference` go, and what happens
-    to an ingested session's creator class? 48 documents are carried until
-    this is answered.
-12. `chooseLevel` can pick a level that stores no bytes when two levels tie.
-    Should it skip file-less levels?
-13. NDI `get_ingested_document` looks up the ingested stimulus file by
-    epoch id and reader id, which the converted body no longer has. Not
-    checked.
-14. openMINDS: the crosswalk has no technique or data-type entries, and a
-    test note says dataset terms are "not openMINDS instance IRIs", which
-    sits uneasily with T2.
+8. (Decided, [bath is two statements]: a general bath-solution variable
+   valued by the whole formulation; the ingredient really changed is a
+   separate manipulation in the dataset's own import.)
+9. (Decided, [element types have no default]: a registered probe type is a
+   `device` only when `ndi_element_class` is `ndi.probe.*`; extended by
+   [electrode spellings and imaging types are devices] and [event lines and
+   environment probes are devices].)
+10. (Decided, [untied epochs keep the session anchor].)
+11. (Decided, [ingested session membership], with [session membership
+    records linked or ingested].)
+12. (Decided, [chooseLevel skips empty levels].)
+13. (Decided, [ingested stimulus reader finds the body].)
+14. (Decided, [dataset form terms]: Technique and Scientific Data Type
+    bindings valued by openMINDS terms; the crosswalk has `technique` and
+    `dataType` entries.)
 
 ## Capitalisation (later)
 

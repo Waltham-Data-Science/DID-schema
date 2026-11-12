@@ -280,6 +280,23 @@ def lossless_for(rep):
              (f"{changed} changed by a batch pass with no round-trip inverse"
               + (f" {rt.get('changed_by_class')}" if changed else "")),
              f"{noinv} with no inverse", f"{fails} failure(s)"]
+    # DEFERRED TO THE SECOND PASS (DID-matlab wholeBatch, [archive segment
+    # lengths measured after the second pass]): values NDI-matlab's second pass
+    # writes. Not lost at the DID stage, so not a FAIL, but always listed, so a
+    # PASS never hides them.
+    dp = rt.get("deferred_to_second_pass")
+    if isinstance(dp, dict):
+        fields = dp.get("fields") or []
+        if isinstance(fields, dict):
+            fields = [fields]
+        by = ", ".join(f"{f.get('class_name')} {f.get('path')} x{f.get('sources')}"
+                       for f in fields)
+        parts.append(f"{dp.get('values') or 0} value(s) deferred to the second pass "
+                     f"on {dp.get('sources') or 0} source(s) "
+                     f"({dp.get('sources_ok') or 0} clean at the DID stage)"
+                     + (f" [{by}]" if by else ""))
+    else:
+        parts.append("deferred to the second pass: not reported")
     unaccounted = inspected - compared - changed
     if unaccounted:
         parts.append(f"{unaccounted} neither compared nor changed")
