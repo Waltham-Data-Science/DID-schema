@@ -11,6 +11,18 @@ workflows call it by path.
   DONE       per corpus: integrity + every class that corpus contains at its
              decided shape + corpus-proven. Reported as done / not done, with
              the list of what is missing. (Formerly "Bar-2".)
+  LOSSLESS   every v1 document is carried, at a V_eta shape or unchanged as v1
+             (2026-10-24, did_v2_go_forward_class_audit.md [migration not
+             generalizable], [v1 import stages]). Read from the report's
+             `whole_batch_round_trip`: every compared source rebuilds clean,
+             no v1 id is lost (an id lost by a recorded decision is an accepted
+             loss, listed). A source a batch pass changed with no round-trip
+             inverse was not checked, so it makes the corpus NOT MEASURED, as
+             does a report with no round trip; NOT MEASURED is never PASS.
+  GENERIC MIGRATION DONE  per corpus: integrity + lossless. This is "done" for
+             the generic stage, which is plumbing and frozen; a v1 document
+             carried unchanged is not a defect of it. The DECIDED SHAPE verdict
+             below it is the stricter test a per-dataset v2 import answers.
 
 WHY THIS EXISTS. On 2026-08-21 a green corpus run was reported as "Bar-2 held."
 It was not: a green run shows INTEGRITY only (0 quarantine, 0 orphans -- the
@@ -243,6 +255,44 @@ AT = "AT_DECIDED"
 FAIL_KINDS = ("SUPERSEDED", "HUSK", "BRIDGE", "UNDECIDED")
 
 
+def lossless_for(rep):
+    """LOSSLESS from a corpus report's `whole_batch_round_trip` (DID-matlab
+    +did2/+convert/+roundtrip/wholeBatch.m). Returns (state, detail) with state
+    PASS, FAIL or NOT MEASURED. PASS needs the round trip to have inspected at
+    least one source: a report that compared nothing measured nothing."""
+    rt = rep.get("whole_batch_round_trip") or {}
+    inspected = rt.get("sources_inspected")
+    if not rt or not inspected:
+        return ("NOT MEASURED", ("the report carries no whole-batch round trip "
+                                 "(or it inspected 0 sources)"))
+
+    def g(k):
+        return rt.get(k) or 0
+
+    compared, ok_n = g("sources_compared"), g("sources_ok")
+    lost, changed, noinv = g("ids_lost"), g("sources_changed_by_batch_pass"), g("sources_no_inverse")
+    fails = g("failures_total")
+    parts = [f"{inspected} v1 source(s) inspected",
+             (f"{compared} compared, {ok_n} rebuild clean "
+              f"({g('sources_stored_as_v1')} of them carried unchanged as v1)"),
+             f"{lost} id(s) lost",
+             f"{g('ids_accepted_lost')} id(s) lost by a recorded decision (accepted)",
+             (f"{changed} changed by a batch pass with no round-trip inverse"
+              + (f" {rt.get('changed_by_class')}" if changed else "")),
+             f"{noinv} with no inverse", f"{fails} failure(s)"]
+    unaccounted = inspected - compared - changed
+    if unaccounted:
+        parts.append(f"{unaccounted} neither compared nor changed")
+    # A lost id or a source that does not rebuild clean is a loss: FAIL. A
+    # source a batch pass changed with no round-trip inverse, or one with no
+    # inverse at all, was not checked: NOT MEASURED, never PASS and never FAIL.
+    if lost or fails or ok_n != compared:
+        return ("FAIL", "; ".join(parts))
+    if changed or noinv or unaccounted:
+        return ("NOT MEASURED", "; ".join(parts))
+    return ("PASS", "; ".join(parts))
+
+
 def read_report(path):
     rep = json.loads(Path(path).read_text())
     name = rep.get("corpus") or rep.get("name") or Path(path).stem.replace("-summary", "")
@@ -262,7 +312,7 @@ def read_report(path):
         "fragments": (rep.get("fragment_count", (rep.get("summary") or {}).get("fragment_count", 0))),
         "total": (sc.get("total") or rep.get("total") or sum(census.values())),
     }
-    return name, census, clean
+    return name, census, clean, rep
 
 
 def find_reports(roots):
@@ -295,7 +345,7 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
         return 2
     any_gap = False
     for rp in reports:
-        corpus, census, clean = read_report(rp)
+        corpus, census, clean, rep = read_report(rp)
         if only and corpus not in only:
             continue
         present = sorted(c for c, n in census.items() if (n or 0) > 0)
@@ -306,6 +356,18 @@ def run(roots, ledger_path=LEDGER, only=None, verbose=False):
               f"quarantine {clean['quarantine']}, "
               f"orphans {clean['orphans']}, fragments {clean['fragments']} "
               f"-> {'PASS' if integrity else 'FAIL'}")
+        loss_state, loss_detail = lossless_for(rep)
+        print(f"  LOSSLESS (every v1 document carried, converted or unchanged as v1): "
+              f"{loss_detail} -> {loss_state}")
+        if not integrity:
+            generic = "NOT DONE"
+        elif loss_state == "PASS":
+            generic = "DONE"
+        elif loss_state == "FAIL":
+            generic = "NOT DONE"
+        else:
+            generic = "NOT MEASURED"
+        print(f"  ==> corpus {corpus} GENERIC MIGRATION (integrity + lossless): {generic}")
         buckets = {AT: [], "SECOND_PASS": [], "SUPERSEDED": [],
                    "HUSK": [], "BRIDGE": [], "UNDECIDED": []}
         for c in present:
