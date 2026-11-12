@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 827,
+          "accepted_lines": 835,
           "accepted_lines_by_kind": {
-            "Decided by": 707,
+            "Decided by": 715,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5792,6 +5792,70 @@
               "tag": "Dab gets a v2 import",
               "date": "2026-11-12",
               "anchor": "Decided by Jess Haley, 2026-11-12 [Dab gets a v2 import]: ("
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2122,
+              "kind": "Decided by",
+              "tag": "archive segment lengths measured after the second pass",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [archive segment lengths"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2124,
+              "kind": "Decided by",
+              "tag": "archive file list compared as a set",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [archive file list"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2126,
+              "kind": "Decided by",
+              "tag": "uneven time rewritten from the epoch start",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [uneven time rewritten"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2128,
+              "kind": "Decided by",
+              "tag": "bath concentration prefixes convert to molar",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [bath concentration"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2130,
+              "kind": "Decided by",
+              "tag": "ids from content when v1 states none",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [ids from content when v1"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2132,
+              "kind": "Decided by",
+              "tag": "pipeline order counts from 0",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [pipeline order counts"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2134,
+              "kind": "Decided by",
+              "tag": "copyright year precision is year",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [copyright year precision"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2136,
+              "kind": "Decided by",
+              "tag": "copyright from another tool is emitted",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [copyright from another"
             },
             {
               "document": "did_v2_image_model_plan.md",
