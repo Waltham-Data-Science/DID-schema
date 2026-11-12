@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 824,
+          "accepted_lines": 825,
           "accepted_lines_by_kind": {
-            "Decided by": 704,
+            "Decided by": 705,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5768,6 +5768,14 @@
               "tag": "tuning fit coefficients named by symbol",
               "date": "2026-11-11",
               "anchor": "Decided by Jess Haley, 2026-11-11 [tuning fit coefficients"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2116,
+              "kind": "Decided by",
+              "tag": "contrast sensitivity repeated fit is a known v1 defect",
+              "date": "2026-11-12",
+              "anchor": "Decided by Jess Haley, 2026-11-12 [contrast sensitivity"
             },
             {
               "document": "did_v2_image_model_plan.md",
