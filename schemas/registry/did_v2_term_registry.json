@@ -11939,6 +11939,42 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Orientation",
+      "node": "NCIT:C165680",
+      "definition": "The position or alignment of something relative to points of the compass, other specific directions, or some other indexing system.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-12 [tuning axes named from the varied property], did_v2_go_forward_class_audit.md",
+      "first_used_in": "DID-matlab generic migration (a tuningcurve_calc axis whose v1 independent_parameter is angle and whose angles span less than 180 degrees; jTuningCurve makeAxes, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "unit isolation quality",
+      "node": "EMPTY:0000446",
+      "definition": "A quality of a unit found by spike sorting: how well the spikes assigned to the unit are separated from the spikes of other units and from noise.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-12 [spike unit quality and mean waveform terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #48",
+      "first_used_in": "DID-matlab generic migration (v1 neuron_extracellular quality_label and quality_number; +migrators_j/neuron_extracellular.m, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "spike waveform",
+      "node": "EMPTY:0000447",
+      "definition": "The voltage recorded on one or more channels over the short time around an action potential of a unit, as a function of time relative to the action potential.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-12 [spike unit quality and mean waveform terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #48",
+      "first_used_in": "DID-matlab generic migration (v1 neuron_extracellular mean_waveform, method NCIT:C53319 Arithmetic Mean; +migrators_j/neuron_extracellular.m, build pending)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

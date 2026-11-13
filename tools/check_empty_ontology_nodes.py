@@ -388,7 +388,17 @@ BASELINE_MIGRATORS = 16
 # 2026-10-26): the did_clocktype values hold their registered nodes
 # (wikidata:Q1536, EMPTY:0000403-0000405) on both carriers. Left (12):
 # did_response_type 10, did_entity_type 1, did_relation_clock_alignment 1.
-BASELINE_SCHEMAS = 12
+#
+# LOWERED 12 -> 4 on 2026-11-13 ([response type harmonics are integers], Jess
+# Haley, 2026-11-12, did_v2_go_forward_class_audit.md): the did_response_type
+# value set's `mean` is NCIT:C53319 Arithmetic Mean and `peak` STATO:0000151
+# maximum observed value, on both carriers (tuning_curve, contrast_sensitivity),
+# and F0 (the mean) is no longer listed. Left (4), as the sweep prints them:
+# did_response_type 4, F1 and F2 on the two carriers, kept until where the
+# decided integer harmonic is written on those values is decided. (The
+# did_entity_type and did_relation_clock_alignment rows were already gone:
+# the sweep printed 10 on main before this change.)
+BASELINE_SCHEMAS = 4
 
 CALL = re.compile(r"(?:jOntologyTerm|did2\.build\.term)\(\s*''\s*,\s*([^)]*)\)")
 # THE BLIND SPOT, NAMED (lightsheet point 10, Jess 2026-10-14). A migrator that

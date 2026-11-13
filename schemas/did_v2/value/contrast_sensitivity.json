@@ -770,23 +770,19 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: mean | peak | F0 | F1 | F2 (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0).",
+                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: Arithmetic Mean (NCIT:C53319, v1 `mean`, the F0) | maximum observed value (STATO:0000151, v1 `peak`) | F1 | F2 (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0). [response type harmonics are integers] (Jess Haley, 2026-11-12, did_v2_go_forward_class_audit.md) decides F1 and F2 are the integer harmonic (1, 2), not terms; where that integer is written on this value is not yet decided, so F1 and F2 stay listed here, with no node, until it is.",
                     "constraints": {
                         "binding": {
                             "root": "did_response_type",
                             "expansion": "value_set",
                             "values": [
                                 {
-                                    "node": "",
-                                    "name": "mean"
+                                    "node": "NCIT:C53319",
+                                    "name": "Arithmetic Mean"
                                 },
                                 {
-                                    "node": "",
-                                    "name": "peak"
-                                },
-                                {
-                                    "node": "",
-                                    "name": "F0"
+                                    "node": "STATO:0000151",
+                                    "name": "maximum observed value"
                                 },
                                 {
                                     "node": "",

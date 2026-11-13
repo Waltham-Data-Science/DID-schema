@@ -82,7 +82,8 @@
         },
         "digitalIdentifier": {
           "target_kind": "global_identifier",
-          "ndi_target": "doi"
+          "ndi_target": "doi",
+          "notes": "Jess Haley, 2026-11-12, did_v2_go_forward_class_audit.md [dataset DOI on the version]: the v2 dataset entity's DOI is exported on the openMINDS DatasetVersion only, not on the Dataset; a concept DOI for all versions is not held."
         },
         "documentation": {
           "target_kind": "relation",
@@ -92,7 +93,7 @@
             "protocol",
             "software"
           ],
-          "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [documentation from subjectOf]: openMINDS `documentation` (required) is taken from the dataset's `subjectOf` relations to `publication`, `protocol` or `software` entities, each written with that document's `global_identifier`. With none, the export reports documentation missing. The dataset's own DOI stays its `global_identifier` (openMINDS `digitalIdentifier`)."
+          "notes": "Jess Haley, 2026-11-07, did_v2_go_forward_class_audit.md [documentation from subjectOf]: openMINDS `documentation` (required) is taken from the dataset's `subjectOf` relations to `publication`, `protocol` or `software` entities, each written with that document's `global_identifier`. With none, the export reports documentation missing. With several, the export takes the first in a fixed order and lists the others in its report as not exported (Jess Haley, 2026-11-12, did_v2_go_forward_class_audit.md [first documentation exported]; NDI-matlab's export orders them by the edge's `order`, then by the document's id). The dataset's own DOI stays its `global_identifier` (openMINDS `digitalIdentifier`)."
         },
         "ethicsJurisdiction": {
           "target_kind": "assertion",
@@ -512,7 +513,7 @@
     }
   },
   "contribution_types": {
-    "$comment": "how a v2 contribution edge becomes an openMINDS Contribution{contributor, type} on export, and back on import. `edges`: what each registered contribution relation (Data Set -> Person | organization) exports as. `roles`: each value of directed_relation.roles (`did_contributor_role`: the 14 CRediT roles and `corresponding author`) on a `contributor` edge, with the openMINDS ContributionType instance it exports as (openMINDS_instances `instances/latest/terminologies/contributionType/`, read at a6efd17c3502abfed94da74916e65b02b4443afa), and `match`: exact or close by definition (no openMINDS instance cross-references CRediT). The mapped openMINDS types are all different, so the import recovers the role. A role with `export: false` is left out of the export and reported as not exported. Drafted from the review of 2026-11-06 (G108(2), \"Draft it\"); the pairings are Proposed (not decided) until the row review.",
+    "$comment": "how a v2 contribution edge becomes an openMINDS Contribution{contributor, type} on export, and back on import. `edges`: what each registered contribution relation (Data Set -> Person | organization) exports as. `roles`: each value of directed_relation.roles (`did_contributor_role`: the 14 CRediT roles and `corresponding author`) on a `contributor` or `author` edge (Jess Haley, 2026-11-12, did_v2_go_forward_class_audit.md [author roles read from author edges]: roles are read from `has_author` relations as well as `contributor` relations; the data is unchanged), with the openMINDS ContributionType instance it exports as (openMINDS_instances `instances/latest/terminologies/contributionType/`, read at a6efd17c3502abfed94da74916e65b02b4443afa), and `match`: exact or close by definition (no openMINDS instance cross-references CRediT). The mapped openMINDS types are all different, so the import recovers the role. A role with `export: false` is left out of the export and reported as not exported. Drafted from the review of 2026-11-06 (G108(2), \"Draft it\"); the pairings are Proposed (not decided) until the row review.",
     "edges": {
       "author": {
         "target_kind": "relation",
@@ -520,7 +521,7 @@
           "node": "openminds:contributionType/authoring",
           "name": "authoring"
         },
-        "notes": "the author list, as one ordered authoring contribution, in the edge's order (import/export plan 3.4). The registered `author` edge's parent type is Person only, so an organization or consortium author has no edge."
+        "notes": "the author list, as one ordered authoring contribution, in the edge's order (import/export plan 3.4). The registered `author` edge's parent type is Person only, so an organization or consortium author has no edge. Each CRediT role on an `author` edge also exports as one Contribution of that author, typed as listed in `roles` (Jess Haley, 2026-11-12, did_v2_go_forward_class_audit.md [author roles read from author edges])."
       },
       "contributor": {
         "target_kind": "relation",
