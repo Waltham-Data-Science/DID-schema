@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 878 decision line(s) accepted, 2 rejected; 45 cited by a class, 833 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 880 decision line(s) accepted, 2 rejected; 45 cited by a class, 835 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1056,19 +1056,20 @@ field). If one decides a class's disposition, that class should cite it.
 - ingested block terms confirmed. "Decided by Jess Haley, 2026-11-17 [ingested block terms" (did_v2_go_forward_class_audit.md:2188).
 - migrated body members renamed. "Decided by Jess Haley, 2026-11-17 [migrated body members" (did_v2_go_forward_class_audit.md:2190).
 - stimulator link lives in the presentations. "Decided by Jess Haley, 2026-11-17 [stimulator link lives in" (did_v2_go_forward_class_audit.md:2192).
-- time channel is a per-channel covariate. "Decided by Jess Haley, 2026-11-17 [time channel is a" (did_v2_go_forward_class_audit.md:2194).
-- harmonic is a field beside the response type. "Decided by Jess Haley, 2026-11-17 [harmonic is a field" (did_v2_go_forward_class_audit.md:2196).
-- no transfer term on Haley moves. "Decided by Jess Haley, 2026-11-17 [no transfer term on" (did_v2_go_forward_class_audit.md:2198).
-- digital scale is unitless. "Decided by Jess Haley, 2026-11-17 [digital scale is" (did_v2_go_forward_class_audit.md:2200).
-- duplicate parts merged in DID. "Decided by Jess Haley, 2026-11-17 [duplicate parts merged" (did_v2_go_forward_class_audit.md:2202).
-- part re-keyed when its side arrives. "Decided by Jess Haley, 2026-11-17 [part re-keyed when its" (did_v2_go_forward_class_audit.md:2204).
-- tidy the spatial status. "Decided by Jess Haley, 2026-11-17 [tidy the spatial" (did_v2_go_forward_class_audit.md:2206).
-- tied multi-clock sources wait for a dataset. "Decided by Jess Haley, 2026-11-17 [tied multi-clock sources" (did_v2_go_forward_class_audit.md:2208).
-- tuning label choices confirmed. "Decided by Jess Haley, 2026-11-17 [tuning label choices" (did_v2_go_forward_class_audit.md:2210).
-- copyright round-trip losses. "Decided by Jess Haley, 2026-11-17 [copyright round-trip" (did_v2_go_forward_class_audit.md:2212).
-- non-specimen channel groups get their own owner. "Decided by Jess Haley, 2026-11-17 [non-specimen channel" (did_v2_go_forward_class_audit.md:2214).
-- documentation identifier prefers a DOI. "Decided by Jess Haley, 2026-11-17 [documentation identifier" (did_v2_go_forward_class_audit.md:2216).
-- role source left to the import. "Decided by Jess Haley, 2026-11-17 [role source left to the" (did_v2_go_forward_class_audit.md:2218).
+- observes retires in the second pass. "Decided by Jess Haley, 2026-11-17 [observes retires in the" (did_v2_go_forward_class_audit.md:2194).
+- time channel is a per-channel covariate. "Decided by Jess Haley, 2026-11-17 [time channel is a" (did_v2_go_forward_class_audit.md:2196).
+- harmonic is a field beside the response type. "Decided by Jess Haley, 2026-11-17 [harmonic is a field" (did_v2_go_forward_class_audit.md:2198).
+- no transfer term on Haley moves. "Decided by Jess Haley, 2026-11-17 [no transfer term on" (did_v2_go_forward_class_audit.md:2200).
+- digital scale is unitless. "Decided by Jess Haley, 2026-11-17 [digital scale is" (did_v2_go_forward_class_audit.md:2202).
+- duplicate parts merged in DID. "Decided by Jess Haley, 2026-11-17 [duplicate parts merged" (did_v2_go_forward_class_audit.md:2204).
+- part re-keyed when its side arrives. "Decided by Jess Haley, 2026-11-17 [part re-keyed when its" (did_v2_go_forward_class_audit.md:2206).
+- tidy the spatial status. "Decided by Jess Haley, 2026-11-17 [tidy the spatial" (did_v2_go_forward_class_audit.md:2208).
+- tied multi-clock sources wait for a dataset. "Decided by Jess Haley, 2026-11-17 [tied multi-clock sources" (did_v2_go_forward_class_audit.md:2210).
+- tuning label choices confirmed. "Decided by Jess Haley, 2026-11-17 [tuning label choices" (did_v2_go_forward_class_audit.md:2212).
+- copyright round-trip losses. "Decided by Jess Haley, 2026-11-17 [copyright round-trip" (did_v2_go_forward_class_audit.md:2214).
+- non-specimen channel groups get their own owner. "Decided by Jess Haley, 2026-11-17 [non-specimen channel" (did_v2_go_forward_class_audit.md:2216).
+- documentation identifier prefers a DOI. "Decided by Jess Haley, 2026-11-17 [documentation identifier" (did_v2_go_forward_class_audit.md:2218).
+- role source left to the import. "Decided by Jess Haley, 2026-11-17 [role source left to the" (did_v2_go_forward_class_audit.md:2220).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1088,6 +1089,7 @@ field). If one decides a class's disposition, that class should cite it.
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (did_v2_ngrid_family_findings.md:419).
 - one shape for measured numbers. "Decided by Jess Haley, 2026-11-17 [one shape for measured" (did_v2_numeric_shape_plan.md:283).
 - numeric shape details. "Decided by Jess Haley, 2026-11-17 [numeric shape details]: (" (did_v2_numeric_shape_plan.md:285).
+- series readings share a source record. "Decided by Jess Haley, 2026-11-17 [series readings share a" (did_v2_numeric_shape_plan.md:287).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (did_v2_openminds_family_record.md:20).
 - subject keeps only its own strain. "Decided by Jess Haley, 2026-10-21 [subject keeps only its" (did_v2_openminds_family_record.md:1329).
 - shared entities at dataset level. "Decided by Jess Haley, 2026-10-21 [shared entities at" (did_v2_openminds_family_record.md:1333).
