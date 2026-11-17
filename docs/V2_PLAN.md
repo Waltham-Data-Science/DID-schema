@@ -1010,6 +1010,7 @@ whose DID-matlab build waits on GL1-GL7.
     the file can always go? [yes]
     RE-ASKED 2026-11-03 (Jess: "What are you talking about"): of the row's nine fields, number, offset, scale, sample_rate (covariates), type (condition) and group (the body) have homes; time_channel, the time and event/marker/text channel rows, and a non-standard name do not, so the file is kept. Give them homes so the file can always go? [yes] Awaiting answer.
     PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
+    ANSWERED 2026-11-17: [channel list rows get v2 homes], [time channel is a per-channel covariate] (did_v2_go_forward_class_audit.md).
   - **G92. Terms for the ingested blocks (from build P).** Offset: AFO
     "signal offset configuration" (AFO:AFQ_0000202); scale: NCIT "Unit
     Conversion Factor" (NCIT:C70774), or AFO "gain"; no term found for
@@ -1020,6 +1021,7 @@ whose DID-matlab build waits on GL1-GL7.
     with definitions for approval]
     Follow-up 2026-11-03 (Jess: "Channel number must be a term somewhere"): OLS4 has none ('Number of Coil Channels' nearest). Proposal: as in [probe wiring is a relation], the channel-axis covariate's variable is the group's channel-type term and its value the channel numbers; no new term. Offset/scale terms wait on G89. Awaiting answer.
     PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
+    ANSWERED 2026-11-17 (first half): [ingested block terms confirmed]; NDI's own compressors stay parked (did_v2_go_forward_class_audit.md).
   - **G93. Session and dataset_remote ids (from build H, 2026-11-01).** A
     session's v2 record keeps the session's own id, so the separate v1 session
     document's id is kept nowhere; the same for `dataset_remote`. These are

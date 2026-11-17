@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 855,
+          "accepted_lines": 878,
           "accepted_lines_by_kind": {
-            "Decided by": 735,
+            "Decided by": 758,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6010,6 +6010,182 @@
               "anchor": "Decided by Jess Haley, 2026-11-17 [scale carries the"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2176,
+              "kind": "Decided by",
+              "tag": "event channel variable terms",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [event channel variable"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2178,
+              "kind": "Decided by",
+              "tag": "event channel observes its wired device",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [event channel observes"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2180,
+              "kind": "Decided by",
+              "tag": "unpacked event bodies are uncompressed",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [unpacked event bodies"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2182,
+              "kind": "Decided by",
+              "tag": "unpacked events file is removed",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [unpacked events file is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2184,
+              "kind": "Decided by",
+              "tag": "several marker numbers are a second dimension",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [several marker numbers"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2186,
+              "kind": "Decided by",
+              "tag": "channel list rows get v2 homes",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [channel list rows get v2"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2188,
+              "kind": "Decided by",
+              "tag": "ingested block terms confirmed",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [ingested block terms"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2190,
+              "kind": "Decided by",
+              "tag": "migrated body members renamed",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [migrated body members"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2192,
+              "kind": "Decided by",
+              "tag": "stimulator link lives in the presentations",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [stimulator link lives in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2194,
+              "kind": "Decided by",
+              "tag": "time channel is a per-channel covariate",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [time channel is a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2196,
+              "kind": "Decided by",
+              "tag": "harmonic is a field beside the response type",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [harmonic is a field"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2198,
+              "kind": "Decided by",
+              "tag": "no transfer term on Haley moves",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [no transfer term on"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2200,
+              "kind": "Decided by",
+              "tag": "digital scale is unitless",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [digital scale is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2202,
+              "kind": "Decided by",
+              "tag": "duplicate parts merged in DID",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [duplicate parts merged"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2204,
+              "kind": "Decided by",
+              "tag": "part re-keyed when its side arrives",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [part re-keyed when its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2206,
+              "kind": "Decided by",
+              "tag": "tidy the spatial status",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [tidy the spatial"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2208,
+              "kind": "Decided by",
+              "tag": "tied multi-clock sources wait for a dataset",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [tied multi-clock sources"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2210,
+              "kind": "Decided by",
+              "tag": "tuning label choices confirmed",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [tuning label choices"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2212,
+              "kind": "Decided by",
+              "tag": "copyright round-trip losses",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [copyright round-trip"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2214,
+              "kind": "Decided by",
+              "tag": "non-specimen channel groups get their own owner",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [non-specimen channel"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2216,
+              "kind": "Decided by",
+              "tag": "documentation identifier prefers a DOI",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [documentation identifier"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2218,
+              "kind": "Decided by",
+              "tag": "role source left to the import",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [role source left to the"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6152,6 +6328,14 @@
               "tag": "one shape for measured numbers",
               "date": "2026-11-17",
               "anchor": "Decided by Jess Haley, 2026-11-17 [one shape for measured"
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 285,
+              "kind": "Decided by",
+              "tag": "numeric shape details",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [numeric shape details]: ("
             },
             {
               "document": "did_v2_openminds_family_record.md",
@@ -16915,7 +17099,7 @@
         "resolved": true,
         "line": 657,
         "kind": "Decided by",
-        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
         "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
         "matches": 1,
         "why": null,
@@ -16929,7 +17113,7 @@
           "resolved": true,
           "line": 657,
           "kind": "Decided by",
-          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
           "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
           "matches": 1,
           "why": null,
@@ -16946,7 +17130,7 @@
           "resolved": true,
           "line": 657,
           "kind": "Decided by",
-          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending: did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
           "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
           "matches": 1,
           "why": null,
