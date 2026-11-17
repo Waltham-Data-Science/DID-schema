@@ -1767,7 +1767,7 @@ Dataset map:
 6. (Moved to "Dab map questions (later)".)
 7. (Decided, [babu-media]: the generic migration writes media and air as
    exposures of the worms and heat as a temperature manipulation; plates
-   are minted in a Babu V2 import from source.)
+   are minted in a Babu v2 import from source.)
 
 Migration:
 

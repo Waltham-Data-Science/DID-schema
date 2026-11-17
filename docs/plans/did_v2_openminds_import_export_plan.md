@@ -136,6 +136,11 @@ change: re-pin, then update the crosswalk and its test.
   the dataset (G108(4): "A person's affiliations are listed for that person
   within the dataset tho, so yes"). To check while building: how v2 ties an
   affiliation relation to the dataset.
+- Role source (Jess Haley, 2026-11-17, `did_v2_go_forward_class_audit.md`
+  [role source left to the import]): the export does not mark whether a
+  CRediT role came from an author relation or a contributor relation;
+  openMINDS has no field for it. A note for a future openMINDS import: a role
+  on a person who is also an author is read as an author role.
 
 ### 3.5 DatasetVersion now
 `DatasetVersion` is exported in stage 1, not later (G108(5): "Why not just
