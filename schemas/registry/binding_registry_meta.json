@@ -2519,7 +2519,7 @@
                 "Person"
             ],
             "timed": false,
-            "ordered": false,
+            "ordered": true,
             "passes": "nothing"
         },
         {
