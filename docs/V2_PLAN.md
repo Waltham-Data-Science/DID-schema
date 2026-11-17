@@ -881,9 +881,11 @@ whose DID-matlab build waits on GL1-GL7.
     later").** Keep NDI's events/markers/text file whole as one opaque body
     (format EMPTY:0000367), as migrated data does, rather than a table of
     events? [keep it whole]
+    ANSWERED 2026-11-17: [event channels are time-valued observations] (did_v2_go_forward_class_audit.md).
   - **G76. The ingest's data file names (parked by Jess, 2026-11-01).** Name the
     pieces `body_data_0, 1, ...` (the schema's names, from 0), instead of NDI's
     `ai_group1_seg.nbf_1, ...`? [the schema's names]
+    ANSWERED 2026-11-17: [ingested body members use the schema's names] (did_v2_go_forward_class_audit.md); whether migration renames the members it carries is not yet answered.
   - **G77. Which dataset a migration record points at (from build A,
     2026-11-01).** [migration record points at the dataset] covers a run with
     one dataset or one session. When one run holds two or more datasets, or
@@ -954,6 +956,7 @@ whose DID-matlab build waits on GL1-GL7.
     shapes directly (the probe entity, the epoch and its recording
     observation)? [yes] Parked (Jess, 2026-11-02: no capacity now).
     NOTE 2026-11-03: [new database defaults to v2] cannot land until v2 writers for ingest and elements exist, which is this question; unparking it unblocks that default.
+    ANSWERED 2026-11-17: [ingest writes v2 directly] (did_v2_go_forward_class_audit.md).
   - **G85. Withdrawn 2026-11-02** (wrong premise, see G84): new writers write
     the final shapes, never `acquisition_epoch`.
   - **G86. Subject lookup by name checks the type (from build G2).**
@@ -991,6 +994,7 @@ whose DID-matlab build waits on GL1-GL7.
     reader's output unit is known]
     RE-ASKED 2026-11-03 (Jess: "What are you talking about?"), with the channel_list.bin row fields (NDI `mfdaq_epoch_channel.m`: name, type, time_channel, sample_rate, offset, scale, number, group, dataclass) and value = (raw + offset) x scale: fill the scale's unit from the reader where known (Intan amplifier: microvolt), blank where not; offset unitless (counts)? Awaiting answer.
     PARKED 2026-11-03 (Jess: "Park 1-3 with the others."), with the ingest questions G75, G76, G84. Until answered, migrated ingested files stay as pass 1 wrote them (attached unchanged).
+    ANSWERED 2026-11-17: [scale carries the reader's unit] (did_v2_go_forward_class_audit.md).
   - **G90. The observation that owns an unevenly spaced time channel (from
     build P).** [evenly spaced time is a covariate] gives an uneven time
     channel its own body owned by a time observation. Which entity is it about

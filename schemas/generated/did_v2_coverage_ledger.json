@@ -707,7 +707,7 @@
           "spelling_near_misses": []
         },
         "census": {
-          "documents_read": 125,
+          "documents_read": 126,
           "documents_read_outside_docs": [],
           "documents_excluded_as_generated": [
             "did_v2_STATUS.md",
@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 850,
+          "accepted_lines": 855,
           "accepted_lines_by_kind": {
-            "Decided by": 730,
+            "Decided by": 735,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -5978,6 +5978,38 @@
               "anchor": "Decided by Jess Haley, 2026-11-12 [orphaned response"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2168,
+              "kind": "Decided by",
+              "tag": "ingest writes v2 directly",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [ingest writes v2"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2170,
+              "kind": "Decided by",
+              "tag": "event channels are time-valued observations",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [event channels are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2172,
+              "kind": "Decided by",
+              "tag": "ingested body members use the schema's names",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [ingested body members"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2174,
+              "kind": "Decided by",
+              "tag": "scale carries the reader's unit",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [scale carries the"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6112,6 +6144,14 @@
               "tag": "hartley method implied",
               "date": "2026-10-21",
               "anchor": "Decided by Jess Haley, 2026-10-21 [hartley method implied]"
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 283,
+              "kind": "Decided by",
+              "tag": "one shape for measured numbers",
+              "date": "2026-11-17",
+              "anchor": "Decided by Jess Haley, 2026-11-17 [one shape for measured"
             },
             {
               "document": "did_v2_openminds_family_record.md",
