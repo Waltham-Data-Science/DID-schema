@@ -770,7 +770,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: Arithmetic Mean (NCIT:C53319, v1 `mean`, the F0; no `harmonic`) | maximum observed value (STATO:0000151, v1 `peak`; no `harmonic`) | Fourier Analysis (NCIT:C94900, v1 `F1` or `F2`, with `harmonic` 1 or 2) (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0). [response type harmonics are integers] (Jess Haley, 2026-11-12) and [harmonic is a field beside the response type] (Jess Haley, 2026-11-17), did_v2_go_forward_class_audit.md: F1 and F2 are the integer `harmonic` beside this term, not terms. The labels F1 and F2 (no node) stay listed until DID-matlab writes the Fourier Analysis form; then they leave the list.",
+                    "documentation": "The reduction applied to each stimulus presentation to yield a per-trial response: Arithmetic Mean (NCIT:C53319, v1 `mean`, the F0; no `harmonic`) | maximum observed value (STATO:0000151, v1 `peak`; no `harmonic`) | Fourier Analysis (NCIT:C94900, v1 `F1` or `F2`, with `harmonic` 1 or 2) (#73 audit 2 D3; replaces free text and contrast's `modulated_response` flag, which said F1 vs F0). [response type harmonics are integers] (Jess Haley, 2026-11-12) and [harmonic is a field beside the response type] (Jess Haley, 2026-11-17), did_v2_go_forward_class_audit.md: F1 and F2 are the integer `harmonic` beside this term, not terms. The labels F1 and F2 left the list once DID-matlab wrote the Fourier Analysis form (DID-matlab 16056f94, #474).",
                     "constraints": {
                         "binding": {
                             "root": "did_response_type",
@@ -787,14 +787,6 @@
                                 {
                                     "node": "NCIT:C94900",
                                     "name": "Fourier Analysis"
-                                },
-                                {
-                                    "node": "",
-                                    "name": "F1"
-                                },
-                                {
-                                    "node": "",
-                                    "name": "F2"
                                 }
                             ],
                             "strength": "preferred",
