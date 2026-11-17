@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 125 document(s) read (3 generated copies excluded); 850 decision line(s) accepted, 2 rejected; 45 cited by a class, 805 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 855 decision line(s) accepted, 2 rejected; 45 cited by a class, 810 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1043,6 +1043,10 @@ field). If one decides a class's disposition, that class should cite it.
 - response computed from the spike times. "Decided by Jess Haley, 2026-11-12 [response computed from" (did_v2_go_forward_class_audit.md:2162).
 - agreeing untied sources count as one. "Decided by Jess Haley, 2026-11-12 [agreeing untied sources" (did_v2_go_forward_class_audit.md:2164).
 - orphaned response settings are an accepted loss. "Decided by Jess Haley, 2026-11-12 [orphaned response" (did_v2_go_forward_class_audit.md:2166).
+- ingest writes v2 directly. "Decided by Jess Haley, 2026-11-17 [ingest writes v2" (did_v2_go_forward_class_audit.md:2168).
+- event channels are time-valued observations. "Decided by Jess Haley, 2026-11-17 [event channels are" (did_v2_go_forward_class_audit.md:2170).
+- ingested body members use the schema's names. "Decided by Jess Haley, 2026-11-17 [ingested body members" (did_v2_go_forward_class_audit.md:2172).
+- scale carries the reader's unit. "Decided by Jess Haley, 2026-11-17 [scale carries the" (did_v2_go_forward_class_audit.md:2174).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1060,6 +1064,7 @@ field). If one decides a class's disposition, that class should cite it.
 - rules and clock_alignment tenet. "Decided by Jess Haley, 2026-10-22 [rules and" (did_v2_method_plan.md:208).
 - receptive field naming. "TEAM-SIGN-OFF [receptive field naming]" (did_v2_ngrid_family_findings.md:381).
 - hartley method implied. "Decided by Jess Haley, 2026-10-21 [hartley method implied]" (did_v2_ngrid_family_findings.md:419).
+- one shape for measured numbers. "Decided by Jess Haley, 2026-11-17 [one shape for measured" (did_v2_numeric_shape_plan.md:283).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (did_v2_openminds_family_record.md:20).
 - subject keeps only its own strain. "Decided by Jess Haley, 2026-10-21 [subject keeps only its" (did_v2_openminds_family_record.md:1329).
 - shared entities at dataset level. "Decided by Jess Haley, 2026-10-21 [shared entities at" (did_v2_openminds_family_record.md:1333).
