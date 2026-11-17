@@ -103,6 +103,7 @@
                 "interpolated_values",
                 "significance",
                 "response_type",
+                "harmonic",
                 "response_unit"
             ],
             "has_source_unit": false,
@@ -449,6 +450,7 @@
                 "control",
                 "response_unit",
                 "response_type",
+                "harmonic",
                 "coordinates",
                 "model_fit",
                 "significance",

@@ -11975,6 +11975,54 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "Event",
+      "node": "NCIT:C25499",
+      "definition": "Something that happens at a given place and time.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-17",
+      "first_used_in": "NDI ingested archives: unpacked event channels (VH-Lab/NDI-matlab ingestedArchiveBodies)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Code",
+      "node": "NCIT:C25162",
+      "definition": "A symbol or combination of symbols which is assigned to the members of a collection.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-17",
+      "first_used_in": "NDI ingested archives: unpacked marker channels (VH-Lab/NDI-matlab ingestedArchiveBodies)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Annotation",
+      "node": "NCIT:C44272",
+      "definition": "An explanatory or critical comment, or other in-context information (e.g., pattern, motif, link), that has been associated with data or other types of information.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-17",
+      "first_used_in": "NDI ingested archives: unpacked text channels (VH-Lab/NDI-matlab ingestedArchiveBodies)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Fourier Analysis",
+      "node": "NCIT:C94900",
+      "definition": "A mathematical formalism that transforms sequences of values into an equivalent representation that consists of the sum of many sinusoids having different frequencies and amplitudes.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-17",
+      "first_used_in": "tuning_curve and contrast_sensitivity response type for v1 F1/F2 (DID-matlab jTuningCurve)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }

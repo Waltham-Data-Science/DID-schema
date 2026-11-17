@@ -1122,7 +1122,7 @@ NO_TARGET_BY_DECISION = {
     "control_stimulus_ids": (
         NO_TARGET_DISSOLVED, "did_v2_stimulus_response_model_plan.md",
         "A v1 `control_stimulus_ids` document becomes no V2 document",
-        ("NO V2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate]). Its fact "
+        ("NO v2 DOCUMENT (Jess Haley, 2026-10-22 [control as covariate]). Its fact "
         "is the `control condition` covariate (XCO:0000099, logical) along the "
         "stimulus presentation's item value, written by NDI's stimulus second "
         "pass; a v1 NaN control gives all false, and responses point at the "
