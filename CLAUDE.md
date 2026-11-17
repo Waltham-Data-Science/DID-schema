@@ -504,8 +504,11 @@ or the status board.
   `readtimeseries` read on the Haley dataset has not been timed after
   migration; NDI-matlab #1018 stays open for it.
 - **Migrated `element` name and reference are stored together** as
-  `'%s (ref %s)'` in `local_identifier`, without escaping
-  (NDI `+vintage/elementFields.m`).
+  `'<name> | <reference>'` in `local_identifier` (DID-matlab
+  `+did2/+convert/elementHandle.m`; NDI `+vintage/elementLocalIdentifier.m`,
+  NDI-matlab 332c1371a). Readers split at the last `' | '` (the reference
+  holds none) and still read the old `'<name> (ref X)'` form and a bare name
+  (`elementNameReference.m` in both).
 - **`imageStack_parameters` and the demo-series classes have no target and no
   dissolution recorded.** See the coverage ledger's no-target census.
 - **`binnedspikeratevm`'s firing rate is in Hz** (spikes per second): its
