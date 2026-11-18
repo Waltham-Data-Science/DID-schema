@@ -12026,6 +12026,30 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "spike-triggered average",
+            "node": "wikidata:Q7577165",
+            "definition": "tool for characterizing the response properties of a neuron",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-18 [hartley plane terms], did_v2_go_forward_class_audit.md: the variable of a hartley reconstruction's spike-triggered average plane (the definition is Wikidata's description)",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_calc, the spike-triggered average plane's statement; +migrators_j/hartley_calc.m, DID-matlab #477)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "null cumulative probability",
+            "node": "EMPTY:0000448",
+            "definition": "The value of the cumulative distribution function, under the null hypothesis that the events and the stimulus are unrelated, at an observed statistic; a two-tailed p-value is 2 min(c, 1 - c).",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-18 [hartley plane terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #49",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_calc, the significance plane's statement; +migrators_j/hartley_calc.m, DID-matlab #477)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
