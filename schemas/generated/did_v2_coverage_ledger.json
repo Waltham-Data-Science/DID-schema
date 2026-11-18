@@ -715,9 +715,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 883,
+          "accepted_lines": 885,
           "accepted_lines_by_kind": {
-            "Decided by": 763,
+            "Decided by": 765,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6061,13 +6061,21 @@
               "document": "did_v2_go_forward_class_audit.md",
               "line": 2188,
               "kind": "Decided by",
+              "tag": "removed file locations are an accepted loss",
+              "date": "2026-11-18",
+              "anchor": "Decided by Jess Haley, 2026-11-18 [removed file locations"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2190,
+              "kind": "Decided by",
               "tag": "several marker numbers are a second dimension",
               "date": "2026-11-17",
               "anchor": "Decided by Jess Haley, 2026-11-17 [several marker numbers"
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2190,
+              "line": 2192,
               "kind": "Decided by",
               "tag": "channel list rows get v2 homes",
               "date": "2026-11-17",
@@ -6075,7 +6083,15 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2192,
+              "line": 2194,
+              "kind": "Decided by",
+              "tag": "event row defaults are notation",
+              "date": "2026-11-18",
+              "anchor": "Decided by Jess Haley, 2026-11-18 [event row defaults are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2196,
               "kind": "Decided by",
               "tag": "channel name is an identifier",
               "date": "2026-11-17",
@@ -6083,7 +6099,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2194,
+              "line": 2198,
               "kind": "Decided by",
               "tag": "ingested block terms confirmed",
               "date": "2026-11-17",
@@ -6091,7 +6107,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2196,
+              "line": 2200,
               "kind": "Decided by",
               "tag": "migrated body members renamed",
               "date": "2026-11-17",
@@ -6099,7 +6115,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2198,
+              "line": 2202,
               "kind": "Decided by",
               "tag": "stimulator link lives in the presentations",
               "date": "2026-11-17",
@@ -6107,7 +6123,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2200,
+              "line": 2204,
               "kind": "Decided by",
               "tag": "observes retires in the second pass",
               "date": "2026-11-17",
@@ -6115,7 +6131,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2202,
+              "line": 2206,
               "kind": "Decided by",
               "tag": "time channel is a per-channel covariate",
               "date": "2026-11-17",
@@ -6123,7 +6139,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2204,
+              "line": 2208,
               "kind": "Decided by",
               "tag": "harmonic is a field beside the response type",
               "date": "2026-11-17",
@@ -6131,7 +6147,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2206,
+              "line": 2210,
               "kind": "Decided by",
               "tag": "no transfer term on Haley moves",
               "date": "2026-11-17",
@@ -6139,7 +6155,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2208,
+              "line": 2212,
               "kind": "Decided by",
               "tag": "digital scale is unitless",
               "date": "2026-11-17",
@@ -6147,7 +6163,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2210,
+              "line": 2214,
               "kind": "Decided by",
               "tag": "duplicate parts merged in DID",
               "date": "2026-11-17",
@@ -6155,7 +6171,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2212,
+              "line": 2216,
               "kind": "Decided by",
               "tag": "part re-keyed when its side arrives",
               "date": "2026-11-17",
@@ -6163,7 +6179,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2214,
+              "line": 2218,
               "kind": "Decided by",
               "tag": "tidy the spatial status",
               "date": "2026-11-17",
@@ -6171,7 +6187,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2216,
+              "line": 2220,
               "kind": "Decided by",
               "tag": "tied multi-clock sources wait for a dataset",
               "date": "2026-11-17",
@@ -6179,7 +6195,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2218,
+              "line": 2222,
               "kind": "Decided by",
               "tag": "tuning label choices confirmed",
               "date": "2026-11-17",
@@ -6187,7 +6203,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2220,
+              "line": 2224,
               "kind": "Decided by",
               "tag": "copyright round-trip losses",
               "date": "2026-11-17",
@@ -6195,7 +6211,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2222,
+              "line": 2226,
               "kind": "Decided by",
               "tag": "non-specimen channel groups get their own owner",
               "date": "2026-11-17",
@@ -6203,7 +6219,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2224,
+              "line": 2228,
               "kind": "Decided by",
               "tag": "documentation identifier prefers a DOI",
               "date": "2026-11-17",
@@ -6211,7 +6227,7 @@
             },
             {
               "document": "did_v2_go_forward_class_audit.md",
-              "line": 2226,
+              "line": 2230,
               "kind": "Decided by",
               "tag": "role source left to the import",
               "date": "2026-11-17",
