@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 925,
+          "accepted_lines": 931,
           "accepted_lines_by_kind": {
-            "Decided by": 805,
+            "Decided by": 811,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6433,6 +6433,22 @@
               "anchor": "Decided by Jess Haley, 2026-11-19 [region part ids"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2282,
+              "kind": "Decided by",
+              "tag": "metadata editor id and datestamp not kept",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [metadata editor id and"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2284,
+              "kind": "Decided by",
+              "tag": "awaiting carry rows cite an issue",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [awaiting carry rows cite"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6599,6 +6615,14 @@
               "tag": "no migrated database is kept",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [no migrated database is"
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 291,
+              "kind": "Decided by",
+              "tag": "numeric step 3 leftovers",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [numeric step 3"
             },
             {
               "document": "did_v2_openminds_family_record.md",
@@ -7167,6 +7191,30 @@
               "tag": "text channel entries are a JSON array",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [text channel entries are"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 228,
+              "kind": "Decided by",
+              "tag": "time row and text channel readings",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [time row and text"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 230,
+              "kind": "Decided by",
+              "tag": "archive with no digital channel",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [archive with no digital"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 232,
+              "kind": "Decided by",
+              "tag": "device id required and named by the rig",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [device id required and"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
