@@ -1029,8 +1029,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "EMPTY:0000260",
+                "name": "frame"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -1657,8 +1660,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "NCIT:C120538",
+                "name": "Cell Density"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -1671,8 +1677,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "NCIT:C68902",
+                "name": "Colony Forming Unit per Milliliter"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -1797,8 +1806,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "om:pixel",
+                "name": "pixel"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -2049,8 +2061,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "om:RelativeHumidity",
+                "name": "relative humidity"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -3416,8 +3431,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "NCIT:C64572",
+                "name": "Microgram per Milliliter"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -3430,8 +3448,11 @@
             "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "NCIT:C69175",
+                "name": "Microliter per Milliliter"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -12611,8 +12632,11 @@
             "first_used_in": "DID-matlab virus_injection / treatment: dilution as a source unit",
             "obsolete": false,
             "number_unit": false,
-            "canonical_unit": false,
-            "factor": false,
+            "canonical_unit": {
+                "node": "UO:0000191",
+                "name": "fraction"
+            },
+            "factor": 1,
             "equivalent": [],
             "synonyms": []
         },
@@ -14391,6 +14415,62 @@
             "status": "decided",
             "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
             "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, metadata segments)",
+            "obsolete": false,
+            "number_unit": false,
+            "canonical_unit": false,
+            "factor": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "type II BNST neuron",
+            "node": "EMPTY:0000070",
+            "definition": "A type of neuron located in the dorsolateral bed nucleus of the stria terminalis (BNSTDL) that produces post-inhibitory spikes in response to preceding negative current steps, which is related to the action of the low-threshold Ca2+ current. These neurons also display strong voltage sags under hyperpolarizing current pulses, indicating a high level of the hyperpolarization-activated cation current (Ih). [Source: https://doi.org/10.1016/j.celrep.2025.115768]",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [BNST neuron types registered] (did_v2_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.setup.conv.dabrowska doImport, cell type by ndi.ontology.lookup)",
+            "obsolete": false,
+            "number_unit": false,
+            "canonical_unit": false,
+            "factor": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "type I BNST neuron",
+            "node": "EMPTY:0000072",
+            "definition": "A type of neuron located in the dorsolateral bed nucleus of the stria terminalis (BNSTDL) that fires regularly, displays moderate spike frequency adaptation, and exhibits a voltage sag indicating the presence of the hyperpolarization-activated cation current (Ih). [Source: https://doi.org/10.1016/j.celrep.2025.115768]",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [BNST neuron types registered] (did_v2_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.setup.conv.dabrowska doImport, cell type by ndi.ontology.lookup)",
+            "obsolete": false,
+            "number_unit": false,
+            "canonical_unit": false,
+            "factor": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "type III BNST neuron",
+            "node": "EMPTY:0000073",
+            "definition": "A type of neuron located in the dorsolateral bed nucleus of the stria terminalis (BNSTDL) characterized by a high rheobase, absence of voltage sag under negative current steps, prominent inward rectification due to the activation of the inward rectifying K+ current (IKIR) at membrane potentials more negative than approximately -50 mV, and firing onset after a characteristic slow voltage ramp mediated by the K+ delayed current (ID). [Source: https://doi.org/10.1016/j.celrep.2025.115768]",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [BNST neuron types registered] (did_v2_go_forward_class_audit.md)",
+            "first_used_in": "Dabrowska BNST slice recordings (NDI-matlab ndi.setup.conv.dabrowska doImport, cell type by ndi.ontology.lookup)",
+            "obsolete": false,
+            "number_unit": false,
+            "canonical_unit": false,
+            "factor": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "Knock-in",
+            "node": "NCIT:C22492",
+            "definition": "Replacement of a gene by an altered version of the same gene using homologous recombination resulting in a gain of function. One example of a knock-in is deletion of a coding sequence of a gene in a mouse and then replacing it with human coding sequences.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [knockin is NCIT Knock-in] (did_v2_go_forward_class_audit.md)",
+            "first_used_in": "openMINDS GeneticStrainType knockin (NDI-matlab ndi.migrate.internal.subjectStrainAssembly)",
             "obsolete": false,
             "number_unit": false,
             "canonical_unit": false,

@@ -2685,6 +2685,22 @@
       "resolved_by": "the dataset's import (or the recording's observations once ingested)",
       "kind_basis": "stated",
       "scope": "field"
+    },
+    {
+      "id": "carry-173",
+      "v1_class": "SpikeInterfaceSortingOutputs",
+      "fields": [
+        "the whole document (no v2 class is built for it)"
+      ],
+      "when": "always, past its migrator's guards: a v1 `SpikeInterfaceSortingOutputs` (NDI template sorting/SpikeInterfaceSortingOutputs.json) is carried whole as v1, the untouched v1 source, with a `carried_as_v1` note in the migration report (DID-matlab +migrators_j/spike_interface_sorting_outputs.m, #495). A document with a field, block or edge outside the template carries under carry-100 instead.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "spike interface sorting carried as v1"
+      },
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "none now: it waits for a dataset that holds one; no NDI second pass is built for it ([spike interface sorting carried as v1])",
+      "kind_basis": "stated"
     }
   ]
 }

@@ -194,16 +194,12 @@ TIERS = (SP.CORE,) + SP.FOLDERS
 # --enforce FAIL LOUDLY rather than pass while checking nothing.
 ENFORCEMENT_THRESHOLD = None
 
-# The only rows --enforce lets through, each named with its reason. A class's
-# own `name` beside the did_v1-only `base.name` is two slots, not one field
-# redeclared (#73 item 54; tools/check_duplicate_field_declarations.py buckets
-# the same pairs V1-ONLY-SLOT). They end when v2 `base.name` is deleted, which
-# waits on question G7 (docs/V2_PLAN.md). An entry that matches no row FAILS,
-# so this list cannot go stale.
-NARROW_ONLY_EXEMPT = {
-    (child, "name", "base"): "a class's own `name` beside the did_v1-only `base.name` slot (#73 item 54; ends with v2 base.name, G7)"
-    for child in ("entity", "method", "acquisition_system", "demo")
-}
+# The only rows --enforce lets through, each named with its reason. An entry
+# that matches no row FAILS, so this list cannot go stale. Empty since
+# 2026-11-19: the four entries (a class's own `name` beside the did_v1-only
+# `base.name`, #73 item 54) went when V2 `base.name` was deleted ([v1 name goes
+# to the class's own name field], [base.name kept until retire classes leave]).
+NARROW_ONLY_EXEMPT = {}
 
 # ---------------------------------------------------------------------------
 # What counts as a constraint, and which way each one points.

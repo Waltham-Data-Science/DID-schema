@@ -175,7 +175,11 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_tru
 # 3 -> 4 (2026-11-19, [demo keeps its name]): `demo` gets its own `name`, the
 # same V1-ONLY-SLOT row as the other three (OVERRIDES). All four go when V2
 # `base.name` is deleted ([v1 name goes to the class's own name field]).
-BASELINE = 4
+# 4 -> 0 (2026-11-19, [v1 name goes to the class's own name field] and
+# [base.name kept until retire classes leave]): V2 `base.name` is deleted, so
+# the four V1-ONLY-SLOT rows (acquisition_system, demo, entity, method `name`)
+# are gone, and their OVERRIDES with them.
+BASELINE = 0
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -187,12 +191,10 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 # Was EMPTY until 2026-09-25, when #73 item 54 DECIDED the three rows it called
 # open (method_parameters, software, strain `name`): a class's own `name` is the
 # name, and `base.name` is a did_v1-only slot. Every entry below is that one decision.
-OVERRIDES = {
-    ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (did_v2_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("demo", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `demo` by [demo keeps its name] (did_v2_go_forward_class_audit.md, 2026-11-19): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-    ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (did_v2_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
-}
+# Empty since 2026-11-19: the four V1-ONLY-SLOT entries (a class's own `name`
+# beside the did_v1-only `base.name`) went when V2 `base.name` was deleted
+# ([v1 name goes to the class's own name field]).
+OVERRIDES = {}
 
 
 def _norm(s):

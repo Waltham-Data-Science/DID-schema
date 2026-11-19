@@ -12,8 +12,14 @@ read as "v2 is missing a field". This checks, and fails on any of:
       a unique `id`, a `v1_class`, a non-empty `fields` list, `when`, a
       `kind` from `kinds`, a `kind_basis` (stated | decided | proposed) and a
       `decision` {document, tag}; and the keys its kind requires:
-        awaiting_home  `open_work` (an OPEN_WORK row number; null FAILS, so
-                       no home is awaited untracked) and `home`
+        awaiting_home  `home`, and exactly one citation of the tracked work:
+                       `open_work` (an OPEN_WORK row number; null FAILS, so
+                       no home is awaited untracked) or `issue` (a GitHub
+                       issue, `owner/repo#n` or
+                       `https://github.com/owner/repo/issues/n`; Jess Haley,
+                       2026-11-19, did_v2_go_forward_class_audit.md [awaiting
+                       carry rows cite an issue], since did_v2_OPEN_WORK.md is
+                       frozen). Neither, or both, FAILS.
         needs_mapping  `homes` (a non-empty list), `decides`, `resolved_by`
         not_modelled   `do_not` {line, class, fields}
         malformed      nothing more
@@ -48,7 +54,9 @@ read as "v2 is missing a field". This checks, and fails on any of:
       the open work entry".) The row number stays the citation after the
       file was frozen ([open work lives in issues], 2026-11-03);
       `check_open_work_issues.py` checks that every OPEN row points at an
-      open GitHub issue, so a home a carry awaits is tracked by one.
+      open GitHub issue, so a home a carry awaits is tracked by one. A row
+      that cites an `issue` instead ([awaiting carry rows cite an issue]) has
+      no row number to check here; C1 checks the citation's form.
 
 It prints its denominator first. A `proposed` kind is reported, never
 failed: it is open, not wrong.
@@ -77,11 +85,21 @@ COMMON = {"id", "v1_class", "fields", "when", "kind", "kind_basis", "decision"}
 SCOPES = ("document", "field")
 OPTIONAL = {"scope"}
 BY_KIND = {
-    "awaiting_home": {"open_work", "home"},
+    "awaiting_home": {"home"},
     "needs_mapping": {"homes", "decides", "resolved_by"},
     "not_modelled": {"do_not"},
     "malformed": set(),
 }
+# An awaiting_home row cites its tracked work by exactly one of these
+# ([awaiting carry rows cite an issue], Jess Haley, 2026-11-19).
+CITATIONS = {"awaiting_home": ("open_work", "issue")}
+ISSUE_RE = re.compile(r"(?:[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[1-9][0-9]*"
+                      r"|https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/issues/[1-9][0-9]*)")
+
+
+def is_issue(v):
+    """True when V cites one GitHub issue: `owner/repo#n` or its issue URL."""
+    return isinstance(v, str) and ISSUE_RE.fullmatch(v) is not None
 
 
 def _load(path):
@@ -118,9 +136,16 @@ def check_shape(reg):
             out.append(f"C1 {where}: kind {kind!r}, not one of {KINDS}")
             continue
         want = COMMON | BY_KIND[kind]
-        if not (want <= set(r) <= want | OPTIONAL):
-            missing, extra = sorted(want - set(r)), sorted(set(r) - want - OPTIONAL)
+        cites = CITATIONS.get(kind, ())
+        if not (want <= set(r) <= want | OPTIONAL | set(cites)):
+            missing = sorted(want - set(r))
+            extra = sorted(set(r) - want - OPTIONAL - set(cites))
             out.append(f"C1 {where}: keys for kind {kind}: missing {missing}, unexpected {extra}")
+            continue
+        if cites and sum(1 for c in cites if c in r) != 1:
+            given = [c for c in cites if c in r]
+            out.append(f"C1 {where}: an {kind} row cites exactly one of {list(cites)}, "
+                       f"not {given} ([awaiting carry rows cite an issue])")
             continue
         for k in ("v1_class", "when"):
             if not _text(r[k]):
@@ -145,9 +170,13 @@ def check_shape(reg):
                 and _text(d["document"]) and _text(d["tag"])):
             out.append(f"C1 {where}: `decision` is not {{document, tag}}")
         if kind == "awaiting_home":
-            ow = r["open_work"]
-            if not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
-                out.append(f"C1 {where}: `open_work` is {ow!r}, not an OPEN_WORK row number")
+            if "open_work" in r:
+                ow = r["open_work"]
+                if not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
+                    out.append(f"C1 {where}: `open_work` is {ow!r}, not an OPEN_WORK row number")
+            elif not is_issue(r["issue"]):
+                out.append(f"C1 {where}: `issue` is {r['issue']!r}, not a GitHub issue "
+                           f"(owner/repo#n or https://github.com/owner/repo/issues/n)")
             if not _text(r["home"]):
                 out.append(f"C1 {where}: `home` is empty")
         elif kind == "needs_mapping":
@@ -264,6 +293,8 @@ def check_open_work(rows, known):
     for r in rows:
         if not (isinstance(r, dict) and r.get("kind") == "awaiting_home"):
             continue
+        if "open_work" not in r:
+            continue  # cites an issue instead ([awaiting carry rows cite an issue])
         ow = r.get("open_work")
         if not isinstance(ow, int) or isinstance(ow, bool):
             continue  # C1 reports it
@@ -307,8 +338,11 @@ def main():
     with open(OPEN_WORK, encoding="utf-8") as f:
         known = open_rows(f.read())
     ofail, n_ow = check_open_work(rows, known)
+    n_issue = sum(1 for r in rows if isinstance(r, dict)
+                  and r.get("kind") == "awaiting_home" and "issue" in r)
     print(f"C5: {n_ow} awaiting_home open_work number(s) checked against "
-          f"{len(known)} OPEN row(s) of did_v2_OPEN_WORK.md")
+          f"{len(known)} OPEN row(s) of did_v2_OPEN_WORK.md; "
+          f"{n_issue} awaiting_home row(s) cite a GitHub issue instead")
     failures += ofail
     n_prop = sum(1 for r in rows if isinstance(r, dict) and r.get("kind_basis") == "proposed")
     print(f"  kinds proposed by Claude, not stated by the decision: {n_prop} of {len(rows)}")
