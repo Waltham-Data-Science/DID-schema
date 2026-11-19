@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 940,
+          "accepted_lines": 946,
           "accepted_lines_by_kind": {
-            "Decided by": 820,
+            "Decided by": 826,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6481,6 +6481,30 @@
               "anchor": "Decided by Jess Haley, 2026-11-19 [carry-056 waits for a"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2294,
+              "kind": "Decided by",
+              "tag": "openMINDS minted ids are an accepted loss",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [openMINDS minted ids are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2296,
+              "kind": "Decided by",
+              "tag": "read speed check after getprobes",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [read speed check after"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2298,
+              "kind": "Decided by",
+              "tag": "session anchors pass removed",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [session anchors pass"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -7287,6 +7311,30 @@
               "tag": "time group with several time channels split",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [time group with several"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 240,
+              "kind": "Decided by",
+              "tag": "NDI-compress keeps a V2 branch",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [NDI-compress keeps a V2"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 242,
+              "kind": "Decided by",
+              "tag": "multi-code markers keep every code",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [multi-code markers keep"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 244,
+              "kind": "Decided by",
+              "tag": "Intan aux names no time channel",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [Intan aux names no time"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",

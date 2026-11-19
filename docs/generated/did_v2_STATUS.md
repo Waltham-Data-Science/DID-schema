@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 940 decision line(s) accepted, 2 rejected; 45 cited by a class, 895 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 946 decision line(s) accepted, 2 rejected; 45 cited by a class, 901 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1064,6 +1064,9 @@ field). If one decides a class's disposition, that class should cite it.
 - hartley frame times are onset times. "Decided by Jess Haley, 2026-11-19 [hartley frame times are" (did_v2_go_forward_class_audit.md:2288).
 - knockin is NCIT Knock-in. "Decided by Jess Haley, 2026-11-19 [knockin is NCIT" (did_v2_go_forward_class_audit.md:2290).
 - carry-056 waits for a dataset. "Decided by Jess Haley, 2026-11-19 [carry-056 waits for a" (did_v2_go_forward_class_audit.md:2292).
+- openMINDS minted ids are an accepted loss. "Decided by Jess Haley, 2026-11-19 [openMINDS minted ids are" (did_v2_go_forward_class_audit.md:2294).
+- read speed check after getprobes. "Decided by Jess Haley, 2026-11-19 [read speed check after" (did_v2_go_forward_class_audit.md:2296).
+- session anchors pass removed. "Decided by Jess Haley, 2026-11-19 [session anchors pass" (did_v2_go_forward_class_audit.md:2298).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1165,6 +1168,9 @@ field). If one decides a class's disposition, that class should cite it.
 - readtimeseries timed with NDI Cloud. "Decided by Jess Haley, 2026-11-19 [readtimeseries timed" (did_v2_standing_wiring_plan.md:234).
 - acquisition configuration renamed. "Decided by Jess Haley, 2026-11-19 [acquisition" (did_v2_standing_wiring_plan.md:236).
 - time group with several time channels split. "Decided by Jess Haley, 2026-11-19 [time group with several" (did_v2_standing_wiring_plan.md:238).
+- NDI-compress keeps a V2 branch. "Decided by Jess Haley, 2026-11-19 [NDI-compress keeps a V2" (did_v2_standing_wiring_plan.md:240).
+- multi-code markers keep every code. "Decided by Jess Haley, 2026-11-19 [multi-code markers keep" (did_v2_standing_wiring_plan.md:242).
+- Intan aux names no time channel. "Decided by Jess Haley, 2026-11-19 [Intan aux names no time" (did_v2_standing_wiring_plan.md:244).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

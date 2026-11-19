@@ -1761,7 +1761,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "every v1 id survives"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
@@ -1791,7 +1791,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "axis letters derive from labels"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -1837,7 +1837,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "fit classes kept; session list rebuilt"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
