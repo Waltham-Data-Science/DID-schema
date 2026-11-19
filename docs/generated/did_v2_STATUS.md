@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 921 decision line(s) accepted, 2 rejected; 45 cited by a class, 876 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 931 decision line(s) accepted, 2 rejected; 45 cited by a class, 886 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1055,6 +1055,11 @@ field). If one decides a class's disposition, that class should cite it.
 - non-specimen channel groups get their own owner. "Decided by Jess Haley, 2026-11-17 [non-specimen channel" (did_v2_go_forward_class_audit.md:2270).
 - documentation identifier prefers a DOI. "Decided by Jess Haley, 2026-11-17 [documentation identifier" (did_v2_go_forward_class_audit.md:2272).
 - role source left to the import. "Decided by Jess Haley, 2026-11-17 [role source left to the" (did_v2_go_forward_class_audit.md:2274).
+- Dab stimulators with deferred baths read the animal. "Decided by Jess Haley, 2026-11-19 [Dab stimulators with" (did_v2_go_forward_class_audit.md:2276).
+- openMINDS ids rebuild the subject terms. "Decided by Jess Haley, 2026-11-19 [openMINDS ids rebuild" (did_v2_go_forward_class_audit.md:2278).
+- region part ids computed. "Decided by Jess Haley, 2026-11-19 [region part ids" (did_v2_go_forward_class_audit.md:2280).
+- metadata editor id and datestamp not kept. "Decided by Jess Haley, 2026-11-19 [metadata editor id and" (did_v2_go_forward_class_audit.md:2282).
+- awaiting carry rows cite an issue. "Decided by Jess Haley, 2026-11-19 [awaiting carry rows cite" (did_v2_go_forward_class_audit.md:2284).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1075,6 +1080,8 @@ field). If one decides a class's disposition, that class should cite it.
 - one shape for measured numbers. "Decided by Jess Haley, 2026-11-17 [one shape for measured" (did_v2_numeric_shape_plan.md:283).
 - numeric shape details. "Decided by Jess Haley, 2026-11-17 [numeric shape details]: (" (did_v2_numeric_shape_plan.md:285).
 - series readings share a source record. "Decided by Jess Haley, 2026-11-17 [series readings share a" (did_v2_numeric_shape_plan.md:287).
+- no migrated database is kept. "Decided by Jess Haley, 2026-11-19 [no migrated database is" (did_v2_numeric_shape_plan.md:289).
+- numeric step 3 leftovers. "Decided by Jess Haley, 2026-11-19 [numeric step 3" (did_v2_numeric_shape_plan.md:291).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (did_v2_openminds_family_record.md:20).
 - subject keeps only its own strain. "Decided by Jess Haley, 2026-10-21 [subject keeps only its" (did_v2_openminds_family_record.md:1329).
 - shared entities at dataset level. "Decided by Jess Haley, 2026-10-21 [shared entities at" (did_v2_openminds_family_record.md:1333).
@@ -1146,6 +1153,9 @@ field). If one decides a class's disposition, that class should cite it.
 - uneven time groups and mismatches. "Decided by Jess Haley, 2026-11-19 [uneven time groups and" (did_v2_standing_wiring_plan.md:219).
 - time channel row is notation. "Decided by Jess Haley, 2026-11-19 [time channel row is" (did_v2_standing_wiring_plan.md:221).
 - text channel entries are a JSON array. "Decided by Jess Haley, 2026-11-19 [text channel entries are" (did_v2_standing_wiring_plan.md:223).
+- time row and text channel readings. "Decided by Jess Haley, 2026-11-19 [time row and text" (did_v2_standing_wiring_plan.md:228).
+- archive with no digital channel. "Decided by Jess Haley, 2026-11-19 [archive with no digital" (did_v2_standing_wiring_plan.md:230).
+- device id required and named by the rig. "Decided by Jess Haley, 2026-11-19 [device id required and" (did_v2_standing_wiring_plan.md:232).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
