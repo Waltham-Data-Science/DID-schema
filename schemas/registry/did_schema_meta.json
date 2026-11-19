@@ -339,6 +339,7 @@
                         "structure",
                         "time",
                         "ontology_term",
+                        "number_or_text",
                         "volume",
                         "mass",
                         "length",

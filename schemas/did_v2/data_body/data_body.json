@@ -388,6 +388,19 @@
                             "constraints": {}
                         },
                         {
+                            "name": "source_numeric",
+                            "type": "number_or_text",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "What the source wrote for the number, in the source's own type: a number where v1 stored a number, text where v1 stored text, kept verbatim (v1 writes a threshold as the string \"0.030\", and the trailing zero is the stated precision). Filled only for a number written by v1. In `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
                             "name": "tolerance",
                             "type": "structure",
                             "blank_value": {},
@@ -880,6 +893,19 @@
                     "queryable": false,
                     "ontology": null,
                     "documentation": "The canonical number(s), in `unit`: one per position along the `along` dimensions on a covariate, one value on a condition or parameter; an array at each position adds dimensions (replaces `quantity.value` and `matrix`). A single number is written as a plain number, an array keeps its dimensions (did_v2_numeric_shape_plan.md [numeric shape details] (3)). Has a `unit` unless the variable is unitless or the run's report lists a gap. One value form. (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4.)",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_numeric",
+                    "type": "number_or_text",
+                    "blank_value": "",
+                    "default_value": "",
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "What the source wrote for the number, in the source's own type: a number where v1 stored a number, text where v1 stored text, kept verbatim (v1 writes a threshold as the string \"0.030\", and the trailing zero is the stated precision). Filled only for a number written by v1. In `source_unit`.",
                     "constraints": {}
                 },
                 {
