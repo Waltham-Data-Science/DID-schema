@@ -1026,8 +1026,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "EMPTY:0000260",
+        "name": "frame"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -1654,8 +1657,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "NCIT:C120538",
+        "name": "Cell Density"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -1668,8 +1674,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "NCIT:C68902",
+        "name": "Colony Forming Unit per Milliliter"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -1794,8 +1803,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "om:pixel",
+        "name": "pixel"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -2046,8 +2058,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "om:RelativeHumidity",
+        "name": "relative humidity"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -3413,8 +3428,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "NCIT:C64572",
+        "name": "Microgram per Milliliter"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -3427,8 +3445,11 @@
       "first_used_in": "Haley et al. 2025, C. elegans foraging (NDI-matlab ndi.setup.conv.haley)",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "NCIT:C69175",
+        "name": "Microliter per Milliliter"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
@@ -12608,8 +12629,11 @@
       "first_used_in": "DID-matlab virus_injection / treatment: dilution as a source unit",
       "obsolete": false,
       "number_unit": false,
-      "canonical_unit": false,
-      "factor": false,
+      "canonical_unit": {
+        "node": "UO:0000191",
+        "name": "fraction"
+      },
+      "factor": 1,
       "equivalent": [],
       "synonyms": []
     },
