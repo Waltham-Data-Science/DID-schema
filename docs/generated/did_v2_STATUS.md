@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 931 decision line(s) accepted, 2 rejected; 45 cited by a class, 886 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 936 decision line(s) accepted, 2 rejected; 45 cited by a class, 891 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1060,6 +1060,10 @@ field). If one decides a class's disposition, that class should cite it.
 - region part ids computed. "Decided by Jess Haley, 2026-11-19 [region part ids" (did_v2_go_forward_class_audit.md:2280).
 - metadata editor id and datestamp not kept. "Decided by Jess Haley, 2026-11-19 [metadata editor id and" (did_v2_go_forward_class_audit.md:2282).
 - awaiting carry rows cite an issue. "Decided by Jess Haley, 2026-11-19 [awaiting carry rows cite" (did_v2_go_forward_class_audit.md:2284).
+- BNST neuron types registered. "Decided by Jess Haley, 2026-11-19 [BNST neuron types" (did_v2_go_forward_class_audit.md:2286).
+- hartley frame times are onset times. "Decided by Jess Haley, 2026-11-19 [hartley frame times are" (did_v2_go_forward_class_audit.md:2288).
+- knockin is NCIT Knock-in. "Decided by Jess Haley, 2026-11-19 [knockin is NCIT" (did_v2_go_forward_class_audit.md:2290).
+- carry-056 waits for a dataset. "Decided by Jess Haley, 2026-11-19 [carry-056 waits for a" (did_v2_go_forward_class_audit.md:2292).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1156,6 +1160,7 @@ field). If one decides a class's disposition, that class should cite it.
 - time row and text channel readings. "Decided by Jess Haley, 2026-11-19 [time row and text" (did_v2_standing_wiring_plan.md:228).
 - archive with no digital channel. "Decided by Jess Haley, 2026-11-19 [archive with no digital" (did_v2_standing_wiring_plan.md:230).
 - device id required and named by the rig. "Decided by Jess Haley, 2026-11-19 [device id required and" (did_v2_standing_wiring_plan.md:232).
+- readtimeseries timed with NDI Cloud. "Decided by Jess Haley, 2026-11-19 [readtimeseries timed" (did_v2_standing_wiring_plan.md:234).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
