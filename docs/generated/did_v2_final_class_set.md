@@ -39,6 +39,3 @@ Kinds of entity (19, the values of entity.type in entity_type_bindings): organis
 ---
 
 ## NOT in the final set (by disposition)
-
-**retire (11):**
-`acquisition_epoch`, `app`, `calculator`, `daqreader`, `daqreader_epochdata_ingested`, `daqreader_image_epochdata_ingested`, `epochid`, `filenavigator`, `stimulus_presentation`, `stimulus_response`, `stimulus_response_scalar_parameters`

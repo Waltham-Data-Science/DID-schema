@@ -74,7 +74,9 @@ BOUND_UNIT_FIELDS = [
     ("interaction", "method.parameters.unit"), ("method", "parameters.unit"),
     ("relation", "method.parameters.unit"),
     ("clock_alignment_configuration", "method.parameters.unit"),
-    ("data", "covariates.unit"), ("acquisition_epoch", "covariates.unit"),
+    # `acquisition_epoch`'s copy left with the class (2026-11-19, [retired
+    # classes leave V2] step 3)
+    ("data", "covariates.unit"),
     ("tuning_curve", "value.response_unit"), ("contrast_sensitivity", "value.response_unit"),
     ("model_fit", "value.independent_variables.unit"), ("model_fit", "value.dependent_variable.unit"),
     ("tuning_curve", "value.model_fit.independent_variables.unit"),

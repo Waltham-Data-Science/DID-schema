@@ -54,6 +54,23 @@ def _open_classes():
     return sorted(sb.open_class_names(idx["schemas"]))
 
 
+# THE OPEN SET IS EMPTY SINCE 2026-11-19: see tests/_probe_board.py. The
+# tests that exercise the MACHINERY ask the sweep about PROBE_CLASSES or read a
+# board rendered in a scratch copy that holds them as open again; the committed
+# artifact's own state -- no open class -- is pinned by
+# test_in_progress_is_a_declaration_not_a_measurement.
+from _probe_board import PROBE_CLASSES, probe_board  # noqa: E402
+
+
+def _sweep_classes():
+    """The open set, or PROBE_CLASSES while it is empty."""
+    return set(_open_classes()) or set(PROBE_CLASSES)
+
+
+def _probe_board():
+    return probe_board(_did_root(), _ndi_root())
+
+
 class _Args:
     def __init__(self, did=None, ndi=None, census=None):
         self.did = did
@@ -84,14 +101,17 @@ def test_in_progress_is_a_declaration_not_a_measurement():
     rewrites every other index field from the class files and keeps this one,
     so it is still a declaration and never a measurement.
     """
+    # The open set is EMPTY since 2026-11-19 ([retired classes leave V2] step
+    # 3): no class is `in_progress` and the last retire classes are deleted.
+    # Pinned as the state, so a class reopened by hand shows here and must
+    # carry the disposition_note saying what is open.
     open_classes = _open_classes()
-    assert open_classes, "no in_progress classes -- this sweep would check nothing"
     with open(INDEX) as fh:
         idx = {s["class_name"]: s for s in json.load(fh)["schemas"]}
-    unexplained = [c for c in open_classes if not idx[c].get("disposition_note")]
-    assert unexplained == [], (
-        f"{len(unexplained)} in_progress class(es) carry no disposition_note saying "
-        f"what is open: {unexplained}")
+    assert len(idx) > 0, "the index lists no class -- this sweep read nothing"
+    assert open_classes == [], (
+        f"{len(open_classes)} open class(es) {open_classes}: a reopened class "
+        "needs a disposition_note, and this test its rewrite")
     src = Path(os.path.join(TOOLS, "validate_v_eta.py")).read_text()
     assert 'disp = prev.get("disposition")' in src, (
         "validate_v_eta.py no longer copies `disposition` from index.json -- if it "
@@ -370,11 +390,10 @@ def test_a_private_helper_counts_as_a_migrator():
     # signed and built), so it is no longer open; the sweep is still asked about it
     # by name, because the undercount it demonstrates is about the sweep, not the
     # class's disposition.
-    classes = set(_open_classes())
-    assert "app" in classes, (
-        "app is no longer open -- rewrite this test against whatever "
-        "block-superclass classes remain, or delete it")
-    classes |= {"filter"}
+    # `app` left the open set with its class file (2026-11-19, PROBE_CLASSES
+    # above); it is still a v1 superclass block that the private helper
+    # folds, so the sweep is asked about it by name, as `filter` is.
+    classes = {"app", "filter"}
     mig, src = sb.migrator_evidence(classes, _did_root(),
                                     sb.find_repo("NDI-matlab", "NDI_MATLAB"))
     assert mig is not None and src["files_read"] > 0, (
@@ -403,7 +422,7 @@ def test_control_designation_is_found_by_minting_and_by_nothing_else():
     appears, this class stops demonstrating the undercount and the test should
     be re-pointed rather than relaxed.
     """
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     if "control_designation" not in classes:
         pytest.skip("control_designation is no longer an open class")
     mig, src = sb.migrator_evidence(classes, _did_root(),
@@ -428,7 +447,7 @@ def test_control_designation_is_found_by_minting_and_by_nothing_else():
 # ---------------------------------------------------------------------------
 
 def test_no_reports_means_no_class_can_be_corpus_proven():
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     cen, src, probe = sb.census_evidence(classes, ["/does/not/exist"])
     assert cen is None
     assert src["reports_read"] == 0
@@ -576,9 +595,10 @@ def test_status_md_says_when_state_c_is_unreachable():
         "classes are rendered as corpus-proven with no census behind them")
 
 
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_every_open_class_appears_in_exactly_one_state():
-    with open(DECISIONS) as fh:
-        ocs = json.load(fh)["open_class_state"]
+    # on the PROBE board since 2026-11-19: the committed one has no open row
+    _text, ocs = _probe_board()
     rows = ocs["classes"]
     assert rows, "no open-class rows -- this sweep would check nothing"
     names = [r["class_name"] for r in rows]
@@ -703,9 +723,13 @@ _IDIOM_SOURCES = [
     ("2 local class-block helper, 3-arg", "pyraview.m", PRE_PORT,
      "classBlock('session_relative_reference'", ("pyraview.m", "classBlock"),
      "session_relative_reference"),
-    ("3 class_name field write", "element_epoch.m", None,
-     "document_class.class_name = 'acquisition_epoch'", None,
-     "acquisition_epoch"),
+    # Re-pointed when the sibling lock moved to DID-matlab f79dd21a:
+    # element_epoch is carried as v1 there (DID-matlab #481), so its
+    # `acquisition_epoch` write is gone; jDemoFold.m's `demo` write is the
+    # same idiom.
+    ("3 class_name field write", "private/jDemoFold.m", None,
+     "v2Body.document_class.class_name = 'demo'", None,
+     "demo"),
     # #88 (DID-matlab #218 after 229c12e): the builder.
     ("4 builder, leaf name", "lightsheet_zarr_pyramid.m", PORT_MERGE,
      "did2.build.statement('intensity_observation'", None,
@@ -869,7 +893,7 @@ def test_session_relative_reference_mints_are_counted_in_full():
     the `'class_name'`-comma regex could not see, so a regression cannot show up
     as a smaller number nobody notices.
     """
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     if "session_relative_reference" not in classes:
         pytest.skip("session_relative_reference is no longer an open class")
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
@@ -900,7 +924,7 @@ def test_the_classblock_migrators_are_each_credited_with_their_mint():
     """Named one file at a time, because `>= 9` alone would be satisfied by nine
     mints from anywhere. These six are the ones the old detector could not see.
     """
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     if "session_relative_reference" not in classes:
         pytest.skip("session_relative_reference is no longer an open class")
     root = os.path.join(_did_root(), "src/did/+did2/+convert/+migrators_j")
@@ -934,7 +958,7 @@ def test_every_occurrence_lands_in_exactly_one_category():
     were confused.
     """
     cls = "session_relative_reference"
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     if cls not in classes:
         pytest.skip(f"{cls} is no longer an open class")
     mig, _src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
@@ -962,7 +986,7 @@ def test_a_site_names_the_repository_it_came_from():
     """`ndi_second_pass/stimulusBathToBath.m:137` is NDI-matlab, and DID-matlab
     holds no file of that name. The board cited it beside 130-odd DID-matlab
     paths with nothing saying which tree to look in."""
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert mig is not None
     repos = {p[1] for p in sb.MIGRATOR_PACKAGES}
@@ -996,7 +1020,7 @@ def test_an_unreadable_class_name_is_counted_and_not_skipped():
     mints this per-file scan cannot NAME. Rule 3: not being able to read a site
     is not evidence there is nothing there, so the sites are counted and listed
     and the mint totals are stated as a floor."""
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     _mig_ev, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert src["n_unresolved_mint_sites"] > 0, (
         "no unresolved mint sites -- either the migrators stopped computing "
@@ -1008,6 +1032,7 @@ def test_an_unreadable_class_name_is_counted_and_not_skipped():
         assert site.split(":", 1)[0] in {p[1] for p in sb.MIGRATOR_PACKAGES}
 
 
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_the_artifact_never_sums_unlike_categories():
     """The cell that read *still emitted/named at N site(s)* merged six missed
     mints with nine field writes under one number, and the number was quoted
@@ -1016,8 +1041,9 @@ def test_the_artifact_never_sums_unlike_categories():
     # on the format string in the tool. The explanatory prose above the table
     # quotes the old caption on purpose; a rule that forbade the phrase outright
     # would forbid the artifact from explaining what it stopped doing.
-    with open(STATUS) as fh:
-        bullets = [ln for ln in fh if ln.startswith("- `")]
+    # on the PROBE board since 2026-11-19: the committed one has no open row
+    text, ocs = _probe_board()
+    bullets = [ln for ln in text.splitlines(True) if ln.startswith("- `")]
     assert bullets, "no per-class bullets -- this sweep would check nothing"
     offenders = [ln for ln in bullets if "emitted/named" in ln]
     assert offenders == [], (
@@ -1025,8 +1051,7 @@ def test_the_artifact_never_sums_unlike_categories():
     src = Path(os.path.join(TOOLS, "status_board.py")).read_text()
     assert "still emitted/named at %d site(s)" not in src, (
         "the summed caption's format string is back in the renderer")
-    with open(DECISIONS) as fh:
-        rows = json.load(fh)["open_class_state"]["classes"]
+    rows = ocs["classes"]
     assert rows, "no rows -- this sweep would check nothing"
     for r in rows:
         assert "n_emitting_refs" not in r, (
@@ -1036,6 +1061,7 @@ def test_the_artifact_never_sums_unlike_categories():
             assert key in r, "{} has no {}".format(r["class_name"], key)
 
 
+@pytest.mark.skipif(_did_root() is None, reason="DID-matlab not checked out")
 def test_a_comment_mention_counts_toward_nothing():
     """Comments are the biggest bucket for several classes and they are evidence
     of nothing. They are counted anyway, in their own column, so that claim is
@@ -1043,8 +1069,8 @@ def test_a_comment_mention_counts_toward_nothing():
     assert sb.COMMENT_KIND not in sb.CONSUMING_KINDS
     assert sb.COMMENT_KIND not in sb.CODE_KINDS
     assert sb.COMMENT_KIND != sb.EMITTED_CLASS_KIND
-    with open(DECISIONS) as fh:
-        rows = json.load(fh)["open_class_state"]["classes"]
+    # on the PROBE board since 2026-11-19: the committed one has no open row
+    rows = _probe_board()[1]["classes"]
     commented = [r for r in rows if r.get("n_comment_mentions")]
     assert commented, "no class has a comment mention -- the counter is dead"
     only_comments = [r for r in commented
@@ -1119,7 +1145,7 @@ def test_the_convert_census_is_the_one_the_board_measures():
     assert migrators_j and batch and (v_zeta or not v_zeta_present), (
         f'one of the groups is empty: +migrators_j={migrators_j} v_zeta={v_zeta} batch={batch}')
 
-    mig, src = sb.migrator_evidence(set(_open_classes()), _did_root(),
+    mig, src = sb.migrator_evidence(_sweep_classes(), _did_root(),
                                     _ndi_root())
     assert mig is not None and src["files_read"], (
         "the sweep read no files -- treat as broken, not as clean")
@@ -1187,7 +1213,7 @@ def test_the_v_zeta_packages_are_still_excluded():
     reports a NON-ZERO count of files it skipped on their account -- a zero
     would mean the exclusion had stopped reaching them, not that they were gone.
     """
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert mig is not None and src["files_read"], (
         "the sweep read no files -- treat as broken, not as clean")
@@ -1228,7 +1254,7 @@ def test_batch_evidence_is_distinguishable_from_migrator_evidence():
     Checked at every layer the number passes through: the sweep's per-class
     `by_group`, the derived open-class row, and the rendered artifact.
     """
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     mig, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     assert mig is not None and src["files_read"]
     assert set(src["groups"]) == set(sb.GROUPS)
@@ -1249,15 +1275,14 @@ def test_batch_evidence_is_distinguishable_from_migrator_evidence():
         "no open class has any batch post-pass evidence -- the group column is "
         "carrying nothing and the split is decorative")
 
-    # The derived rows carry it too, and the artifact prints it.
-    with open(DECISIONS) as fh:
-        rows = json.load(fh)["open_class_state"]["classes"]
+    # The derived rows carry it too, and the artifact prints it (on the PROBE
+    # board since 2026-11-19: the committed one has no open row).
+    text, ocs = _probe_board()
+    rows = ocs["classes"]
     assert rows, "no rows -- this sweep would check nothing"
     for r in rows:
         assert set(r.get("by_group") or {}) == set(sb.GROUPS), (
             "{} carries no per-group split".format(r["class_name"]))
-    with open(STATUS) as fh:
-        text = fh.read()
     assert sb.GROUP_LABEL[sb.GROUP_BATCH] in text, (
         "the artifact never names the batch post-pass group, so a reader "
         "cannot tell which half of the pass a count came from")
@@ -1306,7 +1331,7 @@ def test_an_unresolvable_batch_mint_is_named_and_not_dropped():
     this per-file scan cannot NAME. Rule 3 applies in the new roots exactly as
     in the old: the site is reported as a named unresolved site, never as a
     silent omission."""
-    classes = set(_open_classes())
+    classes = _sweep_classes()
     _mig_ev, src = sb.migrator_evidence(classes, _did_root(), _ndi_root())
     by_group = src["n_unresolved_mint_sites_by_group"]
     assert sum(by_group.values()) == src["n_unresolved_mint_sites"]

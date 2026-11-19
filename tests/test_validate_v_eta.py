@@ -355,15 +355,21 @@ def test_data_type_is_required_only_for_plain_array_bytes():
 # retiring/; no basename repeats under schemas/ (the siblings read every
 # non-class file by its basename).
 
+# Since 2026-11-19 ([retired classes leave V2] step 3) no retire class is left
+# and retiring/ is gone, so both tests below make their own: the rule still
+# holds for the next class the team retires.
+
 def test_a_retire_class_outside_retiring_is_refused(tree):
-    src = _f(tree, "app.json")
-    src.rename(tree / "app.json")
+    def retire_demo(d):
+        d["classes"]["demo"]["disposition"] = "retire"
+    _edit(_f(tree, "did_v2_class_dispositions.json"), retire_demo)
     rc, out = _run(tree)
-    assert rc == 1 and "app: disposition 'retire' but its file is in" in out, out
+    assert rc == 1 and "demo: disposition 'retire' but its file is in" in out, out
 
 
 def test_a_persist_class_in_retiring_is_refused(tree):
     src = _f(tree, "statement.json")
+    (tree / "retiring").mkdir(exist_ok=True)
     src.rename(tree / "retiring" / "statement.json")
     rc, out = _run(tree)
     assert rc == 1 and "statement: disposition 'persist' but its file is in" in out, out

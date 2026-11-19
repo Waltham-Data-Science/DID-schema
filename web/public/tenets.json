@@ -64,9 +64,10 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 25,
+  "classes_in_the_built_set": 22,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
+   "acquisition_epoch",
    "acquisition_layout",
    "contrasttuning_calc",
    "dataset",
@@ -339,7 +340,6 @@
     ],
     "daqreader": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "daqsystem": [
@@ -434,11 +434,11 @@
     "acquisition_epoch"
    ],
    "after_built": [
-    "sampled_body",
-    "acquisition_epoch"
+    "sampled_body"
    ],
    "after_not_built": [
-    "voltage_observation"
+    "voltage_observation",
+    "acquisition_epoch"
    ],
    "before": [
     "element",
@@ -453,7 +453,6 @@
    },
    "class_registers": {
     "acquisition_epoch": [
-     "built",
      "named_in_cited_plan"
     ],
     "element": [
@@ -474,7 +473,8 @@
    },
    "note": "T7's two questions: whose value is this (subject_id) and what tool produced it (instrument_id). The electrode is a subject -- just not the subject of this statement.",
    "plan_only_classes": [
-    "voltage_observation"
+    "voltage_observation",
+    "acquisition_epoch"
    ],
    "tenet": "T7"
   },
@@ -817,7 +817,6 @@
    "class_registers": {
     "app": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "software": [

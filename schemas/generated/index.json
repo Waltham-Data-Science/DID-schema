@@ -102,18 +102,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "acquisition_epoch",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/retiring/acquisition_epoch.json",
-            "disposition": "retire",
-            "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). did_v2_epoch_plan.md [JH position and distance]"
-        },
-        {
             "class_name": "acquisition_reader",
             "family": "acquisition",
             "class_version": "1.0.0",
@@ -154,17 +142,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "app",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/app.json",
-            "disposition": "retire",
-            "disposition_note": "Replaced by a `software` entity (#73 item 53, signed; [presentation app is software], [sorter software]); deleted when no class keeps it as a superclass ([one folder, final classes only], 2026-10-29)."
-        },
-        {
             "class_name": "area",
             "family": "value",
             "class_version": "1.0.0",
@@ -201,18 +178,6 @@
             ],
             "path": "schemas/did_v2/calculation/calculation.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "calculator",
-            "family": "retiring",
-            "class_version": "3.0.0",
-            "superclasses": [
-                "base",
-                "app"
-            ],
-            "path": "schemas/did_v2/retiring/calculator.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "capacitance",
@@ -357,42 +322,6 @@
             "disposition": "persist"
         },
         {
-            "class_name": "daqreader",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/daqreader.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "daqreader_epochdata_ingested",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/retiring/daqreader_epochdata_ingested.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "daqreader_image_epochdata_ingested",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "daqreader_epochdata_ingested",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/retiring/daqreader_image_epochdata_ingested.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
             "class_name": "data",
             "family": "core",
             "class_version": "1.0.0",
@@ -491,28 +420,6 @@
             ],
             "path": "schemas/did_v2/acquisition/epoch_parameter_reader.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "epochid",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/epochid.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        {
-            "class_name": "filenavigator",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/filenavigator.json",
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         {
             "class_name": "force",
@@ -905,41 +812,6 @@
             ],
             "path": "schemas/did_v2/statement.json",
             "disposition": "persist"
-        },
-        {
-            "class_name": "stimulus_presentation",
-            "family": "retiring",
-            "class_version": "2.0.0",
-            "superclasses": [
-                "base",
-                "app",
-                "epochid"
-            ],
-            "path": "schemas/did_v2/retiring/stimulus_presentation.json",
-            "disposition": "retire",
-            "disposition_note": "a v1 shape, not a v2 class: its v2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. did_v2_go_forward_class_audit.md [stimulus_presentation retired]"
-        },
-        {
-            "class_name": "stimulus_response",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/stimulus_response.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        {
-            "class_name": "stimulus_response_scalar_parameters",
-            "family": "retiring",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/retiring/stimulus_response_scalar_parameters.json",
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         {
             "class_name": "substance_amount",

@@ -74,9 +74,16 @@ NDI_MIGRATE = os.path.join("src", "ndi", "+ndi", "+migrate")
 # `epochIndex` is named on the NDI side only through its static key helper
 # (did2.convert.epochIndex.pairKey, in +internal/expectedEpochPairs.m), which
 # builds a lookup key and is not a pass.
+# `mintId` and `mintKey` are the deterministic-id helpers of [migration
+# reliability practices] (b) (DID-matlab +did2/+convert/mintId.m, mintKey.m):
+# mintId returns the id of a document the migration mints, mintKey the key a
+# v1 source's minted ids derive from; v1_to_v2 opens the context for each
+# source. NDI's second pass calls them by name (e.g. +internal/strainAssembly.m,
+# +internal/sessionCohort.m at NDI-matlab V2 d135bdc7); they transform no
+# document, so they are helpers, not passes.
 NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
               "migrators_e", "migrators_i", "migrators_j", "v",
-              "migrationTime", "roundtrip", "epochIndex"}
+              "migrationTime", "roundtrip", "epochIndex", "mintId", "mintKey"}
 
 # ---------------------------------------------------------------------------
 # THE DECLARED DIVERGENCES. Each entry is a pass that one side runs and the

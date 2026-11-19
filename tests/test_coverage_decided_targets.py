@@ -596,6 +596,17 @@ def test_the_board_quotes_the_decision_line_not_prose():
     with open(status) as fh:
         text = fh.read()
     assert "## Class names the family table asserts" not in text
+    # The committed board has no open class since 2026-11-19 ([retired
+    # classes leave V2] step 3), so the table is read from a board rendered
+    # with the deleted classes open again (tests/_probe_board.py).
+    import status_board as sb
+    from _probe_board import probe_board
+    did = sb.find_repo("DID-matlab", "DID_MATLAB")
+    ndi = sb.find_repo("NDI-matlab", "NDI_MATLAB")
+    if did is None or ndi is None:
+        pytest.skip("the probe board needs the DID-matlab and NDI-matlab checkouts")
+    text, _ocs = probe_board(did, ndi)
+    assert "## Class names the family table asserts" not in text
     sec = text.split("## Decided, awaiting build -- the open classes", 1)[1]
     sec = sec.split("\n## ", 1)[0]
     rows = re.findall(r"^\| `([^`]+)` \| [^|]+ \| [^|]+ \| (.+) \|$", sec,
