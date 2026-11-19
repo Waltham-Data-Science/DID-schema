@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 936,
+          "accepted_lines": 938,
           "accepted_lines_by_kind": {
-            "Decided by": 816,
+            "Decided by": 818,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -7255,6 +7255,22 @@
               "tag": "readtimeseries timed with NDI Cloud",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [readtimeseries timed"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 236,
+              "kind": "Decided by",
+              "tag": "acquisition configuration renamed",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [acquisition"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 238,
+              "kind": "Decided by",
+              "tag": "time group with several time channels split",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [time group with several"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",

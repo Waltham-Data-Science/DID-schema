@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 936 decision line(s) accepted, 2 rejected; 45 cited by a class, 891 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 938 decision line(s) accepted, 2 rejected; 45 cited by a class, 893 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1161,6 +1161,8 @@ field). If one decides a class's disposition, that class should cite it.
 - archive with no digital channel. "Decided by Jess Haley, 2026-11-19 [archive with no digital" (did_v2_standing_wiring_plan.md:230).
 - device id required and named by the rig. "Decided by Jess Haley, 2026-11-19 [device id required and" (did_v2_standing_wiring_plan.md:232).
 - readtimeseries timed with NDI Cloud. "Decided by Jess Haley, 2026-11-19 [readtimeseries timed" (did_v2_standing_wiring_plan.md:234).
+- acquisition configuration renamed. "Decided by Jess Haley, 2026-11-19 [acquisition" (did_v2_standing_wiring_plan.md:236).
+- time group with several time channels split. "Decided by Jess Haley, 2026-11-19 [time group with several" (did_v2_standing_wiring_plan.md:238).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
