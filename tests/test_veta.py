@@ -87,7 +87,12 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     rows = [r for r in reg["relation_bindings"] if r["relation"]["node"] == "RO:0002170"]
     assert len(rows) == 1 and rows[0]["class"] == "directed_relation", rows
-    assert rows[0]["parent_types"] == ["acquisition_system"] and rows[0]["timed"] is True
+    # Jess Haley 2026-11-19 [acquisition system is a device entity]
+    # (did_v2_standing_wiring_plan.md): the wiring names the rig's device entity;
+    # the `acquisition_system` parent stays admitted until DID-matlab rewires and
+    # NDI-matlab reads probe -> device -> configuration (siblings first).
+    assert rows[0]["parent_types"] == ["acquisition_system", "device"] and rows[0]["timed"] is True
+    assert "device" in {t["type"] for t in reg["entity_type_bindings"]}
     rig = _load(SP.class_path("acquisition_system"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
@@ -100,8 +105,13 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # directly, role-named, and no longer points at `acquisition_channels`.
     cac_edges = {e["name"]: e for e in cac["depends_on"]}
     assert "acquisition_channels_id" not in cac_edges
+    # Jess Haley 2026-11-19 [a rig's clock belongs to its device]: both ends may
+    # name the device entity; `acquisition_system` stays until the siblings move.
     for name in ("input_id", "output_id"):
-        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system"
+        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system,entity"
+    dev = next(e for e in rig["depends_on"] if e["name"] == "device_id")
+    assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is False
+    assert "[acquisition system is a device entity]" in dev["documentation"]
 INDEX = _load(SP.INDEX)
 
 
