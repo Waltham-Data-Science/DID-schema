@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 952,
+          "accepted_lines": 956,
           "accepted_lines_by_kind": {
-            "Decided by": 832,
+            "Decided by": 836,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6545,6 +6545,22 @@
               "anchor": "Decided by Jess Haley, 2026-11-19 [local identifier"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2310,
+              "kind": "Decided by",
+              "tag": "metadata editor form is the source",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [metadata editor form is"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2312,
+              "kind": "Decided by",
+              "tag": "lab-made strain ids are an accepted loss too",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [lab-made strain ids are"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -7153,6 +7169,14 @@
               "anchor": "Decided by Jess Haley, 2026-11-10 [spatial transcriptomics"
             },
             {
+              "document": "did_v2_spatial_transcriptomics_plan.md",
+              "line": 677,
+              "kind": "Decided by",
+              "tag": "taxonomy level term waits for a dataset",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [taxonomy level term"
+            },
+            {
               "document": "did_v2_standing_wiring_plan.md",
               "line": 183,
               "kind": "Decided by",
@@ -7383,6 +7407,14 @@
               "tag": "session folder wiring migrated",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [session folder wiring"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 248,
+              "kind": "Decided by",
+              "tag": "stimulus log owned by its presentation",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [stimulus log owned by"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
