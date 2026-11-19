@@ -333,7 +333,7 @@ DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve
 | `generic_file` | no V_eta home, no migrator -- UNVERIFIED | 2 of 2 | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:836). |
 | `hartley_calc` | consumed by migrator (no tombstone) | 5 of 5 | [receptive field fold]. "TEAM-SIGN-OFF [receptive field fold]" (did_v2_ngrid_family_findings.md:358). |
 | `image` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
-| `imageCollection` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:836).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1498). |
+| `imageCollection` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stranded sources]. "TEAM-SIGN-OFF [stranded sources]" (did_v2_OPEN_WORK.md:836).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1502). |
 | `imageStack` | consumed by migrator (no tombstone) | 4 of 4 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `imageStack_parameters` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [image / ngrid]. "TEAM-SIGN-OFF [image / ngrid]: jess@walthamdatascience.com" (did_v2_image_model_plan.md:154). |
 | `jrclust_clusters` | consumed by migrator (no tombstone) | 1 of 1 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723).; [spike-sorter output, amends the 2026-08-17 confirm sheet]. "TEAM-SIGN-OFF [spike-sorter output, amends the 2026-08-17" (did_v2_go_forward_class_audit.md:1023). |
@@ -348,8 +348,8 @@ DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve
 | `oridirtuning_calc` | consumed by migrator (no tombstone) | 3 of 3 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
 | `probe_geometry` | consumed by migrator (no tombstone) | 3 of 3 | [spatial_transcriptomics_family]. "TEAM-SIGN-OFF [spatial_transcriptomics_family]" (did_v2_spatial_transcriptomics_plan.md:584). |
 | `probe_location` | consumed by migrator (no tombstone) | 2 of 2 | [confirm sheet 2026-08-17]. "TEAM-SIGN-OFF [confirm sheet 2026-08-17]" (did_v2_go_forward_class_audit.md:723). |
-| `projectvar` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1498). |
-| `purpose` | persist | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [purpose class]. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (did_v2_go_forward_class_audit.md:1554). |
+| `projectvar` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1502). |
+| `purpose` | persist | no target recorded | [misc singletons]. "TEAM-SIGN-OFF [misc singletons]: jess, 2026-08-09" (did_v2_go_forward_class_audit.md:9).; [purpose class]. "Decided by Jess Haley, 2026-10-27 [purpose class]: (" (did_v2_go_forward_class_audit.md:1558). |
 | `pyraview` | consumed by migrator (no tombstone) | 1 of 1 | [raw recording observation]. "TEAM-SIGN-OFF [raw recording observation]" (did_v2_recording_observation_plan.md:99).; [pyraview levels, amends the 2026-08-13 pyraview pyramid confirmation]. "TEAM-SIGN-OFF [pyraview levels, amends the 2026-08-13" (did_v2_recording_observation_plan.md:111). |
 | `session` | consumed by migrator (no tombstone) | 1 of 1 | [session]. "TEAM-SIGN-OFF [session]: jess@walthamdatascience.com /" (did_v2_go_forward_class_audit.md:664). |
 | `sorting_parameters` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
@@ -361,7 +361,7 @@ DENOMINATOR: 74 class(es) cite 87 decision line(s); 0 citation(s) do not resolve
 | `spike_extraction_parameters_modification` | consumed by migrator (no tombstone) | 1 of 1 | [spike processing parameters]. "TEAM-SIGN-OFF [spike processing parameters]: jess" (did_v2_method_parameters_plan.md:32). |
 | `stimulus_bath` | consumed by migrator (no tombstone) | 2 of 2 | [bath is a manipulation]. "Decided by Jess Haley, 2026-10-21 [bath is a manipulation]" (did_v2_go_forward_class_audit.md:727). |
 | `stimulus_parameter` | consumed by migrator (no tombstone) | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (did_v2_stimulus_parameter_plan.md:221). |
-| `stimulus_parameter_table` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (did_v2_stimulus_parameter_plan.md:221).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1498). |
+| `stimulus_parameter_table` | no V_eta home, no migrator -- UNVERIFIED | no target recorded | [stimulus parameters]. "TEAM-SIGN-OFF [stimulus parameters]" (did_v2_stimulus_parameter_plan.md:221).; [carried v1 validates against NDI templates]. "Decided by Jess Haley, 2026-10-27 [carried v1 validates" (did_v2_go_forward_class_audit.md:1502). |
 | `stimulus_presentation` | retire | 2 of 2 | [stimulus]. "TEAM-SIGN-OFF [stimulus]: jess@walthamdatascience.com /" (did_v2_stimulus_model_plan.md:258). |
 | `stimulus_response` | retire | no target recorded | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (did_v2_stimulus_response_model_plan.md:541). |
 | `stimulus_response_scalar` | consumed by migrator (no tombstone) | 1 of 1 | [stimulus response]. "TEAM-SIGN-OFF [stimulus response]" (did_v2_stimulus_response_model_plan.md:541). |
@@ -383,7 +383,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 888 decision line(s) accepted, 2 rejected; 45 cited by a class, 843 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 892 decision line(s) accepted, 2 rejected; 45 cited by a class, 847 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -555,529 +555,533 @@ field). If one decides a class's disposition, that class should cite it.
 - no-source pyramid gets a file-less store body. "Decided by Jess Haley, 2026-10-25 [no-source pyramid gets a" (did_v2_go_forward_class_audit.md:1168).
 - notes on three classes. "Decided by Jess Haley, 2026-10-25 [notes on three classes]" (did_v2_go_forward_class_audit.md:1170).
 - retired classes leave V2. "Decided by Jess Haley, 2026-10-25 [retired classes leave" (did_v2_go_forward_class_audit.md:1172).
-- v1 set in did-schema. "Decided by Jess Haley, 2026-10-25 [v1 set in did-schema]: (" (did_v2_go_forward_class_audit.md:1174).
-- markdown out of schemas. "Decided by Jess Haley, 2026-10-25 [markdown out of" (did_v2_go_forward_class_audit.md:1176).
-- neuron derived from its sorting run. "Decided by Jess Haley, 2026-10-25 [neuron derived from its" (did_v2_go_forward_class_audit.md:1178).
-- session membership records linked or ingested. "Decided by Jess Haley, 2026-10-25 [session membership" (did_v2_go_forward_class_audit.md:1180).
-- dataset form terms. "Decided by Jess Haley, 2026-10-25 [dataset form terms]: (" (did_v2_go_forward_class_audit.md:1182).
-- presentation app is software. "Decided by Jess Haley, 2026-10-26 [presentation app is" (did_v2_go_forward_class_audit.md:1184).
-- control selection on the presentation method. "Decided by Jess Haley, 2026-10-26 [control selection on the" (did_v2_go_forward_class_audit.md:1186).
-- lossless means round trip. "Decided by Jess Haley, 2026-10-26 [lossless means round" (did_v2_go_forward_class_audit.md:1188).
-- hartley leftovers checked. "Decided by Jess Haley, 2026-10-26 [hartley leftovers" (did_v2_go_forward_class_audit.md:1190).
-- restated values checked. "Decided by Jess Haley, 2026-10-26 [restated values" (did_v2_go_forward_class_audit.md:1192).
-- image file details placed. "Decided by Jess Haley, 2026-10-26 [image file details" (did_v2_go_forward_class_audit.md:1194).
-- probe contact geometry carried. "Decided by Jess Haley, 2026-10-26 [probe contact geometry" (did_v2_go_forward_class_audit.md:1196).
-- small unread settings. "Decided by Jess Haley, 2026-10-26 [small unread settings]: (" (did_v2_go_forward_class_audit.md:1198).
-- carry register. "Decided by Jess Haley, 2026-10-26 [carry register]: (" (did_v2_go_forward_class_audit.md:1200).
-- compression block and empty levels. "Decided by Jess Haley, 2026-10-26 [compression block and" (did_v2_go_forward_class_audit.md:1202).
-- spelling is notation. "Decided by Jess Haley, 2026-10-26 [spelling is notation]: (" (did_v2_go_forward_class_audit.md:1204).
-- Haley logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [Haley logic leaves the" (did_v2_go_forward_class_audit.md:1206).
-- dataset-specific logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [dataset-specific logic" (did_v2_go_forward_class_audit.md:1208).
-- dataset-specific audit complete. "Decided by Jess Haley, 2026-11-18 [dataset-specific audit" (did_v2_go_forward_class_audit.md:1210).
-- site scaffolding not a loss. "Decided by Jess Haley, 2026-10-26 [site scaffolding not a" (did_v2_go_forward_class_audit.md:1212).
-- table rows into the dataset audit. "Decided by Jess Haley, 2026-10-26 [table rows into the" (did_v2_go_forward_class_audit.md:1214).
-- device clocks on one epoch. "Decided by Jess Haley, 2026-10-26 [device clocks on one" (did_v2_go_forward_class_audit.md:1216).
-- clock terms get nodes. "Decided by Jess Haley, 2026-10-26 [clock terms get nodes]: (" (did_v2_go_forward_class_audit.md:1218).
-- writer default is not set. "Decided by Jess Haley, 2026-10-26 [writer default is not" (did_v2_go_forward_class_audit.md:1220).
-- one correct reading. "Decided by Jess Haley, 2026-10-26 [one correct reading]: (" (did_v2_go_forward_class_audit.md:1222).
-- run environment on interactions. "Decided by Jess Haley, 2026-10-26 [run environment on" (did_v2_go_forward_class_audit.md:1224).
-- control pairing is a calculation. "Decided by Jess Haley, 2026-10-26 [control pairing is a" (did_v2_go_forward_class_audit.md:1226).
-- census terms. "Decided by Jess Haley, 2026-10-26 [census terms]: (" (did_v2_go_forward_class_audit.md:1228).
-- dataset audit batch 1 and 2. "Decided by Jess Haley, 2026-10-26 [dataset audit batch 1" (did_v2_go_forward_class_audit.md:1230).
-- term-stated unit is generic. "Decided by Jess Haley, 2026-10-26 [term-stated unit is" (did_v2_go_forward_class_audit.md:1232).
-- software_id is what produced the statement. "Decided by Jess Haley, 2026-10-26 [software_id is what" (did_v2_go_forward_class_audit.md:1234).
-- stimulus_presentation retired. "Decided by Jess Haley, 2026-10-26 [stimulus_presentation" (did_v2_go_forward_class_audit.md:1236).
-- ingested stimulus file is a body of the presentation. "Decided by Jess Haley, 2026-10-26 [ingested stimulus file" (did_v2_go_forward_class_audit.md:1238).
-- one-reading quick answers. "Decided by Jess Haley, 2026-10-26 [one-reading quick" (did_v2_go_forward_class_audit.md:1240).
-- carry register kinds. "Decided by Jess Haley, 2026-10-26 [carry register kinds]: (" (did_v2_go_forward_class_audit.md:1242).
-- awaiting home is tracked. "Decided by Jess Haley, 2026-10-26 [awaiting home is" (did_v2_go_forward_class_audit.md:1244).
-- dataset map edits V2. "Decided by Jess Haley, 2026-10-26 [dataset map edits V2]: (" (did_v2_go_forward_class_audit.md:1246).
-- dataset map location. "Decided by Jess Haley, 2026-10-26 [dataset map location]: (" (did_v2_go_forward_class_audit.md:1248).
-- no Haley map. "Decided by Jess Haley, 2026-10-26 [no Haley map]: (" (did_v2_go_forward_class_audit.md:1250).
-- map rows match exact values. "Decided by Jess Haley, 2026-10-26 [map rows match exact" (did_v2_go_forward_class_audit.md:1252).
-- opto target without a run. "Decided by Jess Haley, 2026-10-26 [opto target without a" (did_v2_go_forward_class_audit.md:1254).
-- fraction value kind. "Decided by Jess Haley, 2026-10-26 [fraction value kind]: (" (did_v2_go_forward_class_audit.md:1256).
-- migrators read raw v1. "Decided by Jess Haley, 2026-10-26 [migrators read raw v1]: (" (did_v2_go_forward_class_audit.md:1258).
-- renames carry is temporary. "Decided by Jess Haley, 2026-10-26 [renames carry is" (did_v2_go_forward_class_audit.md:1260).
-- classes without a migrator carry as v1. "Decided by Jess Haley, 2026-10-31 [classes without a" (did_v2_go_forward_class_audit.md:1262).
-- early migration pieces fixed. "Decided by Jess Haley, 2026-10-26 [early migration pieces" (did_v2_go_forward_class_audit.md:1264).
-- migration reliability practices. "Decided by Jess Haley, 2026-10-26 [migration reliability" (did_v2_go_forward_class_audit.md:1266).
-- carry register kinds 2. "Decided by Jess Haley, 2026-10-26 [carry register kinds 2]" (did_v2_go_forward_class_audit.md:1268).
-- unnamed groups named by the map. "Decided by Jess Haley, 2026-10-26 [unnamed groups named by" (did_v2_go_forward_class_audit.md:1270).
-- vehicle rate needs a map. "Decided by Jess Haley, 2026-10-26 [vehicle rate needs a" (did_v2_go_forward_class_audit.md:1272).
-- second measurement value needs a map. "Decided by Jess Haley, 2026-10-26 [second measurement value" (did_v2_go_forward_class_audit.md:1274).
-- ingested session membership. "Decided by Jess Haley, 2026-10-26 [ingested session" (did_v2_go_forward_class_audit.md:1276).
-- data_limits not a pair is malformed. "Decided by Jess Haley, 2026-10-26 [data_limits not a pair" (did_v2_go_forward_class_audit.md:1278).
-- pass-through filter sample frequency. "Decided by Jess Haley, 2026-10-26 [pass-through filter" (did_v2_go_forward_class_audit.md:1280).
-- untied epochs keep the session anchor. "Decided by Jess Haley, 2026-10-26 [untied epochs keep the" (did_v2_go_forward_class_audit.md:1282).
-- sorted units are cells or groups. "Decided by Jess Haley, 2026-10-26 [sorted units are cells" (did_v2_go_forward_class_audit.md:1284).
-- unlabelled units need a map. "Decided by Jess Haley, 2026-10-26 [unlabelled units need a" (did_v2_go_forward_class_audit.md:1286).
-- element types have no default. "Decided by Jess Haley, 2026-10-26 [element types have no" (did_v2_go_forward_class_audit.md:1288).
-- dependents of a carried document carry. "Decided by Jess Haley, 2026-10-26 [dependents of a carried" (did_v2_go_forward_class_audit.md:1290).
-- electrode spellings and imaging types are devices. "Decided by Jess Haley, 2026-10-26 [electrode spellings and" (did_v2_go_forward_class_audit.md:1292).
-- event lines and environment probes are devices. "Decided by Jess Haley, 2026-10-26 [event lines and" (did_v2_go_forward_class_audit.md:1294).
-- migrator writes the registry spelling. "Decided by Jess Haley, 2026-10-26 [migrator writes the" (did_v2_go_forward_class_audit.md:1296).
-- location carries need a map. "Decided by Jess Haley, 2026-10-26 [location carries need a" (did_v2_go_forward_class_audit.md:1298).
-- presentation outside the batch needs a map. "Decided by Jess Haley, 2026-10-26 [presentation outside the" (did_v2_go_forward_class_audit.md:1300).
-- missing is_linked is malformed. "Decided by Jess Haley, 2026-10-26 [missing is_linked is" (did_v2_go_forward_class_audit.md:1302).
-- term labels stay as the ontology spells them. "Decided by Jess Haley, 2026-10-26 [term labels stay as the" (did_v2_go_forward_class_audit.md:1304).
-- element local identifier is name and reference. "Decided by Jess Haley, 2026-10-26 [element local identifier" (did_v2_go_forward_class_audit.md:1306).
-- bath is two statements. "Decided by Jess Haley, 2026-10-26 [bath is two statements]" (did_v2_go_forward_class_audit.md:1308).
-- chooseLevel skips empty levels. "Decided by Jess Haley, 2026-10-26 [chooseLevel skips empty" (did_v2_go_forward_class_audit.md:1310).
-- ingested stimulus reader finds the body. "Decided by Jess Haley, 2026-10-26 [ingested stimulus reader" (did_v2_go_forward_class_audit.md:1312).
-- markdown cleanup and rename. "Decided by Jess Haley, 2026-10-26 [markdown cleanup and" (did_v2_go_forward_class_audit.md:1314).
-- pipeline defects are not carries. "Decided by Jess Haley, 2026-10-26 [pipeline defects are not" (did_v2_go_forward_class_audit.md:1316).
-- unresolved recorded elements make a standalone item. "Decided by Jess Haley, 2026-10-26 [unresolved recorded" (did_v2_go_forward_class_audit.md:1318).
-- extra field on an ingested stimulus file is malformed. "Decided by Jess Haley, 2026-10-26 [extra field on an" (did_v2_go_forward_class_audit.md:1320).
-- NaN control means no control. "Decided by Jess Haley, 2026-10-26 [NaN control means no" (did_v2_go_forward_class_audit.md:1322).
-- conflicting animal records need a map. "Decided by Jess Haley, 2026-10-26 [conflicting animal" (did_v2_go_forward_class_audit.md:1324).
-- method terms are general. "Decided by Jess Haley, 2026-10-26 [method terms are" (did_v2_go_forward_class_audit.md:1326).
-- Naka-Rushton is one function. "Decided by Jess Haley, 2026-10-26 [Naka-Rushton is one" (did_v2_go_forward_class_audit.md:1328).
-- fields outside the template are malformed. "Decided by Jess Haley, 2026-10-27 [fields outside the" (did_v2_go_forward_class_audit.md:1330).
-- probe location terms. "Decided by Jess Haley, 2026-10-27 [probe location terms]: (" (did_v2_go_forward_class_audit.md:1332).
-- cell spellings are one meaning. "Decided by Jess Haley, 2026-10-27 [cell spellings are one" (did_v2_go_forward_class_audit.md:1334).
-- v1 name is the entity name. "Decided by Jess Haley, 2026-10-27 [v1 name is the entity" (did_v2_go_forward_class_audit.md:1336).
-- member edge number is notation. "Decided by Jess Haley, 2026-10-27 [member edge number is" (did_v2_go_forward_class_audit.md:1338).
-- afo prefix registered. "Decided by Jess Haley, 2026-10-27 [afo prefix registered]: (" (did_v2_go_forward_class_audit.md:1340).
-- n-trode is a multielectrode array. "Decided by Jess Haley, 2026-10-27 [n-trode is a" (did_v2_go_forward_class_audit.md:1342).
-- site positions are coordinates. "Decided by Jess Haley, 2026-10-27 [site positions are" (did_v2_go_forward_class_audit.md:1344).
-- move the locked mains. "Decided by Jess Haley, 2026-10-27 [move the locked mains]: (" (did_v2_go_forward_class_audit.md:1346).
-- merge main into V2. "Decided by Jess Haley, 2026-10-27 [merge main into V2]: (" (did_v2_go_forward_class_audit.md:1348).
-- lock NDIcalc-vis-matlab. "Decided by Jess Haley, 2026-10-27 [lock" (did_v2_go_forward_class_audit.md:1350).
-- tuning stray fields are malformed. "Decided by Jess Haley, 2026-10-27 [tuning stray fields are" (did_v2_go_forward_class_audit.md:1352).
-- cell spellings amended. "Decided by Jess Haley, 2026-10-27 [cell spellings amended]" (did_v2_go_forward_class_audit.md:1354).
-- element type is a device kind term. "Decided by Jess Haley, 2026-10-27 [element type is a device" (did_v2_go_forward_class_audit.md:1356).
-- ndi element class not kept. "Decided by Jess Haley, 2026-10-27 [ndi element class not" (did_v2_go_forward_class_audit.md:1358).
-- number of electrodes minted. "Decided by Jess Haley, 2026-10-27 [number of electrodes" (did_v2_go_forward_class_audit.md:1360).
-- site frame is a coordinate system. "Decided by Jess Haley, 2026-10-27 [site frame is a" (did_v2_go_forward_class_audit.md:1362).
-- ground truth reads NDIcalc-vis templates. "Decided by Jess Haley, 2026-10-27 [ground truth reads" (did_v2_go_forward_class_audit.md:1364).
-- writer fields over the template are template fields. "Decided by Jess Haley, 2026-10-27 [writer fields over the" (did_v2_go_forward_class_audit.md:1366).
-- tuning split covers the shared fold. "Decided by Jess Haley, 2026-10-27 [tuning split covers the" (did_v2_go_forward_class_audit.md:1368).
-- unreached superclass migrators deleted. "Decided by Jess Haley, 2026-10-27 [unreached superclass" (did_v2_go_forward_class_audit.md:1370).
-- unknown filter parameter is malformed. "Decided by Jess Haley, 2026-10-27 [unknown filter parameter" (did_v2_go_forward_class_audit.md:1372).
-- five probe kinds from NCIT. "Decided by Jess Haley, 2026-10-27 [five probe kinds from" (did_v2_go_forward_class_audit.md:1374).
-- ecg and eeg are recorders. "Decided by Jess Haley, 2026-10-27 [ecg and eeg are" (did_v2_go_forward_class_audit.md:1376).
-- imaging probes are microscopes or carried. "Decided by Jess Haley, 2026-10-27 [imaging probes are" (did_v2_go_forward_class_audit.md:1378).
-- pyraview level keeps its file info. "Decided by Jess Haley, 2026-10-27 [pyraview level keeps its" (did_v2_go_forward_class_audit.md:1380).
-- values no writer produces are malformed. "Decided by Jess Haley, 2026-10-27 [values no writer" (did_v2_go_forward_class_audit.md:1382).
-- carried file references are not folded. "Decided by Jess Haley, 2026-10-27 [carried file references" (did_v2_go_forward_class_audit.md:1384).
-- light-sheet level fields rebuild from the pyramid. "Decided by Jess Haley, 2026-10-27 [light-sheet level fields" (did_v2_go_forward_class_audit.md:1386).
-- one bath shape. "Decided by Jess Haley, 2026-10-27 [one bath shape]: (" (did_v2_go_forward_class_audit.md:1388).
-- group identifier includes the reference. "Decided by Jess Haley, 2026-10-27 [group identifier" (did_v2_go_forward_class_audit.md:1390).
-- drug end and duration on the anchor. "Decided by Jess Haley, 2026-10-27 [drug end and duration on" (did_v2_go_forward_class_audit.md:1392).
-- age at injection is an observation. "Decided by Jess Haley, 2026-10-27 [age at injection is an" (did_v2_go_forward_class_audit.md:1394).
-- transfer method keeps its node. "Decided by Jess Haley, 2026-10-27 [transfer method keeps" (did_v2_go_forward_class_audit.md:1396).
-- sync configuration stays a class. "Decided by Jess Haley, 2026-10-27 [sync configuration stays" (did_v2_go_forward_class_audit.md:1398).
-- sync configuration links its rigs. "Decided by Jess Haley, 2026-10-27 [sync configuration links" (did_v2_go_forward_class_audit.md:1400).
-- sync rule direction is recorded. "Decided by Jess Haley, 2026-10-27 [sync rule direction is" (did_v2_go_forward_class_audit.md:1402).
-- acquisition channels kept for wiring. "Decided by Jess Haley, 2026-10-27 [acquisition channels" (did_v2_go_forward_class_audit.md:1404).
-- handed-on documents do not carry dependents. "Decided by Jess Haley, 2026-10-27 [handed-on documents do" (did_v2_go_forward_class_audit.md:1406).
-- unit direct and subject rebuild from the probe. "Decided by Jess Haley, 2026-10-27 [unit direct and subject" (did_v2_go_forward_class_audit.md:1408).
-- broken transfer values are malformed. "Decided by Jess Haley, 2026-10-27 [broken transfer values" (did_v2_go_forward_class_audit.md:1410).
-- treatment transfer stays v1. "Decided by Jess Haley, 2026-10-27 [treatment transfer stays" (did_v2_go_forward_class_audit.md:1412).
-- bath ph and osmolarity are formulation fields. "Decided by Jess Haley, 2026-10-27 [bath ph and osmolarity" (did_v2_go_forward_class_audit.md:1414).
-- light-sheet level label is a note. "Decided by Jess Haley, 2026-10-27 [light-sheet level label" (did_v2_go_forward_class_audit.md:1416).
-- unreadable responses are malformed. "Decided by Jess Haley, 2026-10-27 [unreadable responses are" (did_v2_go_forward_class_audit.md:1418).
-- unbuilt spike classes carry as needs home. "Decided by Jess Haley, 2026-10-27 [unbuilt spike classes" (did_v2_go_forward_class_audit.md:1420).
-- input names rebuild from the input class. "Decided by Jess Haley, 2026-10-27 [input names rebuild from" (did_v2_go_forward_class_audit.md:1422).
-- neuron uses the sorted unit's cell. "Decided by Jess Haley, 2026-10-27 [neuron uses the sorted" (did_v2_go_forward_class_audit.md:1424).
-- sample times equal within one rounding step. "Decided by Jess Haley, 2026-10-27 [sample times equal" (did_v2_go_forward_class_audit.md:1426).
-- contrast SF bug is a dataset decision. "Decided by Jess Haley, 2026-10-27 [contrast SF bug is a" (did_v2_go_forward_class_audit.md:1428).
-- whole-batch round trip. "Decided by Jess Haley, 2026-10-27 [whole-batch round trip]" (did_v2_go_forward_class_audit.md:1430).
-- carried documents may point at converted ones. "Decided by Jess Haley, 2026-10-27 [carried documents may" (did_v2_go_forward_class_audit.md:1432).
-- simple_calc carries as needs home. "Decided by Jess Haley, 2026-10-27 [simple_calc carries as" (did_v2_go_forward_class_audit.md:1434).
-- empty prestimulus normalization is zero. "Decided by Jess Haley, 2026-10-27 [empty prestimulus" (did_v2_go_forward_class_audit.md:1436).
-- importer bugs are dataset decisions. "Decided by Jess Haley, 2026-10-27 [importer bugs are" (did_v2_go_forward_class_audit.md:1438).
-- hotelling spellings are one field. "Decided by Jess Haley, 2026-10-27 [hotelling spellings are" (did_v2_go_forward_class_audit.md:1440).
-- Priebe fits are one function. "Decided by Jess Haley, 2026-10-27 [Priebe fits are one" (did_v2_go_forward_class_audit.md:1442).
-- NDI CI picks did-schema branch. "Decided by Jess Haley, 2026-10-27 [NDI CI picks did-schema" (did_v2_go_forward_class_audit.md:1444).
-- sorter labels map. "Decided by Jess Haley, 2026-10-27 [sorter labels map]: (" (did_v2_go_forward_class_audit.md:1446).
-- image stack name goes to notes. "Decided by Jess Haley, 2026-10-27 [image stack name goes to" (did_v2_go_forward_class_audit.md:1448).
-- carry-055 wording follows the group identifier. "Decided by Jess Haley, 2026-10-27 [carry-055 wording" (did_v2_go_forward_class_audit.md:1450).
-- treatment location name is the node. "Decided by Jess Haley, 2026-10-27 [treatment location name" (did_v2_go_forward_class_audit.md:1452).
-- ingested stimulus body link follow-up. "Decided by Jess Haley, 2026-10-27 [ingested stimulus body" (did_v2_go_forward_class_audit.md:1454).
-- cloud organization id is a global identifier. "Decided by Jess Haley, 2026-10-27 [cloud organization id is" (did_v2_go_forward_class_audit.md:1456).
-- curve fitting is the fit method term. "Decided by Jess Haley, 2026-10-27 [curve fitting is the fit" (did_v2_go_forward_class_audit.md:1458).
-- bath solution minted. "Decided by Jess Haley, 2026-10-27 [bath solution minted]: (" (did_v2_go_forward_class_audit.md:1460).
-- second pass reads control stimuli from v1. "Decided by Jess Haley, 2026-10-27 [second pass reads" (did_v2_go_forward_class_audit.md:1462).
-- tuning fits use curve fitting now. "Decided by Jess Haley, 2026-10-27 [tuning fits use curve" (did_v2_go_forward_class_audit.md:1464).
-- presentation anchored to its epoch. "Decided by Jess Haley, 2026-10-27 [presentation anchored to" (did_v2_go_forward_class_audit.md:1466).
-- response links: epoch rebuilt, control as input. "Decided by Jess Haley, 2026-10-27 [response links: epoch" (did_v2_go_forward_class_audit.md:1468).
-- openMINDS subject leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS subject" (did_v2_go_forward_class_audit.md:1470).
-- term equivalents recorded. "Decided by Jess Haley, 2026-10-27 [term equivalents" (did_v2_go_forward_class_audit.md:1472).
-- dataset form lists carried until homed. "Decided by Jess Haley, 2026-10-27 [dataset form lists" (did_v2_go_forward_class_audit.md:1474).
-- old ndi_document blocks carry. "Decided by Jess Haley, 2026-10-27 [old ndi_document blocks" (did_v2_go_forward_class_audit.md:1476).
-- tuning stimids rebuild. "Decided by Jess Haley, 2026-10-27 [tuning stimids rebuild]" (did_v2_go_forward_class_audit.md:1478).
-- tuning log in notes. "Decided by Jess Haley, 2026-10-27 [tuning log in notes]: (" (did_v2_go_forward_class_audit.md:1480).
-- varied properties are conditions by V2 name. "Decided by Jess Haley, 2026-10-27 [varied properties are" (did_v2_go_forward_class_audit.md:1482).
-- absolute-value fits are a second calculation. "Decided by Jess Haley, 2026-10-27 [absolute-value fits are" (did_v2_go_forward_class_audit.md:1484).
-- contrast metrics added. "Decided by Jess Haley, 2026-10-27 [contrast metrics added]" (did_v2_go_forward_class_audit.md:1486).
-- parameter names map by table. "Decided by Jess Haley, 2026-10-27 [parameter names map by" (did_v2_go_forward_class_audit.md:1488).
-- E. coli stacks are a dataset decision. "Decided by Jess Haley, 2026-10-27 [E" (did_v2_go_forward_class_audit.md:1490).
-- every v1 id survives. "Decided by Jess Haley, 2026-10-27 [every v1 id survives]: (" (did_v2_go_forward_class_audit.md:1492).
-- axis letters derive from labels. "Decided by Jess Haley, 2026-10-27 [axis letters derive from" (did_v2_go_forward_class_audit.md:1494).
-- v1 name goes to the class's own name field. "Decided by Jess Haley, 2026-10-27 [v1 name goes to the" (did_v2_go_forward_class_audit.md:1496).
-- base.name kept until retire classes leave. "Decided by Jess Haley, 2026-10-29 [base.name kept until" (did_v2_go_forward_class_audit.md:1500).
-- treatment groups are a dataset decision. "Decided by Jess Haley, 2026-10-27 [treatment groups are a" (did_v2_go_forward_class_audit.md:1502).
-- fit classes kept; session list rebuilt. "Decided by Jess Haley, 2026-10-27 [fit classes kept" (did_v2_go_forward_class_audit.md:1504).
-- event lines are event channels. "Decided by Jess Haley, 2026-10-27 [event lines are event" (did_v2_go_forward_class_audit.md:1506).
-- labels are a field on what they label. "Decided by Jess Haley, 2026-10-27 [labels are a field on" (did_v2_go_forward_class_audit.md:1508).
-- ontologyLabel row split. "Decided by Jess Haley, 2026-10-27 [ontologyLabel row" (did_v2_go_forward_class_audit.md:1510).
-- openMINDS strain leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS strain" (did_v2_go_forward_class_audit.md:1512).
-- control pairing points at the presentation. "Decided by Jess Haley, 2026-10-27 [control pairing points" (did_v2_go_forward_class_audit.md:1514).
-- control record fields split. "Decided by Jess Haley, 2026-10-27 [control record fields" (did_v2_go_forward_class_audit.md:1516).
-- unread stimulus parameters are method parameters. "Decided by Jess Haley, 2026-10-27 [unread stimulus" (did_v2_go_forward_class_audit.md:1518).
-- session opener inputs. "Decided by Jess Haley, 2026-10-27 [session opener inputs]: (" (did_v2_go_forward_class_audit.md:1520).
-- linked session reference follows the ingested rule. "Decided by Jess Haley, 2026-10-27 [linked session reference" (did_v2_go_forward_class_audit.md:1522).
-- one affiliation relation each. "Decided by Jess Haley, 2026-10-27 [one affiliation relation" (did_v2_go_forward_class_audit.md:1524).
-- position and its metadata are one statement. "Decided by Jess Haley, 2026-10-27 [position and its" (did_v2_go_forward_class_audit.md:1526).
-- image stack link needs mapping. "Decided by Jess Haley, 2026-10-27 [image stack link needs" (did_v2_go_forward_class_audit.md:1528).
-- image label goes to notes. "Decided by Jess Haley, 2026-10-27 [image label goes to" (did_v2_go_forward_class_audit.md:1530).
-- hartley labels stay carried. "Decided by Jess Haley, 2026-10-27 [hartley labels stay" (did_v2_go_forward_class_audit.md:1532).
-- filter label is the method name. "Decided by Jess Haley, 2026-10-27 [filter label is the" (did_v2_go_forward_class_audit.md:1534).
-- contact geometry stays carried. "Decided by Jess Haley, 2026-10-27 [contact geometry stays" (did_v2_go_forward_class_audit.md:1536).
-- scanner test issue closed. "Decided by Jess Haley, 2026-10-27 [scanner test issue" (did_v2_go_forward_class_audit.md:1538).
-- old EMPTY labels generalised. "Decided by Jess Haley, 2026-10-27 [old EMPTY labels" (did_v2_go_forward_class_audit.md:1540).
-- no about edge for now. "Decided by Jess Haley, 2026-10-27 [no about edge for now]: (" (did_v2_go_forward_class_audit.md:1542).
-- old table rows counted and carried. "Decided by Jess Haley, 2026-10-27 [old table rows counted" (did_v2_go_forward_class_audit.md:1544).
-- binaryseries parameters fold as decided. "Decided by Jess Haley, 2026-10-27 [binaryseries parameters" (did_v2_go_forward_class_audit.md:1546).
-- Guard A amended. "Decided by Jess Haley, 2026-10-27 [Guard A amended]: (" (did_v2_go_forward_class_audit.md:1548).
-- documents without base carry. "Decided by Jess Haley, 2026-10-27 [documents without base" (did_v2_go_forward_class_audit.md:1550).
-- oneepoch is a redundant calculation. "Decided by Jess Haley, 2026-10-27 [oneepoch is a redundant" (did_v2_go_forward_class_audit.md:1552).
-- redeclarations only narrow. "Decided by Jess Haley, 2026-10-27 [redeclarations only" (did_v2_go_forward_class_audit.md:1556).
-- no value rollup now. "Decided by Jess Haley, 2026-10-27 [no value rollup now]: (" (did_v2_go_forward_class_audit.md:1558).
-- ngrid migrates to sampled bodies. "Decided by Jess Haley, 2026-10-27 [ngrid migrates to" (did_v2_go_forward_class_audit.md:1560).
-- allowed units are closed source_unit lists. "Decided by Jess Haley, 2026-10-27 [allowed units are closed" (did_v2_go_forward_class_audit.md:1562).
-- quantity reference type. "Decided by Jess Haley, 2026-10-27 [quantity reference" (did_v2_go_forward_class_audit.md:1564).
-- epoch-less presentations carry. "Decided by Jess Haley, 2026-10-27 [epoch-less presentations" (did_v2_go_forward_class_audit.md:1566).
-- Babu and Soph workbooks. "Decided by Jess Haley, 2026-10-27 [Babu and Soph" (did_v2_go_forward_class_audit.md:1568).
-- sample times within eight rounding steps. "Decided by Jess Haley, 2026-10-27 [sample times within" (did_v2_go_forward_class_audit.md:1570).
-- a rebuilt document may lose its id. "Decided by Jess Haley, 2026-10-27 [a rebuilt document may" (did_v2_go_forward_class_audit.md:1572).
-- jrclust default name is notation. "Decided by Jess Haley, 2026-10-27 [jrclust default name is" (did_v2_go_forward_class_audit.md:1574).
-- organization needs a name or an identifier. "Decided by Jess Haley, 2026-10-27 [organization needs a" (did_v2_go_forward_class_audit.md:1576).
-- empty ndi_document block is notation. "Decided by Jess Haley, 2026-10-27 [empty ndi_document block" (did_v2_go_forward_class_audit.md:1578).
-- device kinds minted. "Decided by Jess Haley, 2026-10-28 [device kinds minted]: (" (did_v2_go_forward_class_audit.md:1580).
-- device kind labels and synonyms. "Decided by Jess Haley, 2026-10-28 [device kind labels and" (did_v2_go_forward_class_audit.md:1582).
-- tuning best value is a condition. "Decided by Jess Haley, 2026-10-28 [tuning best value is a" (did_v2_go_forward_class_audit.md:1584).
-- one calculation per named calculator output. "Decided by Jess Haley, 2026-10-28 [one calculation per" (did_v2_go_forward_class_audit.md:1586).
-- absolute-value fits are fit entries. "Decided by Jess Haley, 2026-10-28 [absolute-value fits are" (did_v2_go_forward_class_audit.md:1588).
-- presentations without an epoch keep the session anchor. "Decided by Jess Haley, 2026-10-28 [presentations without an" (did_v2_go_forward_class_audit.md:1590).
-- image label goes to the observation's notes. "Decided by Jess Haley, 2026-10-29 [image label goes to the" (did_v2_go_forward_class_audit.md:1592).
-- binaryseries parameters carried. "Decided by Jess Haley, 2026-10-29 [binaryseries parameters" (did_v2_go_forward_class_audit.md:1594).
-- ngrid with no statement carried. "Decided by Jess Haley, 2026-10-29 [ngrid with no statement" (did_v2_go_forward_class_audit.md:1596).
-- old table rows carried by NDI. "Decided by Jess Haley, 2026-10-29 [old table rows carried" (did_v2_go_forward_class_audit.md:1598).
-- allowed units are source units. "Decided by Jess Haley, 2026-10-29 [allowed units are source" (did_v2_go_forward_class_audit.md:1600).
-- standalone item control stays carried. "Decided by Jess Haley, 2026-10-29 [standalone item control" (did_v2_go_forward_class_audit.md:1602).
-- oneepoch method is data combination. "Decided by Jess Haley, 2026-10-29 [oneepoch method is data" (did_v2_go_forward_class_audit.md:1604).
-- redeclarations merge when base.name goes. "Decided by Jess Haley, 2026-10-29 [redeclarations merge" (did_v2_go_forward_class_audit.md:1606).
-- linked session not in the batch. "Decided by Jess Haley, 2026-10-29 [linked session not in" (did_v2_go_forward_class_audit.md:1608).
-- unstated session creator carried. "Decided by Jess Haley, 2026-10-29 [unstated session creator" (did_v2_go_forward_class_audit.md:1610).
-- drug end without start needs mapping. "Decided by Jess Haley, 2026-10-29 [drug end without start" (did_v2_go_forward_class_audit.md:1612).
-- drug times that disagree need mapping. "Decided by Jess Haley, 2026-10-29 [drug times that disagree" (did_v2_go_forward_class_audit.md:1614).
-- text channel replaces NCIT Text. "Decided by Jess Haley, 2026-10-29 [text channel replaces" (did_v2_go_forward_class_audit.md:1616).
-- cell-attached is OBI. "Decided by Jess Haley, 2026-10-29 [cell-attached is OBI]: (" (did_v2_go_forward_class_audit.md:1618).
-- linked session link on a direct dataset relation. "Decided by Jess Haley, 2026-10-29 [linked session link on a" (did_v2_go_forward_class_audit.md:1620).
-- fit model stated once. "Decided by Jess Haley, 2026-10-29 [fit model stated once]: (" (did_v2_go_forward_class_audit.md:1622).
-- term names compare by node. "Decided by Jess Haley, 2026-10-29 [term names compare by" (did_v2_go_forward_class_audit.md:1624).
-- species text is the openMINDS equivalent. "Decided by Jess Haley, 2026-10-29 [species text is the" (did_v2_go_forward_class_audit.md:1626).
-- openMINDS element leftovers carried. "Decided by Jess Haley, 2026-10-29 [openMINDS element" (did_v2_go_forward_class_audit.md:1628).
-- segment length is the time chunk. "Decided by Jess Haley, 2026-10-29 [segment length is the" (did_v2_go_forward_class_audit.md:1630).
-- one folder, final classes only. "Decided by Jess Haley, 2026-10-29 [one folder, final" (did_v2_go_forward_class_audit.md:1632).
-- v1 writes into a V2 session. "Decided by Jess Haley, 2026-10-29 [v1 writes into a V2" (did_v2_go_forward_class_audit.md:1634).
-- linked session link details. "Decided by Jess Haley, 2026-10-29 [linked session link" (did_v2_go_forward_class_audit.md:1636).
-- reshaped retire classes carried. "Decided by Jess Haley, 2026-10-29 [reshaped retire classes" (did_v2_go_forward_class_audit.md:1638).
-- linked session pathname. "Decided by Jess Haley, 2026-10-29 [linked session" (did_v2_go_forward_class_audit.md:1640).
-- addSessionV2 folded back. "Decided by Jess Haley, 2026-10-29 [addSessionV2 folded" (did_v2_go_forward_class_audit.md:1642).
-- term names match ignoring spacing. "Decided by Jess Haley, 2026-10-29 [term names match" (did_v2_go_forward_class_audit.md:1644).
-- n-trode count from the channel list. "Decided by Jess Haley, 2026-10-29 [n-trode count from the" (did_v2_go_forward_class_audit.md:1646).
-- imaging mode is a method term. "Decided by Jess Haley, 2026-10-29 [imaging mode is a method" (did_v2_go_forward_class_audit.md:1648).
-- equipment type is the device kind list. "Decided by Jess Haley, 2026-10-29 [equipment type is the" (did_v2_go_forward_class_audit.md:1650).
-- V2 ingest is one sampled body per channel group. "Decided by Jess Haley, 2026-10-29 [V2 ingest is one sampled" (did_v2_go_forward_class_audit.md:1652).
-- short last chunk. "Decided by Jess Haley, 2026-10-29 [short last chunk]: (" (did_v2_go_forward_class_audit.md:1654).
-- missing facts are needs info. "Decided by Jess Haley, 2026-10-29 [missing facts are needs" (did_v2_go_forward_class_audit.md:1656).
-- vintage-B ontologyImage cases. "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage" (did_v2_go_forward_class_audit.md:1658).
-- element name and reference stored apart. "Decided by Jess Haley, 2026-10-29 [element name and" (did_v2_go_forward_class_audit.md:1660).
-- unit with no probe in the batch carried. "Decided by Jess Haley, 2026-10-29 [unit with no probe in" (did_v2_go_forward_class_audit.md:1662).
-- table rows carried as v1. "Decided by Jess Haley, 2026-10-30 [table rows carried as" (did_v2_go_forward_class_audit.md:1664).
-- preset name stays on method. "Decided by Jess Haley, 2026-10-30 [preset name stays on" (did_v2_go_forward_class_audit.md:1666).
-- redeclaration merge moot. "Decided by Jess Haley, 2026-10-30 [redeclaration merge" (did_v2_go_forward_class_audit.md:1668).
-- element name kept apart, base.name carried. "Decided by Jess Haley, 2026-10-30 [element name kept apart" (did_v2_go_forward_class_audit.md:1670).
-- Naka-Rushton function minted. "Decided by Jess Haley, 2026-10-30 [Naka-Rushton function" (did_v2_go_forward_class_audit.md:1672).
-- synonyms supersede nodes only. "Decided by Jess Haley, 2026-10-30 [synonyms supersede nodes" (did_v2_go_forward_class_audit.md:1674).
-- interpolated values are a list. "Decided by Jess Haley, 2026-10-30 [interpolated values are" (did_v2_go_forward_class_audit.md:1676).
-- canonical absent only as needs info. "Decided by Jess Haley, 2026-10-30 [canonical absent only as" (did_v2_go_forward_class_audit.md:1678).
-- trigger channels named by their link. "Decided by Jess Haley, 2026-10-30 [trigger channels named" (did_v2_go_forward_class_audit.md:1680).
-- decibels are their own canonical. "Decided by Jess Haley, 2026-10-30 [decibels are their own" (did_v2_go_forward_class_audit.md:1682).
-- Haley mask words leave the generic stage. "Decided by Jess Haley, 2026-10-30 [Haley mask words leave" (did_v2_go_forward_class_audit.md:1684).
-- control records carried in pass 1. "Decided by Jess Haley, 2026-10-30 [control records carried" (did_v2_go_forward_class_audit.md:1686).
-- image raw round trip and single-read keys. "Decided by Jess Haley, 2026-10-30 [image raw round trip and" (did_v2_go_forward_class_audit.md:1688).
-- age is NCIT Age. "Decided by Jess Haley, 2026-10-30 [age is NCIT Age]: (" (did_v2_go_forward_class_audit.md:1690).
-- equivalents filled in did-schema. "Decided by Jess Haley, 2026-10-30 [equivalents filled in" (did_v2_go_forward_class_audit.md:1692).
-- Hartley settings on the inline method. "Decided by Jess Haley, 2026-10-30 [Hartley settings on the" (did_v2_go_forward_class_audit.md:1694).
-- acquisition time on its clock. "Decided by Jess Haley, 2026-10-30 [acquisition time on its" (did_v2_go_forward_class_audit.md:1696).
-- data analysis is the general method. "Decided by Jess Haley, 2026-10-30 [data analysis is the" (did_v2_go_forward_class_audit.md:1698).
-- image collection carried until a writer. "Decided by Jess Haley, 2026-10-30 [image collection carried" (did_v2_go_forward_class_audit.md:1700).
-- global-clock oneepoch details. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1702).
-- openMINDS strain leftovers settled. "Decided by Jess Haley, 2026-10-30 [openMINDS strain" (did_v2_go_forward_class_audit.md:1704).
-- assay labels batch 1. "Decided by Jess Haley, 2026-10-30 [assay labels batch 1]: (" (did_v2_go_forward_class_audit.md:1706).
-- element types batch 1. "Decided by Jess Haley, 2026-10-30 [element types batch 1]: (" (did_v2_go_forward_class_audit.md:1708).
-- assay labels batch 2. "Decided by Jess Haley, 2026-10-30 [assay labels batch 2]: (" (did_v2_go_forward_class_audit.md:1710).
-- element types batch 2. "Decided by Jess Haley, 2026-10-30 [element types batch 2]: (" (did_v2_go_forward_class_audit.md:1712).
-- assay labels batch 3. "Decided by Jess Haley, 2026-10-30 [assay labels batch 3]: (" (did_v2_go_forward_class_audit.md:1714).
-- element types batch 3. "Decided by Jess Haley, 2026-10-30 [element types batch 3]: (" (did_v2_go_forward_class_audit.md:1716).
-- element types batch 4. "Decided by Jess Haley, 2026-10-30 [element types batch 4]: (" (did_v2_go_forward_class_audit.md:1718).
-- assay labels batch 4. "Decided by Jess Haley, 2026-10-30 [assay labels batch 4]: (" (did_v2_go_forward_class_audit.md:1720).
-- assay labels batch 5. "Decided by Jess Haley, 2026-10-30 [assay labels batch 5]: (" (did_v2_go_forward_class_audit.md:1722).
-- assay labels batch 6. "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: (" (did_v2_go_forward_class_audit.md:1724).
-- assay relabels become new terms. "Decided by Jess Haley, 2026-11-01 [assay relabels become" (did_v2_go_forward_class_audit.md:1726).
-- assay term definitions drafted. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1728).
-- obsolete assay terms without replacement. "Decided by Jess Haley, 2026-11-01 [obsolete assay terms" (did_v2_go_forward_class_audit.md:1730).
-- assay dictionaries look up by id. "Decided by Jess Haley, 2026-11-01 [assay dictionaries look" (did_v2_go_forward_class_audit.md:1732).
-- assay ontology cleanup now. "Decided by Jess Haley, 2026-11-01 [assay ontology cleanup" (did_v2_go_forward_class_audit.md:1734).
-- assay term definitions approved. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1736).
-- obsolete labels in v1 importers accepted. "Decided by Jess Haley, 2026-11-01 [obsolete labels in v1" (did_v2_go_forward_class_audit.md:1738).
-- raw v1 switch finished in batches. "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished" (did_v2_go_forward_class_audit.md:1740).
-- stimulator is SNOMED CT Stimulator. "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT" (did_v2_go_forward_class_audit.md:1742).
-- global-clock oneepoch carried with its element. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1744).
-- differing stimulator epoch is malformed. "Decided by Jess Haley, 2026-10-30 [differing stimulator" (did_v2_go_forward_class_audit.md:1746).
-- response unit slot settles 110. "Decided by Jess Haley, 2026-10-30 [response unit slot" (did_v2_go_forward_class_audit.md:1748).
-- schema folders by family. "Decided by Jess Haley, 2026-10-30 [schema folders by" (did_v2_go_forward_class_audit.md:1750).
-- family roots and relation folder. "Decided by Jess Haley, 2026-10-31 [family roots and" (did_v2_go_forward_class_audit.md:1752).
-- retire check now. "Decided by Jess Haley, 2026-10-31 [retire check now]: (" (did_v2_go_forward_class_audit.md:1754).
-- purpose renamed now. "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: (" (did_v2_go_forward_class_audit.md:1756).
-- acquisition folder. "Decided by Jess Haley, 2026-10-31 [acquisition folder]: (" (did_v2_go_forward_class_audit.md:1758).
-- clock alignment in time_reference. "Decided by Jess Haley, 2026-10-31 [clock alignment in" (did_v2_go_forward_class_audit.md:1760).
-- reference papers as v2 guidance. "Decided by Jess Haley, 2026-10-31 [reference papers as v2" (did_v2_go_forward_class_audit.md:1762).
-- gene list mapping is built. "Decided by Jess Haley, 2026-10-31 [gene list mapping is" (did_v2_go_forward_class_audit.md:1764).
-- gene list mapping in the generic stage. "Decided by Jess Haley, 2026-10-31 [gene list mapping in the" (did_v2_go_forward_class_audit.md:1766).
-- daqreader_ndr confirmed set. "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed" (did_v2_go_forward_class_audit.md:1768).
-- layout calls stand. "Decided by Jess Haley, 2026-10-31 [layout calls stand]: (" (did_v2_go_forward_class_audit.md:1770).
-- om day registered. "Decided by Jess Haley, 2026-10-31 [om day registered]: (" (did_v2_go_forward_class_audit.md:1772).
-- formulation amount needs info. "Decided by Jess Haley, 2026-10-31 [formulation amount needs" (did_v2_go_forward_class_audit.md:1774).
-- virus dilution needs info. "Decided by Jess Haley, 2026-10-31 [virus dilution needs" (did_v2_go_forward_class_audit.md:1776).
-- UTC acquisition time is absolute. "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is" (did_v2_go_forward_class_audit.md:1778).
-- ndi_document read as base. "Decided by Jess Haley, 2026-10-31 [ndi_document read as" (did_v2_go_forward_class_audit.md:1780).
-- rename clashes are malformed. "Decided by Jess Haley, 2026-11-01 [rename clashes are" (did_v2_go_forward_class_audit.md:1782).
-- ensemble and generic_file keep their conversions. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1784).
-- ensemble and generic_file checked as v1. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1786).
-- last rename-pass classes. "Decided by Jess Haley, 2026-11-01 [last rename-pass" (did_v2_go_forward_class_audit.md:1788).
-- UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1790).
-- postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1792).
-- percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1794).
-- breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1796).
-- relations get notes. "Decided by Jess Haley, 2026-11-01 [relations get notes]: (" (did_v2_go_forward_class_audit.md:1798).
-- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1800).
-- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1802).
-- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1804).
-- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1806).
-- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1808).
-- compression term definitions approved. "Decided by Jess Haley, 2026-11-01 [compression term" (did_v2_go_forward_class_audit.md:1810).
-- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1812).
-- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1814).
-- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1816).
-- gap accepted when the report lists it. "Decided by Jess Haley, 2026-11-01 [gap accepted when the" (did_v2_go_forward_class_audit.md:1826).
-- migration report is an attached file. "Decided by Jess Haley, 2026-11-01 [migration report is an" (did_v2_go_forward_class_audit.md:1828).
-- migration record points at the dataset. "Decided by Jess Haley, 2026-11-01 [migration record points" (did_v2_go_forward_class_audit.md:1830).
-- migration record writer. "Decided by Jess Haley, 2026-11-01 [migration record" (did_v2_go_forward_class_audit.md:1832).
-- migration method is conversion. "Decided by Jess Haley, 2026-11-01 [migration method is" (did_v2_go_forward_class_audit.md:1834).
-- gene list mapping value shape. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1836).
-- gene list mapping value kind. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1838).
-- gene list mapping method text. "Decided by Jess Haley, 2026-11-01 [gene list mapping method" (did_v2_go_forward_class_audit.md:1840).
-- orthology mapping has no method term. "Decided by Jess Haley, 2026-11-01 [orthology mapping has no" (did_v2_go_forward_class_audit.md:1842).
-- gene list as a term, file kept. "Decided by Jess Haley, 2026-11-01 [gene list as a term" (did_v2_go_forward_class_audit.md:1844).
-- mapping rows counted, indices 0-based. "Decided by Jess Haley, 2026-11-01 [mapping rows counted" (did_v2_go_forward_class_audit.md:1846).
-- undirected relation widened. "Decided by Jess Haley, 2026-11-01 [undirected relation" (did_v2_go_forward_class_audit.md:1848).
-- undirected ends are relata. "Decided by Jess Haley, 2026-11-01 [undirected ends are" (did_v2_go_forward_class_audit.md:1850).
-- undirected registry columns are relata. "Decided by Jess Haley, 2026-11-01 [undirected registry" (did_v2_go_forward_class_audit.md:1852).
-- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1854).
-- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1856).
-- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1858).
-- key covariate index. "Decided by Jess Haley, 2026-11-01 [key covariate index]: (" (did_v2_go_forward_class_audit.md:1860).
-- recording mode terms. "Decided by Jess Haley, 2026-11-01 [recording mode terms]: (" (did_v2_go_forward_class_audit.md:1869).
-- imaging mode terms. "Decided by Jess Haley, 2026-11-01 [imaging mode terms]: (" (did_v2_go_forward_class_audit.md:1871).
-- ingest writes no v1 ingested document. "Decided by Jess Haley, 2026-11-01 [ingest writes no v1" (did_v2_go_forward_class_audit.md:1873).
-- ingest observation per probe. "Decided by Jess Haley, 2026-11-01 [ingest observation per" (did_v2_go_forward_class_audit.md:1875).
-- Haley phase, pick and encounter as written. "Decided by Jess Haley, 2026-11-01 [Haley phase, pick and" (did_v2_go_forward_class_audit.md:1877).
-- EMPTY:0000129 retired. "Decided by Jess Haley, 2026-11-01 [EMPTY:0000129 retired]: (" (did_v2_go_forward_class_audit.md:1879).
-- ingest waits on native V2 records. "Decided by Jess Haley, 2026-11-01 [ingest waits on native" (did_v2_go_forward_class_audit.md:1881).
-- V2 database file renamed. "Decided by Jess Haley, 2026-11-01 [V2 database file" (did_v2_go_forward_class_audit.md:1883).
-- V2 is the build target for the siblings. "Decided by Jess Haley, 2026-11-01 [V2 is the build target" (did_v2_go_forward_class_audit.md:1885).
-- evenly spaced time is a covariate. "Decided by Jess Haley, 2026-11-01 [evenly spaced time is a" (did_v2_go_forward_class_audit.md:1887).
-- ingested archives are sampled bodies. "Decided by Jess Haley, 2026-11-01 [ingested archives are" (did_v2_go_forward_class_audit.md:1889).
-- ingested compression settings. "Decided by Jess Haley, 2026-11-01 [ingested compression" (did_v2_go_forward_class_audit.md:1891).
-- probe wiring is a relation. "Decided by Jess Haley, 2026-11-01 [probe wiring is a" (did_v2_go_forward_class_audit.md:1893).
-- clock only on the time reference. "Decided by Jess Haley, 2026-11-01 [clock only on the time" (did_v2_go_forward_class_audit.md:1895).
-- wiring relation term. "Decided by Jess Haley, 2026-11-01 [wiring relation term]: (" (did_v2_go_forward_class_audit.md:1897).
-- Claude drafts the Dab map. "Decided by Jess Haley, 2026-11-02 [Claude drafts the Dab" (did_v2_go_forward_class_audit.md:1899).
-- handed-on classes carried at the end. "Decided by Jess Haley, 2026-11-02 [handed-on classes" (did_v2_go_forward_class_audit.md:1901).
-- V_eta not kept as an alias. "Decided by Jess Haley, 2026-11-02 [V_eta not kept as an" (did_v2_go_forward_class_audit.md:1903).
-- handed-on are v1 as written. "Decided by Jess Haley, 2026-11-03 [handed-on are v1 as" (did_v2_go_forward_class_audit.md:1905).
-- one-photon is NCIT fluorescence microscopy. "Decided by Jess Haley, 2026-11-03 [one-photon is NCIT" (did_v2_go_forward_class_audit.md:1907).
-- saline placeholder in Hunsberger import. "Decided by Jess Haley, 2026-11-03 [saline placeholder in" (did_v2_go_forward_class_audit.md:1909).
-- Dab bath units are Dabrowska's. "Decided by Jess Haley, 2026-11-03 [Dab bath units are" (did_v2_go_forward_class_audit.md:1911).
-- probe in several rows is one wiring. "Decided by Jess Haley, 2026-11-03 [probe in several rows is" (did_v2_go_forward_class_audit.md:1913).
-- treatment word list deleted. "Decided by Jess Haley, 2026-11-03 [treatment word list" (did_v2_go_forward_class_audit.md:1915).
-- one migration document per dataset. "Decided by Jess Haley, 2026-11-03 [one migration document" (did_v2_go_forward_class_audit.md:1917).
-- migration formats are plain text. "Decided by Jess Haley, 2026-11-03 [migration formats are" (did_v2_go_forward_class_audit.md:1919).
-- clamp mode of unrecorded probe dropped. "Decided by Jess Haley, 2026-11-03 [clamp mode of unrecorded" (did_v2_go_forward_class_audit.md:1921).
-- probe with two subjects is Dab's. "Decided by Jess Haley, 2026-11-03 [probe with two subjects" (did_v2_go_forward_class_audit.md:1923).
-- v1 session document id not kept. "Decided by Jess Haley, 2026-11-03 [v1 session document id" (did_v2_go_forward_class_audit.md:1925).
-- waveform unit gap once. "Decided by Jess Haley, 2026-11-03 [waveform unit gap once]" (did_v2_go_forward_class_audit.md:1927).
-- stated unit with no amount is a gap. "Decided by Jess Haley, 2026-11-03 [stated unit with no" (did_v2_go_forward_class_audit.md:1929).
-- subject match takes the subject types. "Decided by Jess Haley, 2026-11-03 [subject match takes the" (did_v2_go_forward_class_audit.md:1931).
-- gene-list mapping dimension is gene pair. "Decided by Jess Haley, 2026-11-03 [gene-list mapping" (did_v2_go_forward_class_audit.md:1933).
-- dataset storage session date dropped. "Decided by Jess Haley, 2026-11-03 [dataset storage session" (did_v2_go_forward_class_audit.md:1935).
-- gene pair term is NCIT Pair. "Decided by Jess Haley, 2026-11-03 [gene pair term is NCIT" (did_v2_go_forward_class_audit.md:1937).
-- gene-list method text is a description. "Decided by Jess Haley, 2026-11-03 [gene-list method text is" (did_v2_go_forward_class_audit.md:1939).
-- gene-list carry kinds confirmed. "Decided by Jess Haley, 2026-11-03 [gene-list carry kinds" (did_v2_go_forward_class_audit.md:1941).
-- gene-list facts split. "Decided by Jess Haley, 2026-11-07 [gene-list facts split]: (" (did_v2_go_forward_class_audit.md:1943).
-- gene-list history entities. "Decided by Jess Haley, 2026-11-07 [gene-list history" (did_v2_go_forward_class_audit.md:1945).
-- gene-list history filled by import. "Decided by Jess Haley, 2026-11-07 [gene-list history filled" (did_v2_go_forward_class_audit.md:1947).
-- gene symbol namespace kept. "Decided by Jess Haley, 2026-11-07 [gene symbol namespace" (did_v2_go_forward_class_audit.md:1949).
-- annotation source is GENEPIO. "Decided by Jess Haley, 2026-11-07 [annotation source is" (did_v2_go_forward_class_audit.md:1951).
-- namespace variable terms. "Decided by Jess Haley, 2026-11-07 [namespace variable" (did_v2_go_forward_class_audit.md:1953).
-- no source-facts list. "Decided by Jess Haley, 2026-11-07 [no source-facts list]: (" (did_v2_go_forward_class_audit.md:1955).
-- V2 branch writes V2 only. "Decided by Jess Haley, 2026-11-03 [V2 branch writes V2" (did_v2_go_forward_class_audit.md:1957).
-- writers are given the session. "Decided by Jess Haley, 2026-11-03 [writers are given the" (did_v2_go_forward_class_audit.md:1959).
-- dated counts in OPEN_WORK. "Decided by Jess Haley, 2026-11-03 [dated counts in" (did_v2_go_forward_class_audit.md:1961).
-- v1 database read-only on the v2 line. "Decided by Jess Haley, 2026-11-03 [v1 database read-only on" (did_v2_go_forward_class_audit.md:1963).
-- v1 and v2 lowercase. "Decided by Jess Haley, 2026-11-03 [v1 and v2 lowercase]: (" (did_v2_go_forward_class_audit.md:1965).
-- uneven time is a keyed time value. "Decided by Jess Haley, 2026-11-03 [uneven time is a keyed" (did_v2_go_forward_class_audit.md:1967).
-- voltage AFO, current NCIT. "Decided by Jess Haley, 2026-11-03 [voltage AFO, current" (did_v2_go_forward_class_audit.md:1969).
-- fixed writer values not written. "Decided by Jess Haley, 2026-11-03 [fixed writer values not" (did_v2_go_forward_class_audit.md:1971).
-- hartley planes are two statements. "Decided by Jess Haley, 2026-11-03 [hartley planes are two" (did_v2_go_forward_class_audit.md:1973).
-- hartley plane terms. "Decided by Jess Haley, 2026-11-18 [hartley plane terms]: (" (did_v2_go_forward_class_audit.md:1975).
-- hartley numbers stored, copies not. "Decided by Jess Haley, 2026-11-03 [hartley numbers stored" (did_v2_go_forward_class_audit.md:1977).
-- term picks batch 1. "Decided by Jess Haley, 2026-11-03 [term picks batch 1]: (" (did_v2_go_forward_class_audit.md:1979).
-- term picks batch 1b. "Decided by Jess Haley, 2026-11-03 [term picks batch 1b]: (" (did_v2_go_forward_class_audit.md:1981).
-- term picks batch 2. "Decided by Jess Haley, 2026-11-03 [term picks batch 2]: (" (did_v2_go_forward_class_audit.md:1983).
-- v2 line reads and writes both. "Decided by Jess Haley, 2026-11-03 [v2 line reads and writes" (did_v2_go_forward_class_audit.md:1985).
-- new database defaults to v2. "Decided by Jess Haley, 2026-11-03 [new database defaults to" (did_v2_go_forward_class_audit.md:1987).
-- old names guarded in comments. "Decided by Jess Haley, 2026-11-03 [old names guarded in" (did_v2_go_forward_class_audit.md:1989).
-- common species registered. "Decided by Jess Haley, 2026-11-06 [common species" (did_v2_go_forward_class_audit.md:1991).
-- v2 makers after G84. "Decided by Jess Haley, 2026-11-06 [v2 makers after G84]: (" (did_v2_go_forward_class_audit.md:1993).
-- hartley copies kept while files absent. "Decided by Jess Haley, 2026-11-06 [hartley copies kept" (did_v2_go_forward_class_audit.md:1995).
-- new dataset named by its reference. "Decided by Jess Haley, 2026-11-06 [new dataset named by its" (did_v2_go_forward_class_audit.md:1997).
-- receptive field is SNOMED's. "Decided by Jess Haley, 2026-11-06 [receptive field is" (did_v2_go_forward_class_audit.md:1999).
-- JSON descriptions lowercase too. "Decided by Jess Haley, 2026-11-06 [JSON descriptions" (did_v2_go_forward_class_audit.md:2001).
-- pipeline is a software entity. "Decided by Jess Haley, 2026-11-06 [pipeline is a software" (did_v2_go_forward_class_audit.md:2003).
-- Kilosort importer waits for the makers. "Decided by Jess Haley, 2026-11-18 [Kilosort importer waits" (did_v2_go_forward_class_audit.md:2005).
-- openMINDS export answers. "Decided by Jess Haley, 2026-11-06 [openMINDS export" (did_v2_go_forward_class_audit.md:2007).
-- unrecorded probe reads general type. "Decided by Jess Haley, 2026-11-06 [unrecorded probe reads" (did_v2_go_forward_class_audit.md:2009).
-- open work lives in issues. "Decided by Jess Haley, 2026-11-03 [open work lives in" (did_v2_go_forward_class_audit.md:2010).
-- pending builds filed by topic. "Decided by Jess Haley, 2026-11-19 [pending builds filed by" (did_v2_go_forward_class_audit.md:2012).
-- carry-051 and carry-095 retired. "Decided by Jess Haley, 2026-11-06 [carry-051 and carry-095" (did_v2_go_forward_class_audit.md:2014).
-- control pairing without trials stays carried. "Decided by Jess Haley, 2026-11-06 [control pairing without" (did_v2_go_forward_class_audit.md:2016).
-- sync rule terms. "Decided by Jess Haley, 2026-11-06 [sync rule terms]: (" (did_v2_go_forward_class_audit.md:2017).
-- openMINDS crosswalk on latest. "Decided by Jess Haley, 2026-11-06 [openMINDS crosswalk on" (did_v2_go_forward_class_audit.md:2019).
-- crosswalk assertions registered. "Decided by Jess Haley, 2026-11-06 [crosswalk assertions" (did_v2_go_forward_class_audit.md:2021).
-- unmapped roles not exported. "Decided by Jess Haley, 2026-11-06 [unmapped roles not" (did_v2_go_forward_class_audit.md:2023).
-- read speed margin. "Decided by Jess Haley, 2026-11-06 [read speed margin]: (" (did_v2_go_forward_class_audit.md:2025).
-- custodian exports as custodianship. "Decided by Jess Haley, 2026-11-07 [custodian exports as" (did_v2_go_forward_class_audit.md:2027).
-- copyright year is a date assertion. "Decided by Jess Haley, 2026-11-07 [copyright year is a date" (did_v2_go_forward_class_audit.md:2029).
-- copyright year term confirmed. "Decided by Jess Haley, 2026-11-08 [copyright year term" (did_v2_go_forward_class_audit.md:2031).
-- genome assembly term. "Decided by Jess Haley, 2026-11-08 [genome assembly term]: (" (did_v2_go_forward_class_audit.md:2033).
-- lock moved to NDI main. "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]" (did_v2_go_forward_class_audit.md:2035).
-- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2037).
-- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2039).
-- receptive field is SNOMED. "Decided by Jess Haley, 2026-11-09 [receptive field is" (did_v2_go_forward_class_audit.md:2041).
-- term picks batch 3. "Decided by Jess Haley, 2026-11-09 [term picks batch 3]: (" (did_v2_go_forward_class_audit.md:2043).
-- remaining quantity copies removed. "Decided by Jess Haley, 2026-11-09 [remaining quantity" (did_v2_go_forward_class_audit.md:2045).
-- tenet audit 6 8 11. "Decided by Jess Haley, 2026-11-09 [tenet audit 6 8 11]: (" (did_v2_go_forward_class_audit.md:2047).
-- external parents imported. "Decided by Jess Haley, 2026-11-09 [external parents" (did_v2_go_forward_class_audit.md:2049).
-- purpose written by the dataset map. "Decided by Jess Haley, 2026-11-09 [purpose written by the" (did_v2_go_forward_class_audit.md:2051).
-- element recognised by its links. "Decided by Jess Haley, 2026-11-10 [element recognised by" (did_v2_go_forward_class_audit.md:2053).
-- ensemble has members. "Decided by Jess Haley, 2026-11-10 [ensemble has members]: (" (did_v2_go_forward_class_audit.md:2055).
-- sync configuration edges are input and output. "Decided by Jess Haley, 2026-11-10 [sync configuration edges" (did_v2_go_forward_class_audit.md:2057).
-- one spelling for the half-maximum point. "Decided by Jess Haley, 2026-11-10 [one spelling for the" (did_v2_go_forward_class_audit.md:2059).
-- intensity slot named for the quantity. "Decided by Jess Haley, 2026-11-10 [intensity slot named for" (did_v2_go_forward_class_audit.md:2061).
-- culture and alignment nodes. "Decided by Jess Haley, 2026-11-10 [culture and alignment" (did_v2_go_forward_class_audit.md:2063).
-- tuning summaries in the value. "Decided by Jess Haley, 2026-11-10 [tuning summaries in the" (did_v2_go_forward_class_audit.md:2065).
-- T15 inventory corrected. "Decided by Jess Haley, 2026-11-10 [T15 inventory" (did_v2_go_forward_class_audit.md:2067).
-- unbound term fields sorted. "Decided by Jess Haley, 2026-11-10 [unbound term fields" (did_v2_go_forward_class_audit.md:2069).
-- display label compared loosely. "Decided by Jess Haley, 2026-11-10 [display label compared" (did_v2_go_forward_class_audit.md:2071).
-- four term fields bound. "Decided by Jess Haley, 2026-11-10 [four term fields bound]" (did_v2_go_forward_class_audit.md:2073).
-- closing issues 2026-11-10. "Decided by Jess Haley, 2026-11-10 [closing issues" (did_v2_go_forward_class_audit.md:2075).
-- culture renamed cell culture. "Decided by Jess Haley, 2026-11-10 [culture renamed cell" (did_v2_go_forward_class_audit.md:2077).
-- openMINDS element description in notes. "Decided by Jess Haley, 2026-11-10 [openMINDS element" (did_v2_go_forward_class_audit.md:2079).
-- dataset form lists rebuilt. "Decided by Jess Haley, 2026-11-10 [dataset form lists" (did_v2_go_forward_class_audit.md:2081).
-- two corpus counts. "Decided by Jess Haley, 2026-11-10 [two corpus counts]: (" (did_v2_go_forward_class_audit.md:2083).
-- stimulus body link waits on the time model. "Decided by Jess Haley, 2026-11-10 [stimulus body link waits" (did_v2_go_forward_class_audit.md:2085).
-- spike waveforms are two calculations. "Decided by Jess Haley, 2026-11-10 [spike waveforms are two" (did_v2_go_forward_class_audit.md:2087).
-- spike waveforms built now. "Decided by Jess Haley, 2026-11-10 [spike waveforms built" (did_v2_go_forward_class_audit.md:2089).
-- no-migrator classes: build one, count six. "Decided by Jess Haley, 2026-11-10 [no-migrator classes" (did_v2_go_forward_class_audit.md:2091).
-- a fit is about its input's subject. "Decided by Jess Haley, 2026-11-10 [a fit is about its" (did_v2_go_forward_class_audit.md:2093).
-- voltage-to-firing-rate writers found. "Decided by Jess Haley, 2026-11-10 [voltage-to-firing-rate" (did_v2_go_forward_class_audit.md:2095).
-- site map waits with contact geometry. "Decided by Jess Haley, 2026-11-10 [site map waits with" (did_v2_go_forward_class_audit.md:2097).
-- unnamed measurement kind needs a map. "Decided by Jess Haley, 2026-11-10 [unnamed measurement kind" (did_v2_go_forward_class_audit.md:2099).
-- distance and its metadata are one statement. "Decided by Jess Haley, 2026-11-10 [distance and its" (did_v2_go_forward_class_audit.md:2101).
-- stimulus presentation leftovers wait for a dataset. "Decided by Jess Haley, 2026-11-10 [stimulus presentation" (did_v2_go_forward_class_audit.md:2103).
-- probes read from the derived index. "Decided by Jess Haley, 2026-11-10 [probes read from the" (did_v2_go_forward_class_audit.md:2105).
-- assertion wins while written. "Decided by Jess Haley, 2026-11-10 [assertion wins while" (did_v2_go_forward_class_audit.md:2107).
-- probes from the index keep v1's duplicates. "Decided by Jess Haley, 2026-11-10 [probes from the index" (did_v2_go_forward_class_audit.md:2109).
-- valid interval waits for a dataset. "Decided by Jess Haley, 2026-11-10 [valid interval waits for" (did_v2_go_forward_class_audit.md:2111).
-- focus on classes in the corpora. "Decided by Jess Haley, 2026-11-10 [focus on classes in the" (did_v2_go_forward_class_audit.md:2113).
-- unlinked device is not an element. "Decided by Jess Haley, 2026-11-11 [unlinked device is not" (did_v2_go_forward_class_audit.md:2116).
-- jrclust settings-file name dropped. "Decided by Jess Haley, 2026-11-11 [jrclust settings-file" (did_v2_go_forward_class_audit.md:2118).
-- tuning stated value is a condition. "Decided by Jess Haley, 2026-11-11 [tuning stated value is a" (did_v2_go_forward_class_audit.md:2120).
-- tuning fit coefficients named by symbol. "Decided by Jess Haley, 2026-11-11 [tuning fit coefficients" (did_v2_go_forward_class_audit.md:2122).
-- contrast sensitivity repeated fit is a known v1 defect. "Decided by Jess Haley, 2026-11-12 [contrast sensitivity" (did_v2_go_forward_class_audit.md:2124).
-- known v1 defects list. "Decided by Jess Haley, 2026-11-12 [known v1 defects list]: (" (did_v2_go_forward_class_audit.md:2126).
-- Dab gets a v2 import. "Decided by Jess Haley, 2026-11-12 [Dab gets a v2 import]: (" (did_v2_go_forward_class_audit.md:2128).
-- archive segment lengths measured after the second pass. "Decided by Jess Haley, 2026-11-12 [archive segment lengths" (did_v2_go_forward_class_audit.md:2130).
-- archive file list compared as a set. "Decided by Jess Haley, 2026-11-12 [archive file list" (did_v2_go_forward_class_audit.md:2132).
-- uneven time rewritten from the epoch start. "Decided by Jess Haley, 2026-11-12 [uneven time rewritten" (did_v2_go_forward_class_audit.md:2134).
-- bath concentration prefixes convert to molar. "Decided by Jess Haley, 2026-11-12 [bath concentration" (did_v2_go_forward_class_audit.md:2136).
-- ids from content when v1 states none. "Decided by Jess Haley, 2026-11-12 [ids from content when v1" (did_v2_go_forward_class_audit.md:2138).
-- pipeline order counts from 0. "Decided by Jess Haley, 2026-11-12 [pipeline order counts" (did_v2_go_forward_class_audit.md:2140).
-- copyright year precision is year. "Decided by Jess Haley, 2026-11-12 [copyright year precision" (did_v2_go_forward_class_audit.md:2142).
-- copyright from another tool is emitted. "Decided by Jess Haley, 2026-11-12 [copyright from another" (did_v2_go_forward_class_audit.md:2144).
-- pipeline steps use member of. "Decided by Jess Haley, 2026-11-12 [pipeline steps use" (did_v2_go_forward_class_audit.md:2146).
-- dataset DOI on the version. "Decided by Jess Haley, 2026-11-12 [dataset DOI on the" (did_v2_go_forward_class_audit.md:2148).
-- first documentation exported. "Decided by Jess Haley, 2026-11-12 [first documentation" (did_v2_go_forward_class_audit.md:2150).
-- v2 makers write v2 directly. "Decided by Jess Haley, 2026-11-12 [v2 makers write v2" (did_v2_go_forward_class_audit.md:2152).
-- author roles read from author edges. "Decided by Jess Haley, 2026-11-12 [author roles read from" (did_v2_go_forward_class_audit.md:2154).
-- depends on name not written when it equals the edge. "Decided by Jess Haley, 2026-11-12 [depends on name not" (did_v2_go_forward_class_audit.md:2156).
-- tuning axes named from the varied property. "Decided by Jess Haley, 2026-11-12 [tuning axes named from" (did_v2_go_forward_class_audit.md:2158).
-- openMINDS terms map through equivalent. "Decided by Jess Haley, 2026-11-12 [openMINDS terms map" (did_v2_go_forward_class_audit.md:2160).
-- input signal treatment is a method parameter. "Decided by Jess Haley, 2026-11-12 [input signal treatment" (did_v2_go_forward_class_audit.md:2162).
-- spike unit quality and mean waveform terms. "Decided by Jess Haley, 2026-11-12 [spike unit quality and" (did_v2_go_forward_class_audit.md:2164).
-- observes retires on a matching manipulation. "Decided by Jess Haley, 2026-11-12 [observes retires on a" (did_v2_go_forward_class_audit.md:2166).
-- response type harmonics are integers. "Decided by Jess Haley, 2026-11-12 [response type harmonics" (did_v2_go_forward_class_audit.md:2168).
-- response computed from the spike times. "Decided by Jess Haley, 2026-11-12 [response computed from" (did_v2_go_forward_class_audit.md:2170).
-- agreeing untied sources count as one. "Decided by Jess Haley, 2026-11-12 [agreeing untied sources" (did_v2_go_forward_class_audit.md:2172).
-- orphaned response settings are an accepted loss. "Decided by Jess Haley, 2026-11-12 [orphaned response" (did_v2_go_forward_class_audit.md:2174).
-- ingest writes v2 directly. "Decided by Jess Haley, 2026-11-17 [ingest writes v2" (did_v2_go_forward_class_audit.md:2176).
-- event channels are time-valued observations. "Decided by Jess Haley, 2026-11-17 [event channels are" (did_v2_go_forward_class_audit.md:2178).
-- ingested body members use the schema's names. "Decided by Jess Haley, 2026-11-17 [ingested body members" (did_v2_go_forward_class_audit.md:2180).
-- scale carries the reader's unit. "Decided by Jess Haley, 2026-11-17 [scale carries the" (did_v2_go_forward_class_audit.md:2182).
-- event channel variable terms. "Decided by Jess Haley, 2026-11-17 [event channel variable" (did_v2_go_forward_class_audit.md:2184).
-- event channel observes its wired device. "Decided by Jess Haley, 2026-11-17 [event channel observes" (did_v2_go_forward_class_audit.md:2186).
-- unpacked event bodies are uncompressed. "Decided by Jess Haley, 2026-11-17 [unpacked event bodies" (did_v2_go_forward_class_audit.md:2188).
-- unpacked events file is removed. "Decided by Jess Haley, 2026-11-17 [unpacked events file is" (did_v2_go_forward_class_audit.md:2190).
-- removed file locations are an accepted loss. "Decided by Jess Haley, 2026-11-18 [removed file locations" (did_v2_go_forward_class_audit.md:2192).
-- removed time segment locations are an accepted loss. "Decided by Jess Haley, 2026-11-19 [removed time segment" (did_v2_go_forward_class_audit.md:2194).
-- several marker numbers are a second dimension. "Decided by Jess Haley, 2026-11-17 [several marker numbers" (did_v2_go_forward_class_audit.md:2196).
-- channel list rows get v2 homes. "Decided by Jess Haley, 2026-11-17 [channel list rows get v2" (did_v2_go_forward_class_audit.md:2198).
-- event row defaults are notation. "Decided by Jess Haley, 2026-11-18 [event row defaults are" (did_v2_go_forward_class_audit.md:2200).
-- channel name is an identifier. "Decided by Jess Haley, 2026-11-17 [channel name is an" (did_v2_go_forward_class_audit.md:2202).
-- ingested block terms confirmed. "Decided by Jess Haley, 2026-11-17 [ingested block terms" (did_v2_go_forward_class_audit.md:2204).
-- migrated body members renamed. "Decided by Jess Haley, 2026-11-17 [migrated body members" (did_v2_go_forward_class_audit.md:2206).
-- stimulator link lives in the presentations. "Decided by Jess Haley, 2026-11-17 [stimulator link lives in" (did_v2_go_forward_class_audit.md:2208).
-- observes retires in the second pass. "Decided by Jess Haley, 2026-11-17 [observes retires in the" (did_v2_go_forward_class_audit.md:2210).
-- time channel is a per-channel covariate. "Decided by Jess Haley, 2026-11-17 [time channel is a" (did_v2_go_forward_class_audit.md:2212).
-- harmonic is a field beside the response type. "Decided by Jess Haley, 2026-11-17 [harmonic is a field" (did_v2_go_forward_class_audit.md:2214).
-- no transfer term on Haley moves. "Decided by Jess Haley, 2026-11-17 [no transfer term on" (did_v2_go_forward_class_audit.md:2216).
-- digital scale is unitless. "Decided by Jess Haley, 2026-11-17 [digital scale is" (did_v2_go_forward_class_audit.md:2218).
-- duplicate parts merged in DID. "Decided by Jess Haley, 2026-11-17 [duplicate parts merged" (did_v2_go_forward_class_audit.md:2220).
-- part re-keyed when its side arrives. "Decided by Jess Haley, 2026-11-17 [part re-keyed when its" (did_v2_go_forward_class_audit.md:2222).
-- tidy the spatial status. "Decided by Jess Haley, 2026-11-17 [tidy the spatial" (did_v2_go_forward_class_audit.md:2224).
-- tied multi-clock sources wait for a dataset. "Decided by Jess Haley, 2026-11-17 [tied multi-clock sources" (did_v2_go_forward_class_audit.md:2226).
-- tuning label choices confirmed. "Decided by Jess Haley, 2026-11-17 [tuning label choices" (did_v2_go_forward_class_audit.md:2228).
-- copyright round-trip losses. "Decided by Jess Haley, 2026-11-17 [copyright round-trip" (did_v2_go_forward_class_audit.md:2230).
-- non-specimen channel groups get their own owner. "Decided by Jess Haley, 2026-11-17 [non-specimen channel" (did_v2_go_forward_class_audit.md:2232).
-- documentation identifier prefers a DOI. "Decided by Jess Haley, 2026-11-17 [documentation identifier" (did_v2_go_forward_class_audit.md:2234).
-- role source left to the import. "Decided by Jess Haley, 2026-11-17 [role source left to the" (did_v2_go_forward_class_audit.md:2236).
+- epochid inheritors answered. "Decided by Jess Haley, 2026-11-19 [epochid inheritors" (did_v2_go_forward_class_audit.md:1174).
+- v1 set in did-schema. "Decided by Jess Haley, 2026-10-25 [v1 set in did-schema]: (" (did_v2_go_forward_class_audit.md:1176).
+- markdown out of schemas. "Decided by Jess Haley, 2026-10-25 [markdown out of" (did_v2_go_forward_class_audit.md:1178).
+- neuron derived from its sorting run. "Decided by Jess Haley, 2026-10-25 [neuron derived from its" (did_v2_go_forward_class_audit.md:1180).
+- session membership records linked or ingested. "Decided by Jess Haley, 2026-10-25 [session membership" (did_v2_go_forward_class_audit.md:1182).
+- dataset form terms. "Decided by Jess Haley, 2026-10-25 [dataset form terms]: (" (did_v2_go_forward_class_audit.md:1184).
+- presentation app is software. "Decided by Jess Haley, 2026-10-26 [presentation app is" (did_v2_go_forward_class_audit.md:1186).
+- control selection on the presentation method. "Decided by Jess Haley, 2026-10-26 [control selection on the" (did_v2_go_forward_class_audit.md:1188).
+- lossless means round trip. "Decided by Jess Haley, 2026-10-26 [lossless means round" (did_v2_go_forward_class_audit.md:1190).
+- hartley leftovers checked. "Decided by Jess Haley, 2026-10-26 [hartley leftovers" (did_v2_go_forward_class_audit.md:1192).
+- restated values checked. "Decided by Jess Haley, 2026-10-26 [restated values" (did_v2_go_forward_class_audit.md:1194).
+- image file details placed. "Decided by Jess Haley, 2026-10-26 [image file details" (did_v2_go_forward_class_audit.md:1196).
+- probe contact geometry carried. "Decided by Jess Haley, 2026-10-26 [probe contact geometry" (did_v2_go_forward_class_audit.md:1198).
+- small unread settings. "Decided by Jess Haley, 2026-10-26 [small unread settings]: (" (did_v2_go_forward_class_audit.md:1200).
+- carry register. "Decided by Jess Haley, 2026-10-26 [carry register]: (" (did_v2_go_forward_class_audit.md:1202).
+- compression block and empty levels. "Decided by Jess Haley, 2026-10-26 [compression block and" (did_v2_go_forward_class_audit.md:1204).
+- spelling is notation. "Decided by Jess Haley, 2026-10-26 [spelling is notation]: (" (did_v2_go_forward_class_audit.md:1206).
+- Haley logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [Haley logic leaves the" (did_v2_go_forward_class_audit.md:1208).
+- dataset-specific logic leaves the generic migration. "Decided by Jess Haley, 2026-10-26 [dataset-specific logic" (did_v2_go_forward_class_audit.md:1210).
+- dataset-specific audit complete. "Decided by Jess Haley, 2026-11-18 [dataset-specific audit" (did_v2_go_forward_class_audit.md:1212).
+- site scaffolding not a loss. "Decided by Jess Haley, 2026-10-26 [site scaffolding not a" (did_v2_go_forward_class_audit.md:1214).
+- table rows into the dataset audit. "Decided by Jess Haley, 2026-10-26 [table rows into the" (did_v2_go_forward_class_audit.md:1216).
+- device clocks on one epoch. "Decided by Jess Haley, 2026-10-26 [device clocks on one" (did_v2_go_forward_class_audit.md:1218).
+- clock terms get nodes. "Decided by Jess Haley, 2026-10-26 [clock terms get nodes]: (" (did_v2_go_forward_class_audit.md:1220).
+- writer default is not set. "Decided by Jess Haley, 2026-10-26 [writer default is not" (did_v2_go_forward_class_audit.md:1222).
+- one correct reading. "Decided by Jess Haley, 2026-10-26 [one correct reading]: (" (did_v2_go_forward_class_audit.md:1224).
+- run environment on interactions. "Decided by Jess Haley, 2026-10-26 [run environment on" (did_v2_go_forward_class_audit.md:1226).
+- control pairing is a calculation. "Decided by Jess Haley, 2026-10-26 [control pairing is a" (did_v2_go_forward_class_audit.md:1228).
+- census terms. "Decided by Jess Haley, 2026-10-26 [census terms]: (" (did_v2_go_forward_class_audit.md:1230).
+- dataset audit batch 1 and 2. "Decided by Jess Haley, 2026-10-26 [dataset audit batch 1" (did_v2_go_forward_class_audit.md:1232).
+- term-stated unit is generic. "Decided by Jess Haley, 2026-10-26 [term-stated unit is" (did_v2_go_forward_class_audit.md:1234).
+- software_id is what produced the statement. "Decided by Jess Haley, 2026-10-26 [software_id is what" (did_v2_go_forward_class_audit.md:1236).
+- stimulus_presentation retired. "Decided by Jess Haley, 2026-10-26 [stimulus_presentation" (did_v2_go_forward_class_audit.md:1238).
+- ingested stimulus file is a body of the presentation. "Decided by Jess Haley, 2026-10-26 [ingested stimulus file" (did_v2_go_forward_class_audit.md:1240).
+- one-reading quick answers. "Decided by Jess Haley, 2026-10-26 [one-reading quick" (did_v2_go_forward_class_audit.md:1242).
+- carry register kinds. "Decided by Jess Haley, 2026-10-26 [carry register kinds]: (" (did_v2_go_forward_class_audit.md:1244).
+- awaiting home is tracked. "Decided by Jess Haley, 2026-10-26 [awaiting home is" (did_v2_go_forward_class_audit.md:1246).
+- dataset map edits V2. "Decided by Jess Haley, 2026-10-26 [dataset map edits V2]: (" (did_v2_go_forward_class_audit.md:1248).
+- dataset map location. "Decided by Jess Haley, 2026-10-26 [dataset map location]: (" (did_v2_go_forward_class_audit.md:1250).
+- no Haley map. "Decided by Jess Haley, 2026-10-26 [no Haley map]: (" (did_v2_go_forward_class_audit.md:1252).
+- map rows match exact values. "Decided by Jess Haley, 2026-10-26 [map rows match exact" (did_v2_go_forward_class_audit.md:1254).
+- opto target without a run. "Decided by Jess Haley, 2026-10-26 [opto target without a" (did_v2_go_forward_class_audit.md:1256).
+- fraction value kind. "Decided by Jess Haley, 2026-10-26 [fraction value kind]: (" (did_v2_go_forward_class_audit.md:1258).
+- migrators read raw v1. "Decided by Jess Haley, 2026-10-26 [migrators read raw v1]: (" (did_v2_go_forward_class_audit.md:1260).
+- renames carry is temporary. "Decided by Jess Haley, 2026-10-26 [renames carry is" (did_v2_go_forward_class_audit.md:1262).
+- classes without a migrator carry as v1. "Decided by Jess Haley, 2026-10-31 [classes without a" (did_v2_go_forward_class_audit.md:1264).
+- early migration pieces fixed. "Decided by Jess Haley, 2026-10-26 [early migration pieces" (did_v2_go_forward_class_audit.md:1266).
+- migration reliability practices. "Decided by Jess Haley, 2026-10-26 [migration reliability" (did_v2_go_forward_class_audit.md:1268).
+- carry register kinds 2. "Decided by Jess Haley, 2026-10-26 [carry register kinds 2]" (did_v2_go_forward_class_audit.md:1270).
+- unnamed groups named by the map. "Decided by Jess Haley, 2026-10-26 [unnamed groups named by" (did_v2_go_forward_class_audit.md:1272).
+- vehicle rate needs a map. "Decided by Jess Haley, 2026-10-26 [vehicle rate needs a" (did_v2_go_forward_class_audit.md:1274).
+- second measurement value needs a map. "Decided by Jess Haley, 2026-10-26 [second measurement value" (did_v2_go_forward_class_audit.md:1276).
+- ingested session membership. "Decided by Jess Haley, 2026-10-26 [ingested session" (did_v2_go_forward_class_audit.md:1278).
+- data_limits not a pair is malformed. "Decided by Jess Haley, 2026-10-26 [data_limits not a pair" (did_v2_go_forward_class_audit.md:1280).
+- pass-through filter sample frequency. "Decided by Jess Haley, 2026-10-26 [pass-through filter" (did_v2_go_forward_class_audit.md:1282).
+- untied epochs keep the session anchor. "Decided by Jess Haley, 2026-10-26 [untied epochs keep the" (did_v2_go_forward_class_audit.md:1284).
+- sorted units are cells or groups. "Decided by Jess Haley, 2026-10-26 [sorted units are cells" (did_v2_go_forward_class_audit.md:1286).
+- unlabelled units need a map. "Decided by Jess Haley, 2026-10-26 [unlabelled units need a" (did_v2_go_forward_class_audit.md:1288).
+- element types have no default. "Decided by Jess Haley, 2026-10-26 [element types have no" (did_v2_go_forward_class_audit.md:1290).
+- dependents of a carried document carry. "Decided by Jess Haley, 2026-10-26 [dependents of a carried" (did_v2_go_forward_class_audit.md:1292).
+- electrode spellings and imaging types are devices. "Decided by Jess Haley, 2026-10-26 [electrode spellings and" (did_v2_go_forward_class_audit.md:1294).
+- event lines and environment probes are devices. "Decided by Jess Haley, 2026-10-26 [event lines and" (did_v2_go_forward_class_audit.md:1296).
+- migrator writes the registry spelling. "Decided by Jess Haley, 2026-10-26 [migrator writes the" (did_v2_go_forward_class_audit.md:1298).
+- location carries need a map. "Decided by Jess Haley, 2026-10-26 [location carries need a" (did_v2_go_forward_class_audit.md:1300).
+- presentation outside the batch needs a map. "Decided by Jess Haley, 2026-10-26 [presentation outside the" (did_v2_go_forward_class_audit.md:1302).
+- missing is_linked is malformed. "Decided by Jess Haley, 2026-10-26 [missing is_linked is" (did_v2_go_forward_class_audit.md:1304).
+- term labels stay as the ontology spells them. "Decided by Jess Haley, 2026-10-26 [term labels stay as the" (did_v2_go_forward_class_audit.md:1306).
+- element local identifier is name and reference. "Decided by Jess Haley, 2026-10-26 [element local identifier" (did_v2_go_forward_class_audit.md:1308).
+- bath is two statements. "Decided by Jess Haley, 2026-10-26 [bath is two statements]" (did_v2_go_forward_class_audit.md:1310).
+- chooseLevel skips empty levels. "Decided by Jess Haley, 2026-10-26 [chooseLevel skips empty" (did_v2_go_forward_class_audit.md:1312).
+- ingested stimulus reader finds the body. "Decided by Jess Haley, 2026-10-26 [ingested stimulus reader" (did_v2_go_forward_class_audit.md:1314).
+- markdown cleanup and rename. "Decided by Jess Haley, 2026-10-26 [markdown cleanup and" (did_v2_go_forward_class_audit.md:1316).
+- pipeline defects are not carries. "Decided by Jess Haley, 2026-10-26 [pipeline defects are not" (did_v2_go_forward_class_audit.md:1318).
+- unresolved recorded elements make a standalone item. "Decided by Jess Haley, 2026-10-26 [unresolved recorded" (did_v2_go_forward_class_audit.md:1320).
+- extra field on an ingested stimulus file is malformed. "Decided by Jess Haley, 2026-10-26 [extra field on an" (did_v2_go_forward_class_audit.md:1322).
+- NaN control means no control. "Decided by Jess Haley, 2026-10-26 [NaN control means no" (did_v2_go_forward_class_audit.md:1324).
+- conflicting animal records need a map. "Decided by Jess Haley, 2026-10-26 [conflicting animal" (did_v2_go_forward_class_audit.md:1326).
+- method terms are general. "Decided by Jess Haley, 2026-10-26 [method terms are" (did_v2_go_forward_class_audit.md:1328).
+- Naka-Rushton is one function. "Decided by Jess Haley, 2026-10-26 [Naka-Rushton is one" (did_v2_go_forward_class_audit.md:1330).
+- fields outside the template are malformed. "Decided by Jess Haley, 2026-10-27 [fields outside the" (did_v2_go_forward_class_audit.md:1332).
+- probe location terms. "Decided by Jess Haley, 2026-10-27 [probe location terms]: (" (did_v2_go_forward_class_audit.md:1334).
+- cell spellings are one meaning. "Decided by Jess Haley, 2026-10-27 [cell spellings are one" (did_v2_go_forward_class_audit.md:1336).
+- v1 name is the entity name. "Decided by Jess Haley, 2026-10-27 [v1 name is the entity" (did_v2_go_forward_class_audit.md:1338).
+- member edge number is notation. "Decided by Jess Haley, 2026-10-27 [member edge number is" (did_v2_go_forward_class_audit.md:1340).
+- afo prefix registered. "Decided by Jess Haley, 2026-10-27 [afo prefix registered]: (" (did_v2_go_forward_class_audit.md:1342).
+- n-trode is a multielectrode array. "Decided by Jess Haley, 2026-10-27 [n-trode is a" (did_v2_go_forward_class_audit.md:1344).
+- site positions are coordinates. "Decided by Jess Haley, 2026-10-27 [site positions are" (did_v2_go_forward_class_audit.md:1346).
+- move the locked mains. "Decided by Jess Haley, 2026-10-27 [move the locked mains]: (" (did_v2_go_forward_class_audit.md:1348).
+- merge main into V2. "Decided by Jess Haley, 2026-10-27 [merge main into V2]: (" (did_v2_go_forward_class_audit.md:1350).
+- lock NDIcalc-vis-matlab. "Decided by Jess Haley, 2026-10-27 [lock" (did_v2_go_forward_class_audit.md:1352).
+- tuning stray fields are malformed. "Decided by Jess Haley, 2026-10-27 [tuning stray fields are" (did_v2_go_forward_class_audit.md:1354).
+- cell spellings amended. "Decided by Jess Haley, 2026-10-27 [cell spellings amended]" (did_v2_go_forward_class_audit.md:1356).
+- element type is a device kind term. "Decided by Jess Haley, 2026-10-27 [element type is a device" (did_v2_go_forward_class_audit.md:1358).
+- ndi element class not kept. "Decided by Jess Haley, 2026-10-27 [ndi element class not" (did_v2_go_forward_class_audit.md:1360).
+- number of electrodes minted. "Decided by Jess Haley, 2026-10-27 [number of electrodes" (did_v2_go_forward_class_audit.md:1362).
+- site frame is a coordinate system. "Decided by Jess Haley, 2026-10-27 [site frame is a" (did_v2_go_forward_class_audit.md:1364).
+- ground truth reads NDIcalc-vis templates. "Decided by Jess Haley, 2026-10-27 [ground truth reads" (did_v2_go_forward_class_audit.md:1366).
+- writer fields over the template are template fields. "Decided by Jess Haley, 2026-10-27 [writer fields over the" (did_v2_go_forward_class_audit.md:1368).
+- tuning split covers the shared fold. "Decided by Jess Haley, 2026-10-27 [tuning split covers the" (did_v2_go_forward_class_audit.md:1370).
+- unreached superclass migrators deleted. "Decided by Jess Haley, 2026-10-27 [unreached superclass" (did_v2_go_forward_class_audit.md:1372).
+- unknown filter parameter is malformed. "Decided by Jess Haley, 2026-10-27 [unknown filter parameter" (did_v2_go_forward_class_audit.md:1374).
+- five probe kinds from NCIT. "Decided by Jess Haley, 2026-10-27 [five probe kinds from" (did_v2_go_forward_class_audit.md:1376).
+- ecg and eeg are recorders. "Decided by Jess Haley, 2026-10-27 [ecg and eeg are" (did_v2_go_forward_class_audit.md:1378).
+- imaging probes are microscopes or carried. "Decided by Jess Haley, 2026-10-27 [imaging probes are" (did_v2_go_forward_class_audit.md:1380).
+- pyraview level keeps its file info. "Decided by Jess Haley, 2026-10-27 [pyraview level keeps its" (did_v2_go_forward_class_audit.md:1382).
+- values no writer produces are malformed. "Decided by Jess Haley, 2026-10-27 [values no writer" (did_v2_go_forward_class_audit.md:1384).
+- carried file references are not folded. "Decided by Jess Haley, 2026-10-27 [carried file references" (did_v2_go_forward_class_audit.md:1386).
+- light-sheet level fields rebuild from the pyramid. "Decided by Jess Haley, 2026-10-27 [light-sheet level fields" (did_v2_go_forward_class_audit.md:1388).
+- one bath shape. "Decided by Jess Haley, 2026-10-27 [one bath shape]: (" (did_v2_go_forward_class_audit.md:1390).
+- group identifier includes the reference. "Decided by Jess Haley, 2026-10-27 [group identifier" (did_v2_go_forward_class_audit.md:1392).
+- drug end and duration on the anchor. "Decided by Jess Haley, 2026-10-27 [drug end and duration on" (did_v2_go_forward_class_audit.md:1394).
+- age at injection is an observation. "Decided by Jess Haley, 2026-10-27 [age at injection is an" (did_v2_go_forward_class_audit.md:1396).
+- transfer method keeps its node. "Decided by Jess Haley, 2026-10-27 [transfer method keeps" (did_v2_go_forward_class_audit.md:1398).
+- sync configuration stays a class. "Decided by Jess Haley, 2026-10-27 [sync configuration stays" (did_v2_go_forward_class_audit.md:1400).
+- sync configuration links its rigs. "Decided by Jess Haley, 2026-10-27 [sync configuration links" (did_v2_go_forward_class_audit.md:1402).
+- sync rule direction is recorded. "Decided by Jess Haley, 2026-10-27 [sync rule direction is" (did_v2_go_forward_class_audit.md:1404).
+- acquisition channels kept for wiring. "Decided by Jess Haley, 2026-10-27 [acquisition channels" (did_v2_go_forward_class_audit.md:1406).
+- handed-on documents do not carry dependents. "Decided by Jess Haley, 2026-10-27 [handed-on documents do" (did_v2_go_forward_class_audit.md:1408).
+- unit direct and subject rebuild from the probe. "Decided by Jess Haley, 2026-10-27 [unit direct and subject" (did_v2_go_forward_class_audit.md:1410).
+- broken transfer values are malformed. "Decided by Jess Haley, 2026-10-27 [broken transfer values" (did_v2_go_forward_class_audit.md:1412).
+- treatment transfer stays v1. "Decided by Jess Haley, 2026-10-27 [treatment transfer stays" (did_v2_go_forward_class_audit.md:1414).
+- bath ph and osmolarity are formulation fields. "Decided by Jess Haley, 2026-10-27 [bath ph and osmolarity" (did_v2_go_forward_class_audit.md:1416).
+- light-sheet level label is a note. "Decided by Jess Haley, 2026-10-27 [light-sheet level label" (did_v2_go_forward_class_audit.md:1418).
+- unreadable responses are malformed. "Decided by Jess Haley, 2026-10-27 [unreadable responses are" (did_v2_go_forward_class_audit.md:1420).
+- unbuilt spike classes carry as needs home. "Decided by Jess Haley, 2026-10-27 [unbuilt spike classes" (did_v2_go_forward_class_audit.md:1422).
+- input names rebuild from the input class. "Decided by Jess Haley, 2026-10-27 [input names rebuild from" (did_v2_go_forward_class_audit.md:1424).
+- neuron uses the sorted unit's cell. "Decided by Jess Haley, 2026-10-27 [neuron uses the sorted" (did_v2_go_forward_class_audit.md:1426).
+- sample times equal within one rounding step. "Decided by Jess Haley, 2026-10-27 [sample times equal" (did_v2_go_forward_class_audit.md:1428).
+- contrast SF bug is a dataset decision. "Decided by Jess Haley, 2026-10-27 [contrast SF bug is a" (did_v2_go_forward_class_audit.md:1430).
+- whole-batch round trip. "Decided by Jess Haley, 2026-10-27 [whole-batch round trip]" (did_v2_go_forward_class_audit.md:1432).
+- carried documents may point at converted ones. "Decided by Jess Haley, 2026-10-27 [carried documents may" (did_v2_go_forward_class_audit.md:1434).
+- simple_calc carries as needs home. "Decided by Jess Haley, 2026-10-27 [simple_calc carries as" (did_v2_go_forward_class_audit.md:1436).
+- empty prestimulus normalization is zero. "Decided by Jess Haley, 2026-10-27 [empty prestimulus" (did_v2_go_forward_class_audit.md:1438).
+- importer bugs are dataset decisions. "Decided by Jess Haley, 2026-10-27 [importer bugs are" (did_v2_go_forward_class_audit.md:1440).
+- hotelling spellings are one field. "Decided by Jess Haley, 2026-10-27 [hotelling spellings are" (did_v2_go_forward_class_audit.md:1442).
+- Priebe fits are one function. "Decided by Jess Haley, 2026-10-27 [Priebe fits are one" (did_v2_go_forward_class_audit.md:1444).
+- NDI CI picks did-schema branch. "Decided by Jess Haley, 2026-10-27 [NDI CI picks did-schema" (did_v2_go_forward_class_audit.md:1446).
+- sorter labels map. "Decided by Jess Haley, 2026-10-27 [sorter labels map]: (" (did_v2_go_forward_class_audit.md:1448).
+- image stack name goes to notes. "Decided by Jess Haley, 2026-10-27 [image stack name goes to" (did_v2_go_forward_class_audit.md:1450).
+- carry-055 wording follows the group identifier. "Decided by Jess Haley, 2026-10-27 [carry-055 wording" (did_v2_go_forward_class_audit.md:1452).
+- treatment location name is the node. "Decided by Jess Haley, 2026-10-27 [treatment location name" (did_v2_go_forward_class_audit.md:1454).
+- ingested stimulus body link follow-up. "Decided by Jess Haley, 2026-10-27 [ingested stimulus body" (did_v2_go_forward_class_audit.md:1456).
+- cloud organization id is a global identifier. "Decided by Jess Haley, 2026-10-27 [cloud organization id is" (did_v2_go_forward_class_audit.md:1458).
+- curve fitting is the fit method term. "Decided by Jess Haley, 2026-10-27 [curve fitting is the fit" (did_v2_go_forward_class_audit.md:1460).
+- bath solution minted. "Decided by Jess Haley, 2026-10-27 [bath solution minted]: (" (did_v2_go_forward_class_audit.md:1462).
+- second pass reads control stimuli from v1. "Decided by Jess Haley, 2026-10-27 [second pass reads" (did_v2_go_forward_class_audit.md:1464).
+- tuning fits use curve fitting now. "Decided by Jess Haley, 2026-10-27 [tuning fits use curve" (did_v2_go_forward_class_audit.md:1466).
+- presentation anchored to its epoch. "Decided by Jess Haley, 2026-10-27 [presentation anchored to" (did_v2_go_forward_class_audit.md:1468).
+- response links: epoch rebuilt, control as input. "Decided by Jess Haley, 2026-10-27 [response links: epoch" (did_v2_go_forward_class_audit.md:1470).
+- openMINDS subject leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS subject" (did_v2_go_forward_class_audit.md:1472).
+- term equivalents recorded. "Decided by Jess Haley, 2026-10-27 [term equivalents" (did_v2_go_forward_class_audit.md:1474).
+- dataset form lists carried until homed. "Decided by Jess Haley, 2026-10-27 [dataset form lists" (did_v2_go_forward_class_audit.md:1476).
+- old ndi_document blocks carry. "Decided by Jess Haley, 2026-10-27 [old ndi_document blocks" (did_v2_go_forward_class_audit.md:1478).
+- tuning stimids rebuild. "Decided by Jess Haley, 2026-10-27 [tuning stimids rebuild]" (did_v2_go_forward_class_audit.md:1480).
+- tuning log in notes. "Decided by Jess Haley, 2026-10-27 [tuning log in notes]: (" (did_v2_go_forward_class_audit.md:1482).
+- varied properties are conditions by V2 name. "Decided by Jess Haley, 2026-10-27 [varied properties are" (did_v2_go_forward_class_audit.md:1484).
+- absolute-value fits are a second calculation. "Decided by Jess Haley, 2026-10-27 [absolute-value fits are" (did_v2_go_forward_class_audit.md:1486).
+- contrast metrics added. "Decided by Jess Haley, 2026-10-27 [contrast metrics added]" (did_v2_go_forward_class_audit.md:1488).
+- parameter names map by table. "Decided by Jess Haley, 2026-10-27 [parameter names map by" (did_v2_go_forward_class_audit.md:1490).
+- E. coli stacks are a dataset decision. "Decided by Jess Haley, 2026-10-27 [E" (did_v2_go_forward_class_audit.md:1492).
+- every v1 id survives. "Decided by Jess Haley, 2026-10-27 [every v1 id survives]: (" (did_v2_go_forward_class_audit.md:1494).
+- axis letters derive from labels. "Decided by Jess Haley, 2026-10-27 [axis letters derive from" (did_v2_go_forward_class_audit.md:1496).
+- v1 name goes to the class's own name field. "Decided by Jess Haley, 2026-10-27 [v1 name goes to the" (did_v2_go_forward_class_audit.md:1498).
+- demo keeps its name. "Decided by Jess Haley, 2026-11-19 [demo keeps its name]: (" (did_v2_go_forward_class_audit.md:1500).
+- base.name kept until retire classes leave. "Decided by Jess Haley, 2026-10-29 [base.name kept until" (did_v2_go_forward_class_audit.md:1504).
+- treatment groups are a dataset decision. "Decided by Jess Haley, 2026-10-27 [treatment groups are a" (did_v2_go_forward_class_audit.md:1506).
+- fit classes kept; session list rebuilt. "Decided by Jess Haley, 2026-10-27 [fit classes kept" (did_v2_go_forward_class_audit.md:1508).
+- event lines are event channels. "Decided by Jess Haley, 2026-10-27 [event lines are event" (did_v2_go_forward_class_audit.md:1510).
+- labels are a field on what they label. "Decided by Jess Haley, 2026-10-27 [labels are a field on" (did_v2_go_forward_class_audit.md:1512).
+- ontologyLabel row split. "Decided by Jess Haley, 2026-10-27 [ontologyLabel row" (did_v2_go_forward_class_audit.md:1514).
+- openMINDS strain leftovers. "Decided by Jess Haley, 2026-10-27 [openMINDS strain" (did_v2_go_forward_class_audit.md:1516).
+- control pairing points at the presentation. "Decided by Jess Haley, 2026-10-27 [control pairing points" (did_v2_go_forward_class_audit.md:1518).
+- control record fields split. "Decided by Jess Haley, 2026-10-27 [control record fields" (did_v2_go_forward_class_audit.md:1520).
+- unread stimulus parameters are method parameters. "Decided by Jess Haley, 2026-10-27 [unread stimulus" (did_v2_go_forward_class_audit.md:1522).
+- session opener inputs. "Decided by Jess Haley, 2026-10-27 [session opener inputs]: (" (did_v2_go_forward_class_audit.md:1524).
+- linked session reference follows the ingested rule. "Decided by Jess Haley, 2026-10-27 [linked session reference" (did_v2_go_forward_class_audit.md:1526).
+- one affiliation relation each. "Decided by Jess Haley, 2026-10-27 [one affiliation relation" (did_v2_go_forward_class_audit.md:1528).
+- position and its metadata are one statement. "Decided by Jess Haley, 2026-10-27 [position and its" (did_v2_go_forward_class_audit.md:1530).
+- image stack link needs mapping. "Decided by Jess Haley, 2026-10-27 [image stack link needs" (did_v2_go_forward_class_audit.md:1532).
+- image label goes to notes. "Decided by Jess Haley, 2026-10-27 [image label goes to" (did_v2_go_forward_class_audit.md:1534).
+- hartley labels stay carried. "Decided by Jess Haley, 2026-10-27 [hartley labels stay" (did_v2_go_forward_class_audit.md:1536).
+- filter label is the method name. "Decided by Jess Haley, 2026-10-27 [filter label is the" (did_v2_go_forward_class_audit.md:1538).
+- contact geometry stays carried. "Decided by Jess Haley, 2026-10-27 [contact geometry stays" (did_v2_go_forward_class_audit.md:1540).
+- scanner test issue closed. "Decided by Jess Haley, 2026-10-27 [scanner test issue" (did_v2_go_forward_class_audit.md:1542).
+- old EMPTY labels generalised. "Decided by Jess Haley, 2026-10-27 [old EMPTY labels" (did_v2_go_forward_class_audit.md:1544).
+- no about edge for now. "Decided by Jess Haley, 2026-10-27 [no about edge for now]: (" (did_v2_go_forward_class_audit.md:1546).
+- old table rows counted and carried. "Decided by Jess Haley, 2026-10-27 [old table rows counted" (did_v2_go_forward_class_audit.md:1548).
+- binaryseries parameters fold as decided. "Decided by Jess Haley, 2026-10-27 [binaryseries parameters" (did_v2_go_forward_class_audit.md:1550).
+- Guard A amended. "Decided by Jess Haley, 2026-10-27 [Guard A amended]: (" (did_v2_go_forward_class_audit.md:1552).
+- documents without base carry. "Decided by Jess Haley, 2026-10-27 [documents without base" (did_v2_go_forward_class_audit.md:1554).
+- oneepoch is a redundant calculation. "Decided by Jess Haley, 2026-10-27 [oneepoch is a redundant" (did_v2_go_forward_class_audit.md:1556).
+- redeclarations only narrow. "Decided by Jess Haley, 2026-10-27 [redeclarations only" (did_v2_go_forward_class_audit.md:1560).
+- no value rollup now. "Decided by Jess Haley, 2026-10-27 [no value rollup now]: (" (did_v2_go_forward_class_audit.md:1562).
+- ngrid migrates to sampled bodies. "Decided by Jess Haley, 2026-10-27 [ngrid migrates to" (did_v2_go_forward_class_audit.md:1564).
+- allowed units are closed source_unit lists. "Decided by Jess Haley, 2026-10-27 [allowed units are closed" (did_v2_go_forward_class_audit.md:1566).
+- quantity reference type. "Decided by Jess Haley, 2026-10-27 [quantity reference" (did_v2_go_forward_class_audit.md:1568).
+- epoch-less presentations carry. "Decided by Jess Haley, 2026-10-27 [epoch-less presentations" (did_v2_go_forward_class_audit.md:1570).
+- Babu and Soph workbooks. "Decided by Jess Haley, 2026-10-27 [Babu and Soph" (did_v2_go_forward_class_audit.md:1572).
+- sample times within eight rounding steps. "Decided by Jess Haley, 2026-10-27 [sample times within" (did_v2_go_forward_class_audit.md:1574).
+- a rebuilt document may lose its id. "Decided by Jess Haley, 2026-10-27 [a rebuilt document may" (did_v2_go_forward_class_audit.md:1576).
+- jrclust default name is notation. "Decided by Jess Haley, 2026-10-27 [jrclust default name is" (did_v2_go_forward_class_audit.md:1578).
+- organization needs a name or an identifier. "Decided by Jess Haley, 2026-10-27 [organization needs a" (did_v2_go_forward_class_audit.md:1580).
+- empty ndi_document block is notation. "Decided by Jess Haley, 2026-10-27 [empty ndi_document block" (did_v2_go_forward_class_audit.md:1582).
+- device kinds minted. "Decided by Jess Haley, 2026-10-28 [device kinds minted]: (" (did_v2_go_forward_class_audit.md:1584).
+- device kind labels and synonyms. "Decided by Jess Haley, 2026-10-28 [device kind labels and" (did_v2_go_forward_class_audit.md:1586).
+- tuning best value is a condition. "Decided by Jess Haley, 2026-10-28 [tuning best value is a" (did_v2_go_forward_class_audit.md:1588).
+- one calculation per named calculator output. "Decided by Jess Haley, 2026-10-28 [one calculation per" (did_v2_go_forward_class_audit.md:1590).
+- absolute-value fits are fit entries. "Decided by Jess Haley, 2026-10-28 [absolute-value fits are" (did_v2_go_forward_class_audit.md:1592).
+- presentations without an epoch keep the session anchor. "Decided by Jess Haley, 2026-10-28 [presentations without an" (did_v2_go_forward_class_audit.md:1594).
+- image label goes to the observation's notes. "Decided by Jess Haley, 2026-10-29 [image label goes to the" (did_v2_go_forward_class_audit.md:1596).
+- binaryseries parameters carried. "Decided by Jess Haley, 2026-10-29 [binaryseries parameters" (did_v2_go_forward_class_audit.md:1598).
+- ngrid with no statement carried. "Decided by Jess Haley, 2026-10-29 [ngrid with no statement" (did_v2_go_forward_class_audit.md:1600).
+- old table rows carried by NDI. "Decided by Jess Haley, 2026-10-29 [old table rows carried" (did_v2_go_forward_class_audit.md:1602).
+- allowed units are source units. "Decided by Jess Haley, 2026-10-29 [allowed units are source" (did_v2_go_forward_class_audit.md:1604).
+- standalone item control stays carried. "Decided by Jess Haley, 2026-10-29 [standalone item control" (did_v2_go_forward_class_audit.md:1606).
+- oneepoch method is data combination. "Decided by Jess Haley, 2026-10-29 [oneepoch method is data" (did_v2_go_forward_class_audit.md:1608).
+- redeclarations merge when base.name goes. "Decided by Jess Haley, 2026-10-29 [redeclarations merge" (did_v2_go_forward_class_audit.md:1610).
+- linked session not in the batch. "Decided by Jess Haley, 2026-10-29 [linked session not in" (did_v2_go_forward_class_audit.md:1612).
+- unstated session creator carried. "Decided by Jess Haley, 2026-10-29 [unstated session creator" (did_v2_go_forward_class_audit.md:1614).
+- drug end without start needs mapping. "Decided by Jess Haley, 2026-10-29 [drug end without start" (did_v2_go_forward_class_audit.md:1616).
+- drug times that disagree need mapping. "Decided by Jess Haley, 2026-10-29 [drug times that disagree" (did_v2_go_forward_class_audit.md:1618).
+- text channel replaces NCIT Text. "Decided by Jess Haley, 2026-10-29 [text channel replaces" (did_v2_go_forward_class_audit.md:1620).
+- cell-attached is OBI. "Decided by Jess Haley, 2026-10-29 [cell-attached is OBI]: (" (did_v2_go_forward_class_audit.md:1622).
+- linked session link on a direct dataset relation. "Decided by Jess Haley, 2026-10-29 [linked session link on a" (did_v2_go_forward_class_audit.md:1624).
+- fit model stated once. "Decided by Jess Haley, 2026-10-29 [fit model stated once]: (" (did_v2_go_forward_class_audit.md:1626).
+- term names compare by node. "Decided by Jess Haley, 2026-10-29 [term names compare by" (did_v2_go_forward_class_audit.md:1628).
+- species text is the openMINDS equivalent. "Decided by Jess Haley, 2026-10-29 [species text is the" (did_v2_go_forward_class_audit.md:1630).
+- openMINDS element leftovers carried. "Decided by Jess Haley, 2026-10-29 [openMINDS element" (did_v2_go_forward_class_audit.md:1632).
+- segment length is the time chunk. "Decided by Jess Haley, 2026-10-29 [segment length is the" (did_v2_go_forward_class_audit.md:1634).
+- one folder, final classes only. "Decided by Jess Haley, 2026-10-29 [one folder, final" (did_v2_go_forward_class_audit.md:1636).
+- v1 writes into a V2 session. "Decided by Jess Haley, 2026-10-29 [v1 writes into a V2" (did_v2_go_forward_class_audit.md:1638).
+- linked session link details. "Decided by Jess Haley, 2026-10-29 [linked session link" (did_v2_go_forward_class_audit.md:1640).
+- reshaped retire classes carried. "Decided by Jess Haley, 2026-10-29 [reshaped retire classes" (did_v2_go_forward_class_audit.md:1642).
+- linked session pathname. "Decided by Jess Haley, 2026-10-29 [linked session" (did_v2_go_forward_class_audit.md:1644).
+- addSessionV2 folded back. "Decided by Jess Haley, 2026-10-29 [addSessionV2 folded" (did_v2_go_forward_class_audit.md:1646).
+- term names match ignoring spacing. "Decided by Jess Haley, 2026-10-29 [term names match" (did_v2_go_forward_class_audit.md:1648).
+- n-trode count from the channel list. "Decided by Jess Haley, 2026-10-29 [n-trode count from the" (did_v2_go_forward_class_audit.md:1650).
+- imaging mode is a method term. "Decided by Jess Haley, 2026-10-29 [imaging mode is a method" (did_v2_go_forward_class_audit.md:1652).
+- equipment type is the device kind list. "Decided by Jess Haley, 2026-10-29 [equipment type is the" (did_v2_go_forward_class_audit.md:1654).
+- V2 ingest is one sampled body per channel group. "Decided by Jess Haley, 2026-10-29 [V2 ingest is one sampled" (did_v2_go_forward_class_audit.md:1656).
+- short last chunk. "Decided by Jess Haley, 2026-10-29 [short last chunk]: (" (did_v2_go_forward_class_audit.md:1658).
+- missing facts are needs info. "Decided by Jess Haley, 2026-10-29 [missing facts are needs" (did_v2_go_forward_class_audit.md:1660).
+- vintage-B ontologyImage cases. "Decided by Jess Haley, 2026-10-29 [vintage-B ontologyImage" (did_v2_go_forward_class_audit.md:1662).
+- element name and reference stored apart. "Decided by Jess Haley, 2026-10-29 [element name and" (did_v2_go_forward_class_audit.md:1664).
+- unit with no probe in the batch carried. "Decided by Jess Haley, 2026-10-29 [unit with no probe in" (did_v2_go_forward_class_audit.md:1666).
+- table rows carried as v1. "Decided by Jess Haley, 2026-10-30 [table rows carried as" (did_v2_go_forward_class_audit.md:1668).
+- preset name stays on method. "Decided by Jess Haley, 2026-10-30 [preset name stays on" (did_v2_go_forward_class_audit.md:1670).
+- redeclaration merge moot. "Decided by Jess Haley, 2026-10-30 [redeclaration merge" (did_v2_go_forward_class_audit.md:1672).
+- element name kept apart, base.name carried. "Decided by Jess Haley, 2026-10-30 [element name kept apart" (did_v2_go_forward_class_audit.md:1674).
+- Naka-Rushton function minted. "Decided by Jess Haley, 2026-10-30 [Naka-Rushton function" (did_v2_go_forward_class_audit.md:1676).
+- synonyms supersede nodes only. "Decided by Jess Haley, 2026-10-30 [synonyms supersede nodes" (did_v2_go_forward_class_audit.md:1678).
+- interpolated values are a list. "Decided by Jess Haley, 2026-10-30 [interpolated values are" (did_v2_go_forward_class_audit.md:1680).
+- canonical absent only as needs info. "Decided by Jess Haley, 2026-10-30 [canonical absent only as" (did_v2_go_forward_class_audit.md:1682).
+- trigger channels named by their link. "Decided by Jess Haley, 2026-10-30 [trigger channels named" (did_v2_go_forward_class_audit.md:1684).
+- decibels are their own canonical. "Decided by Jess Haley, 2026-10-30 [decibels are their own" (did_v2_go_forward_class_audit.md:1686).
+- Haley mask words leave the generic stage. "Decided by Jess Haley, 2026-10-30 [Haley mask words leave" (did_v2_go_forward_class_audit.md:1688).
+- control records carried in pass 1. "Decided by Jess Haley, 2026-10-30 [control records carried" (did_v2_go_forward_class_audit.md:1690).
+- image raw round trip and single-read keys. "Decided by Jess Haley, 2026-10-30 [image raw round trip and" (did_v2_go_forward_class_audit.md:1692).
+- age is NCIT Age. "Decided by Jess Haley, 2026-10-30 [age is NCIT Age]: (" (did_v2_go_forward_class_audit.md:1694).
+- equivalents filled in did-schema. "Decided by Jess Haley, 2026-10-30 [equivalents filled in" (did_v2_go_forward_class_audit.md:1696).
+- Hartley settings on the inline method. "Decided by Jess Haley, 2026-10-30 [Hartley settings on the" (did_v2_go_forward_class_audit.md:1698).
+- acquisition time on its clock. "Decided by Jess Haley, 2026-10-30 [acquisition time on its" (did_v2_go_forward_class_audit.md:1700).
+- data analysis is the general method. "Decided by Jess Haley, 2026-10-30 [data analysis is the" (did_v2_go_forward_class_audit.md:1702).
+- image collection carried until a writer. "Decided by Jess Haley, 2026-10-30 [image collection carried" (did_v2_go_forward_class_audit.md:1704).
+- global-clock oneepoch details. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1706).
+- openMINDS strain leftovers settled. "Decided by Jess Haley, 2026-10-30 [openMINDS strain" (did_v2_go_forward_class_audit.md:1708).
+- assay labels batch 1. "Decided by Jess Haley, 2026-10-30 [assay labels batch 1]: (" (did_v2_go_forward_class_audit.md:1710).
+- element types batch 1. "Decided by Jess Haley, 2026-10-30 [element types batch 1]: (" (did_v2_go_forward_class_audit.md:1712).
+- assay labels batch 2. "Decided by Jess Haley, 2026-10-30 [assay labels batch 2]: (" (did_v2_go_forward_class_audit.md:1714).
+- element types batch 2. "Decided by Jess Haley, 2026-10-30 [element types batch 2]: (" (did_v2_go_forward_class_audit.md:1716).
+- assay labels batch 3. "Decided by Jess Haley, 2026-10-30 [assay labels batch 3]: (" (did_v2_go_forward_class_audit.md:1718).
+- element types batch 3. "Decided by Jess Haley, 2026-10-30 [element types batch 3]: (" (did_v2_go_forward_class_audit.md:1720).
+- element types batch 4. "Decided by Jess Haley, 2026-10-30 [element types batch 4]: (" (did_v2_go_forward_class_audit.md:1722).
+- assay labels batch 4. "Decided by Jess Haley, 2026-10-30 [assay labels batch 4]: (" (did_v2_go_forward_class_audit.md:1724).
+- assay labels batch 5. "Decided by Jess Haley, 2026-10-30 [assay labels batch 5]: (" (did_v2_go_forward_class_audit.md:1726).
+- assay labels batch 6. "Decided by Jess Haley, 2026-10-30 [assay labels batch 6]: (" (did_v2_go_forward_class_audit.md:1728).
+- assay relabels become new terms. "Decided by Jess Haley, 2026-11-01 [assay relabels become" (did_v2_go_forward_class_audit.md:1730).
+- assay term definitions drafted. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1732).
+- obsolete assay terms without replacement. "Decided by Jess Haley, 2026-11-01 [obsolete assay terms" (did_v2_go_forward_class_audit.md:1734).
+- assay dictionaries look up by id. "Decided by Jess Haley, 2026-11-01 [assay dictionaries look" (did_v2_go_forward_class_audit.md:1736).
+- assay ontology cleanup now. "Decided by Jess Haley, 2026-11-01 [assay ontology cleanup" (did_v2_go_forward_class_audit.md:1738).
+- assay term definitions approved. "Decided by Jess Haley, 2026-11-01 [assay term definitions" (did_v2_go_forward_class_audit.md:1740).
+- obsolete labels in v1 importers accepted. "Decided by Jess Haley, 2026-11-01 [obsolete labels in v1" (did_v2_go_forward_class_audit.md:1742).
+- raw v1 switch finished in batches. "Decided by Jess Haley, 2026-10-30 [raw v1 switch finished" (did_v2_go_forward_class_audit.md:1744).
+- stimulator is SNOMED CT Stimulator. "Decided by Jess Haley, 2026-10-30 [stimulator is SNOMED CT" (did_v2_go_forward_class_audit.md:1746).
+- global-clock oneepoch carried with its element. "Decided by Jess Haley, 2026-10-30 [global-clock oneepoch" (did_v2_go_forward_class_audit.md:1748).
+- differing stimulator epoch is malformed. "Decided by Jess Haley, 2026-10-30 [differing stimulator" (did_v2_go_forward_class_audit.md:1750).
+- response unit slot settles 110. "Decided by Jess Haley, 2026-10-30 [response unit slot" (did_v2_go_forward_class_audit.md:1752).
+- schema folders by family. "Decided by Jess Haley, 2026-10-30 [schema folders by" (did_v2_go_forward_class_audit.md:1754).
+- family roots and relation folder. "Decided by Jess Haley, 2026-10-31 [family roots and" (did_v2_go_forward_class_audit.md:1756).
+- retire check now. "Decided by Jess Haley, 2026-10-31 [retire check now]: (" (did_v2_go_forward_class_audit.md:1758).
+- purpose renamed now. "Decided by Jess Haley, 2026-10-31 [purpose renamed now]: (" (did_v2_go_forward_class_audit.md:1760).
+- acquisition folder. "Decided by Jess Haley, 2026-10-31 [acquisition folder]: (" (did_v2_go_forward_class_audit.md:1762).
+- clock alignment in time_reference. "Decided by Jess Haley, 2026-10-31 [clock alignment in" (did_v2_go_forward_class_audit.md:1764).
+- reference papers as v2 guidance. "Decided by Jess Haley, 2026-10-31 [reference papers as v2" (did_v2_go_forward_class_audit.md:1766).
+- gene list mapping is built. "Decided by Jess Haley, 2026-10-31 [gene list mapping is" (did_v2_go_forward_class_audit.md:1768).
+- gene list mapping in the generic stage. "Decided by Jess Haley, 2026-10-31 [gene list mapping in the" (did_v2_go_forward_class_audit.md:1770).
+- daqreader_ndr confirmed set. "Decided by Jess Haley, 2026-10-31 [daqreader_ndr confirmed" (did_v2_go_forward_class_audit.md:1772).
+- layout calls stand. "Decided by Jess Haley, 2026-10-31 [layout calls stand]: (" (did_v2_go_forward_class_audit.md:1774).
+- om day registered. "Decided by Jess Haley, 2026-10-31 [om day registered]: (" (did_v2_go_forward_class_audit.md:1776).
+- formulation amount needs info. "Decided by Jess Haley, 2026-10-31 [formulation amount needs" (did_v2_go_forward_class_audit.md:1778).
+- virus dilution needs info. "Decided by Jess Haley, 2026-10-31 [virus dilution needs" (did_v2_go_forward_class_audit.md:1780).
+- UTC acquisition time is absolute. "Decided by Jess Haley, 2026-10-31 [UTC acquisition time is" (did_v2_go_forward_class_audit.md:1782).
+- ndi_document read as base. "Decided by Jess Haley, 2026-10-31 [ndi_document read as" (did_v2_go_forward_class_audit.md:1784).
+- rename clashes are malformed. "Decided by Jess Haley, 2026-11-01 [rename clashes are" (did_v2_go_forward_class_audit.md:1786).
+- ensemble and generic_file keep their conversions. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1788).
+- ensemble and generic_file checked as v1. "Decided by Jess Haley, 2026-11-01 [ensemble and" (did_v2_go_forward_class_audit.md:1790).
+- last rename-pass classes. "Decided by Jess Haley, 2026-11-01 [last rename-pass" (did_v2_go_forward_class_audit.md:1792).
+- UTC treatment time is absolute. "Decided by Jess Haley, 2026-11-01 [UTC treatment time is" (did_v2_go_forward_class_audit.md:1794).
+- postnatal day 0 not stated. "Decided by Jess Haley, 2026-11-01 [postnatal day 0 not" (did_v2_go_forward_class_audit.md:1796).
+- percent volume per volume converted. "Decided by Jess Haley, 2026-11-01 [percent volume per" (did_v2_go_forward_class_audit.md:1798).
+- breeding type and disease model text not stored. "Decided by Jess Haley, 2026-11-01 [breeding type and" (did_v2_go_forward_class_audit.md:1800).
+- relations get notes. "Decided by Jess Haley, 2026-11-01 [relations get notes]: (" (did_v2_go_forward_class_audit.md:1802).
+- hartley implied by its class. "Decided by Jess Haley, 2026-11-01 [hartley implied by its" (did_v2_go_forward_class_audit.md:1804).
+- study link without a dataset document. "Decided by Jess Haley, 2026-11-01 [study link without a" (did_v2_go_forward_class_audit.md:1806).
+- redeclarations left need no merge. "Decided by Jess Haley, 2026-11-01 [redeclarations left need" (did_v2_go_forward_class_audit.md:1808).
+- binding catalogue gap reports only. "Decided by Jess Haley, 2026-11-01 [binding catalogue gap" (did_v2_go_forward_class_audit.md:1810).
+- compression terms registered. "Decided by Jess Haley, 2026-11-01 [compression terms" (did_v2_go_forward_class_audit.md:1812).
+- compression term definitions approved. "Decided by Jess Haley, 2026-11-01 [compression term" (did_v2_go_forward_class_audit.md:1814).
+- unit lists widened then armed. "Decided by Jess Haley, 2026-11-01 [unit lists widened then" (did_v2_go_forward_class_audit.md:1816).
+- CLAUDE.md layout corrections drafted. "Decided by Jess Haley, 2026-11-01 [CLAUDE.md layout" (did_v2_go_forward_class_audit.md:1818).
+- migration record. "Decided by Jess Haley, 2026-11-01 [migration record]: (" (did_v2_go_forward_class_audit.md:1820).
+- gap accepted when the report lists it. "Decided by Jess Haley, 2026-11-01 [gap accepted when the" (did_v2_go_forward_class_audit.md:1830).
+- migration report is an attached file. "Decided by Jess Haley, 2026-11-01 [migration report is an" (did_v2_go_forward_class_audit.md:1832).
+- migration record points at the dataset. "Decided by Jess Haley, 2026-11-01 [migration record points" (did_v2_go_forward_class_audit.md:1834).
+- migration record writer. "Decided by Jess Haley, 2026-11-01 [migration record" (did_v2_go_forward_class_audit.md:1836).
+- migration method is conversion. "Decided by Jess Haley, 2026-11-01 [migration method is" (did_v2_go_forward_class_audit.md:1838).
+- gene list mapping value shape. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1840).
+- gene list mapping value kind. "Decided by Jess Haley, 2026-11-01 [gene list mapping value" (did_v2_go_forward_class_audit.md:1842).
+- gene list mapping method text. "Decided by Jess Haley, 2026-11-01 [gene list mapping method" (did_v2_go_forward_class_audit.md:1844).
+- orthology mapping has no method term. "Decided by Jess Haley, 2026-11-01 [orthology mapping has no" (did_v2_go_forward_class_audit.md:1846).
+- gene list as a term, file kept. "Decided by Jess Haley, 2026-11-01 [gene list as a term" (did_v2_go_forward_class_audit.md:1848).
+- mapping rows counted, indices 0-based. "Decided by Jess Haley, 2026-11-01 [mapping rows counted" (did_v2_go_forward_class_audit.md:1850).
+- undirected relation widened. "Decided by Jess Haley, 2026-11-01 [undirected relation" (did_v2_go_forward_class_audit.md:1852).
+- undirected ends are relata. "Decided by Jess Haley, 2026-11-01 [undirected ends are" (did_v2_go_forward_class_audit.md:1854).
+- undirected registry columns are relata. "Decided by Jess Haley, 2026-11-01 [undirected registry" (did_v2_go_forward_class_audit.md:1856).
+- gene list mapping leftovers. "Decided by Jess Haley, 2026-11-01 [gene list mapping" (did_v2_go_forward_class_audit.md:1858).
+- gene list mapping other types carried. "Decided by Jess Haley, 2026-11-01 [gene list mapping other" (did_v2_go_forward_class_audit.md:1860).
+- no per-pair orthology variable. "Decided by Jess Haley, 2026-11-01 [no per-pair orthology" (did_v2_go_forward_class_audit.md:1862).
+- key covariate index. "Decided by Jess Haley, 2026-11-01 [key covariate index]: (" (did_v2_go_forward_class_audit.md:1864).
+- recording mode terms. "Decided by Jess Haley, 2026-11-01 [recording mode terms]: (" (did_v2_go_forward_class_audit.md:1873).
+- imaging mode terms. "Decided by Jess Haley, 2026-11-01 [imaging mode terms]: (" (did_v2_go_forward_class_audit.md:1875).
+- ingest writes no v1 ingested document. "Decided by Jess Haley, 2026-11-01 [ingest writes no v1" (did_v2_go_forward_class_audit.md:1877).
+- ingest observation per probe. "Decided by Jess Haley, 2026-11-01 [ingest observation per" (did_v2_go_forward_class_audit.md:1879).
+- Haley phase, pick and encounter as written. "Decided by Jess Haley, 2026-11-01 [Haley phase, pick and" (did_v2_go_forward_class_audit.md:1881).
+- EMPTY:0000129 retired. "Decided by Jess Haley, 2026-11-01 [EMPTY:0000129 retired]: (" (did_v2_go_forward_class_audit.md:1883).
+- ingest waits on native V2 records. "Decided by Jess Haley, 2026-11-01 [ingest waits on native" (did_v2_go_forward_class_audit.md:1885).
+- V2 database file renamed. "Decided by Jess Haley, 2026-11-01 [V2 database file" (did_v2_go_forward_class_audit.md:1887).
+- V2 is the build target for the siblings. "Decided by Jess Haley, 2026-11-01 [V2 is the build target" (did_v2_go_forward_class_audit.md:1889).
+- evenly spaced time is a covariate. "Decided by Jess Haley, 2026-11-01 [evenly spaced time is a" (did_v2_go_forward_class_audit.md:1891).
+- ingested archives are sampled bodies. "Decided by Jess Haley, 2026-11-01 [ingested archives are" (did_v2_go_forward_class_audit.md:1893).
+- ingested compression settings. "Decided by Jess Haley, 2026-11-01 [ingested compression" (did_v2_go_forward_class_audit.md:1895).
+- probe wiring is a relation. "Decided by Jess Haley, 2026-11-01 [probe wiring is a" (did_v2_go_forward_class_audit.md:1897).
+- clock only on the time reference. "Decided by Jess Haley, 2026-11-01 [clock only on the time" (did_v2_go_forward_class_audit.md:1899).
+- wiring relation term. "Decided by Jess Haley, 2026-11-01 [wiring relation term]: (" (did_v2_go_forward_class_audit.md:1901).
+- Claude drafts the Dab map. "Decided by Jess Haley, 2026-11-02 [Claude drafts the Dab" (did_v2_go_forward_class_audit.md:1903).
+- handed-on classes carried at the end. "Decided by Jess Haley, 2026-11-02 [handed-on classes" (did_v2_go_forward_class_audit.md:1905).
+- V_eta not kept as an alias. "Decided by Jess Haley, 2026-11-02 [V_eta not kept as an" (did_v2_go_forward_class_audit.md:1907).
+- handed-on are v1 as written. "Decided by Jess Haley, 2026-11-03 [handed-on are v1 as" (did_v2_go_forward_class_audit.md:1909).
+- one-photon is NCIT fluorescence microscopy. "Decided by Jess Haley, 2026-11-03 [one-photon is NCIT" (did_v2_go_forward_class_audit.md:1911).
+- saline placeholder in Hunsberger import. "Decided by Jess Haley, 2026-11-03 [saline placeholder in" (did_v2_go_forward_class_audit.md:1913).
+- Dab bath units are Dabrowska's. "Decided by Jess Haley, 2026-11-03 [Dab bath units are" (did_v2_go_forward_class_audit.md:1915).
+- probe in several rows is one wiring. "Decided by Jess Haley, 2026-11-03 [probe in several rows is" (did_v2_go_forward_class_audit.md:1917).
+- treatment word list deleted. "Decided by Jess Haley, 2026-11-03 [treatment word list" (did_v2_go_forward_class_audit.md:1919).
+- one migration document per dataset. "Decided by Jess Haley, 2026-11-03 [one migration document" (did_v2_go_forward_class_audit.md:1921).
+- migration formats are plain text. "Decided by Jess Haley, 2026-11-03 [migration formats are" (did_v2_go_forward_class_audit.md:1923).
+- clamp mode of unrecorded probe dropped. "Decided by Jess Haley, 2026-11-03 [clamp mode of unrecorded" (did_v2_go_forward_class_audit.md:1925).
+- probe with two subjects is Dab's. "Decided by Jess Haley, 2026-11-03 [probe with two subjects" (did_v2_go_forward_class_audit.md:1927).
+- v1 session document id not kept. "Decided by Jess Haley, 2026-11-03 [v1 session document id" (did_v2_go_forward_class_audit.md:1929).
+- waveform unit gap once. "Decided by Jess Haley, 2026-11-03 [waveform unit gap once]" (did_v2_go_forward_class_audit.md:1931).
+- stated unit with no amount is a gap. "Decided by Jess Haley, 2026-11-03 [stated unit with no" (did_v2_go_forward_class_audit.md:1933).
+- subject match takes the subject types. "Decided by Jess Haley, 2026-11-03 [subject match takes the" (did_v2_go_forward_class_audit.md:1935).
+- gene-list mapping dimension is gene pair. "Decided by Jess Haley, 2026-11-03 [gene-list mapping" (did_v2_go_forward_class_audit.md:1937).
+- dataset storage session date dropped. "Decided by Jess Haley, 2026-11-03 [dataset storage session" (did_v2_go_forward_class_audit.md:1939).
+- gene pair term is NCIT Pair. "Decided by Jess Haley, 2026-11-03 [gene pair term is NCIT" (did_v2_go_forward_class_audit.md:1941).
+- gene-list method text is a description. "Decided by Jess Haley, 2026-11-03 [gene-list method text is" (did_v2_go_forward_class_audit.md:1943).
+- gene-list carry kinds confirmed. "Decided by Jess Haley, 2026-11-03 [gene-list carry kinds" (did_v2_go_forward_class_audit.md:1945).
+- gene-list facts split. "Decided by Jess Haley, 2026-11-07 [gene-list facts split]: (" (did_v2_go_forward_class_audit.md:1947).
+- gene-list history entities. "Decided by Jess Haley, 2026-11-07 [gene-list history" (did_v2_go_forward_class_audit.md:1949).
+- gene-list history filled by import. "Decided by Jess Haley, 2026-11-07 [gene-list history filled" (did_v2_go_forward_class_audit.md:1951).
+- gene symbol namespace kept. "Decided by Jess Haley, 2026-11-07 [gene symbol namespace" (did_v2_go_forward_class_audit.md:1953).
+- annotation source is GENEPIO. "Decided by Jess Haley, 2026-11-07 [annotation source is" (did_v2_go_forward_class_audit.md:1955).
+- namespace variable terms. "Decided by Jess Haley, 2026-11-07 [namespace variable" (did_v2_go_forward_class_audit.md:1957).
+- no source-facts list. "Decided by Jess Haley, 2026-11-07 [no source-facts list]: (" (did_v2_go_forward_class_audit.md:1959).
+- V2 branch writes V2 only. "Decided by Jess Haley, 2026-11-03 [V2 branch writes V2" (did_v2_go_forward_class_audit.md:1961).
+- writers are given the session. "Decided by Jess Haley, 2026-11-03 [writers are given the" (did_v2_go_forward_class_audit.md:1963).
+- dated counts in OPEN_WORK. "Decided by Jess Haley, 2026-11-03 [dated counts in" (did_v2_go_forward_class_audit.md:1965).
+- v1 database read-only on the v2 line. "Decided by Jess Haley, 2026-11-03 [v1 database read-only on" (did_v2_go_forward_class_audit.md:1967).
+- v1 and v2 lowercase. "Decided by Jess Haley, 2026-11-03 [v1 and v2 lowercase]: (" (did_v2_go_forward_class_audit.md:1969).
+- uneven time is a keyed time value. "Decided by Jess Haley, 2026-11-03 [uneven time is a keyed" (did_v2_go_forward_class_audit.md:1971).
+- voltage AFO, current NCIT. "Decided by Jess Haley, 2026-11-03 [voltage AFO, current" (did_v2_go_forward_class_audit.md:1973).
+- fixed writer values not written. "Decided by Jess Haley, 2026-11-03 [fixed writer values not" (did_v2_go_forward_class_audit.md:1975).
+- hartley planes are two statements. "Decided by Jess Haley, 2026-11-03 [hartley planes are two" (did_v2_go_forward_class_audit.md:1977).
+- hartley plane terms. "Decided by Jess Haley, 2026-11-18 [hartley plane terms]: (" (did_v2_go_forward_class_audit.md:1979).
+- hartley numbers stored, copies not. "Decided by Jess Haley, 2026-11-03 [hartley numbers stored" (did_v2_go_forward_class_audit.md:1981).
+- term picks batch 1. "Decided by Jess Haley, 2026-11-03 [term picks batch 1]: (" (did_v2_go_forward_class_audit.md:1983).
+- term picks batch 1b. "Decided by Jess Haley, 2026-11-03 [term picks batch 1b]: (" (did_v2_go_forward_class_audit.md:1985).
+- term picks batch 2. "Decided by Jess Haley, 2026-11-03 [term picks batch 2]: (" (did_v2_go_forward_class_audit.md:1987).
+- v2 line reads and writes both. "Decided by Jess Haley, 2026-11-03 [v2 line reads and writes" (did_v2_go_forward_class_audit.md:1989).
+- new database defaults to v2. "Decided by Jess Haley, 2026-11-03 [new database defaults to" (did_v2_go_forward_class_audit.md:1991).
+- old names guarded in comments. "Decided by Jess Haley, 2026-11-03 [old names guarded in" (did_v2_go_forward_class_audit.md:1993).
+- common species registered. "Decided by Jess Haley, 2026-11-06 [common species" (did_v2_go_forward_class_audit.md:1995).
+- v2 makers after G84. "Decided by Jess Haley, 2026-11-06 [v2 makers after G84]: (" (did_v2_go_forward_class_audit.md:1997).
+- hartley copies kept while files absent. "Decided by Jess Haley, 2026-11-06 [hartley copies kept" (did_v2_go_forward_class_audit.md:1999).
+- new dataset named by its reference. "Decided by Jess Haley, 2026-11-06 [new dataset named by its" (did_v2_go_forward_class_audit.md:2001).
+- receptive field is SNOMED's. "Decided by Jess Haley, 2026-11-06 [receptive field is" (did_v2_go_forward_class_audit.md:2003).
+- JSON descriptions lowercase too. "Decided by Jess Haley, 2026-11-06 [JSON descriptions" (did_v2_go_forward_class_audit.md:2005).
+- pipeline is a software entity. "Decided by Jess Haley, 2026-11-06 [pipeline is a software" (did_v2_go_forward_class_audit.md:2007).
+- Kilosort importer waits for the makers. "Decided by Jess Haley, 2026-11-18 [Kilosort importer waits" (did_v2_go_forward_class_audit.md:2009).
+- openMINDS export answers. "Decided by Jess Haley, 2026-11-06 [openMINDS export" (did_v2_go_forward_class_audit.md:2011).
+- unrecorded probe reads general type. "Decided by Jess Haley, 2026-11-06 [unrecorded probe reads" (did_v2_go_forward_class_audit.md:2013).
+- open work lives in issues. "Decided by Jess Haley, 2026-11-03 [open work lives in" (did_v2_go_forward_class_audit.md:2014).
+- pending builds filed by topic. "Decided by Jess Haley, 2026-11-19 [pending builds filed by" (did_v2_go_forward_class_audit.md:2016).
+- carry-051 and carry-095 retired. "Decided by Jess Haley, 2026-11-06 [carry-051 and carry-095" (did_v2_go_forward_class_audit.md:2018).
+- control pairing without trials stays carried. "Decided by Jess Haley, 2026-11-06 [control pairing without" (did_v2_go_forward_class_audit.md:2020).
+- sync rule terms. "Decided by Jess Haley, 2026-11-06 [sync rule terms]: (" (did_v2_go_forward_class_audit.md:2021).
+- openMINDS crosswalk on latest. "Decided by Jess Haley, 2026-11-06 [openMINDS crosswalk on" (did_v2_go_forward_class_audit.md:2023).
+- crosswalk assertions registered. "Decided by Jess Haley, 2026-11-06 [crosswalk assertions" (did_v2_go_forward_class_audit.md:2025).
+- unmapped roles not exported. "Decided by Jess Haley, 2026-11-06 [unmapped roles not" (did_v2_go_forward_class_audit.md:2027).
+- read speed margin. "Decided by Jess Haley, 2026-11-06 [read speed margin]: (" (did_v2_go_forward_class_audit.md:2029).
+- custodian exports as custodianship. "Decided by Jess Haley, 2026-11-07 [custodian exports as" (did_v2_go_forward_class_audit.md:2031).
+- copyright year is a date assertion. "Decided by Jess Haley, 2026-11-07 [copyright year is a date" (did_v2_go_forward_class_audit.md:2033).
+- copyright year term confirmed. "Decided by Jess Haley, 2026-11-08 [copyright year term" (did_v2_go_forward_class_audit.md:2035).
+- genome assembly term. "Decided by Jess Haley, 2026-11-08 [genome assembly term]: (" (did_v2_go_forward_class_audit.md:2037).
+- lock moved to NDI main. "Decided by Jess Haley, 2026-11-09 [lock moved to NDI main]" (did_v2_go_forward_class_audit.md:2039).
+- one dataset exports as Dataset and version. "Decided by Jess Haley, 2026-11-07 [one dataset exports as" (did_v2_go_forward_class_audit.md:2041).
+- documentation from subjectOf. "Decided by Jess Haley, 2026-11-07 [documentation from" (did_v2_go_forward_class_audit.md:2043).
+- receptive field is SNOMED. "Decided by Jess Haley, 2026-11-09 [receptive field is" (did_v2_go_forward_class_audit.md:2045).
+- term picks batch 3. "Decided by Jess Haley, 2026-11-09 [term picks batch 3]: (" (did_v2_go_forward_class_audit.md:2047).
+- remaining quantity copies removed. "Decided by Jess Haley, 2026-11-09 [remaining quantity" (did_v2_go_forward_class_audit.md:2049).
+- tenet audit 6 8 11. "Decided by Jess Haley, 2026-11-09 [tenet audit 6 8 11]: (" (did_v2_go_forward_class_audit.md:2051).
+- external parents imported. "Decided by Jess Haley, 2026-11-09 [external parents" (did_v2_go_forward_class_audit.md:2053).
+- purpose written by the dataset map. "Decided by Jess Haley, 2026-11-09 [purpose written by the" (did_v2_go_forward_class_audit.md:2055).
+- element recognised by its links. "Decided by Jess Haley, 2026-11-10 [element recognised by" (did_v2_go_forward_class_audit.md:2057).
+- ensemble has members. "Decided by Jess Haley, 2026-11-10 [ensemble has members]: (" (did_v2_go_forward_class_audit.md:2059).
+- sync configuration edges are input and output. "Decided by Jess Haley, 2026-11-10 [sync configuration edges" (did_v2_go_forward_class_audit.md:2061).
+- one spelling for the half-maximum point. "Decided by Jess Haley, 2026-11-10 [one spelling for the" (did_v2_go_forward_class_audit.md:2063).
+- intensity slot named for the quantity. "Decided by Jess Haley, 2026-11-10 [intensity slot named for" (did_v2_go_forward_class_audit.md:2065).
+- culture and alignment nodes. "Decided by Jess Haley, 2026-11-10 [culture and alignment" (did_v2_go_forward_class_audit.md:2067).
+- tuning summaries in the value. "Decided by Jess Haley, 2026-11-10 [tuning summaries in the" (did_v2_go_forward_class_audit.md:2069).
+- T15 inventory corrected. "Decided by Jess Haley, 2026-11-10 [T15 inventory" (did_v2_go_forward_class_audit.md:2071).
+- unbound term fields sorted. "Decided by Jess Haley, 2026-11-10 [unbound term fields" (did_v2_go_forward_class_audit.md:2073).
+- display label compared loosely. "Decided by Jess Haley, 2026-11-10 [display label compared" (did_v2_go_forward_class_audit.md:2075).
+- four term fields bound. "Decided by Jess Haley, 2026-11-10 [four term fields bound]" (did_v2_go_forward_class_audit.md:2077).
+- closing issues 2026-11-10. "Decided by Jess Haley, 2026-11-10 [closing issues" (did_v2_go_forward_class_audit.md:2079).
+- culture renamed cell culture. "Decided by Jess Haley, 2026-11-10 [culture renamed cell" (did_v2_go_forward_class_audit.md:2081).
+- openMINDS element description in notes. "Decided by Jess Haley, 2026-11-10 [openMINDS element" (did_v2_go_forward_class_audit.md:2083).
+- dataset form lists rebuilt. "Decided by Jess Haley, 2026-11-10 [dataset form lists" (did_v2_go_forward_class_audit.md:2085).
+- two corpus counts. "Decided by Jess Haley, 2026-11-10 [two corpus counts]: (" (did_v2_go_forward_class_audit.md:2087).
+- stimulus body link waits on the time model. "Decided by Jess Haley, 2026-11-10 [stimulus body link waits" (did_v2_go_forward_class_audit.md:2089).
+- spike waveforms are two calculations. "Decided by Jess Haley, 2026-11-10 [spike waveforms are two" (did_v2_go_forward_class_audit.md:2091).
+- spike waveforms built now. "Decided by Jess Haley, 2026-11-10 [spike waveforms built" (did_v2_go_forward_class_audit.md:2093).
+- no-migrator classes: build one, count six. "Decided by Jess Haley, 2026-11-10 [no-migrator classes" (did_v2_go_forward_class_audit.md:2095).
+- a fit is about its input's subject. "Decided by Jess Haley, 2026-11-10 [a fit is about its" (did_v2_go_forward_class_audit.md:2097).
+- voltage-to-firing-rate writers found. "Decided by Jess Haley, 2026-11-10 [voltage-to-firing-rate" (did_v2_go_forward_class_audit.md:2099).
+- site map waits with contact geometry. "Decided by Jess Haley, 2026-11-10 [site map waits with" (did_v2_go_forward_class_audit.md:2101).
+- unnamed measurement kind needs a map. "Decided by Jess Haley, 2026-11-10 [unnamed measurement kind" (did_v2_go_forward_class_audit.md:2103).
+- distance and its metadata are one statement. "Decided by Jess Haley, 2026-11-10 [distance and its" (did_v2_go_forward_class_audit.md:2105).
+- stimulus presentation leftovers wait for a dataset. "Decided by Jess Haley, 2026-11-10 [stimulus presentation" (did_v2_go_forward_class_audit.md:2107).
+- probes read from the derived index. "Decided by Jess Haley, 2026-11-10 [probes read from the" (did_v2_go_forward_class_audit.md:2109).
+- assertion wins while written. "Decided by Jess Haley, 2026-11-10 [assertion wins while" (did_v2_go_forward_class_audit.md:2111).
+- probes from the index keep v1's duplicates. "Decided by Jess Haley, 2026-11-10 [probes from the index" (did_v2_go_forward_class_audit.md:2113).
+- valid interval waits for a dataset. "Decided by Jess Haley, 2026-11-10 [valid interval waits for" (did_v2_go_forward_class_audit.md:2115).
+- focus on classes in the corpora. "Decided by Jess Haley, 2026-11-10 [focus on classes in the" (did_v2_go_forward_class_audit.md:2117).
+- unlinked device is not an element. "Decided by Jess Haley, 2026-11-11 [unlinked device is not" (did_v2_go_forward_class_audit.md:2120).
+- jrclust settings-file name dropped. "Decided by Jess Haley, 2026-11-11 [jrclust settings-file" (did_v2_go_forward_class_audit.md:2122).
+- tuning stated value is a condition. "Decided by Jess Haley, 2026-11-11 [tuning stated value is a" (did_v2_go_forward_class_audit.md:2124).
+- tuning fit coefficients named by symbol. "Decided by Jess Haley, 2026-11-11 [tuning fit coefficients" (did_v2_go_forward_class_audit.md:2126).
+- contrast sensitivity repeated fit is a known v1 defect. "Decided by Jess Haley, 2026-11-12 [contrast sensitivity" (did_v2_go_forward_class_audit.md:2128).
+- known v1 defects list. "Decided by Jess Haley, 2026-11-12 [known v1 defects list]: (" (did_v2_go_forward_class_audit.md:2130).
+- Dab gets a v2 import. "Decided by Jess Haley, 2026-11-12 [Dab gets a v2 import]: (" (did_v2_go_forward_class_audit.md:2132).
+- archive segment lengths measured after the second pass. "Decided by Jess Haley, 2026-11-12 [archive segment lengths" (did_v2_go_forward_class_audit.md:2134).
+- archive file list compared as a set. "Decided by Jess Haley, 2026-11-12 [archive file list" (did_v2_go_forward_class_audit.md:2136).
+- uneven time rewritten from the epoch start. "Decided by Jess Haley, 2026-11-12 [uneven time rewritten" (did_v2_go_forward_class_audit.md:2138).
+- bath concentration prefixes convert to molar. "Decided by Jess Haley, 2026-11-12 [bath concentration" (did_v2_go_forward_class_audit.md:2140).
+- ids from content when v1 states none. "Decided by Jess Haley, 2026-11-12 [ids from content when v1" (did_v2_go_forward_class_audit.md:2142).
+- pipeline order counts from 0. "Decided by Jess Haley, 2026-11-12 [pipeline order counts" (did_v2_go_forward_class_audit.md:2144).
+- copyright year precision is year. "Decided by Jess Haley, 2026-11-12 [copyright year precision" (did_v2_go_forward_class_audit.md:2146).
+- copyright from another tool is emitted. "Decided by Jess Haley, 2026-11-12 [copyright from another" (did_v2_go_forward_class_audit.md:2148).
+- pipeline steps use member of. "Decided by Jess Haley, 2026-11-12 [pipeline steps use" (did_v2_go_forward_class_audit.md:2150).
+- dataset DOI on the version. "Decided by Jess Haley, 2026-11-12 [dataset DOI on the" (did_v2_go_forward_class_audit.md:2152).
+- first documentation exported. "Decided by Jess Haley, 2026-11-12 [first documentation" (did_v2_go_forward_class_audit.md:2154).
+- v2 makers write v2 directly. "Decided by Jess Haley, 2026-11-12 [v2 makers write v2" (did_v2_go_forward_class_audit.md:2156).
+- author roles read from author edges. "Decided by Jess Haley, 2026-11-12 [author roles read from" (did_v2_go_forward_class_audit.md:2158).
+- depends on name not written when it equals the edge. "Decided by Jess Haley, 2026-11-12 [depends on name not" (did_v2_go_forward_class_audit.md:2160).
+- tuning axes named from the varied property. "Decided by Jess Haley, 2026-11-12 [tuning axes named from" (did_v2_go_forward_class_audit.md:2162).
+- openMINDS terms map through equivalent. "Decided by Jess Haley, 2026-11-12 [openMINDS terms map" (did_v2_go_forward_class_audit.md:2164).
+- input signal treatment is a method parameter. "Decided by Jess Haley, 2026-11-12 [input signal treatment" (did_v2_go_forward_class_audit.md:2166).
+- spike unit quality and mean waveform terms. "Decided by Jess Haley, 2026-11-12 [spike unit quality and" (did_v2_go_forward_class_audit.md:2168).
+- observes retires on a matching manipulation. "Decided by Jess Haley, 2026-11-12 [observes retires on a" (did_v2_go_forward_class_audit.md:2170).
+- response type harmonics are integers. "Decided by Jess Haley, 2026-11-12 [response type harmonics" (did_v2_go_forward_class_audit.md:2172).
+- response computed from the spike times. "Decided by Jess Haley, 2026-11-12 [response computed from" (did_v2_go_forward_class_audit.md:2174).
+- agreeing untied sources count as one. "Decided by Jess Haley, 2026-11-12 [agreeing untied sources" (did_v2_go_forward_class_audit.md:2176).
+- orphaned response settings are an accepted loss. "Decided by Jess Haley, 2026-11-12 [orphaned response" (did_v2_go_forward_class_audit.md:2178).
+- ingest writes v2 directly. "Decided by Jess Haley, 2026-11-17 [ingest writes v2" (did_v2_go_forward_class_audit.md:2180).
+- event channels are time-valued observations. "Decided by Jess Haley, 2026-11-17 [event channels are" (did_v2_go_forward_class_audit.md:2182).
+- ingested body members use the schema's names. "Decided by Jess Haley, 2026-11-17 [ingested body members" (did_v2_go_forward_class_audit.md:2184).
+- scale carries the reader's unit. "Decided by Jess Haley, 2026-11-17 [scale carries the" (did_v2_go_forward_class_audit.md:2186).
+- event channel variable terms. "Decided by Jess Haley, 2026-11-17 [event channel variable" (did_v2_go_forward_class_audit.md:2188).
+- event channel observes its wired device. "Decided by Jess Haley, 2026-11-17 [event channel observes" (did_v2_go_forward_class_audit.md:2190).
+- unpacked event bodies are uncompressed. "Decided by Jess Haley, 2026-11-17 [unpacked event bodies" (did_v2_go_forward_class_audit.md:2192).
+- unpacked events file is removed. "Decided by Jess Haley, 2026-11-17 [unpacked events file is" (did_v2_go_forward_class_audit.md:2194).
+- removed file locations are an accepted loss. "Decided by Jess Haley, 2026-11-18 [removed file locations" (did_v2_go_forward_class_audit.md:2196).
+- removed time segment locations are an accepted loss. "Decided by Jess Haley, 2026-11-19 [removed time segment" (did_v2_go_forward_class_audit.md:2198).
+- several marker numbers are a second dimension. "Decided by Jess Haley, 2026-11-17 [several marker numbers" (did_v2_go_forward_class_audit.md:2200).
+- channel list rows get v2 homes. "Decided by Jess Haley, 2026-11-17 [channel list rows get v2" (did_v2_go_forward_class_audit.md:2202).
+- event row defaults are notation. "Decided by Jess Haley, 2026-11-18 [event row defaults are" (did_v2_go_forward_class_audit.md:2204).
+- channel name is an identifier. "Decided by Jess Haley, 2026-11-17 [channel name is an" (did_v2_go_forward_class_audit.md:2206).
+- ingested block terms confirmed. "Decided by Jess Haley, 2026-11-17 [ingested block terms" (did_v2_go_forward_class_audit.md:2208).
+- migrated body members renamed. "Decided by Jess Haley, 2026-11-17 [migrated body members" (did_v2_go_forward_class_audit.md:2210).
+- stimulator link lives in the presentations. "Decided by Jess Haley, 2026-11-17 [stimulator link lives in" (did_v2_go_forward_class_audit.md:2212).
+- observes retires in the second pass. "Decided by Jess Haley, 2026-11-17 [observes retires in the" (did_v2_go_forward_class_audit.md:2214).
+- observes kept on several entities. "Decided by Jess Haley, 2026-11-19 [observes kept on several" (did_v2_go_forward_class_audit.md:2216).
+- bath manipulation retires observes. "Decided by Jess Haley, 2026-11-19 [bath manipulation" (did_v2_go_forward_class_audit.md:2218).
+- time channel is a per-channel covariate. "Decided by Jess Haley, 2026-11-17 [time channel is a" (did_v2_go_forward_class_audit.md:2220).
+- harmonic is a field beside the response type. "Decided by Jess Haley, 2026-11-17 [harmonic is a field" (did_v2_go_forward_class_audit.md:2222).
+- no transfer term on Haley moves. "Decided by Jess Haley, 2026-11-17 [no transfer term on" (did_v2_go_forward_class_audit.md:2224).
+- digital scale is unitless. "Decided by Jess Haley, 2026-11-17 [digital scale is" (did_v2_go_forward_class_audit.md:2226).
+- duplicate parts merged in DID. "Decided by Jess Haley, 2026-11-17 [duplicate parts merged" (did_v2_go_forward_class_audit.md:2228).
+- part re-keyed when its side arrives. "Decided by Jess Haley, 2026-11-17 [part re-keyed when its" (did_v2_go_forward_class_audit.md:2230).
+- tidy the spatial status. "Decided by Jess Haley, 2026-11-17 [tidy the spatial" (did_v2_go_forward_class_audit.md:2232).
+- tied multi-clock sources wait for a dataset. "Decided by Jess Haley, 2026-11-17 [tied multi-clock sources" (did_v2_go_forward_class_audit.md:2234).
+- tuning label choices confirmed. "Decided by Jess Haley, 2026-11-17 [tuning label choices" (did_v2_go_forward_class_audit.md:2236).
+- copyright round-trip losses. "Decided by Jess Haley, 2026-11-17 [copyright round-trip" (did_v2_go_forward_class_audit.md:2238).
+- non-specimen channel groups get their own owner. "Decided by Jess Haley, 2026-11-17 [non-specimen channel" (did_v2_go_forward_class_audit.md:2240).
+- documentation identifier prefers a DOI. "Decided by Jess Haley, 2026-11-17 [documentation identifier" (did_v2_go_forward_class_audit.md:2242).
+- role source left to the import. "Decided by Jess Haley, 2026-11-17 [role source left to the" (did_v2_go_forward_class_audit.md:2244).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).

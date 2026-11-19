@@ -172,7 +172,10 @@ GROUND_TRUTH = os.path.join(REPO, "schemas", "generated", "did_v2_ndi_ground_tru
 # nothing passes through were deleted, and with them five rows (among them
 # measurement.name and stimulus_parameter.name beside base.name). The three left
 # are the V1-ONLY-SLOT rows in OVERRIDES.
-BASELINE = 3
+# 3 -> 4 (2026-11-19, [demo keeps its name]): `demo` gets its own `name`, the
+# same V1-ONLY-SLOT row as the other three (OVERRIDES). All four go when V2
+# `base.name` is deleted ([v1 name goes to the class's own name field]).
+BASELINE = 4
 
 V1_FIDELITY = "V1-FIDELITY"
 V_ETA_SHADOW = "V_eta-SHADOW"
@@ -187,6 +190,7 @@ NOT_DERIVABLE = "NOT-DERIVABLE"
 OVERRIDES = {
     ("acquisition_system", "name"): (V1_ONLY_SLOT, "#73 item 54: V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("entity", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto the one `entity` class when product, dataset, funding, organization, publication, software, study, strain and web_resource merged into it (did_v2_entity_composition_plan.md, 2026-10-08): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
+    ("demo", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `demo` by [demo keeps its name] (did_v2_go_forward_class_audit.md, 2026-11-19): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
     ("method", "name"): (V1_ONLY_SLOT, "#73 item 54, carried onto `method` when the class `method_parameters` was renamed (did_v2_method_plan.md, 2026-10-21): V_eta class `name` beside the did_v1-only `base.name` slot; V_eta emitters never write base.name, so a V_eta document fills one"),
 }
 
