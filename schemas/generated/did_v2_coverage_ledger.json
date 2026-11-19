@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 931,
+          "accepted_lines": 936,
           "accepted_lines_by_kind": {
-            "Decided by": 811,
+            "Decided by": 816,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6449,6 +6449,38 @@
               "anchor": "Decided by Jess Haley, 2026-11-19 [awaiting carry rows cite"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2286,
+              "kind": "Decided by",
+              "tag": "BNST neuron types registered",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [BNST neuron types"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2288,
+              "kind": "Decided by",
+              "tag": "hartley frame times are onset times",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [hartley frame times are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2290,
+              "kind": "Decided by",
+              "tag": "knockin is NCIT Knock-in",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [knockin is NCIT"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2292,
+              "kind": "Decided by",
+              "tag": "carry-056 waits for a dataset",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [carry-056 waits for a"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -7215,6 +7247,14 @@
               "tag": "device id required and named by the rig",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [device id required and"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 234,
+              "kind": "Decided by",
+              "tag": "readtimeseries timed with NDI Cloud",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [readtimeseries timed"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
