@@ -912,10 +912,17 @@ def test_phase1_source_cleanup_and_dep_typing():
     # and `epochid` is a SUPERCLASS contributing a block that holds the epoch-id
     # STRING. This test was asserting the invented shape. See the correction in
     # did_v2_6_7_walkthrough_STATE.md.
-    assert not any(d["name"] == "epochid"
-                   for d in RECORDS["daqreader_epochdata_ingested"][1]["depends_on"]), \
+    # CHANGED 2026-11-19 ([retired classes leave V2] step 3): the
+    # `daqreader_epochdata_ingested` tombstone is deleted (handed on as v1 since
+    # DID-matlab #374; the epoch_id lift keeps its source as v1 since #491), so
+    # the same fact is pinned on NDI's template, which the v1 document is
+    # checked against: one edge, daqreader_id, and `epochid` a superclass.
+    assert "daqreader_epochdata_ingested" not in RECORDS
+    assert "daqreader_epochdata_ingested" in veta_record.RETIRED_CLASSES
+    gt_dei = _ndi_ground_truth()["classes"]["daqreader_epochdata_ingested"]
+    assert gt_dei["depends_on"] == ["daqreader_id"], \
         "did_v1 has no epochid dependency -- epochid is a superclass block"
-    assert _dep("daqreader_epochdata_ingested", "daqreader_id") is not None
+    assert "epochid" in gt_dei["superclasses"]
     # #60, INVERTED: this asserted that `epochfiles_ingested` carried an `epochid`
     # edge typed to acquisition_epoch. Both halves were wrong. NDI writes
     # `filenavigator_id` and V_eta had DROPPED it, declaring the invented `epochid`
@@ -989,9 +996,19 @@ def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as
     OPTIONAL (the subtype is discriminated by ndi_daqreader_class), and the
-    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string."""
+    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string.
+
+    CHANGED 2026-11-19 ([retired classes leave V2] step 3): `daqreader` was an
+    intermediate name (migrators_j/daqreader_ndr.m hands the de-encoded body to
+    migrators_j/daqreader.m, which folds it to `acquisition_reader` + a
+    software entity, or carries it, carry-100/130), and its retire tombstone is
+    deleted. The de-encoded field lives on `acquisition_reader`, so that is
+    what is read now."""
+    import veta_record
     assert "daqreader_ndr" not in RECORDS
-    dr = {f["name"]: f for f in RECORDS["daqreader"][1]["fields"]}
+    assert "daqreader" not in RECORDS
+    assert "daqreader" in veta_record.RETIRED_CLASSES
+    dr = {f["name"]: f for f in RECORDS["acquisition_reader"][1]["fields"]}
     assert dr.get("reader_string", {}).get("mustBeNonEmpty") is False
     # INVERTED 2026-08-10, not updated. This asserted that `file_extension` is
     # CARRIED onto daqreader -- the behaviour the signed daq-configuration
@@ -1014,11 +1031,21 @@ def test_mfdaq_ingested_de_encoded():
     """Chunk c: daqreader_mfdaq_epochdata_ingested encoded the reader subtype
     (`mfdaq`) in its CLASS NAME. It dissolves onto the generic
     daqreader_epochdata_ingested -- its only distinguishing content, `parameters`,
-    becomes an OPTIONAL field (empty for readers that do not slice by segment)."""
+    becomes an OPTIONAL field (empty for readers that do not slice by segment).
+
+    INVERTED 2026-11-19 on a changed premise ([retired classes leave V2] step
+    1 then step 3): since DID-matlab #480 (181eb168) the mfdaq archive is handed
+    on exactly as v1 wrote it, not renamed onto the retired generic class, and
+    that tombstone is deleted. `parameters` stays on the v1 document (NDI's
+    template), where ndi.migrate.internal.ingestedArchiveBodies reads the
+    segment lengths."""
+    import veta_record
     assert "daqreader_mfdaq_epochdata_ingested" not in RECORDS
-    dri = {f["name"]: f for f in RECORDS["daqreader_epochdata_ingested"][1]["fields"]}
-    assert "parameters" in dri
-    assert dri["parameters"].get("mustBeNonEmpty") is False
+    assert "daqreader_epochdata_ingested" not in RECORDS
+    assert "daqreader_epochdata_ingested" in veta_record.RETIRED_CLASSES
+    gt = _ndi_ground_truth()["classes"]["daqreader_mfdaq_epochdata_ingested"]
+    assert gt["fields"] == ["parameters"]
+    assert "daqreader_epochdata_ingested" in gt["superclasses"]
 
 
 def test_ingested_caches_epochid_dep_only():
@@ -1032,12 +1059,24 @@ def test_ingested_caches_epochid_dep_only():
     writers. Dropping the mixin left the epoch identity with nowhere to land,
     and the same false premise shipped as an rmfield() in the mfdaq migrator
     that deleted it outright. The assertion is inverted here so the superclass
-    is required, not forbidden."""
-    img = RECORDS["daqreader_image_epochdata_ingested"][1]
-    supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
-    assert "epochid" in supers, \
-        "epochid is a did_v1 superclass of the ingest caches, not a dependency"
+    is required, not forbidden.
+
+    CHANGED 2026-11-19 ([retired classes leave V2] step 3): both cache
+    tombstones and `epochid` are deleted (handed on as v1, DID-matlab
+    HAND_ON_CLASSES), so the superclass chain is pinned on NDI's templates,
+    which the v1 documents are checked against: the image cache inherits the
+    generic cache, which carries `epochid`."""
+    import veta_record
+    for gone in ("daqreader_image_epochdata_ingested",
+                 "daqreader_epochdata_ingested", "epochid"):
+        assert gone not in RECORDS, gone
+        assert gone in veta_record.RETIRED_CLASSES, gone
+    gt = _ndi_ground_truth()["classes"]
+    supers = set(gt["daqreader_image_epochdata_ingested"]["superclasses"])
     assert "daqreader_epochdata_ingested" in supers
+    assert "epochid" in gt["daqreader_epochdata_ingested"]["superclasses"], \
+        "epochid is a did_v1 superclass of the ingest caches, not a dependency"
+    assert "epochid" not in gt["daqreader_epochdata_ingested"]["depends_on"]
     # the caches are NOT collapsed into the data_body genus
     assert "sampled_body" not in supers
 
@@ -1374,17 +1413,21 @@ def test_ndi_class_handles_marked_needs_ndi():
     # Haley: pass 1 hands it on exactly as v1 wrote it, never validated against
     # V2, so its `ndi_syncrule_class` is NDI's template's). The classes still in
     # the tree keep the marker.
+    # daqreader and filenavigator, the last two carriers of the marker, were
+    # deleted 2026-11-19 ([retired classes leave V2] step 3): DID-matlab folds
+    # each to its V2 home (acquisition_reader / epoch_file_pattern, with the
+    # handle as a software entity) or carries it whole as v1, so their
+    # `ndi_<x>_class` handles are NDI's templates'. No class in the tree
+    # carries the marker now; the meta-schema still declares it, and the sweep
+    # below still refuses over-marking should one return.
     import veta_record
-    assert "syncrule" not in RECORDS and "syncrule" in veta_record.RETIRED_CLASSES
-    expected = {
-        "daqreader": "ndi_daqreader_class",
-        "filenavigator": "ndi_filenavigator_class",
-    }
-    for cls, fname in expected.items():
-        d = RECORDS[cls][1]
-        f = next(f for f in d["fields"] if f["name"] == fname)
-        assert f.get("needs_ndi") is True, f"{cls}.{fname} not marked needs_ndi"
+    for gone in ("syncrule", "daqreader", "filenavigator"):
+        assert gone not in RECORDS and gone in veta_record.RETIRED_CLASSES, gone
+    gt = _ndi_ground_truth()["classes"]
+    assert "ndi_daqreader_class" in gt["daqreader"]["fields"]
+    assert "ndi_filenavigator_class" in gt["filenavigator"]["fields"]
     # every needs_ndi field is an ndi_<x>_class handle (no over-marking)
+    assert len(RECORDS) == CLASS_COUNT, (len(RECORDS), CLASS_COUNT)   # denominator
     for _tier, d in RECORDS.values():
         for f in d.get("fields", []):
             if f.get("needs_ndi"):
@@ -3065,8 +3108,11 @@ def test_all_axes_declarations_are_the_one_entry():
     # DENOMINATOR FIRST. Without it a walker that silently found nothing would
     # pass by vacuous agreement -- the `silentLoss` defect, inside a test.
     # #73 item 65 (2026-09-29): value's and data_body's mounts merged into ONE
-    # declaration on `data`, so the floor is 2 (data, acquisition_epoch).
-    assert len(found) >= 2, (
+    # declaration on `data`, so the floor was 2 (data, acquisition_epoch).
+    # 2026-11-19 ([retired classes leave V2] step 3): `acquisition_epoch` is
+    # deleted, so `data` is the one mount left -- pinned by name rather than
+    # by a floor of 1, so a walker that stopped reaching `data` still fails.
+    assert sorted(found) == ["data"], (
         f"only {len(found)} `axes` declaration(s) found across {len(RECORDS)} "
         f"classes ({sorted(found)!r}). The plan counts three that must fold plus "
         "zarr; finding fewer means the walker is not reaching them, not that the "
@@ -3325,11 +3371,24 @@ def test_acquisition_epoch_declares_the_vhsb_payload():
     The plan files this under "repairs, not decisions, and true under either
     option", which is why it lands while the dissolution stays blocked on
     #65 -> #67/#32.
+
+    INVERTED 2026-11-19 on a changed premise ([retired classes leave V2] step
+    1 then step 3): since DID-matlab #481 (71a83a26) an `element_epoch` is
+    handed on exactly as v1 wrote it, never renamed to `acquisition_epoch`,
+    and that tombstone is deleted. The payload travels on the v1 document,
+    checked against NDI's template, and resolveEpochProbemap makes the .vhsb
+    the data body of the epoch's observation. So the file is pinned on NDI's
+    template, and the retired name must stay out of the tree.
     """
-    files = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
+    import veta_record
+    assert "acquisition_epoch" not in RECORDS
+    assert "acquisition_epoch" in veta_record.RETIRED_CLASSES
+    assert "element_epoch" not in veta_record.RENAME, (
+        "element_epoch is no longer renamed: it is handed on as v1")
+    files = _ndi_ground_truth()["classes"]["element_epoch"]["files"]
     assert files == ["epoch_binary_data.vhsb"], (
-        "acquisition_epoch must declare NDI's element_epoch file_list entry "
-        f"verbatim -- its documents all carry it; got {files!r}")
+        "NDI's element_epoch template must still declare the file_list entry "
+        f"every handed-on document carries; got {files!r}")
 
 
 # test_oneepoch_and_acquisition_epoch_agree_about_the_payload: removed 2026-10-30; oneepoch was deleted with
@@ -4342,19 +4401,12 @@ def test_key_covariate_index():
                                       "index": [0, 1, 2]}) != []
 
 
-def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():
-    for name in ("dimensions", "covariates"):
-        _e, ep = _a6_fields("acquisition_epoch", name)
-        _d, da = _a6_fields("data", name)
-        # [covariate details] 5.3a: an epoch's dimensions carry no `chunk`
-        assert list(ep) == [k for k in da if not (name == "dimensions" and k == "chunk")], name
-    _e, ep_dims = _a6_fields("acquisition_epoch", "dimensions")
-    assert "chunk" not in ep_dims
-    _e, ep = _a6_fields("acquisition_epoch", "covariates")
-    assert ep["key"]["documentation"].startswith("NOT USABLE HERE")   # `document` until [covariate key]
-    names = {f["name"] for f in RECORDS["acquisition_epoch"][1]["fields"]}
-    assert not {"keys", "complete"} & names, names
-    assert "key_id" not in {e["name"] for e in RECORDS["acquisition_epoch"][1]["depends_on"]}
+# test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable: removed
+# 2026-11-19; `acquisition_epoch`, which held the epoch's copy of the
+# dimensions/covariates entry, was deleted with the last retire classes
+# ([retired classes leave V2] step 3): an element_epoch is handed on as v1
+# (DID-matlab #481) and dissolved by resolveEpochProbemap, so `data` holds the
+# one copy (test_all_axes_declarations_are_the_one_entry pins that).
 
 
 def test_a6_no_class_declares_the_removed_fields():
@@ -4407,7 +4459,9 @@ def test_a6_cyclic_only_on_origin_spacing_or_quantity():
                                 "covariates.spacing", "covariates.quantity",
                                 "covariates.numeric"}, r["fields"]
     assert "[covariate details]" in r["statement"]
-    for cls in ("data", "acquisition_epoch"):
+    # `acquisition_epoch`'s copy left with the class (2026-11-19, [retired
+    # classes leave V2] step 3); `data` holds the one entry.
+    for cls in ("data",):
         _c, cov = _a6_fields(cls, "covariates")
         doc = cov["cyclic"]["documentation"]
         assert "`origin`+`spacing` or a `quantity`" in doc and "not on `count` or `matrix`" in doc, cls

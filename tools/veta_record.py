@@ -34,7 +34,6 @@ RENAME = {
     "observation": "subject_observation",
     "manipulation": "subject_manipulation",
     "categorical_observation": "term_observation",
-    "element_epoch": "acquisition_epoch",
     "award": "funding",
     "scalar_mass": "mass",
     "scalar_mass_observation": "mass_observation",
@@ -181,6 +180,32 @@ CARRIED_AS_V1 = {
 # tree today. validate_v_eta.py fails if one comes back: re-adding a retired
 # name is a decision, made by deleting it from this set in the same change.
 RETIRED_CLASSES = {
+    # the last eleven retire classes, deleted 2026-11-19 ([retired classes
+    # leave V2] step 3, [one folder, final classes only], [retire check now]):
+    # at DID-matlab V2 f79dd21a no v1 document passes through the generic
+    # migration under one -- app, calculator, epochid, stimulus_response and
+    # stimulus_response_scalar_parameters standing alone are carried whole
+    # (PARENT_ONLY_CLASSES, carry-100; the NDIcalc-vis-matlab
+    # contrast_sensitivity mock's stimulus_response_scalar_parameters among
+    # them); daqreader and filenavigator convert or carry (carry-100/130/132);
+    # stimulus_presentation is carried for NDI's second pass (carry-045);
+    # daqreader_epochdata_ingested and daqreader_image_epochdata_ingested are
+    # handed on as v1 (HAND_ON_CLASSES, the epoch_id lift too since #491);
+    # acquisition_epoch is written by nothing since element_epoch is handed on
+    # as v1 (#481) -- and the builder refuses a retire class in the migration
+    # (#491). No DID-matlab or NDI-matlab V2 code builds one or reads its
+    # file; NDI-matlab's CI assembly has left all eleven out since #1273.
+    "acquisition_epoch",
+    "app",
+    "calculator",
+    "daqreader",
+    "daqreader_epochdata_ingested",
+    "daqreader_image_epochdata_ingested",
+    "epochid",
+    "filenavigator",
+    "stimulus_presentation",
+    "stimulus_response",
+    "stimulus_response_scalar_parameters",
     # retire classes deleted 2026-11-03 ([handed-on are v1 as written], Jess
     # Haley, did_v2_go_forward_class_audit.md): since DID-matlab #374
     # (da487311) pass 1 hands these on exactly as v1 wrote them, stamped did_v1,

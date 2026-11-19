@@ -332,13 +332,12 @@
       ]
     },
     "by_disposition": {
-      "consumed by migrator (no tombstone)": 90,
+      "consumed by migrator (no tombstone)": 95,
       "dissolved \u2192 subject": 1,
-      "retire": 10,
+      "no V_eta home, no migrator -- UNVERIFIED": 14,
       "persist": 1,
       "test/demo fixture (non-production)": 2,
-      "UNMAPPED (needs a V_eta home)": 3,
-      "no V_eta home, no migrator -- UNVERIFIED": 9
+      "UNMAPPED (needs a V_eta home)": 3
     },
     "by_source": {
       "ndi": 105,
@@ -347,16 +346,17 @@
     "with_migrator": 96,
     "gaps": 3,
     "no_target": {
-      "rows_naming_no_target": 29,
+      "rows_naming_no_target": 30,
       "by_reason": {
         "dissolved": 5,
         "disputed": 0,
         "passthrough": 3,
-        "unrecorded": 19
+        "unrecorded": 20
       },
       "target_gaps": [
         "SpikeInterfaceSortingOutputs",
         "binnedspikeratevm",
+        "calculator",
         "dataset_session_info",
         "demoNDISeries",
         "demoNDISeriesMixed",
@@ -471,8 +471,8 @@
           },
           {
             "v1_class": "calculator",
-            "disposition": "retire",
-            "target_source": "passthrough",
+            "disposition": "no V_eta home, no migrator -- UNVERIFIED",
+            "target_source": "unknown",
             "governance": "decided"
           },
           {
@@ -500,7 +500,7 @@
             "governance": "proposed (not decided)"
           }
         ],
-        "genuinely_untouched_recorded_passthrough": 2,
+        "genuinely_untouched_recorded_passthrough": 1,
         "nothing_built_but_excused_by_a_signed_dissolution": 6,
         "nothing_built_but_excused_rows": [
           "imageCollection",
@@ -702,7 +702,7 @@
             ]
           },
           "target_only_reached_via": {},
-          "cited_classes_matching_no_ledger_row": 2,
+          "cited_classes_matching_no_ledger_row": 1,
           "spelling_near_misses": []
         },
         "census": {
@@ -739,8 +739,8 @@
               "cited_by_classes": []
             }
           ],
-          "classes_citing": 74,
-          "citations_total": 87,
+          "classes_citing": 73,
+          "citations_total": 86,
           "citations_unresolved": [],
           "lines_cited": 45,
           "uncited_lines": [
@@ -7950,8 +7950,8 @@
     },
     {
       "v1_class": "app",
-      "veta_class": "app",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -8394,24 +8394,22 @@
     },
     {
       "v1_class": "calculator",
-      "veta_class": "calculator",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "calculator"
-      ],
+      "targets": [],
       "decided_targets": [],
       "decided_targets_source": null,
       "decided_signoff": null,
-      "target_source": "passthrough",
-      "no_target_reason": null,
-      "no_target_reason_label": null,
+      "target_source": "unknown",
+      "no_target_reason": "unrecorded",
+      "no_target_reason_label": "NO TARGET AND NO DISSOLUTION RECORDED -- a gap, not a decision",
       "no_target_account": null,
       "no_target_signoff": null,
-      "target_gap": false,
+      "target_gap": true,
       "build_state": {
         "schema_targets_named": 0,
         "schema_targets_built": [],
@@ -9347,8 +9345,8 @@
     },
     {
       "v1_class": "daqreader",
-      "veta_class": "daqreader",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -9481,8 +9479,8 @@
     },
     {
       "v1_class": "daqreader_epochdata_ingested",
-      "veta_class": "daqreader_epochdata_ingested",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -9626,8 +9624,8 @@
     },
     {
       "v1_class": "daqreader_image_epochdata_ingested",
-      "veta_class": "daqreader_image_epochdata_ingested",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -11668,8 +11666,8 @@
     },
     {
       "v1_class": "epochid",
-      "veta_class": "epochid",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -11930,8 +11928,8 @@
     },
     {
       "v1_class": "filenavigator",
-      "veta_class": "filenavigator",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
@@ -18913,15 +18911,13 @@
     },
     {
       "v1_class": "stimulus_presentation",
-      "veta_class": "stimulus_presentation",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "consumed by migrator (no tombstone)",
       "migrator": true,
       "source": "ndi",
       "nonprod": false,
       "gap": false,
-      "targets": [
-        "stimulus_presentation"
-      ],
+      "targets": [],
       "decided_targets": [
         "item",
         "manipulation + item"
@@ -19032,7 +19028,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "no",
-            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (`stimulus_presentation`). 1 of 79 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "why": "the decided target(s) `item`, `manipulation + item` are not all among what the migrator emits today (nothing). 1 of 79 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -19052,8 +19048,8 @@
     },
     {
       "v1_class": "stimulus_response",
-      "veta_class": "stimulus_response",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,
@@ -19309,8 +19305,8 @@
     },
     {
       "v1_class": "stimulus_response_scalar_parameters",
-      "veta_class": "stimulus_response_scalar_parameters",
-      "disposition": "retire",
+      "veta_class": null,
+      "disposition": "no V_eta home, no migrator -- UNVERIFIED",
       "migrator": false,
       "source": "ndi",
       "nonprod": false,

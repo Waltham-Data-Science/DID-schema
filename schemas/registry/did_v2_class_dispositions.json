@@ -7,10 +7,6 @@
         "acceleration": {
             "disposition": "persist"
         },
-        "acquisition_epoch": {
-            "disposition": "retire",
-            "disposition_note": "pass-1 intermediate only: +migrators_j/element_epoch.m emits it and resolveEpochProbemap / epochMint consume it, so the class stays loadable; no corpus keeps one (DID corpus runs 39868711230 and 39879346144: 0 in JH, Soph, Dab, B, 20211116, PRED). did_v2_epoch_plan.md [JH position and distance]"
-        },
         "acquisition_reader": {
             "disposition": "persist"
         },
@@ -23,10 +19,6 @@
         "angular_velocity": {
             "disposition": "persist"
         },
-        "app": {
-            "disposition": "retire",
-            "disposition_note": "Replaced by a `software` entity (#73 item 53, signed; [presentation app is software], [sorter software]); deleted when no class keeps it as a superclass ([one folder, final classes only], 2026-10-29)."
-        },
         "area": {
             "disposition": "persist"
         },
@@ -38,10 +30,6 @@
         },
         "calculation": {
             "disposition": "persist"
-        },
-        "calculator": {
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         "capacitance": {
             "disposition": "persist"
@@ -85,18 +73,6 @@
         "current": {
             "disposition": "persist"
         },
-        "daqreader": {
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        "daqreader_epochdata_ingested": {
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        "daqreader_image_epochdata_ingested": {
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
         "data": {
             "disposition": "persist"
         },
@@ -126,14 +102,6 @@
         },
         "epoch_parameter_reader": {
             "disposition": "persist"
-        },
-        "epochid": {
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
-        },
-        "filenavigator": {
-            "disposition": "retire",
-            "disposition_note": "v1 infra source tombstone; its V_eta successor is signed and built (#73 audit 2 D13)"
         },
         "force": {
             "disposition": "persist"
@@ -252,18 +220,6 @@
         },
         "statement": {
             "disposition": "persist"
-        },
-        "stimulus_presentation": {
-            "disposition": "retire",
-            "disposition_note": "a v1 shape, not a v2 class: its v2 form is a manipulation with value kind item plus method documents (NDI second pass); a v1 stimulus_presentation is carried as v1. did_v2_go_forward_class_audit.md [stimulus_presentation retired]"
-        },
-        "stimulus_response": {
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
-        },
-        "stimulus_response_scalar_parameters": {
-            "disposition": "retire",
-            "disposition_note": "D-C analysis-tier decompose"
         },
         "substance_amount": {
             "disposition": "persist"
