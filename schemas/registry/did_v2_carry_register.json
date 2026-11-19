@@ -1761,7 +1761,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "every v1 id survives"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
@@ -1791,7 +1791,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "axis letters derive from labels"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -1837,7 +1837,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "fit classes kept; session list rebuilt"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
@@ -2088,7 +2088,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a fit with no subject",
       "kind_basis": "proposed"
     },
@@ -2105,7 +2105,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a fit with no subject",
       "kind_basis": "proposed"
     },
@@ -2122,7 +2122,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a calculation with no subject",
       "kind_basis": "proposed"
     },
@@ -2138,7 +2138,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2154,7 +2154,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "the stimulus model (not decided for this class)",
       "kind_basis": "proposed"
     },
@@ -2170,7 +2170,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2186,7 +2186,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2202,7 +2202,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2448,7 +2448,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2464,7 +2464,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2480,7 +2480,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2496,7 +2496,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2512,7 +2512,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2528,7 +2528,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2544,7 +2544,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },

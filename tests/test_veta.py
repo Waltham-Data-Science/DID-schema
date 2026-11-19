@@ -532,8 +532,13 @@ def test_conditions_on_statement():
     # 10 -> 12 on 2026-11-17: the new numeric shape's `numeric` and `tolerance`
     # (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, step 3; `quantity` and `matrix` stay until the readers drop the old
     # shape, section 9)
-    assert len(sub) == 12, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    # 12 -> 13 on 2026-11-19: `source_numeric`, type `number_or_text` ([source
+    # numeric is number or text], Jess Haley 2026-11-19, DID-matlab ded029f4 #510)
+    assert len(sub) == 13, f"read {len(sub)} entry field(s): {sorted(sub)}"
     assert sub["numeric"]["type"] == "matrix" and sub["numeric"]["mustBeScalar"] is False
+    assert sub["source_numeric"]["type"] == "number_or_text"
+    assert sub["source_numeric"]["mustBeScalar"] is True
+    assert sub["source_numeric"]["mustBeNonEmpty"] is False
     assert [x["name"] for x in sub["tolerance"]["fields"]] == ["minus", "plus"]
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is True
     assert sub["variable"]["type"] == "ontology_term"
@@ -575,11 +580,15 @@ def test_conditions_and_method_parameters_are_one_entry():
     # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
     # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17): a covariate's `source_numeric` is a number
     # array, declared here; a condition's holds a number or text ([numeric shape
-    # details] (1)) and is not declared yet; `source_origin` / `source_spacing` go
-    # with `origin`
+    # details] (1)), declared as `number_or_text` since [source numeric is number
+    # or text] (Jess Haley, 2026-11-19, DID-matlab ded029f4 #510); `source_origin` /
+    # `source_spacing` go with `origin`
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
         "along", "cyclic", "origin", "spacing", "key", "index",
-        "source_numeric", "source_origin", "source_spacing"}, sorted(ks)
+        "source_origin", "source_spacing"}, sorted(ks)
+    cond = dict(shapes[("statement", "conditions")])
+    assert cond["source_numeric"] == "number_or_text"
+    assert ks["source_numeric"]["type"] == "matrix"
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
@@ -1992,9 +2001,11 @@ def test_named_composite_cells_declare_their_layout():
     # scalar string (the validator accepts it on the char branch), so it has no
     # internals to declare and is not the kind of thing this test is about --
     # which is named COMPOSITE cells whose layout would otherwise be opaque.
+    # `number_or_text` (2026-11-19, [source numeric is number or text], DID-matlab
+    # ded029f4 #510) is a scalar number or one row of text: no internals either.
     named = set(META["$defs"]["field_definition"]["properties"]["type"]["enum"]) - {
         "did_uid", "char", "string", "integer", "double", "matrix", "timestamp",
-        "date", "boolean", "structure"}
+        "date", "boolean", "structure", "number_or_text"}
     # A nested quantity that names its value class declares its layout THERE
     # ([quantity reference type], Jess Haley 2026-10-27, did-schema #66): the
     # validators expand that class's `value` cell, so the reference is not
@@ -3934,9 +3945,11 @@ def test_inline_method_has_the_document_shape():
     # #73 audit 2 D4, then 2026-10-19: the one single-value entry, shared with
     # `conditions` (data_body AMENDMENT 3).
     # `numeric` and `tolerance`: the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
+    # `source_numeric` since 2026-11-19 ([source numeric is number or text])
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "numeric", "tolerance", "quantity", "count", "text", "logical", "matrix"]
+        "term", "numeric", "source_numeric", "tolerance", "quantity", "count", "text",
+        "logical", "matrix"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")
