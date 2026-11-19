@@ -1469,11 +1469,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "strain leftovers wait for a dataset"
       },
       "open_work": 149,
-      "home": "settled by [openMINDS strain leftovers] and [openMINDS strain leftovers settled] (NDI-matlab 3a8cd8ebb, 54ea656, #1104): digitalIdentifier, alternateIdentifier and a JAX, MMRRC or Bloomington stockNumber (as an RRID) go to the strain entity's global_identifier; any other stockNumber is a Catalog Number (NCIT:C99286) text assertion; breedingType a Breeding (NCIT:C42877) term assertion; diseaseModel a disease model (BAO:0010279) term assertion; lookupLabel is not stored. None decided for what NDI-matlab strainAssembly.m still carries here: a Strain field outside the openMINDS Strain fields it reads, a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType, a species or geneticStrainType reference not in the batch or to a fragment that states nothing, and a leftover strainLeftovers.m cannot place (not text, a reference not in the batch or stating no identifier, several stock numbers or breeding types)",
-      "kind_basis": "proposed"
+      "home": "settled by [openMINDS strain leftovers] and [openMINDS strain leftovers settled] (NDI-matlab 3a8cd8ebb, 54ea656, #1104): digitalIdentifier, alternateIdentifier and a JAX, MMRRC or Bloomington stockNumber (as an RRID) go to the strain entity's global_identifier; any other stockNumber is a Catalog Number (NCIT:C99286) text assertion; breedingType a Breeding (NCIT:C42877) term assertion; diseaseModel a disease model (BAO:0010279) term assertion; lookupLabel is not stored. None decided for what NDI-matlab strainAssembly.m still carries here: a Strain field outside the openMINDS Strain fields it reads, a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType, a species or geneticStrainType reference not in the batch or to a fragment that states nothing, and a leftover strainLeftovers.m cannot place (not text, a reference not in the batch or stating no identifier, several stock numbers or breeding types); the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-093",
@@ -1504,11 +1504,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "strain leftovers wait for a dataset"
       },
       "open_work": 149,
-      "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain",
-      "kind_basis": "proposed"
+      "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain; the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-096",
@@ -1584,11 +1584,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "unbuilt spike classes carry as needs home"
+        "tag": "spike clusters wait for a dataset"
       },
       "open_work": 153,
-      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
-      "kind_basis": "proposed"
+      "home": "none now: designed from the first dataset that holds a `spike_clusters` ([spike clusters wait for a dataset]); its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-103",
@@ -1651,11 +1651,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "v1 name goes to the class's own name field"
+        "tag": "statement name waits for a dataset"
       },
       "open_work": 156,
-      "home": "none decided; the number of such statements is counted in the next corpus run (DID-matlab)",
-      "kind_basis": "proposed"
+      "home": "none now: waits for a dataset that holds a statement with a real v1 name; that dataset's import decides ([statement name waits for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-107",
