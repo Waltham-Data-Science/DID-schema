@@ -102,6 +102,16 @@
             "disposition": "persist"
         },
         {
+            "class_name": "acquisition_configuration",
+            "family": "acquisition",
+            "class_version": "1.0.0",
+            "superclasses": [
+                "base"
+            ],
+            "path": "schemas/did_v2/acquisition/acquisition_configuration.json",
+            "disposition": "persist"
+        },
+        {
             "class_name": "acquisition_reader",
             "family": "acquisition",
             "class_version": "1.0.0",
@@ -109,16 +119,6 @@
                 "base"
             ],
             "path": "schemas/did_v2/acquisition/acquisition_reader.json",
-            "disposition": "persist"
-        },
-        {
-            "class_name": "acquisition_system",
-            "family": "acquisition",
-            "class_version": "1.0.0",
-            "superclasses": [
-                "base"
-            ],
-            "path": "schemas/did_v2/acquisition/acquisition_system.json",
             "disposition": "persist"
         },
         {

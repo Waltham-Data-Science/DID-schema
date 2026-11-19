@@ -7,10 +7,10 @@
         "acceleration": {
             "disposition": "persist"
         },
-        "acquisition_reader": {
+        "acquisition_configuration": {
             "disposition": "persist"
         },
-        "acquisition_system": {
+        "acquisition_reader": {
             "disposition": "persist"
         },
         "angle": {

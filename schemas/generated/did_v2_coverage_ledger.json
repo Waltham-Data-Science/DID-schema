@@ -399,8 +399,8 @@
       "by_stage_reached": {
         "0": 14,
         "1": 25,
-        "2": 16,
-        "3": 61,
+        "2": 17,
+        "3": 60,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -419,8 +419,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 59,
-          "no": 17,
+          "yes": 58,
+          "no": 18,
           "n/a": 8
         },
         "4": {
@@ -430,7 +430,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 76,
-        "3": 59,
+        "3": 58,
         "4": 0
       },
       "capped": {
@@ -442,8 +442,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 13,
           "1": 27,
-          "2": 17,
-          "3": 59,
+          "2": 18,
+          "3": 58,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -10291,7 +10291,7 @@
         "entity"
       ],
       "decided_targets": [
-        "acquisition_system"
+        "acquisition_configuration"
       ],
       "decided_targets_source": "curated_targets_file",
       "decided_signoff": null,
@@ -10304,10 +10304,10 @@
       "build_state": {
         "schema_targets_named": 1,
         "schema_targets_built": [
-          "acquisition_system"
+          "acquisition_configuration"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": true,
+        "migrator_emits_decided_targets": false,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10321,7 +10321,7 @@
       },
       "carried": [],
       "second_pass": [],
-      "how": "Becomes `acquisition_system` (an entity), preserving BOTH `base.id` and `base.name`. The name is preserved because it is a JOIN KEY, not a label: epochprobemap device strings and every syncrule's `daqsystem1_name`/`_2_name` match on it BY STRING, so dropping it would silently break probe-to-device attribution.",
+      "how": "Becomes `acquisition_configuration` (`acquisition_system` until Jess Haley's decision of 2026-11-19 [acquisition configuration renamed], did_v2_standing_wiring_plan.md; an entity when this row was written), preserving BOTH `base.id` and `base.name`. The name is preserved because it is a JOIN KEY, not a label: epochprobemap device strings and every syncrule's `daqsystem1_name`/`_2_name` match on it BY STRING, so dropping it would silently break probe-to-device attribution.",
       "target_flags": "SIGNED AND BUILT 2026-08-12, AND THIS ROW SAID THE OPPOSITE UNTIL THEN. It read \"BUILT BUT GUARDED, AND ON EVERY REAL did_v1 DOCUMENT IT IS A PASSTHROUGH TODAY ... Nothing converts until a team call names a home for it\" -- true when written, and contradicted by its own `targets` the moment the edge landed, because refresh_migration_targets.py owns `targets` and says in its own words that this prose is not touched by it. The team call was made (option A): `acquisition_system` gains a SECOND software edge, `software_id -> software`, optional, and the guard in migrators_j/daqsystem.m is DELETED. `ndi_daqsystem_class` ('ndi.daq.system.mfdaq' / '.image') now folds to a `software` entity through jSoftware, the same route its three siblings take -- it is the OBJECT-RECONSTRUCTION KEY read by ndi_document2ndi_object via a CONSTRUCTED field name, which is why a literal grep called it dead. The edge is OPTIONAL because NDI's template sets no mustbenotempty and jSoftware returns [] for an empty name, so the no-software path is real; #37 is armed, so a required edge here would quarantine those documents. EXPECTED CORPUS MOVEMENT, none of it measured here: `unconverted_by_class.daqsystem` -> 0; `acquisition_system` appears on real data for the first time; and the TOTAL document count RISES, because this is now a 1->2 fold. The figure on record is 178 daqsystem across FOUR corpora (did_v2_daq_family_decisions.md:359, Soph 96) -- QUOTED, NOT MEASURED, and a stale lower bound: six corpora run today and no corpus report exists in this repo. Watch `software_id` BY NAME in silentLoss rather than reading quarantine=0 as success.",
       "decided_by_citation": {
         "document": "did_v2_daq_family_decisions.md",
@@ -10372,10 +10372,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 3,
-        "reached_name": "the migrator emits THE DECIDED targets",
-        "blocked_by": 4,
-        "blocked_by_state": "not measured",
+        "reached": 2,
+        "reached_name": "its decided target classes EXIST in the build",
+        "blocked_by": 3,
+        "blocked_by_state": "no",
         "ladder": [
           {
             "stage": 1,
@@ -10392,8 +10392,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "yes",
-            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
+            "state": "no",
+            "why": "the decided target(s) `acquisition_configuration` are not all among what the migrator emits today (`acquisition_system`, `assertion + text`, `entity`). 1 of 79 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
           },
           {
             "stage": 4,
@@ -10403,7 +10403,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 3,
+        "highest_rung_satisfied_independently": 2,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,

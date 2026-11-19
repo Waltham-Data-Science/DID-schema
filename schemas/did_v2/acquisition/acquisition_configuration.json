@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "acquisition_system",
+        "class_name": "acquisition_configuration",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -55,7 +55,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The rig's name (v1 `daqsystem.base.name`, #73 item 54). NDI finds an acquisition system by this name (session.m daqsystem_load; a syncrule's daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
+            "documentation": "The rig's name (v1 `daqsystem.base.name`, #73 item 54). An acquisition_configuration is how a device's recordings are read: its reader (`reader_id`), epoch file pattern (`epoch_file_pattern_id`), epoch parameter readers (`epoch_parameter_reader_id`), software (`software_id`) and device (`device_id`); `acquisition_system` until Jess Haley's decision of 2026-11-19 [acquisition configuration renamed] (did_v2_standing_wiring_plan.md). NDI finds an acquisition configuration by this name (session.m daqsystem_load; a syncrule's daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
             "constraints": {}
         }
     ]

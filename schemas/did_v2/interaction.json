@@ -57,7 +57,7 @@
             "name": "acquisition_system_id",
             "mustBeNonEmpty": false,
             "documentation": "Optional: the acquisition system (rig) this interaction was recorded on or delivered through, pointed at directly (Jess Haley 2026-11-01 [probe wiring is a relation], did_v2_go_forward_class_audit.md: \"a recording's system point[s] straight at the `acquisition_system`\"). Which of the system's channels carried it is not here: the instrument (the probe) is `connected to` (RO:0002170, [wiring relation term]) the system by a `directed_relation` timed by the epoch, whose conditions name the channels per channel type. Distinct from `instrument_id` (the device, an entity) and `acquisition_system.device_id`. Replaces `acquisition_channels_id` and its shared `acquisition_channels` document (#73 item 56), both retired by the same decision.",
-            "must_refer_to_document_class": "acquisition_system"
+            "must_refer_to_document_class": "acquisition_configuration"
         }
     ],
     "file": [],

@@ -1,8 +1,8 @@
 {
  "classes_index": [
+  "acquisition_configuration",
   "acquisition_epoch",
   "acquisition_layout",
-  "acquisition_system",
   "app",
   "binaryseries_parameters",
   "binding_registry_meta",
@@ -154,10 +154,10 @@
   },
   {
    "after": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_built": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_not_built": [],
    "before": [
@@ -171,9 +171,8 @@
     "quote": ">    and `session`. It is NOT `\u2282 subject`: T1's bare subject is the thing statements are"
    },
    "class_registers": {
-    "acquisition_system": [
-     "built",
-     "named_in_cited_plan"
+    "acquisition_configuration": [
+     "built"
     ],
     "daqsystem": [
      "v1_source",
@@ -313,11 +312,11 @@
   },
   {
    "after": [
-    "acquisition_system",
+    "acquisition_configuration",
     "software"
    ],
    "after_built": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_not_built": [
     "software"
@@ -334,9 +333,8 @@
     "quote": "earns subjecthood only when it is a thing-in-itself\") does not license minting one."
    },
    "class_registers": {
-    "acquisition_system": [
-     "built",
-     "named_in_cited_plan"
+    "acquisition_configuration": [
+     "built"
     ],
     "daqreader": [
      "v1_source",
