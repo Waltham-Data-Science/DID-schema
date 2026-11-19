@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 921,
+          "accepted_lines": 925,
           "accepted_lines_by_kind": {
-            "Decided by": 801,
+            "Decided by": 805,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6409,6 +6409,30 @@
               "anchor": "Decided by Jess Haley, 2026-11-17 [role source left to the"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2276,
+              "kind": "Decided by",
+              "tag": "Dab stimulators with deferred baths read the animal",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [Dab stimulators with"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2278,
+              "kind": "Decided by",
+              "tag": "openMINDS ids rebuild the subject terms",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [openMINDS ids rebuild"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2280,
+              "kind": "Decided by",
+              "tag": "region part ids computed",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [region part ids"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -6567,6 +6591,14 @@
               "tag": "series readings share a source record",
               "date": "2026-11-17",
               "anchor": "Decided by Jess Haley, 2026-11-17 [series readings share a"
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 289,
+              "kind": "Decided by",
+              "tag": "no migrated database is kept",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [no migrated database is"
             },
             {
               "document": "did_v2_openminds_family_record.md",
