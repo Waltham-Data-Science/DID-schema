@@ -1146,14 +1146,17 @@
         "depends_on document_id"
       ],
       "when": "the image has a `document_id` edge (DID-matlab image_stack.m, which migrators_j.image routes a v1 `image` to; 'unplaced: depends_on document_id'); carry-052 is the same case for imageStack",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "generic stage is lossless"
+        "tag": "image link needs mapping"
       },
-      "open_work": 139,
-      "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided",
+      "homes": [
+        "whatever each dataset decides the edge means"
+      ],
+      "decides": "what the image's `document_id` edge means; it varies by writer",
+      "resolved_by": "each dataset's import (not yet written)"
     },
     {
       "id": "carry-068",
