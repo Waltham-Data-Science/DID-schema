@@ -35,7 +35,8 @@ per meaning, so this checks, and fails on any of:
       the last is not a gap.
 
   R10 every entry carries the same keys (name, node, definition, status,
-      decided, first_used_in, obsolete, number_unit, equivalent, synonyms): DID-matlab
+      decided, first_used_in, obsolete, number_unit, canonical_unit, factor,
+      equivalent, synonyms): DID-matlab
       did2.schema.termIndex concatenates the rows, which fails on rows of
       different shapes. `obsolete` is false or {consider: <node>} (a term the ontology made obsolete, kept while
       something still writes it), and the node it names is registered.
@@ -58,6 +59,14 @@ per meaning, so this checks, and fails on any of:
       did_v2_go_forward_class_audit.md [allowed units are source units]): each
       row names a registered variable once and a non-empty list of registered
       source units, each once, every {node, name} as registered.
+
+  R16 `canonical_unit` and `factor` (Jess Haley, 2026-11-17,
+      did_v2_numeric_shape_plan.md [one shape for measured numbers], section 8
+      answer 3: "each unit's registry row gains canonical_unit and factor"):
+      both false, or `canonical_unit` {node, name} naming a registered
+      term (registered under that name) that is its own canonical unit with
+      factor 1, and `factor` a positive finite number. Every
+      canonical unit in tools/canonical_units.py is its own, with factor 1.
 
   R14 `synonyms` (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md
       [spelling is notation]) is a list of non-empty strings: the spellings a
@@ -89,7 +98,7 @@ BUILT = os.path.join(ROOT, "schemas", "generated", "term_registry_meta.json")
 CURIES = os.path.join(ROOT, "schemas", "registry", "CURIE_lookups_meta.json")
 STATUSES = {"decided", "staged"}
 ROW_KEYS = ["name", "node", "definition", "status", "decided", "first_used_in",
-            "obsolete", "number_unit", "equivalent", "synonyms"]
+            "obsolete", "number_unit", "canonical_unit", "factor", "equivalent", "synonyms"]
 # R12: the prefixes of unit terms (OM, T14; UO for pH, [pH unit is UO pH])
 UNIT_PREFIXES = ("om", "uo")
 
@@ -159,6 +168,7 @@ def check(source, built, curies):
     failures += _number_unit(terms, names)
     failures += _equivalent(terms, names, spelling)
     failures += _synonyms(terms)
+    failures += _canonical_unit(terms)
     if built is None:
         failures.append("R6 the built term_registry_meta.json does not exist (run tools/validate_v_eta.py)")
     elif built.get("terms") != terms:
@@ -217,6 +227,51 @@ def _number_unit(terms, names):
         elif reg.get("name") != nu["name"]:
             out.append(f"R12 {where}: number_unit {nu['node']} is named {nu['name']!r}, "
                        f"registered as {reg.get('name')!r}")
+    return out
+
+
+def _canonical_unit(terms):
+    """R16: `canonical_unit` and `factor` are both false, or a registered
+    canonical unit (itself canonical, factor 1) and a positive finite number."""
+    import math
+    by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
+    out = []
+    for i, t in enumerate(terms):
+        where = f'term {i + 1} ("{t.get("name")}")'
+        cu_, f = t.get("canonical_unit", False), t.get("factor", False)
+        if cu_ is False and f is False:
+            continue
+        if not (isinstance(cu_, dict) and set(cu_) == {"node", "name"}
+                and all(isinstance(v, str) and v for v in cu_.values())):
+            out.append(f"R16 {where}: `canonical_unit` is {cu_!r}, not false or {{node, name}}")
+            continue
+        if isinstance(f, bool) or not isinstance(f, (int, float)) or not math.isfinite(f) or f <= 0:
+            out.append(f"R16 {where}: `factor` is {f!r}, not a positive number (or false with canonical_unit false)")
+            continue
+        reg = by_node.get(cu_["node"].lower())
+        if reg is None:
+            out.append(f"R16 {where}: canonical_unit {cu_['node']} is not a registered term")
+        elif reg.get("name") != cu_["name"]:
+            out.append(f"R16 {where}: canonical_unit {cu_['node']} is named {cu_['name']!r}, "
+                       f"registered as {reg.get('name')!r}")
+        elif reg.get("canonical_unit") != {"node": reg["node"], "name": reg["name"]} or reg.get("factor") != 1:
+            out.append(f"R16 {where}: canonical_unit {cu_['node']} is not its own canonical unit with factor 1")
+    return out
+
+
+def check_canonical_unit_rows(terms):
+    """R16, against the canonical-unit list: every canonical unit the list names
+    that the registry holds is its own canonical unit, with factor 1."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import canonical_units as cu
+    by_node = {(t.get("node") or "").lower(): t for t in terms if t.get("node")}
+    out = []
+    for kind, slots in cu.CANONICAL_UNITS.items():
+        for slot, name, node in slots:
+            t = by_node.get(node.lower()) if node else None
+            if t is not None and (t.get("canonical_unit") != {"node": t["node"], "name": t["name"]}
+                                  or t.get("factor") != 1):
+                out.append(f"R16 {kind}.{slot}: canonical unit {node} does not name itself with factor 1")
     return out
 
 
@@ -433,7 +488,8 @@ def check_canonical_units(terms):
             classes[d["document_class"]["class_name"]] = d
     fails, listed, n = cu.check(classes, terms)
     report = [(f"R11: {n['cells']} value-kind cell(s) in {len(classes)} class(es) checked against "
-               f"{len(cu.CANONICAL_UNITS)} kind(s); {n['units']} canonical unit(s), "
+               f"{len(cu.CANONICAL_UNITS)} kind(s); {n['declared']} class `canonical` declaration(s) "
+               f"compared with the list; {n['units']} canonical unit(s), "
                f"{n['units'] - len(listed)} with a registered term; "
                f"{n['bound_unit_fields']} unit field(s) checked bound")]
     report += [f"  R11 listed (not failed): {x}" for x in listed]
@@ -490,6 +546,9 @@ def main():
     n_eq = sum(len(t.get("equivalent") or []) for t in terms)
     n_eq_rows = sum(1 for t in terms if t.get("equivalent"))
     print(f"R13: {len(terms)} row(s) checked; {n_eq} equivalent id(s) on {n_eq_rows} row(s)")
+    n_cu = sum(1 for t in terms if t.get("canonical_unit"))
+    failures = failures + check_canonical_unit_rows(terms)
+    print(f"R16: {len(terms)} row(s) checked; {n_cu} give a canonical unit and factor")
     n_syn = sum(len(t.get("synonyms") or []) for t in terms)
     n_syn_rows = sum(1 for t in terms if t.get("synonyms"))
     print(f"R14: {len(terms)} row(s) checked; {n_syn} synonym(s) on {n_syn_rows} row(s)")

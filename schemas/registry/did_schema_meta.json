@@ -42,6 +42,42 @@
             },
             "description": "Array of field definition objects."
         },
+        "canonical": {
+            "type": "array",
+            "minItems": 1,
+            "description": "A value class's canonical field(s) and the unit each is in, so code can read any statement's number without a hand-written table (Jess Haley, 2026-11-17, did_v2_numeric_shape_plan.md [one shape for measured numbers], section 2: \"each class declaring its canonical field and unit\"); concentration declares seven. Must agree with tools/canonical_units.py (tools/check_term_registry.py R11).",
+            "items": {
+                "type": "object",
+                "required": [
+                    "field",
+                    "unit"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "The canonical field of the class's `value` cell (volts, grams, molar, ...)."
+                    },
+                    "unit": {
+                        "type": "object",
+                        "required": [
+                            "node",
+                            "name"
+                        ],
+                        "additionalProperties": false,
+                        "properties": {
+                            "node": {
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "The registered unit term the field is in."
+                    }
+                }
+            }
+        },
         "rules": {
             "type": "array",
             "description": "In-document conditions a single field declaration cannot express (an iff, an exclusive or, a requirement conditional on another field). Each rule is NAMED so a validator implements it as a named check (DID-matlab, report-only first). #73 audit 2 D6.",

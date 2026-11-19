@@ -526,8 +526,13 @@ def test_conditions_on_statement():
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
-    # 9 -> 10 on 2026-10-22: the `logical` form (Jess Haley [logical entries])
-    assert len(sub) == 10, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    # 9 -> 10 on 2026-10-22: the `logical` form (Jess Haley [logical entries]);
+    # 10 -> 12 on 2026-11-17: the new numeric shape's `numeric` and `tolerance`
+    # (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, step 3; `quantity` and `matrix` stay until the readers drop the old
+    # shape, section 9)
+    assert len(sub) == 12, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    assert sub["numeric"]["type"] == "matrix" and sub["numeric"]["mustBeScalar"] is False
+    assert [x["name"] for x in sub["tolerance"]["fields"]] == ["minus", "plus"]
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is True
     assert sub["variable"]["type"] == "ontology_term"
     assert sub["term"]["type"] == "ontology_term"
@@ -566,8 +571,13 @@ def test_conditions_and_method_parameters_are_one_entry():
     assert "labels" not in ks and "values" not in ks
     assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
     # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
+    # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17): a covariate's `source_numeric` is a number
+    # array, declared here; a condition's holds a number or text ([numeric shape
+    # details] (1)) and is not declared yet; `source_origin` / `source_spacing` go
+    # with `origin`
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
-        "along", "cyclic", "origin", "spacing", "key", "index"}, sorted(ks)
+        "along", "cyclic", "origin", "spacing", "key", "index",
+        "source_numeric", "source_origin", "source_spacing"}, sorted(ks)
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
     assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
@@ -3845,9 +3855,10 @@ def test_inline_method_has_the_document_shape():
     params = inline["fields"][1]
     # #73 audit 2 D4, then 2026-10-19: the one single-value entry, shared with
     # `conditions` (data_body AMENDMENT 3).
+    # `numeric` and `tolerance`: the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "quantity", "count", "text", "logical", "matrix"]
+        "term", "numeric", "tolerance", "quantity", "count", "text", "logical", "matrix"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")
@@ -4115,8 +4126,13 @@ def test_a6_dimension_entry_is_term_n_chunk():
 
 def test_a6_covariate_entry_shape():
     _cov, sub = _a6_fields("data", "covariates")
+    # `numeric`, `source_numeric`, `tolerance`, `source_origin`, `source_spacing`:
+    # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17), where DID-matlab
+    # did2.schema.numericShapeFields puts them
     assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
-                         "origin", "spacing", "quantity", "count", "term", "text",
+                         "numeric", "source_numeric", "tolerance",
+                         "origin", "spacing", "source_origin", "source_spacing",
+                         "quantity", "count", "term", "text",
                          "logical", "matrix", "key", "index", "cyclic"]
     assert sub["variable"]["mustBeNonEmpty"] is True
     assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
@@ -4150,8 +4166,11 @@ def test_a6_rules_replace_the_key_rules():
     for r in rules.values():
         assert set(r["fields"]) <= declared, (r["name"], set(r["fields"]) - declared)
     # `index` is named because it goes only beside `key` ([key covariate index])
+    # the new numeric shape's fields go with their form (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, section 6)
     assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing",
-                                                          "covariates.index"} == set(
+                                                          "covariates.index"} | {
+        f"covariates.{x}" for x in ("numeric", "source_numeric", "tolerance",
+                                    "source_origin", "source_spacing")} == set(
         rules["covariate_one_value_form"]["fields"])
     assert "exactly one" in rules["covariate_single_dimension_forms"]["statement"]
     assert "non-empty" in rules["covariate_along"]["statement"]
@@ -4383,8 +4402,10 @@ def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
 def test_a6_cyclic_only_on_origin_spacing_or_quantity():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     r = rules["covariate_cyclic"]
+    # `numeric` takes `quantity`'s place in the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
     assert set(r["fields"]) == {"covariates.cyclic", "covariates.along", "covariates.origin",
-                                "covariates.spacing", "covariates.quantity"}, r["fields"]
+                                "covariates.spacing", "covariates.quantity",
+                                "covariates.numeric"}, r["fields"]
     assert "[covariate details]" in r["statement"]
     for cls in ("data", "acquisition_epoch"):
         _c, cov = _a6_fields(cls, "covariates")

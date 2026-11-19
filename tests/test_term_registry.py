@@ -19,10 +19,11 @@ def registry(*terms):
 
 
 def term(name, node, status="decided", definition="d", obsolete=False, number_unit=False,
-         equivalent=None, synonyms=None):
+         equivalent=None, synonyms=None, canonical_unit=False, factor=False):
     return {"name": name, "node": node, "status": status, "definition": definition,
             "decided": "J, 2026-10-22", "first_used_in": "test", "obsolete": obsolete,
-            "number_unit": number_unit, "equivalent": equivalent or [],
+            "number_unit": number_unit, "canonical_unit": canonical_unit, "factor": factor,
+            "equivalent": equivalent or [],
             "synonyms": [] if synonyms is None else synonyms}
 
 
@@ -267,6 +268,36 @@ def test_a_term_states_the_unit_of_its_number():
     assert len(fails) == 4, fails
     assert "not a registered term" in fails[0] and "registered as 'hour'" in fails[1]
     assert "not a unit term" in fails[2] and "not false or" in fails[3]
+
+
+def test_a_unit_row_gives_its_canonical_unit_and_factor():
+    """R16 (Jess Haley, 2026-11-17, did_v2_numeric_shape_plan.md [one shape for
+    measured numbers], section 8 answer 3: "each unit's registry row gains
+    canonical_unit and factor"): both false, or a registered canonical unit
+    (itself canonical, factor 1) and a positive number."""
+    sec = {"node": "om:second-Time", "name": "second"}
+    second = term("second", "om:second-Time", canonical_unit=sec, factor=1)
+    hour = term("hour", "om:hour", canonical_unit=sec, factor=3600)
+    assert run(registry(second, hour))[2] == []
+    bad = [term("a", "om:a", canonical_unit=sec, factor=False),
+           term("b", "om:b", canonical_unit=sec, factor=0),
+           term("c", "om:c", canonical_unit={"node": "om:minute", "name": "minute"}, factor=60),
+           term("d", "om:d", canonical_unit={"node": "om:hour", "name": "hour"}, factor=3600),
+           term("e", "om:e", canonical_unit=False, factor=2),
+           term("f", "om:f", canonical_unit={"node": "om:second-Time", "name": "seconds"}, factor=1)]
+    fails = [f for f in run(registry(second, hour, *bad))[2] if f.startswith("R16")]
+    assert len(fails) == 6, fails
+    assert "positive number" in fails[0] and "positive number" in fails[1]
+    assert "not a registered term" in fails[2] and "not its own canonical unit" in fails[3]
+    assert "not false or" in fails[4] and "registered as 'second'" in fails[5]
+
+
+def test_the_live_registry_gives_every_canonical_unit_itself():
+    terms = ctr._load(ctr.SOURCE)["terms"]
+    assert ctr.check_canonical_unit_rows(terms) == []
+    by = {t["node"]: t for t in terms}
+    assert by["om:millivolt"]["canonical_unit"] == {"node": "om:volt", "name": "volt"}
+    assert by["om:millivolt"]["factor"] == 1e-3
 
 
 def test_the_live_registry_states_hours_for_grating_training():

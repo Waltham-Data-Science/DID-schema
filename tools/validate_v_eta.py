@@ -674,7 +674,9 @@ def r17_one_fit_entry(t):
 
 # The slots of a quantity cell that are not canonicals (T14, source_unit plan,
 # time_reference CHANGE 7).
-_NOT_CANONICAL = ("source_unit", "source_value", "approximate", "tolerance")
+# `source_numeric` is `source_value` renamed (did_v2_numeric_shape_plan.md [one shape
+# for measured numbers], Jess Haley 2026-11-17); both are declared until the old shape goes.
+_NOT_CANONICAL = ("source_unit", "source_value", "source_numeric", "approximate", "tolerance")
 
 
 def value_cells(t):
@@ -889,7 +891,7 @@ def d6_quantity_list(t):
                         "says (\"all value classes, including count, score, gain, ph\"); "
                         "`has_source_unit` marks the ones measured in a unit. No other "
                         "definition of a quantity is applied here. `canonicals` are the cell's slots other than "
-                        "source_unit, source_value, approximate and tolerance; "
+                        "source_unit, source_value, source_numeric, approximate and tolerance; "
                         "`source_unit_values` is null where the cell declares no closed list; "
                         "`named_by` lists every nested field whose type is the class."),
         "quantities": rows,

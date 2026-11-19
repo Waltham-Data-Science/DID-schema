@@ -22,7 +22,7 @@
                         "node": "",
                         "name": ""
                     },
-                    "source_value": 0.0,
+                    "source_numeric": 0.0,
                     "approximate": false,
                     "tolerance": {}
                 }
@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A typed voltage value. Statement leaves that observe, assert or impose a voltage inherit this `value`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time covariate along a time dimension: in the statement's `dimensions` and `covariates` when inline, on each body's when stored in a body (#73 item 21; keys until 2026-10-22, data_body plan AMENDMENT 6).",
+            "documentation": "A typed voltage value. Statement leaves that observe, assert or impose a voltage inherit this `value`. Series-as-cardinality (Brainstorm I): an ARRAY of the composite; a single reading is the length-1 case. Per-sample timing is a time covariate along a time dimension: in the statement's `dimensions` and `covariates` when inline, on each body's when stored in a body (#73 item 21; keys until 2026-10-22, data_body plan AMENDMENT 6). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 4): a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance`; an array of cells of one number each, with `source_value`, is the OLD SHAPE, read until the readers drop it (section 9, step 4).",
             "constraints": {},
             "fields": [
                 {
@@ -110,7 +110,20 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Was: The number as given by the source, in `source_unit`.",
+                    "constraints": {}
+                },
+                {
+                    "name": "source_numeric",
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
+                    "mustBeNonEmpty": false,
+                    "mustBeScalar": true,
+                    "mustNotHaveNaN": false,
+                    "queryable": true,
+                    "ontology": null,
+                    "documentation": "The number as given by the source, in `source_unit` (`source_value` renamed; did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 2). One number, as the canonical field is, except in a statement's own `value`: there a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance` (section 8 answer 4; [series readings share a source record]). A nested reference to this class (a time reference's `start`, a dose's `mass`) holds one number. The field is declared scalar because the two uses share this declaration; DID-matlab did2.schema.numericShapeFields marks the statement value's series.",
                     "constraints": {}
                 },
                 {
@@ -172,6 +185,15 @@
                     ]
                 }
             ]
+        }
+    ],
+    "canonical": [
+        {
+            "field": "volts",
+            "unit": {
+                "node": "om:volt",
+                "name": "volt"
+            }
         }
     ]
 }
