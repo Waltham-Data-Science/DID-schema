@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 951,
+          "accepted_lines": 952,
           "accepted_lines_by_kind": {
-            "Decided by": 831,
+            "Decided by": 832,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6535,6 +6535,14 @@
               "tag": "carry rows cite issues, not OPEN_WORK",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [carry rows cite issues"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2308,
+              "kind": "Decided by",
+              "tag": "local identifier required only where looked up",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [local identifier"
             },
             {
               "document": "did_v2_image_model_plan.md",
