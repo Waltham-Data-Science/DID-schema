@@ -630,12 +630,16 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
     stamps and not of intentions.
 
     THIS TEST DOES NOT PROVE THE FOLD WRITES NOTHING, and the docstring says so
-    because a first draft claimed it did. On today's data the single followed
-    fold lands on `daqreader_epochdata_ingested.daqreader_id`, which its OWN
-    NDI class already stamps with the same verdict, so stamping it a second
-    time changes no count and this test stays green through that mutation.
+    because a first draft claimed it did. Until the sibling lock moved to
+    DID-matlab f79dd21a the single followed fold landed on
+    `daqreader_epochdata_ingested.daqreader_id`, which its OWN NDI class
+    already stamps with the same verdict; since DID-matlab #480 hands
+    `daqreader_mfdaq_epochdata_ingested` on as v1, no v1 class names a
+    target, so no fold is followed on today's data at all.
     `test_a_followed_fold_is_compared_but_never_stamped` is the one that
-    proves the negative, on a fixture built to be able to fail.
+    proves the negative, on a fixture built to be able to fail. This test
+    asserts only what it can: a non-empty compared set, and exactly that many
+    markers.
 
     MUTATION: helpfully stamp the `<name>_#` family member of a renamed edge
     (3 real cases) -> the marker count exceeds `edges_matched_by_name` and this
@@ -663,9 +667,9 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
         d = NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS,
                                    META_FILES, deleted_phase8=_phase8_set(),
                                    targets_path=TARGETS_PATH)
-        assert d["fold_followed"] > 0, (
-            "no fold was followed, so this test asserted nothing about the "
-            "negative it exists to prove")
+        assert d["edges_matched_by_name"] > 0, (
+            "no edge was compared by name, so the marker count below would "
+            "be checked against an empty set")
         markers = 0
         for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
             with open(p) as f:

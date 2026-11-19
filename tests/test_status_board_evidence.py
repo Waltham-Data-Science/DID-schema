@@ -703,9 +703,13 @@ _IDIOM_SOURCES = [
     ("2 local class-block helper, 3-arg", "pyraview.m", PRE_PORT,
      "classBlock('session_relative_reference'", ("pyraview.m", "classBlock"),
      "session_relative_reference"),
-    ("3 class_name field write", "element_epoch.m", None,
-     "document_class.class_name = 'acquisition_epoch'", None,
-     "acquisition_epoch"),
+    # Re-pointed when the sibling lock moved to DID-matlab f79dd21a:
+    # element_epoch is carried as v1 there (DID-matlab #481), so its
+    # `acquisition_epoch` write is gone; jDemoFold.m's `demo` write is the
+    # same idiom.
+    ("3 class_name field write", "private/jDemoFold.m", None,
+     "v2Body.document_class.class_name = 'demo'", None,
+     "demo"),
     # #88 (DID-matlab #218 after 229c12e): the builder.
     ("4 builder, leaf name", "lightsheet_zarr_pyramid.m", PORT_MERGE,
      "did2.build.statement('intensity_observation'", None,

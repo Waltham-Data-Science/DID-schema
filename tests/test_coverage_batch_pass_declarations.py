@@ -400,8 +400,13 @@ class TestTheCommittedLedger(unittest.TestCase):
     def test_declared_names_that_are_not_v1_classes_are_reported(self):
         """Reported, not dropped: a silent non-match hides a typo."""
         names = {e["name"] for e in self.bp["declared_matching_no_row"]}
+        # `acquisition_epoch` joined when the sibling lock moved to DID-matlab
+        # f79dd21a: epochMint and resolveEpochProbemap still declare they
+        # consume it (they read either shape, DID-matlab #481), but
+        # element_epoch is handed on as v1 there, so no v1 row targets it.
         self.assertEqual(
-            names, {"session_relative_reference", "session_bounded_reference"})
+            names, {"session_relative_reference", "session_bounded_reference",
+                    "acquisition_epoch"})
 
     def test_the_moved_rows_carry_the_channel_in_their_own_why(self):
         rows = {r["v1_class"]: r for r in _ledger()["rows"]}

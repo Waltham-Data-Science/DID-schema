@@ -126,8 +126,8 @@
     "daqreader_mfdaq_epochdata_ingested": {
       "carried": [],
       "second_pass": [],
-      "how": "mfdaq subtype de-encodes into the generic ingested cache; parameters moves onto the parent as optional field",
-      "flags": "in-place class rename",
+      "how": "HANDED ON AS v1 IN PASS 1 (DID-matlab 181eb168, #480, step (1) of [retired classes leave V2], did_v2_go_forward_class_audit.md): the migrator (migrators_j/daqreader_mfdaq_epochdata_ingested.m, `bodies = preBody`) checks the document against its v1 template and returns it unchanged; DID-matlab v1_to_v2 lists the class in HAND_ON_CLASSES, so it is stamped did_v1 and never validated against v2. It is no longer renamed to the retire class `daqreader_epochdata_ingested`. Its V2 home is built by the batch passes: did2.convert.resolveEpochProbemap writes the epoch's clocks as relative_time_reference documents from the archive's epochtable and its files as opaque_body documents of the recording observations, and NDI's second pass (ndi.migrate.internal.ingestedArchiveBodies) turns those into sampled bodies; an archive the pass keeps is carried as its v1 source at the end of the batch ([handed-on classes carried at the end]).",
+      "flags": "pass-1 hand-on, no V2 emission in pass 1 (read at the locked DID-matlab head f79dd21a). Before #480 the migrator renamed the document in place to `daqreader_epochdata_ingested` and moved the mfdaq `parameters` block onto it; the confirmed emitted set below was recorded for that path and names the clocks (relative_time_reference) that resolveEpochProbemap now writes.",
       "confirmed_targets": {
         "targets": [
           "relative_time_reference"
@@ -251,8 +251,8 @@
     "element_epoch": {
       "carried": [],
       "second_pass": [],
-      "how": "element retired, so the epoch doc is renamed element_epoch -> acquisition_epoch",
-      "flags": "in-place class rename"
+      "how": "HANDED ON AS v1 IN PASS 1 (DID-matlab 71a83a26, #481, step (1) of [retired classes leave V2], did_v2_go_forward_class_audit.md): the migrator (migrators_j/element_epoch.m) checks the clocks and depends_on as before and returns the document unchanged; DID-matlab v1_to_v2 lists it in HAND_ON_CLASSES, so it is stamped did_v1 and never validated against v2. It is no longer renamed to the retire class `acquisition_epoch`. Its V2 home is the dissolution built by the batch pass did2.convert.resolveEpochProbemap (one observation of the element per epoch, its relative_time_reference onto the epoch, the .vhsb as its data body), which reads the v1 clocks through did2.convert.elementEpochClockRecords; a source the pass does not dissolve is carried as its v1 source at the end of the batch.",
+      "flags": "pass-1 hand-on, no V2 emission in pass 1 (read at the locked DID-matlab head f79dd21a); before #481 this row was an in-place class rename element_epoch -> acquisition_epoch."
     },
     "ensemble": {
       "carried": [],
