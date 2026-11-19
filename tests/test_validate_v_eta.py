@@ -83,10 +83,12 @@ def test_an_unresolved_superclass_is_refused(tree):
 
 
 def test_a_binding_on_a_non_term_field_is_refused(tree):
+    # was base.json's first char field, `name`; V2 `base.name` is deleted
+    # ([v1 name goes to the class's own name field]), so method.json's
     def fn(d):
         f = next(x for x in d["fields"] if x["type"] == "char")
         f["constraints"] = {"binding": {"strength": "preferred"}}
-    _edit(_f(tree, "base.json"), fn)
+    _edit(_f(tree, "method.json"), fn)
     rc, out = _run(tree)
     assert rc == 1 and "is bound but typed 'char'" in out, out
 

@@ -412,14 +412,16 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     org = next(r for r in reg["entity_type_bindings"] if r["type"] == "organization")
     assert org["requires"] == [], org
     assert org["requires_one_of"] == [["name", "global_identifier"]], org
-    # each configuration class with a name declares `name`; base.name is did_v1-only
+    # each configuration class with a name declares `name`; V2 `base.name` is
+    # deleted (Jess Haley, [v1 name goes to the class's own name field] and
+    # [base.name kept until retire classes leave], did_v2_go_forward_class_audit.md)
     for e in ("entity", "acquisition_system", "method"):
         names = [f["name"] for f in RECORDS[e][1]["fields"]]
         assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
         assert not {"full_name", "title", "label"} & set(names), names
-    base_name = next(f for f in RECORDS["base"][1]["fields"] if f["name"] == "name")
-    assert base_name["mustBeNonEmpty"] is False
-    assert "did_v1 ONLY" in base_name["documentation"]
+    base_fields = [f["name"] for f in RECORDS["base"][1]["fields"]]
+    assert base_fields, "base declares no fields -- the check would be vacuous"
+    assert "name" not in base_fields, base_fields
 
 
 def test_demo_family_collapsed_to_one_class():
@@ -2128,10 +2130,20 @@ def test_duplicate_field_fidelity_split_is_derived_from_the_ground_truth():
         f"ground truth artifact not read ({gt_stats['error']}) -- this check "
         "would pass while classifying nothing")
     assert gt_stats["classes"] > 0 and gt_stats["field_names"] > 0, gt_stats
+    assert classes, "no V_eta classes were read -- the check would pass vacuously"
     rows = mod.find_duplicates(classes)
-    assert rows, "no duplicate rows at all -- the check would pass vacuously"
+    # The tree holds no duplicate row since V2 `base.name` was deleted
+    # ([v1 name goes to the class's own name field], [base.name kept until
+    # retire classes leave], 2026-11-19). The classifier is tested on rows of
+    # each kind built from the v1 truth: did_v1 declares `name` in both base and
+    # stimulus_parameter (V1-FIDELITY), and `entity` has no did_v1 class
+    # (NOT-DERIVABLE; the row the tree held until 2026-11-19).
+    assert rows == [], rows
+    rows = [("stimulus_parameter", "name", ("base", "stimulus_parameter")),
+            ("entity", "name", ("base", "entity"))]
 
     classified, _ = mod.classify(rows, gt_index, gt_stats)
+    assert {r["derived"] for r in classified} == {mod.V1_FIDELITY, mod.NOT_DERIVABLE}, classified
     assert len(classified) == len(rows)
 
     # Independent re-derivation: read the raw artifact, not the tool's index.
@@ -2187,6 +2199,13 @@ def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
     if not any(r["derived"] != mod.NOT_DERIVABLE
                for r in mod.classify(rows, gt_index, gt_stats)[0]):
         rows = rows + [("stimulus_parameter", "name", ("base", "stimulus_parameter"))]
+    # Nor any NOT-DERIVABLE row since V2 `base.name` was deleted (2026-11-19,
+    # [v1 name goes to the class's own name field]): the four were a class's
+    # own `name` beside it. `entity` has no did_v1 class, so its former row is
+    # one the ground truth cannot answer.
+    if not any(r["derived"] == mod.NOT_DERIVABLE
+               for r in mod.classify(rows, gt_index, gt_stats)[0]):
+        rows = rows + [("entity", "name", ("base", "entity"))]
     derivable = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
                  if r["derived"] != mod.NOT_DERIVABLE]
     undecided = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
