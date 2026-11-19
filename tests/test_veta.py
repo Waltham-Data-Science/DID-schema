@@ -401,9 +401,12 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     # rows keyed by the stored type, the ontology label since 2026-10-22 (Jess
     # Haley [vocabulary nodes] L2): group, material, session, epoch / dataset,
     # person, funding, strain
-    for t in ("organism", "cell culture", "tissue", "cell", "Group", "device", "material entity",
-              "Session", "recording epoch"):
+    for t in ("organism", "Session", "recording epoch"):
         assert "local_identifier" in req[t], t
+    # Jess Haley 2026-11-19 [local identifier required only where looked up]:
+    # the other dataset-local kinds require `name`; `local_identifier` is optional
+    for t in ("cell culture", "tissue", "cell", "Group", "device", "material entity"):
+        assert req[t] == ["name"], t
     for t in ("Data Set", "Person", "publication", "Grant",
               "software", "Organism Strain"):
         assert req[t] == ["name"], t
