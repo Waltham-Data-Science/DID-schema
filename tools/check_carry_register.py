@@ -3,8 +3,9 @@
 did_v2_go_forward_class_audit.md [carry register] and [one correct reading]).
 
 schemas/registry/did_v2_carry_register.json lists every reason the generic migration
-carries a v1 document whole as v1, so that a carry is never read as "v2 is
-missing a field". This checks, and fails on any of:
+carries a v1 document whole as v1 (or, for a field-scoped row, holds one field
+of a converted document in the migration report), so that a carry is never
+read as "v2 is missing a field". This checks, and fails on any of:
 
   C1  the file's shape: `kinds` is exactly the four decided kinds
       (awaiting_home, needs_mapping, not_modelled, malformed); every row has
@@ -16,7 +17,15 @@ missing a field". This checks, and fails on any of:
         needs_mapping  `homes` (a non-empty list), `decides`, `resolved_by`
         not_modelled   `do_not` {line, class, fields}
         malformed      nothing more
-      and no other keys.
+      and no other keys, except `scope`. A row with no `scope`, or with
+      `scope: "document"`, carries the whole document. A row with
+      `scope: "field"` is a field-scoped carry
+      (did_v2_standing_wiring_plan.md [one-field carry in the migration
+      report], Jess Haley, 2026-11-19): the document converts, and only the
+      one field the row names is held in the run's migration report, in its
+      carried-fields list {document_id, class, field, value, carry, reason}.
+      A field-scoped row is kind `needs_mapping` (as the decision states) and
+      its `fields` is exactly one name; any other `scope` value FAILS.
   C2  a row's `v1_class` that is not a v1 source class of the coverage ledger
       (schemas/generated/did_v2_coverage_ledger.json), nor an NDIcalc-vis-matlab
       template class the ground truth read at the locked commit
@@ -65,6 +74,8 @@ INDEX = os.path.join(ROOT, "schemas", "generated", "index.json")
 KINDS = ["awaiting_home", "needs_mapping", "not_modelled", "malformed"]
 BASES = ("stated", "decided", "proposed")
 COMMON = {"id", "v1_class", "fields", "when", "kind", "kind_basis", "decision"}
+SCOPES = ("document", "field")
+OPTIONAL = {"scope"}
 BY_KIND = {
     "awaiting_home": {"open_work", "home"},
     "needs_mapping": {"homes", "decides", "resolved_by"},
@@ -107,8 +118,8 @@ def check_shape(reg):
             out.append(f"C1 {where}: kind {kind!r}, not one of {KINDS}")
             continue
         want = COMMON | BY_KIND[kind]
-        if set(r) != want:
-            missing, extra = sorted(want - set(r)), sorted(set(r) - want)
+        if not (want <= set(r) <= want | OPTIONAL):
+            missing, extra = sorted(want - set(r)), sorted(set(r) - want - OPTIONAL)
             out.append(f"C1 {where}: keys for kind {kind}: missing {missing}, unexpected {extra}")
             continue
         for k in ("v1_class", "when"):
@@ -117,6 +128,16 @@ def check_shape(reg):
         if not (isinstance(r["fields"], list) and r["fields"]
                 and all(_text(f) for f in r["fields"])):
             out.append(f"C1 {where}: `fields` is not a non-empty list of names")
+        scope = r.get("scope", "document")
+        if scope not in SCOPES:
+            out.append(f"C1 {where}: scope {scope!r}, not one of {SCOPES}")
+        elif scope == "field":
+            if kind != "needs_mapping":
+                out.append(f"C1 {where}: a field-scoped row is kind needs_mapping, "
+                           f"not {kind} ([one-field carry in the migration report])")
+            if not (isinstance(r["fields"], list) and len(r["fields"]) == 1):
+                out.append(f"C1 {where}: a field-scoped row names exactly one field, "
+                           f"not {r['fields']!r}")
         if r["kind_basis"] not in BASES:
             out.append(f"C1 {where}: kind_basis {r['kind_basis']!r}, not one of {BASES}")
         d = r["decision"]
@@ -262,6 +283,8 @@ def main():
     by_kind = {k: sum(1 for r in rows if isinstance(r, dict) and r.get("kind") == k)
                for k in KINDS}
     print("  by kind: " + ", ".join(f"{k} {n}" for k, n in by_kind.items()))
+    n_field = sum(1 for r in rows if isinstance(r, dict) and r.get("scope") == "field")
+    print(f"  by scope: whole document {len(rows) - n_field}, one field {n_field}")
     ledger = _load(LEDGER)
     v1 = {r.get("v1_class") for r in ledger.get("rows", [])}
     n_ledger = len(v1)
