@@ -12095,6 +12095,102 @@
       "number_unit": false,
       "equivalent": [],
       "synonyms": []
+    },
+    {
+      "name": "curve fit model",
+      "node": "BAO:0000625",
+      "definition": "A mathematical model / equation to which the data is fitted (using the curve fit method / algorithm).",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [variable terms batch 1], did_v2_go_forward_class_audit.md: the variable the generic migrators look up by node for a fit's model ('model fit'). Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/bao/terms?obo_id=BAO:0000625",
+      "first_used_in": "DID-matlab generic migration (v1 fitcurve and vmspikefit; +migrators_j/private/jModelFit.m)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Ordinal Position",
+      "node": "NCIT:C46126",
+      "definition": "A number designating a place in an ordered sequence.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [marker code position term], did_v2_go_forward_class_audit.md: the variable of a marker channel's second (column) dimension, values 1 to the number of codes. Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/ncit/terms?obo_id=NCIT:C46126",
+      "first_used_in": "no dataset yet: a native v2 ingest through NDR of a CED Spike2 marker channel (VH-Lab/NDI-matlab#1269, #1270)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "Data Type",
+      "node": "NCIT:C42645",
+      "definition": "An indication of the form that a value will have.  Examples include string, integer, and character.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the variable of the one parameter of an ingested body's `compression` block, the stored integer format; value the reader's class name (e.g. int16). Evidence: https://www.ebi.ac.uk/ols4/api/ontologies/ncit/terms?obo_id=NCIT:C42645",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block parameter)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "NDI ephys compression",
+      "node": "EMPTY:0000452",
+      "definition": "NDI-compress encode method 1: each channel is predicted by a 4th-order linear predictive code and the integer prediction residual is stored in the smallest signed integer type that holds it (float data are stored unencoded as 64-bit floats), in an NDI binary format file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, 'ephys' segments)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "NDI digital compression",
+      "node": "EMPTY:0000453",
+      "definition": "NDI-compress encode method 21: binary channels packed 8 per unsigned 8-bit integer, first channel least significant, in an NDI binary format file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, digital segments)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "NDI event marker text compression",
+      "node": "EMPTY:0000454",
+      "definition": "NDI-compress encode method 41: event times as 64-bit floats, marker codes as signed 16-bit integers and text as length-prefixed characters, described by a per-channel table, in an NDI binary format file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, event, marker and text segments)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "NDI time compression",
+      "node": "EMPTY:0000455",
+      "definition": "NDI-compress encode method 61: a time series stored as its first value, its step, and the 64-bit float residuals from that evenly spaced ramp, in an NDI binary format file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, time segments)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
+    },
+    {
+      "name": "NDI metadata compression",
+      "node": "EMPTY:0000456",
+      "definition": "NDI-compress encode method 2: metadata written as JSON text, in an NDI binary format file.",
+      "status": "decided",
+      "decided": "Jess Haley, 2026-11-19 [compression settings without bit size], did_v2_go_forward_class_audit.md: the compressor term of an ingested data body's `compression` block, one per NDI-compress scheme, under NCIT:C64347 Data Compression; minted in empty-ontology #52 (merged into V2 as 48d9eb2)",
+      "first_used_in": "no dataset yet: NDI-matlab's second pass and ingest (an ingested body's `compression` block; NDI +daq/+reader/mfdaq.m ingest_epochfiles, metadata segments)",
+      "obsolete": false,
+      "number_unit": false,
+      "equivalent": [],
+      "synonyms": []
     }
   ]
 }
