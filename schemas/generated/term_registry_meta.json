@@ -12050,6 +12050,54 @@
             "number_unit": false,
             "equivalent": [],
             "synonyms": []
+        },
+        {
+            "name": "contrast polarity",
+            "node": "EMPTY:0000449",
+            "definition": "The sign, +1 or -1, by which a stimulus pattern's deviation from the background luminance is multiplied: +1 shows the pattern, -1 shows it with its light and dark parts exchanged.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [hartley column terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #51",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_reverse_correlation's per-frame hartley_numbers column S; +migrators_j/hartley_calc.m hartleyNumbersBody)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "horizontal spatial frequency component",
+            "node": "EMPTY:0000450",
+            "definition": "The signed number of cycles a two-dimensional periodic pattern completes across the width of its image, along the image's horizontal (x, column) axis; with the vertical component it gives the pattern's spatial frequency and orientation.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [hartley column terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #51",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_reverse_correlation's per-frame hartley_numbers column KXV; +migrators_j/hartley_calc.m hartleyNumbersBody)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "vertical spatial frequency component",
+            "node": "EMPTY:0000451",
+            "definition": "The signed number of cycles a two-dimensional periodic pattern completes across the height of its image, along the image's vertical (y, row) axis; with the horizontal component it gives the pattern's spatial frequency and orientation.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [hartley column terms], did_v2_go_forward_class_audit.md; minted in empty-ontology #51",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_reverse_correlation's per-frame hartley_numbers column KYV; +migrators_j/hartley_calc.m hartleyNumbersBody)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
+        },
+        {
+            "name": "Index",
+            "node": "NCIT:C25390",
+            "definition": "A numerical scale used to compare variables with one another or with some reference number; a number used to select an element of a list, vector, array or other sequence.",
+            "status": "decided",
+            "decided": "Jess Haley, 2026-11-19 [hartley column terms], did_v2_go_forward_class_audit.md",
+            "first_used_in": "DID-matlab generic migration (v1 hartley_reverse_correlation's per-frame hartley_numbers column ORDER; +migrators_j/hartley_calc.m hartleyNumbersBody)",
+            "obsolete": false,
+            "number_unit": false,
+            "equivalent": [],
+            "synonyms": []
         }
     ]
 }
