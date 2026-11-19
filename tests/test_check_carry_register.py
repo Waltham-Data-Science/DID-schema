@@ -60,6 +60,40 @@ def test_a_row_missing_its_kind_keys_or_with_an_unknown_kind_fails():
     assert "used twice" in fails[2]
 
 
+def test_a_field_scoped_needs_mapping_row_passes():
+    # [one-field carry in the migration report] (did_v2_standing_wiring_plan.md,
+    # Jess Haley, 2026-11-19): the document converts; one field is held in the
+    # migration report's carried fields.
+    one = row("needs_mapping", fields=["depends_on subject_id"], scope="field")
+    whole = row("needs_mapping", id="carry-002", scope="document")
+    assert ccr.check_shape(reg(one, whole, row("malformed", id="carry-003"))) == []
+
+
+def test_a_field_scoped_row_of_another_kind_fails():
+    fails = ccr.check_shape(reg(row("malformed", scope="field")))
+    assert len(fails) == 1 and "kind needs_mapping" in fails[0], fails
+
+
+def test_a_field_scoped_row_names_exactly_one_field():
+    fails = ccr.check_shape(reg(row("needs_mapping", fields=["a", "b"], scope="field")))
+    assert len(fails) == 1 and "exactly one field" in fails[0], fails
+
+
+def test_an_unknown_scope_fails():
+    fails = ccr.check_shape(reg(row("needs_mapping", scope="fields")))
+    assert len(fails) == 1 and "scope 'fields'" in fails[0], fails
+
+
+def test_the_register_holds_the_field_scoped_element_subject_row():
+    rows = ccr._load(ccr.REGISTER)["rows"]
+    hits = [r for r in rows if r.get("scope") == "field" and r["v1_class"] == "element"
+            and r["fields"] == ["depends_on subject_id"]]
+    assert len(hits) == 1, hits
+    assert hits[0]["kind"] == "needs_mapping"
+    assert hits[0]["decision"]["tag"] == "one-field carry in the migration report"
+    assert ccr.check_shape({"kinds": list(ccr.KINDS), "rows": rows}) == []
+
+
 def test_open_work_is_a_row_number():
     assert ccr.check_shape(reg(row("awaiting_home", open_work=128))) == []
     fails = ccr.check_shape(reg(row("awaiting_home", open_work="#128")))
