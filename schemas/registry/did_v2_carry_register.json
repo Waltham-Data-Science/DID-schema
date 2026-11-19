@@ -27,7 +27,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "probe contact geometry carried"
       },
-      "open_work": 130,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "a v2 contact-geometry model (none yet)",
       "kind_basis": "stated"
     },
@@ -157,7 +157,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "small unread settings"
       },
-      "open_work": 131,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided for the all-pass: a filter method's `name` holds a differing label, but an all-pass builds no method",
       "kind_basis": "decided"
     },
@@ -243,7 +243,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "hartley leftovers checked"
       },
-      "open_work": 135,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "decided"
     },
@@ -944,7 +944,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "lossless first, homes after"
       },
-      "open_work": 143,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided (per tuning class)",
       "kind_basis": "decided"
     },
@@ -1291,7 +1291,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "session opener inputs"
       },
-      "open_work": 145,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "decided"
     },
@@ -1308,7 +1308,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "unread stimulus parameters are method parameters"
       },
-      "open_work": 146,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: per field, on the stimulus method or the item",
       "kind_basis": "decided"
     },
@@ -1363,7 +1363,7 @@
         "document": "did_v2_method_plan.md",
         "tag": "non-grating stimuli as methods"
       },
-      "open_work": 31,
+      "issue": "Waltham-Data-Science/did-schema#94",
       "home": "a stimulus method (recipe) for that kind",
       "kind_basis": "proposed"
     },
@@ -1471,7 +1471,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "strain leftovers wait for a dataset"
       },
-      "open_work": 149,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "settled by [openMINDS strain leftovers] and [openMINDS strain leftovers settled] (NDI-matlab 3a8cd8ebb, 54ea656, #1104): digitalIdentifier, alternateIdentifier and a JAX, MMRRC or Bloomington stockNumber (as an RRID) go to the strain entity's global_identifier; any other stockNumber is a Catalog Number (NCIT:C99286) text assertion; breedingType a Breeding (NCIT:C42877) term assertion; diseaseModel a disease model (BAO:0010279) term assertion; lookupLabel is not stored. None decided for what NDI-matlab strainAssembly.m still carries here: a Strain field outside the openMINDS Strain fields it reads, a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType, a species or geneticStrainType reference not in the batch or to a fragment that states nothing, and a leftover strainLeftovers.m cannot place (not text, a reference not in the batch or stating no identifier, several stock numbers or breeding types); the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
       "kind_basis": "decided"
     },
@@ -1506,7 +1506,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "strain leftovers wait for a dataset"
       },
-      "open_work": 149,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain; the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
       "kind_basis": "decided"
     },
@@ -1586,7 +1586,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "spike clusters wait for a dataset"
       },
-      "open_work": 153,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none now: designed from the first dataset that holds a `spike_clusters` ([spike clusters wait for a dataset]); its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "decided"
     },
@@ -1602,7 +1602,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "unbuilt spike classes carry as needs home"
       },
-      "open_work": 153,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "proposed"
     },
@@ -1618,7 +1618,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "simple_calc carries as needs home"
       },
-      "open_work": 154,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none: designed only if a real dataset ever holds one",
       "kind_basis": "proposed"
     },
@@ -1637,7 +1637,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "dataset form lists carried until homed"
       },
-      "open_work": 155,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided (the decision line names \"likely rebuilt from the subjects\")",
       "kind_basis": "proposed"
     },
@@ -1653,7 +1653,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "statement name waits for a dataset"
       },
-      "open_work": 156,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none now: waits for a dataset that holds a statement with a real v1 name; that dataset's import decides ([statement name waits for a dataset])",
       "kind_basis": "decided"
     },
@@ -1821,7 +1821,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "openMINDS subject leftovers"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#212",
       "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
       "kind_basis": "stated"
     },
@@ -2560,7 +2560,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "v1 passthroughs accepted"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#234",
       "home": "none in the generic migration: a `purpose` is written only by a dataset's own map or import ([purpose written by the dataset map]); the Dabrowska map drops these labels as derivable (2026-10-21 decision 4)",
       "kind_basis": "proposed"
     },
@@ -2611,7 +2611,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
-      "open_work": 165,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },
@@ -2627,7 +2627,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
-      "open_work": 165,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },

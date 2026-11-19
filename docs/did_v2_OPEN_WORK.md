@@ -41,7 +41,6 @@ Tracked in this repository (label `V2`, milestone "V2 -> main"):
 | 130 | a v2 contact-geometry model; until then `probe_geometry` with contact detail is carried (carry-001) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-001, with carry-015 and carry-075: a home is designed only when a dataset holds the field; #135 closed 2026-10-27 on that decision) |
 | 131 | a home for a filter's `label` when it differs from its `type` (carry-007) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (reopened 2026-11-06: the all-pass filter label, carry-007) (moved to #286, the standing issue for homes designed only when a dataset holds one, 2026-11-10 [closing issues 2026-11-10]; #136 closed) |
 | 135 | a home for `hartley_calc.dimension_labels` (carry-015) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-015; #140 closed 2026-10-27 on [hartley labels stay carried]) |
-| 136 | migrators read raw v1; delete `universalRenames` -> https://github.com/Waltham-Data-Science/DID-schema/issues/287 (the seven classes with no migrator, carry-158..carry-164; #143's own scope, deleting `universalRenames`, is done: DID-matlab dac31a67, #351) |
 | 143 | homes for calculator fields the tuning folds cannot place (carry-056) -> https://github.com/Waltham-Data-Science/DID-schema/issues/150 |
 | 145 | a home for a session creator input that is not a copy (carry-075) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (carry-075; #154 closed 2026-10-29 on [session opener inputs]) |
 | 146 | homes for `stimulus_presentation` fields the decomposition does not write (carry-080) -> https://github.com/Waltham-Data-Science/DID-schema/issues/286 (moved to #286, 2026-11-10 [stimulus presentation leftovers wait for a dataset]; #155 closed) |
@@ -77,6 +76,7 @@ Open items without a row number: none (the last two, #108 and #104, are under CO
 
 | # | what completed |
 |---|---|
+| 136 | migrators read raw v1; delete `universalRenames`: `universalRenames` deleted (DID-matlab dac31a67, #351); the seven classes with no migrator (carry-158..carry-164) wait for a dataset in https://github.com/Waltham-Data-Science/did-schema/issues/286 by [no-migrator classes: build one, count six] and [valid interval waits for a dataset], and their carry rows cite #286 directly ([awaiting carry rows cite an issue]); #287 closed 2026-11-19 |
 | 163 | homes for an openMINDS element's `openminds_id` and description: the description goes to the assertion's `notes`, the id is not stored ([openMINDS element description in notes]; DID-matlab 66ff3674, #435; e6ce6b30, #440); carry-128 retired; #232 closed 2026-11-10 |
 | 162 | the remaining nested quantity cells and the web viewer's quantity references: built by [remaining quantity copies removed] (did-schema #310, merge 30812a1); #230 closed 2026-11-09 |
 | 66 | `daqreader_*_epochdata_ingested` declare no `epoch_id`: superseded; both classes are handed on as v1 wrote them, so no `epoch_id` is stamped ([handed-on are v1 as written]; DID-matlab 5339621a #372, da487311 #374); #105 closed 2026-11-10 [closing issues 2026-11-10] |

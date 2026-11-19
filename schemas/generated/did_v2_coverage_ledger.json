@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 946,
+          "accepted_lines": 951,
           "accepted_lines_by_kind": {
-            "Decided by": 826,
+            "Decided by": 831,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6505,6 +6505,38 @@
               "anchor": "Decided by Jess Haley, 2026-11-19 [session anchors pass"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2300,
+              "kind": "Decided by",
+              "tag": "DID first pass keeps observes",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [DID first pass keeps"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2302,
+              "kind": "Decided by",
+              "tag": "channel group owners details",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [channel group owners"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2304,
+              "kind": "Decided by",
+              "tag": "strain fields checked after the second pass",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [strain fields checked"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2306,
+              "kind": "Decided by",
+              "tag": "carry rows cite issues, not OPEN_WORK",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [carry rows cite issues"
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -7335,6 +7367,14 @@
               "tag": "Intan aux names no time channel",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [Intan aux names no time"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 246,
+              "kind": "Decided by",
+              "tag": "session folder wiring migrated",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [session folder wiring"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
