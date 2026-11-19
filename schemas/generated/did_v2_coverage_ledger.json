@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 938,
+          "accepted_lines": 940,
           "accepted_lines_by_kind": {
-            "Decided by": 818,
+            "Decided by": 820,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6655,6 +6655,22 @@
               "tag": "numeric step 3 leftovers",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [numeric step 3"
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 293,
+              "kind": "Decided by",
+              "tag": "om Time is seconds",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [om Time is seconds]: ("
+            },
+            {
+              "document": "did_v2_numeric_shape_plan.md",
+              "line": 295,
+              "kind": "Decided by",
+              "tag": "source numeric is number or text",
+              "date": "2026-11-19",
+              "anchor": "Decided by Jess Haley, 2026-11-19 [source numeric is number"
             },
             {
               "document": "did_v2_openminds_family_record.md",
