@@ -443,7 +443,10 @@ def test_demo_family_collapsed_to_one_class():
         assert gone not in RECORDS, f"{gone} should have collapsed into `demo`"
 
     fields = {f["name"]: f for f in RECORDS["demo"][1]["fields"]}
-    assert set(fields) == {"value", "mock"}, set(fields)
+    # `name` added 2026-11-19 by [demo keeps its name]: a demo document's v1 name
+    # goes to the class's own field, not `base.name`.
+    assert set(fields) == {"name", "value", "mock"}, set(fields)
+    assert fields["name"]["type"] == "char"
     # Typed from the WRITER, not the template: the did_v1 template says char, but
     # ndi.calc.example.simple sets 5/10 and queries with exact_number.
     assert fields["value"]["type"] == "double"

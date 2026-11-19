@@ -202,7 +202,7 @@ ENFORCEMENT_THRESHOLD = None
 # so this list cannot go stale.
 NARROW_ONLY_EXEMPT = {
     (child, "name", "base"): "a class's own `name` beside the did_v1-only `base.name` slot (#73 item 54; ends with v2 base.name, G7)"
-    for child in ("entity", "method", "acquisition_system")
+    for child in ("entity", "method", "acquisition_system", "demo")
 }
 
 # ---------------------------------------------------------------------------

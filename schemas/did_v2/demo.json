@@ -17,6 +17,19 @@
     ],
     "fields": [
         {
+            "name": "name",
+            "type": "char",
+            "blank_value": "",
+            "default_value": "",
+            "mustBeNonEmpty": false,
+            "mustBeScalar": true,
+            "mustNotHaveNaN": false,
+            "queryable": true,
+            "ontology": null,
+            "documentation": "The demonstration document's name (v1 `demoNDI.base.name` / `demoNDIMock.base.name`). OPTIONAL. Decided by Jess Haley, 2026-11-19 [demo keeps its name] (did_v2_go_forward_class_audit.md): this field, not `base.name` (did_v1 only), holds a demo document's v1 name, per [v1 name goes to the class's own name field].",
+            "constraints": {}
+        },
+        {
             "name": "value",
             "type": "double",
             "blank_value": 0.0,
