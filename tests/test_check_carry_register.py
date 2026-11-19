@@ -178,3 +178,69 @@ def test_any_class_row_is_allowed_and_a_wrong_class_is_not():
     assert ccr.check_v1_classes([row("malformed", v1_class="*")], {"filter"}) == []
     fails = ccr.check_v1_classes([row("malformed", v1_class="nope")], {"filter"})
     assert len(fails) == 1 and "nope" in fails[0]
+
+
+# [awaiting carry rows cite an issue] (Jess Haley, 2026-11-19,
+# did_v2_go_forward_class_audit.md): a row waiting for a home may cite a
+# GitHub issue instead of an OPEN_WORK row, since did_v2_OPEN_WORK.md is frozen.
+def _issue_row(issue):
+    r = row("awaiting_home", issue=issue)
+    del r["open_work"]
+    return r
+
+
+def test_an_awaiting_home_row_may_cite_an_issue_as_owner_repo_number():
+    assert ccr.check_shape(reg(_issue_row("Waltham-Data-Science/did-schema#286"))) == []
+
+
+def test_an_awaiting_home_row_may_cite_an_issue_by_url():
+    r = _issue_row("https://github.com/Waltham-Data-Science/did-schema/issues/286")
+    assert ccr.check_shape(reg(r)) == []
+
+
+def test_an_awaiting_home_row_citing_neither_fails():
+    # the control: no OPEN_WORK row and no issue, so no home is awaited tracked
+    r = row("awaiting_home")
+    del r["open_work"]
+    fails = ccr.check_shape(reg(r))
+    assert len(fails) == 1 and "exactly one of ['open_work', 'issue']" in fails[0], fails
+
+
+def test_an_awaiting_home_row_citing_both_fails():
+    r = row("awaiting_home", issue="Waltham-Data-Science/did-schema#286")
+    fails = ccr.check_shape(reg(r))
+    assert len(fails) == 1 and "exactly one of" in fails[0], fails
+
+
+def test_an_issue_citation_that_is_not_an_issue_fails():
+    for bad in ("#286", "did-schema#286", "Waltham-Data-Science/did-schema",
+                "https://github.com/Waltham-Data-Science/did-schema/pull/286",
+                "Waltham-Data-Science/did-schema#0", 286, None):
+        fails = ccr.check_shape(reg(_issue_row(bad)))
+        assert len(fails) == 1 and "`issue`" in fails[0], (bad, fails)
+
+
+def test_an_issue_citation_is_only_for_an_awaiting_home_row():
+    r = row("malformed", issue="Waltham-Data-Science/did-schema#286")
+    fails = ccr.check_shape(reg(r))
+    assert len(fails) == 1 and "unexpected ['issue']" in fails[0], fails
+
+
+def test_an_issue_cited_row_has_no_open_work_number_to_check():
+    known = {128}
+    assert ccr.check_open_work([_issue_row("Waltham-Data-Science/did-schema#286")],
+                               known) == ([], 0)
+
+
+def test_the_register_holds_the_spike_interface_sorting_row():
+    # [spike interface sorting carried as v1] (Jess Haley, 2026-11-19): carried
+    # whole as v1 with a carry row, waiting for a dataset; the row cites
+    # did-schema #286 ([awaiting carry rows cite an issue]).
+    rows = [r for r in ccr._load(ccr.REGISTER)["rows"]
+            if r["v1_class"] == "SpikeInterfaceSortingOutputs"]
+    assert len(rows) == 1, rows
+    r = rows[0]
+    assert r["kind"] == "awaiting_home"
+    assert r["issue"] == "Waltham-Data-Science/did-schema#286" and "open_work" not in r
+    assert r["decision"] == {"document": "did_v2_go_forward_class_audit.md",
+                             "tag": "spike interface sorting carried as v1"}

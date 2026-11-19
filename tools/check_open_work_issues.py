@@ -12,7 +12,9 @@ and sibling code comments cite `#nn`. Those citations keep working: the row
 number is stable, and this file maps it to the issue that tracks the work.
 `check_carry_register.py` C5 still requires an `awaiting_home` row's number to
 be an OPEN row; this gate requires every OPEN row to point at an open issue.
-Together: a home a carry awaits is tracked by an open issue.
+Together: a home a carry awaits is tracked by an open issue. A new
+`awaiting_home` row may cite its GitHub issue directly (`issue`) instead of
+a row number ([awaiting carry rows cite an issue], Jess Haley, 2026-11-19).
 
 HOW ISSUE STATE IS KNOWN WITHOUT THE NETWORK. No gate in the chain calls
 GitHub, and CI runs the chain offline. So the state is a committed snapshot,
