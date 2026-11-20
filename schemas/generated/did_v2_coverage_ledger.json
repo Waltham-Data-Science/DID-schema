@@ -714,9 +714,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 956,
+          "accepted_lines": 957,
           "accepted_lines_by_kind": {
-            "Decided by": 836,
+            "Decided by": 837,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6559,6 +6559,14 @@
               "tag": "lab-made strain ids are an accepted loss too",
               "date": "2026-11-19",
               "anchor": "Decided by Jess Haley, 2026-11-19 [lab-made strain ids are"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2314,
+              "kind": "Decided by",
+              "tag": "metadata editor graph compared with its form",
+              "date": "2026-11-20",
+              "anchor": "Decided by Jess Haley, 2026-11-20 [metadata editor graph"
             },
             {
               "document": "did_v2_image_model_plan.md",
