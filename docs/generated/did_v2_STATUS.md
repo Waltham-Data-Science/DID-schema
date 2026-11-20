@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 956 decision line(s) accepted, 2 rejected; 45 cited by a class, 911 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 957 decision line(s) accepted, 2 rejected; 45 cited by a class, 912 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1074,6 +1074,7 @@ field). If one decides a class's disposition, that class should cite it.
 - local identifier required only where looked up. "Decided by Jess Haley, 2026-11-19 [local identifier" (did_v2_go_forward_class_audit.md:2308).
 - metadata editor form is the source. "Decided by Jess Haley, 2026-11-19 [metadata editor form is" (did_v2_go_forward_class_audit.md:2310).
 - lab-made strain ids are an accepted loss too. "Decided by Jess Haley, 2026-11-19 [lab-made strain ids are" (did_v2_go_forward_class_audit.md:2312).
+- metadata editor graph compared with its form. "Decided by Jess Haley, 2026-11-20 [metadata editor graph" (did_v2_go_forward_class_audit.md:2314).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
