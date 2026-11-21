@@ -404,9 +404,10 @@ class TestTheCommittedLedger(unittest.TestCase):
         # f79dd21a: epochMint and resolveEpochProbemap still declare they
         # consume it (they read either shape, DID-matlab #481), but
         # element_epoch is handed on as v1 there, so no v1 row targets it.
-        self.assertEqual(
-            names, {"session_relative_reference", "session_bounded_reference",
-                    "acquisition_epoch"})
+        # `session_relative_reference` and `session_bounded_reference` left when
+        # the lock moved to DID-matlab 9ff1afe5: DID-matlab 1a61a1a4 (#397)
+        # deleted did2.convert.resolveSessionAnchors, the pass that declared them.
+        self.assertEqual(names, {"acquisition_epoch"})
 
     def test_the_moved_rows_carry_the_channel_in_their_own_why(self):
         rows = {r["v1_class"]: r for r in _ledger()["rows"]}

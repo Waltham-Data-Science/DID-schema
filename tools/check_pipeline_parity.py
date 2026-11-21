@@ -96,6 +96,13 @@ NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
 # buried.
 # ---------------------------------------------------------------------------
 DECLARED_DIVERGENCES = {
+    "resolveRegionParts": (
+        "HARNESS ONLY, UNTIL NDI-matlab #1285 LANDS. DID-matlab V2 runs it in "
+        "the corpus harness since 3283f287 (DID-matlab #507, region parts with "
+        "computed ids); NDI-matlab V2 da5e0dbd does not call it, and "
+        "VH-Lab/NDI-matlab#1285 (open), which adds it to ndi.migrate.local, "
+        "is the NDI side. CONSEQUENCE: until then the corpus gate measures a "
+        "pass NDI's production migration does not run."),
     "resolveDeferredBaths": (
         "HARNESS ONLY. NDI deliberately substitutes "
         "ndi.migrate.internal.stimulusBathToBath, which its own source calls "
