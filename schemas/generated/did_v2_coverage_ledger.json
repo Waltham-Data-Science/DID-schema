@@ -390,8 +390,8 @@
       "by_stage_reached": {
         "0": 14,
         "1": 25,
-        "2": 17,
-        "3": 60,
+        "2": 16,
+        "3": 61,
         "4": 0
       },
       "reached_with_an_n_a_in_the_chain": [
@@ -410,8 +410,8 @@
         },
         "3": {
           "not measured": 32,
-          "yes": 58,
-          "no": 18,
+          "yes": 59,
+          "no": 17,
           "n/a": 8
         },
         "4": {
@@ -421,7 +421,7 @@
       "per_stage_satisfied_independently": {
         "1": 102,
         "2": 76,
-        "3": 58,
+        "3": 59,
         "4": 0
       },
       "capped": {
@@ -433,8 +433,8 @@
         "highest_rung_satisfied_independently_histogram": {
           "0": 13,
           "1": 27,
-          "2": 18,
-          "3": 58,
+          "2": 17,
+          "3": 59,
           "4": 0
         },
         "genuinely_untouched": 7,
@@ -10327,7 +10327,8 @@
       "targets": [
         "acquisition_system",
         "assertion + text",
-        "entity"
+        "entity",
+        "acquisition_configuration"
       ],
       "decided_targets": [
         "acquisition_configuration"
@@ -10346,7 +10347,7 @@
           "acquisition_configuration"
         ],
         "schema_targets_missing": [],
-        "migrator_emits_decided_targets": false,
+        "migrator_emits_decided_targets": true,
         "has_per_class_migrator": true,
         "batch_pass_consumers": [],
         "batch_pass_emits": {},
@@ -10411,10 +10412,10 @@
       "stage": {
         "unclassifiable": false,
         "unclassifiable_why": null,
-        "reached": 2,
-        "reached_name": "its decided target classes EXIST in the build",
-        "blocked_by": 3,
-        "blocked_by_state": "no",
+        "reached": 3,
+        "reached_name": "the migrator emits THE DECIDED targets",
+        "blocked_by": 4,
+        "blocked_by_state": "not measured",
         "ladder": [
           {
             "stage": 1,
@@ -10431,8 +10432,8 @@
           {
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
-            "state": "no",
-            "why": "the decided target(s) `acquisition_configuration` are not all among what the migrator emits today (`acquisition_system`, `assertion + text`, `entity`). 1 of 80 shared helper(s) declare; 16 MINT a document while declaring nothing (jAbsoluteReference, jBareDataset, jClockAlignmentBodies, jDoseBodies, jEntity, jEntityRelation, jFrequencyFilter, jMembershipBodies, jMethodParameters, jNgridBody, jSessionAnchor, jSoftware, jSorterOutput, jTreatmentAnchor, entityDoc, relationDoc), so a target emitted only by one of those is not measured here."
+            "state": "yes",
+            "why": "`build_state.migrator_emits_decided_targets` -- every decided target class is among the classes the generated target map records this migrator emitting"
           },
           {
             "stage": 4,
@@ -10442,7 +10443,7 @@
           }
         ],
         "anomalies": [],
-        "highest_rung_satisfied_independently": 2,
+        "highest_rung_satisfied_independently": 3,
         "capped": false,
         "nothing_built": false,
         "nothing_satisfied": false,
@@ -20939,7 +20940,10 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + term",
+        "directed_relation",
+        "entity"
       ],
       "decided_targets": [
         "manipulation + temperature",
@@ -21095,7 +21099,10 @@
         "chemical",
         "formulation",
         "manipulation + formulation",
-        "relative_time_reference"
+        "relative_time_reference",
+        "assertion + term",
+        "directed_relation",
+        "entity"
       ],
       "decided_targets": [
         "manipulation + dose",
@@ -21591,7 +21598,10 @@
         "formulation",
         "manipulation + formulation",
         "relative_time_reference",
-        "observation + time"
+        "observation + time",
+        "assertion + term",
+        "directed_relation",
+        "entity"
       ],
       "decided_targets": [
         "manipulation + dose",
