@@ -82,7 +82,9 @@
               "relative_reference",
               "opaque_body",
               "observation + intensity",
-              "directed_relation"
+              "directed_relation",
+              "observation + logical",
+              "manipulation + voltage"
             ]
           },
           "decided_targets": [
@@ -11833,7 +11835,9 @@
             "relative_reference",
             "opaque_body",
             "observation + intensity",
-            "directed_relation"
+            "directed_relation",
+            "observation + logical",
+            "manipulation + voltage"
           ]
         },
         "batch_pass_emits_decided_targets": true,
@@ -11926,7 +11930,7 @@
             "stage": 3,
             "name": "the migrator emits THE DECIDED targets",
             "state": "yes",
-            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `directed_relation`, `ingestion_manifest`, `manipulation + term`, `observation + acceleration`, `observation + current`, `observation + intensity`, `observation + temperature`, `observation + time`, `observation + voltage`, `opaque_body`, `relative_reference` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
+            "why": "the migrator named after this class does not emit the decided target(s), but `build_state.batch_pass_emits` records the DID BATCH POST-PASS(es) `did2.convert.resolveEpochProbemap` -> `directed_relation`, `ingestion_manifest`, `manipulation + term`, `manipulation + voltage`, `observation + acceleration`, `observation + current`, `observation + intensity`, `observation + logical`, `observation + temperature`, `observation + time`, `observation + voltage`, `opaque_body`, `relative_reference` DECLARING the emission. A declared emission is a fact about code the pass's own header states; it is NOT a corpus proof"
           },
           {
             "stage": 4,

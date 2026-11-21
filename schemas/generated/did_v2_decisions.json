@@ -1888,8 +1888,8 @@
           "DID-matlab:convert"
         ],
         "packages_missing": [],
-        "files_read": 500,
-        "lines_read": 98962,
+        "files_read": 502,
+        "lines_read": 100542,
         "classes_queried": 0,
         "classes_emitted_as_document_class": 0,
         "unresolved_mint_sites": [
@@ -1897,7 +1897,7 @@
           "DID-matlab:convert/+roundtrip/daqreader.m:40 (CLASS)",
           "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:184 (CLASS;)",
           "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:217 (CLASS)",
-          "DID-matlab:convert/+roundtrip/daqsystem.m:60 (CLASS)",
+          "DID-matlab:convert/+roundtrip/daqsystem.m:63 (CLASS)",
           "DID-matlab:convert/+roundtrip/epochfiles_ingested.m:85 (CLASS)",
           "DID-matlab:convert/+roundtrip/filenavigator.m:43 (CLASS)",
           "DID-matlab:convert/+roundtrip/image.m:61 (CLASS)",
@@ -1910,8 +1910,8 @@
           "DID-matlab:convert/+roundtrip/subjectmeasurement.m:93 (CLASS)",
           "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
           "DID-matlab:convert/+roundtrip/syncrule.m:160 (CLASS)",
-          "DID-matlab:convert/resolveEpochProbemap.m:1231 (kind.className)",
-          "DID-matlab:convert/resolveEpochProbemap.m:2036 (entry.class)",
+          "DID-matlab:convert/resolveEpochProbemap.m:1265 (kind.className)",
+          "DID-matlab:convert/resolveEpochProbemap.m:2083 (entry.class)",
           "DID-matlab:migrators_j/gene_list_mapping.m:184 (valueClass)",
           "DID-matlab:migrators_j/private/jMeasurementFold.m:112 (observation + leaf)",
           "DID-matlab:migrators_j/treatment.m:157 (manipulation + kind)"
@@ -1941,12 +1941,12 @@
           ]
         },
         "files_read_by_group": {
-          "per_document_migrator": 223,
-          "batch_post_pass": 277
+          "per_document_migrator": 224,
+          "batch_post_pass": 278
         },
         "lines_read_by_group": {
-          "per_document_migrator": 50276,
-          "batch_post_pass": 48686
+          "per_document_migrator": 50843,
+          "batch_post_pass": 49699
         },
         "classes_emitted_as_document_class_by_group": {
           "per_document_migrator": 0,
@@ -1979,7 +1979,7 @@
             "DID-matlab:convert/+roundtrip/daqreader.m:40 (CLASS)",
             "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:184 (CLASS;)",
             "DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:217 (CLASS)",
-            "DID-matlab:convert/+roundtrip/daqsystem.m:60 (CLASS)",
+            "DID-matlab:convert/+roundtrip/daqsystem.m:63 (CLASS)",
             "DID-matlab:convert/+roundtrip/epochfiles_ingested.m:85 (CLASS)",
             "DID-matlab:convert/+roundtrip/filenavigator.m:43 (CLASS)",
             "DID-matlab:convert/+roundtrip/image.m:61 (CLASS)",
@@ -1992,8 +1992,8 @@
             "DID-matlab:convert/+roundtrip/subjectmeasurement.m:93 (CLASS)",
             "DID-matlab:convert/+roundtrip/syncgraph.m:40 (CLASS)",
             "DID-matlab:convert/+roundtrip/syncrule.m:160 (CLASS)",
-            "DID-matlab:convert/resolveEpochProbemap.m:1231 (kind.className)",
-            "DID-matlab:convert/resolveEpochProbemap.m:2036 (entry.class)"
+            "DID-matlab:convert/resolveEpochProbemap.m:1265 (kind.className)",
+            "DID-matlab:convert/resolveEpochProbemap.m:2083 (entry.class)"
           ]
         },
         "v_zeta_packages_excluded": [
