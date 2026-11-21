@@ -45,7 +45,9 @@ VETA = os.path.join(REPO_ROOT, "schemas", "did_v2")
 
 EDGE = "acquisition_system_id"
 HOLDER = "interaction"
-TARGET = "acquisition_system"
+# `acquisition_system` until Jess Haley's decision of 2026-11-19 [acquisition
+# configuration renamed] (did_v2_standing_wiring_plan.md); the edge keeps its name.
+TARGET = "acquisition_configuration"
 
 # The stale sentence, quoted so its RETURN is a test failure rather than a
 # re-reading. Kept as a fragment: the wording around it may legitimately change.

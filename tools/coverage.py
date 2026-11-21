@@ -828,6 +828,14 @@ for _e in ("subject", "strain", "product", "software", "person", "organization",
 assert len(SUPERSEDED_BY_ENTITY_COMPOSITION) == 52, len(SUPERSEDED_BY_ENTITY_COMPOSITION)
 
 KNOWN_NON_VETA = {"bath", "pharmacological_manipulation",
+                  # [acquisition configuration renamed] (Jess Haley, 2026-11-19,
+                  # did_v2_standing_wiring_plan.md): DID-matlab's daqsystem
+                  # migrator writes the class the loaded schema holds
+                  # (did2.convert.acquisitionConfigurationClass, DID-matlab #520),
+                  # so it names both `acquisition_configuration` and the old
+                  # `acquisition_system`; against this schema it writes the new
+                  # one. Remove when DID-matlab drops the old-name branch.
+                  "acquisition_system",
                   "absolute_reference", "relative_reference",
                   # #65 increment 3b, 2026-09-25: deleted SCHEMA-FIRST by team
                   # decision. The emitters still mint them as a pass-1 handle;

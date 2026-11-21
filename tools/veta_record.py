@@ -31,6 +31,8 @@ META_FILES = {
 RENAME = {
     # [purpose class] / [purpose renamed now] (did_v2_go_forward_class_audit.md)
     "interaction_purpose": "purpose",
+    # [acquisition configuration renamed] (did_v2_standing_wiring_plan.md)
+    "acquisition_system": "acquisition_configuration",
     "observation": "subject_observation",
     "manipulation": "subject_manipulation",
     "categorical_observation": "term_observation",

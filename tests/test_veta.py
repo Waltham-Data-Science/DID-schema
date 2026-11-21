@@ -77,13 +77,15 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_channels_id" not in si_edges
+    # the edge keeps its name; the class it names is `acquisition_configuration`
+    # (Jess Haley 2026-11-19 [acquisition configuration renamed])
     assert si_edges["acquisition_system_id"]["must_refer_to_document_class"] == \
-        "acquisition_system"
+        "acquisition_configuration"
     assert si_edges["acquisition_system_id"]["mustBeNonEmpty"] is False
     dr = _load(SP.class_path("directed_relation"))
     assert "conditions" in {f["name"] for f in dr["fields"]}
     parent = next(e for e in dr["depends_on"] if e["name"] == "parent_id")
-    assert "acquisition_system" in parent["must_refer_to_document_class"].split(",")
+    assert "acquisition_configuration" in parent["must_refer_to_document_class"].split(",")
     reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     rows = [r for r in reg["relation_bindings"] if r["relation"]["node"] == "RO:0002170"]
     assert len(rows) == 1 and rows[0]["class"] == "directed_relation", rows
@@ -91,9 +93,12 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # (did_v2_standing_wiring_plan.md): the wiring names the rig's device entity;
     # the `acquisition_system` parent stays admitted until DID-matlab rewires and
     # NDI-matlab reads probe -> device -> configuration (siblings first).
-    assert rows[0]["parent_types"] == ["acquisition_system", "device"] and rows[0]["timed"] is True
+    # (`acquisition_configuration`: [acquisition configuration renamed])
+    assert rows[0]["parent_types"] == ["acquisition_configuration", "device"] and rows[0]["timed"] is True
     assert "device" in {t["type"] for t in reg["entity_type_bindings"]}
-    rig = _load(SP.class_path("acquisition_system"))
+    # [acquisition configuration renamed] (Jess Haley 2026-11-19): a move, not a copy
+    assert SP.class_path("acquisition_system") is None
+    rig = _load(SP.class_path("acquisition_configuration"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
@@ -108,7 +113,7 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # Jess Haley 2026-11-19 [a rig's clock belongs to its device]: both ends may
     # name the device entity; `acquisition_system` stays until the siblings move.
     for name in ("input_id", "output_id"):
-        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system,entity"
+        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_configuration,entity"
     dev = next(e for e in rig["depends_on"] if e["name"] == "device_id")
     assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is False
     assert "[acquisition system is a device entity]" in dev["documentation"]
@@ -378,9 +383,10 @@ def test_entity_genus():
     # ... and, as a parent only, the acquisition system a probe is wired to
     # (Jess Haley 2026-11-01 [probe wiring is a relation], `connected to`)
     assert dr["parent_id"]["must_refer_to_document_class"].split(",") == [
-        "entity", "statement", "value", "acquisition_system"], dr["parent_id"]
-    # acquisition_system is configuration, not an entity (sec. 8)
-    assert "entity" not in _chain("acquisition_system")
+        "entity", "statement", "value", "acquisition_configuration"], dr["parent_id"]
+    # acquisition_configuration (acquisition_system until [acquisition
+    # configuration renamed]) is configuration, not an entity (sec. 8)
+    assert "entity" not in _chain("acquisition_configuration")
 
 
 def _local_id(cls):
@@ -418,7 +424,7 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     # each configuration class with a name declares `name`; V2 `base.name` is
     # deleted (Jess Haley, [v1 name goes to the class's own name field] and
     # [base.name kept until retire classes leave], did_v2_go_forward_class_audit.md)
-    for e in ("entity", "acquisition_system", "method"):
+    for e in ("entity", "acquisition_configuration", "method"):
         names = [f["name"] for f in RECORDS[e][1]["fields"]]
         assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
         assert not {"full_name", "title", "label"} & set(names), names

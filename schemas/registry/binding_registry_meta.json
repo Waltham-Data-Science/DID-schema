@@ -2809,12 +2809,12 @@
             },
             "class": "directed_relation",
             "child_role": "the probe (an element entity of type device) wired to the acquisition system's channels; one condition per channel type (variable: the channel-type term of [channel types]; value: that type's channel numbers, as a matrix) says which channels (Jess Haley 2026-11-01 [probe wiring is a relation], [wiring relation term])",
-            "parent_role": "the rig whose channels the probe is wired to: the rig's device entity (an `entity` of type device, Jess Haley 2026-11-19 [acquisition system is a device entity], did_v2_standing_wiring_plan.md), or, until DID-matlab's migration mints the device and rewires and NDI-matlab's readers go probe -> device -> configuration, the `acquisition_system` document (not an entity) as today; both are admitted so that neither shape breaks while the siblings move",
+            "parent_role": "the rig whose channels the probe is wired to: the rig's device entity (an `entity` of type device, Jess Haley 2026-11-19 [acquisition system is a device entity], did_v2_standing_wiring_plan.md), or, until DID-matlab's migration mints the device and rewires and NDI-matlab's readers go probe -> device -> configuration, the `acquisition_configuration` document (not an entity; `acquisition_system` until [acquisition configuration renamed], Jess Haley 2026-11-19) as today; both are admitted so that neither shape breaks while the siblings move",
             "child_types": [
                 "device"
             ],
             "parent_types": [
-                "acquisition_system",
+                "acquisition_configuration",
                 "device"
             ],
             "timed": true,

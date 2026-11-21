@@ -19,7 +19,7 @@
             "name": "parent_id",
             "mustBeNonEmpty": true,
             "documentation": "The whole/group/source/target side: an entity, a statement or a standalone data document (the target gene list of a mapping, item 24). Batch check `standalone_value` (report-only first; #73 audit 2 D13): when this names a value document, that document is a STANDALONE value -- not a statement, relation or clock_alignment leaf, all of which are also values. An `acquisition_system` is a parent only of a probe's wiring (`connected to`, RO:0002170; Jess Haley 2026-11-01 [probe wiring is a relation]): the probe (child) is wired to that system's channels, its `conditions` naming them.",
-            "must_refer_to_document_class": "entity,statement,value,acquisition_system"
+            "must_refer_to_document_class": "entity,statement,value,acquisition_configuration"
         },
         {
             "name": "time_reference_id",
