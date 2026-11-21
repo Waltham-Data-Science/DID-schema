@@ -102,8 +102,10 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
+    # ... and Jess Haley 2026-11-19 [device id required and named by the rig] (1):
+    # the device it reads the files of is required too
     req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
-    assert req == {"reader_id", "epoch_file_pattern_id"}, req
+    assert req == {"reader_id", "epoch_file_pattern_id", "device_id"}, req
     cac = _load(SP.class_path("clock_alignment_configuration"))
     # Jess Haley 2026-10-27 [sync configuration links its rigs]
     # (did_v2_go_forward_class_audit.md): the configuration links its two rigs
@@ -115,7 +117,7 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     for name in ("input_id", "output_id"):
         assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_configuration,entity"
     dev = next(e for e in rig["depends_on"] if e["name"] == "device_id")
-    assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is False
+    assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is True
     assert "[acquisition system is a device entity]" in dev["documentation"]
 INDEX = _load(SP.INDEX)
 
