@@ -2872,7 +2872,7 @@
             "node": "OBI:0001876",
             "description": "a mass grown as one, whose members are never entities: a bacterial lawn, a cell culture",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
@@ -2880,7 +2880,7 @@
             "node": "UBERON:0000479",
             "description": "part of an organism: a slice, a biopsy, a region",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
@@ -2888,7 +2888,7 @@
             "node": "CL:0000000",
             "description": "one cell",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
@@ -2896,7 +2896,7 @@
             "node": "NCIT:C43359",
             "description": "an entity whose members are entities, by `member_of`: a cohort, an ensemble",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
@@ -2904,7 +2904,7 @@
             "node": "COB:0001300",
             "description": "an instrument or a piece of apparatus",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
@@ -2912,7 +2912,7 @@
             "node": "BFO:0000040",
             "description": "a non-living object or substance: an agar plate",
             "requires": [
-                "local_identifier"
+                "name"
             ]
         },
         {
