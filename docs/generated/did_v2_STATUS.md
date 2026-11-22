@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 224 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 278 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 0 |
-| build: migrator lines inspected | 100542 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 50843 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 49699 |
+| build: migrator lines inspected | 101053 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 50874 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 50179 |
 | build: classes queried | 0 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
@@ -142,7 +142,7 @@ is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.
 | 1 | `b.document_class = struct('class_name', '<class>', ...)` | 33 | 1 | 32 |
 | 2 | `b.document_class = classBlock('<class>', {supers})` | 0 | 0 | 0 |
 | 3 | `b.document_class.class_name = '<class>';` | 1 | 1 | 0 |
-| 4 | `did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`, `did2.build.document('<class>', ...)` or a fixed-class builder | 104 | 66 | 38 |
+| 4 | `did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`, `did2.build.document('<class>', ...)` or a fixed-class builder | 105 | 66 | 39 |
 | 5 | a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)` | 48 | 48 | 0 |
 | - | class name is a VARIABLE -- unresolved here | 22 | 3 | 19 |
 
@@ -188,8 +188,8 @@ artifact are therefore a FLOOR.
 |---|---|
 | `DID-matlab:convert/+roundtrip/daqmetadatareader.m:40` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/daqreader.m:40` | `CLASS` |
-| `DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:184` | `CLASS;` |
-| `DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:217` | `CLASS` |
+| `DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:194` | `CLASS;` |
+| `DID-matlab:convert/+roundtrip/daqreader_mfdaq_epochdata_ingested.m:227` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/daqsystem.m:63` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/epochfiles_ingested.m:85` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/filenavigator.m:43` | `CLASS` |
@@ -203,8 +203,8 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/+roundtrip/subjectmeasurement.m:93` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncgraph.m:40` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncrule.m:160` | `CLASS` |
-| `DID-matlab:convert/resolveEpochProbemap.m:1265` | `kind.className` |
-| `DID-matlab:convert/resolveEpochProbemap.m:2083` | `entry.class` |
+| `DID-matlab:convert/resolveEpochProbemap.m:1287` | `kind.className` |
+| `DID-matlab:convert/resolveEpochProbemap.m:2117` | `entry.class` |
 | `DID-matlab:migrators_j/gene_list_mapping.m:184` | `valueClass` |
 | `DID-matlab:migrators_j/private/jMeasurementFold.m:112` | `observation + leaf` |
 | `DID-matlab:migrators_j/treatment.m:157` | `manipulation + kind` |

@@ -460,12 +460,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 3675,
+        "line": 4043,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 3752,
+        "line": 4120,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -1322,7 +1322,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 554,
+        "line": 576,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if strcmp(classOf{k}, 'daqmetadatareader_epochdata_ingested')"
        }
@@ -1459,7 +1459,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 2179,
+        "line": 2213,
         "spelling": "daqreader_epochdata_ingested",
         "text": "if isfield(b, 'daqreader_epochdata_ingested') && isstruct(b.daqreader_epochdata_ingested) ..."
        }
@@ -2605,6 +2605,23 @@
       ]
      },
      {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 2958,
+        "spelling": "element",
+        "text": "'element', depValueOf(b, 'stimulus_element_id')); %#ok<AGROW>"
+       },
+       {
+        "line": 3017,
+        "spelling": "element",
+        "text": "held{end+1} = struct('id', docIds{k}, 'element', el); %#ok<AGROW>"
+       }
+      ]
+     },
+     {
       "pass": "v1_to_v2",
       "path": "src/did/+did2/+convert/v1_to_v2.m",
       "site_count": 1,
@@ -2777,7 +2794,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 3891,
+        "line": 4259,
         "spelling": "element_epoch",
         "text": "tf = strcmp(className, 'acquisition_epoch') || (strcmp(className, 'element_epoch') ..."
        }
@@ -2880,7 +2897,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1185,
+        "line": 1207,
         "spelling": "ensemble",
         "text": "if strcmp(elType, 'ensemble')"
        }
@@ -3082,27 +3099,32 @@
      {
       "pass": "resolveEpochProbemap",
       "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
-      "site_count": 4,
+      "site_count": 5,
       "sites": [
        {
-        "line": 728,
+        "line": 750,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2418,
+        "line": 2452,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2661,
+        "line": 2695,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2680,
+        "line": 2714,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
+       },
+       {
+        "line": 2970,
+        "spelling": "epochfiles_ingested",
+        "text": "case 'epochfiles_ingested'"
        }
       ]
      },
@@ -3287,17 +3309,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 2684,
+        "line": 2718,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 3627,
+        "line": 3995,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 3628,
+        "line": 3996,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -6706,12 +6728,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 647,
+        "line": 669,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 3742,
+        "line": 4110,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
@@ -8407,6 +8429,18 @@
         "line": 573,
         "spelling": "stimulus_presentation",
         "text": "'stimulus_presentation', ..."
+       }
+      ]
+     },
+     {
+      "pass": "resolveEpochProbemap",
+      "path": "src/did/+did2/+convert/resolveEpochProbemap.m",
+      "site_count": 1,
+      "sites": [
+       {
+        "line": 2951,
+        "spelling": "stimulus_presentation",
+        "text": "case 'stimulus_presentation'"
        }
       ]
      },
