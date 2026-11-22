@@ -715,19 +715,6 @@
                                     ]
                                 },
                                 {
-                                    "name": "value",
-                                    "type": "double",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: Its value.",
-                                    "constraints": {}
-                                },
-                                {
                                     "name": "numeric",
                                     "type": "double",
                                     "blank_value": 0.0,
@@ -918,19 +905,6 @@
                                             "constraints": {}
                                         }
                                     ]
-                                },
-                                {
-                                    "name": "value",
-                                    "type": "double",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: Its value.",
-                                    "constraints": {}
                                 },
                                 {
                                     "name": "numeric",

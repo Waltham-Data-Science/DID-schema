@@ -527,8 +527,9 @@ def test_conditions_on_statement():
     """statement carries a `conditions` list (D10 qualifiers, renamed from
     `parameters`). Since 2026-10-19 each entry is the ONE single-value entry shared
     with `method_parameters`: {variable, unit, source_unit, approximate} plus exactly
-    one value form -- `term`, `quantity` {value, source_value}, `count` or `text`.
-    A condition holds ONE value, so every form is scalar."""
+    one value form -- `term`, `numeric`, `count`, `text` or `logical` (`quantity`
+    {value, source_value} and `matrix` until the numeric shape removed them).
+    A condition holds ONE value, so every form but `numeric` is scalar."""
     ft = _flat_field_types("statement")
     assert ft.get("conditions") == "structure"
     assert ft.get("parameters") is None, "old `parameters` name must be gone"
@@ -543,7 +544,9 @@ def test_conditions_on_statement():
     # shape, section 9)
     # 12 -> 13 on 2026-11-19: `source_numeric`, type `number_or_text` ([source
     # numeric is number or text], Jess Haley 2026-11-19, DID-matlab ded029f4 #510)
-    assert len(sub) == 13, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    # 13 -> 11 on 2026-11-21: `quantity` and `matrix` removed, the old shape (plan
+    # section 9 step 4, after DID-matlab #511 and NDI-matlab #1283 refused it)
+    assert len(sub) == 11, f"read {len(sub)} entry field(s): {sorted(sub)}"
     assert sub["numeric"]["type"] == "matrix" and sub["numeric"]["mustBeScalar"] is False
     assert sub["source_numeric"]["type"] == "number_or_text"
     assert sub["source_numeric"]["mustBeScalar"] is True
@@ -553,17 +556,18 @@ def test_conditions_on_statement():
     assert sub["variable"]["type"] == "ontology_term"
     assert sub["term"]["type"] == "ontology_term"
     assert sub["count"]["type"] == "integer" and sub["text"]["type"] == "char"
-    assert {f["name"] for f in sub["quantity"]["fields"]} == {"value", "source_value"}
-    for form in ("term", "quantity", "count", "text"):
+    for form in ("term", "count", "text", "logical"):
         assert sub[form]["mustBeScalar"] is True, f"a condition holds ONE {form}"
-    # data_body AMENDMENT 4 (2026-10-21, proposal): ONE numeric N-D array value
-    assert sub["matrix"]["type"] == "matrix" and sub["matrix"]["mustBeScalar"] is False
-    assert sub["matrix"]["blank_value"] == []
+    # the old shape is gone: `numeric` holds one number or one N-D array
+    # (data_body AMENDMENT 4's `matrix`), `source_numeric` what the source wrote
+    for gone in ("quantity", "matrix"):
+        assert gone not in sub, gone
+    assert sub["numeric"]["blank_value"] == []
 
 
 def test_conditions_and_method_parameters_are_one_entry():
     """2026-10-19 (Jess): conditions and method parameters are the SAME entry, at
-    every mount, and a key is that entry holding n positions (`term`, `quantity`).
+    every mount, and a key is that entry holding n positions (`term`, `numeric`).
     Since 2026-10-21 the method parameters are `method.parameters` (one `method`
     block, did_v2_method_plan.md), and `relation` carries them too."""
     shapes = {}
@@ -600,7 +604,11 @@ def test_conditions_and_method_parameters_are_one_entry():
     assert ks["source_numeric"]["type"] == "matrix"
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
-    assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
+    # the old shape is gone (plan section 9 step 4): regular positions are flat numbers
+    for gone in ("quantity", "matrix"):
+        assert gone not in ks, gone
+    for flat in ("origin", "spacing"):
+        assert ks[flat]["type"] == "double" and "fields" not in ks[flat], flat
 
 
 def test_session_bounded_reference():
@@ -1542,7 +1550,8 @@ def test_method_is_the_inline_block_plus_an_identity():
     entry = sub["parameters"]
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
-    assert {"variable", "quantity", "term", "count", "text", "matrix"} <= subs
+    assert {"variable", "numeric", "term", "count", "text", "logical"} <= subs
+    assert not ({"quantity", "matrix"} & subs), "the old numeric shape is removed"
     # identity is the bound variable; no value field. `unit` IS declared since
     # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
     # did for keys): the canonical value is in it.
@@ -3079,16 +3088,19 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     assert len(sub) >= 4, (
         f"only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude "
         "anything about a coordinate slot")
-    assert "quantity" in sub, (
-        f"`sampled_body.axes[]` declares {sub!r} with no `quantity`. The signed axis "
+    # The numeric shape (did_v2_numeric_shape_plan.md [one shape for measured
+    # numbers]) moved the slot from `quantity` {value, source_value} to `numeric`
+    # beside `source_numeric`; `quantity` was removed on 2026-11-21 (section 9 step 4).
+    assert "numeric" in sub, (
+        f"`sampled_body.axes[]` declares {sub!r} with no `numeric`. The signed axis "
         "entry carries the coordinates for an irregular axis; without it the ngrid "
         "carry has nowhere to land and jNgridBody's refusal becomes permanent.")
     # and the slot has to be able to hold BOTH halves of a coordinate array
-    vals = [f for f in axes[0]["fields"] if f["name"] == "quantity"]
-    got = sorted(x["name"] for x in vals[0].get("fields", []))
-    assert got == ["source_value", "value"], (
-        f"`axes[].quantity` declares {got!r}; the canonical + as-recorded pair is what "
-        "lets a fold carry coordinates without silently normalising them")
+    assert "source_numeric" in sub, (
+        f"`axes[]` declares {sub!r} with no `source_numeric`; the canonical + "
+        "as-recorded pair is what lets a fold carry coordinates without silently "
+        "normalising them")
+    assert "quantity" not in sub
 
 
 def test_all_axes_declarations_are_the_one_entry():
@@ -3955,10 +3967,11 @@ def test_inline_method_has_the_document_shape():
     # `conditions` (data_body AMENDMENT 3).
     # `numeric` and `tolerance`: the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
     # `source_numeric` since 2026-11-19 ([source numeric is number or text])
+    # `quantity` and `matrix` removed 2026-11-21 (the old shape; plan section 9 step 4)
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "numeric", "source_numeric", "tolerance", "quantity", "count", "text",
-        "logical", "matrix"]
+        "term", "numeric", "source_numeric", "tolerance", "count", "text",
+        "logical"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")
@@ -3967,7 +3980,9 @@ def test_inline_method_has_the_document_shape():
 def test_conditions_have_amendment_2_shape():
     """data_body AMENDMENT 2 (signed 2026-08-14), built #73 item 23: the four
     descriptors sit at the top of each condition, `count` flattens, and `quantity`
-    holds {value, source_value}. No per-element unit or approximate remains."""
+    held {value, source_value} until the numeric shape flattened it into `numeric`
+    and `source_numeric` (removed 2026-11-21). No per-element unit or approximate
+    remains."""
     f = next(x for x in RECORDS["statement"][1]["fields"]
              if x["name"] == "conditions")
     names = [x["name"] for x in f["fields"]]
@@ -3975,7 +3990,8 @@ def test_conditions_have_amendment_2_shape():
     sub = {x["name"]: x for x in f["fields"]}
     # AMENDMENT 3 (2026-10-19): the value forms flatten to one value each.
     assert sub["count"]["type"] == "integer" and "fields" not in sub["count"]
-    assert [x["name"] for x in sub["quantity"]["fields"]] == ["value", "source_value"]
+    assert "fields" not in sub["numeric"] and "fields" not in sub["source_numeric"]
+    assert "quantity" not in sub
 
 
 def test_bodies_split_by_who_lays_out_the_bytes():
@@ -4190,11 +4206,17 @@ def test_a_matrix_covariate_holds_an_array_at_each_position():
     left a key whose positions are vectors undecided). data_body plan AMENDMENT 6
     decided it: a `matrix` covariate holds a whole array at each position, and the
     value's dimensions stay exactly its own axes (Jess Haley, 2026-10-22 [matrix
-    covariate], answer "B")."""
+    covariate], answer "B"). The numeric shape (did_v2_numeric_shape_plan.md [one
+    shape for measured numbers], section 4) folds it into `numeric`: "an array at
+    each position adds dimensions"; `matrix` was removed 2026-11-21 (section 9
+    step 4)."""
     cov = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "covariates")
-    m = next(x for x in cov["fields"] if x["name"] == "matrix")
+    assert not any(x["name"] == "matrix" for x in cov["fields"])
+    m = next(x for x in cov["fields"] if x["name"] == "numeric")
     assert m["type"] == "matrix" and m["mustBeScalar"] is False
-    assert "followed by the array's own shape" in m["documentation"]
+    assert "an array at each position adds dimensions" in m["documentation"]
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    assert "followed by the array's own shape" in rules["covariate_shape"]["statement"]
 
 
 # ---------------------------------------------------------------------------
@@ -4204,8 +4226,9 @@ def test_a_matrix_covariate_holds_an_array_at_each_position():
 # [epoch covariates]; [control as covariate] in the stimulus-response plan.
 # ---------------------------------------------------------------------------
 
-_VALUE_FORMS = ("origin", "quantity", "count", "term", "text", "logical", "matrix",
-                "key")
+# `quantity` and `matrix` until 2026-11-21: the numeric shape's `numeric` holds both
+# (did_v2_numeric_shape_plan.md [one shape for measured numbers], section 9 step 4)
+_VALUE_FORMS = ("origin", "numeric", "count", "term", "text", "logical", "key")
 
 
 def _a6_fields(cls, name):
@@ -4228,20 +4251,23 @@ def test_a6_covariate_entry_shape():
     _cov, sub = _a6_fields("data", "covariates")
     # `numeric`, `source_numeric`, `tolerance`, `source_origin`, `source_spacing`:
     # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17), where DID-matlab
-    # did2.schema.numericShapeFields puts them
+    # did2.schema.numericShapeFields puts them; `quantity` and `matrix` removed
+    # 2026-11-21 (the old shape, plan section 9 step 4)
     assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
                          "numeric", "source_numeric", "tolerance",
                          "origin", "spacing", "source_origin", "source_spacing",
-                         "quantity", "count", "term", "text",
-                         "logical", "matrix", "key", "index", "cyclic"]
+                         "count", "term", "text",
+                         "logical", "key", "index", "cyclic"]
     assert sub["variable"]["mustBeNonEmpty"] is True
     assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
     along = sub["along"]
     assert (along["type"], along["mustBeScalar"], along["mustBeNonEmpty"]) == (
         "integer", False, True)
     assert "0-based" in along["documentation"] and "NON-EMPTY" in along["documentation"]
-    for pair in ("origin", "spacing", "quantity"):
-        assert [x["name"] for x in sub[pair]["fields"]] == ["value", "source_value"], pair
+    # flat numbers since the old {value, source_value} block was removed (2026-11-21)
+    for flat in ("origin", "spacing", "source_origin", "source_spacing"):
+        assert sub[flat]["type"] == "double" and sub[flat]["mustBeScalar"] is True, flat
+        assert "fields" not in sub[flat], flat
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is False
     assert sub["key"]["type"] == "integer" and sub["key"]["blank_value"] == -1
     # removed with the key entry; `document` renamed `key` ([covariate key])
@@ -4269,7 +4295,7 @@ def test_a6_rules_replace_the_key_rules():
     # the new numeric shape's fields go with their form (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, section 6)
     assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing",
                                                           "covariates.index"} | {
-        f"covariates.{x}" for x in ("numeric", "source_numeric", "tolerance",
+        f"covariates.{x}" for x in ("source_numeric", "tolerance",
                                     "source_origin", "source_spacing")} == set(
         rules["covariate_one_value_form"]["fields"])
     assert "exactly one" in rules["covariate_single_dimension_forms"]["statement"]
@@ -4300,10 +4326,12 @@ def _covariate_problems(dimensions, covariate):
         out.append("along out of range")
     if ("origin" in forms or "key" in forms) and len(along) != 1:
         out.append("single-dimension form along several")
-    # [covariate details] 5.1a: `cyclic` only on origin+spacing or quantity
+    # [covariate details] 5.1a: `cyclic` only on origin+spacing or a numeric of one
+    # number per position (`quantity`, not `matrix`, before the numeric shape)
     if covariate.get("cyclic") and (
-            len(along) != 1 or not {"origin", "quantity"} & set(forms)):
-        out.append("cyclic not origin+spacing or quantity along one")
+            len(along) != 1 or not {"origin", "numeric"} & set(forms)
+            or ("numeric" in forms and len(_nested_shape(covariate["numeric"])) != 1)):
+        out.append("cyclic not origin+spacing or numeric along one")
     # rule `covariate_shape` ([covariate rules named] 6.1a); a key's `index`:
     # n integers >= 0 ([key covariate index])
     if forms == ["key"] and index is not None and not out:
@@ -4312,11 +4340,10 @@ def _covariate_problems(dimensions, covariate):
             out.append(f"index {index}, along extent {n}")
     if len(forms) == 1 and not out and forms[0] not in ("origin", "key"):
         form = forms[0]
-        v = covariate[form]["value"] if form == "quantity" else covariate[form]
         want = [dimensions[k]["n"] for k in along]
-        got = _nested_shape(v)
-        if got[:len(want)] != want or (form != "matrix" and len(got) != len(want)) or (
-                form == "matrix" and len(got) == len(want)):
+        got = _nested_shape(covariate[form])
+        # a `numeric` may hold an array at each position: its own axes follow
+        if got[:len(want)] != want or (form != "numeric" and len(got) != len(want)):
             out.append(f"shape {got}, along extents {want}")
     return out
 
@@ -4362,9 +4389,9 @@ def test_a6_the_stimulus_presentation_example_satisfies_the_rules():
     dims = [{"term": {"node": "OBI:0000807", "name": "presentation of stimulus"}, "n": 3}]
     covs = [
         {"variable": {"node": "EMPTY:0000368", "name": "onset time"}, "along": [0],
-         "quantity": {"value": [0.0, 2.0, 4.0], "source_value": [0.0, 2.0, 4.0]}},
+         "numeric": [0.0, 2.0, 4.0], "source_numeric": [0.0, 2.0, 4.0]},
         {"variable": {"node": "EMPTY:0000369", "name": "offset time"}, "along": [0],
-         "quantity": {"value": [1.0, 3.0, 5.0], "source_value": [1.0, 3.0, 5.0]}},
+         "numeric": [1.0, 3.0, 5.0], "source_numeric": [1.0, 3.0, 5.0]},
         {"variable": {"node": "XCO:0000099", "name": "control condition"}, "along": [0],
          "logical": [False, True, False]},
     ]
@@ -4379,31 +4406,34 @@ def test_a6_rule_counterexamples_are_refused():
         "along repeats": {"variable": {}, "along": [0, 0], "count": [1]},
         "along out of range": {"variable": {}, "along": [2], "count": [1]},
         "value forms": {"variable": {}, "along": [0], "count": [1], "text": ["a"]},
-        "origin without spacing": {"variable": {}, "along": [0], "origin": {"value": 0}},
+        "origin without spacing": {"variable": {}, "along": [0], "origin": 0},
         "single-dimension form along several": {
-            "variable": {}, "along": [0, 1], "origin": {"value": 0}, "spacing": {"value": 1}},
-        "cyclic not origin+spacing or quantity along one": {
+            "variable": {}, "along": [0, 1], "origin": 0, "spacing": 1},
+        "cyclic not origin+spacing or numeric along one": {
             "variable": {}, "along": [0], "term": [{"name": "a"}] * 4, "cyclic": True},
         # INVERTED 2026-10-22 ([covariate details] 5.1a): `count` and `matrix` were
-        # allowed `cyclic`; only origin+spacing and quantity are now
-        "cyclic not origin+spacing or quantity along one (count)": {
+        # allowed `cyclic`; only origin+spacing and quantity are now (`numeric` of
+        # one number per position since the numeric shape)
+        "cyclic not origin+spacing or numeric along one (count)": {
             "variable": {}, "along": [0], "count": [1, 2, 3, 4], "cyclic": True},
-        "cyclic not origin+spacing or quantity along one (matrix)": {
-            "variable": {}, "along": [0], "matrix": [[0, 0]] * 4, "cyclic": True},
+        "cyclic not origin+spacing or numeric along one (array per position)": {
+            "variable": {}, "along": [0], "numeric": [[0, 0]] * 4, "cyclic": True},
         "shape": {"variable": {}, "along": [0], "count": [1, 2, 3]},
         "shape (order)": {"variable": {}, "along": [1, 0], "logical": [[True] * 5] * 4},
-        "shape (matrix has its own axes)": {
-            "variable": {}, "along": [0], "matrix": [1, 2, 3, 4]},
+        "shape (numeric along its dimension)": {
+            "variable": {}, "along": [0], "numeric": [1, 2, 3]},
+        "value forms (the old shape is no form)": {
+            "variable": {}, "along": [0], "quantity": {"value": [1, 2, 3, 4]}},
     }
     for why, c in bad.items():
         got = _covariate_problems(two, c)
         assert any(g.startswith(why.split(" (")[0]) for g in got), (why, got)
-    # the shape rule's positive cases: along order, a matrix's own axes after them
+    # the shape rule's positive cases: along order, an array's own axes after them
     ok = [{"variable": {}, "along": [1, 0], "logical": [[True] * 4] * 5},
-          {"variable": {}, "along": [0], "matrix": [[0.0, 1.0]] * 4},
-          {"variable": {}, "along": [0], "quantity": {"value": [0.0, 1.0, 2.0, 3.0]},
+          {"variable": {}, "along": [0], "numeric": [[0.0, 1.0]] * 4},
+          {"variable": {}, "along": [0], "numeric": [0.0, 1.0, 2.0, 3.0],
            "cyclic": True},
-          {"variable": {}, "along": [1], "origin": {"value": 0}, "spacing": {"value": 1},
+          {"variable": {}, "along": [1], "origin": 0, "spacing": 1,
            "cyclic": True}]
     for c in ok:
         assert _covariate_problems(two, c) == [], c
@@ -4496,16 +4526,16 @@ def test_a6_cyclic_only_on_origin_spacing_or_quantity():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     r = rules["covariate_cyclic"]
     # `numeric` takes `quantity`'s place in the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
+    # `quantity` removed with the old shape (2026-11-21, plan section 9 step 4)
     assert set(r["fields"]) == {"covariates.cyclic", "covariates.along", "covariates.origin",
-                                "covariates.spacing", "covariates.quantity",
-                                "covariates.numeric"}, r["fields"]
+                                "covariates.spacing", "covariates.numeric"}, r["fields"]
     assert "[covariate details]" in r["statement"]
     # `acquisition_epoch`'s copy left with the class (2026-11-19, [retired
     # classes leave V2] step 3); `data` holds the one entry.
     for cls in ("data",):
         _c, cov = _a6_fields(cls, "covariates")
         doc = cov["cyclic"]["documentation"]
-        assert "`origin`+`spacing` or a `quantity`" in doc and "not on `count` or `matrix`" in doc, cls
+        assert "`origin`+`spacing` or a `numeric` covariate" in doc and "not on `count`" in doc, cls
 
 
 def test_a6_covariate_shape_and_variable_once_are_named_rules():
@@ -4513,7 +4543,7 @@ def test_a6_covariate_shape_and_variable_once_are_named_rules():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     shape, once = rules["covariate_shape"], rules["variable_once"]
     assert "covariates.along" in shape["fields"] and "dimensions.n" in shape["fields"]
-    assert "covariates.matrix" in shape["fields"]
+    assert "covariates.numeric" in shape["fields"] and "covariates.matrix" not in shape["fields"]
     assert "in `along` order" in shape["statement"]
     assert "followed by the array's own shape" in shape["statement"]
     assert once["fields"] == ["covariates.variable", "covariates.along", "covariates.key"]

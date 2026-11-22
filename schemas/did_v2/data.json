@@ -125,7 +125,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "What is known about the value's positions along one or more of its `dimensions` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; a NetCDF/CF auxiliary coordinate): an onset time per presentation, a depth per channel, a control flag per trial. Each entry is the AMENDMENT 3 entry -- {variable, unit, source_unit, approximate} plus EXACTLY ONE value form (`origin`+`spacing`, `quantity`, `count`, `term`, `text`, `logical`, `matrix` or `key`) -- with `along`, the 0-based indices of the dimensions it runs along, and `cyclic`. Its shape is the extents of the `along` dimensions in that order (for `matrix`, followed by the array's own shape). NEVER `along: []`: a fact true of the whole value is a `condition` ([conditions stay on the statement]). A covariate DESCRIBES positions; it is not a further measurement (a standard error is its own value at the same positions, T14). Same scope as `dimensions`: the inline value on a value document, THIS body's array on a data_body. Replaces the positions of `keys`, and `item.value.offset` / `item.value.control_item` (until 2026-10-22). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, sections 4 and 6): the entry is flat -- a number is `numeric` (canonical, in `unit`; an array at each position adds dimensions; a single number is written as a plain number, [numeric shape details] (3)) with `unit`, `source_numeric`, `source_unit` and `tolerance` only beside it; regular positions are `origin` and `spacing`, flat numbers, with `unit`, `source_origin`, `source_spacing` and `source_unit`; `count`, `term`, `text`, `logical` and `key` are unchanged and carry no unit. `quantity` and `matrix` are the OLD SHAPE, read until the readers drop it (section 9, step 4).",
+            "documentation": "What is known about the value's positions along one or more of its `dimensions` (data_body plan AMENDMENT 6, Jess Haley 2026-10-22 [covariates]; a NetCDF/CF auxiliary coordinate): an onset time per presentation, a depth per channel, a control flag per trial. Each entry is the AMENDMENT 3 entry -- {variable, approximate} plus EXACTLY ONE value form (`origin`+`spacing`, `numeric`, `count`, `term`, `text`, `logical` or `key`) -- with `along`, the 0-based indices of the dimensions it runs along, and `cyclic`. Its shape is the extents of the `along` dimensions in that order (for a `numeric` that holds an array at each position, followed by the array's own shape). NEVER `along: []`: a fact true of the whole value is a `condition` ([conditions stay on the statement]). A covariate DESCRIBES positions; it is not a further measurement (a standard error is its own value at the same positions, T14). Same scope as `dimensions`: the inline value on a value document, THIS body's array on a data_body. Replaces the positions of `keys`, and `item.value.offset` / `item.value.control_item` (until 2026-10-22). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, sections 4 and 6): the entry is flat -- a number is `numeric` (canonical, in `unit`; an array at each position adds dimensions; a single number is written as a plain number, [numeric shape details] (3)) with `unit`, `source_numeric`, `source_unit` and `tolerance` only beside it; regular positions are `origin` and `spacing`, flat numbers, with `unit`, `source_origin`, `source_spacing` and `source_unit`; `count`, `term`, `text`, `logical` and `key` are unchanged and carry no unit. `quantity` and `matrix` (the old shape) are removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283).",
             "constraints": {},
             "fields": [
                 {
@@ -209,7 +209,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical unit of `origin`/`spacing`/`quantity`/`matrix`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]). In the new numeric shape: the canonical unit of `numeric` or `origin`/`spacing` only; absent beside `count`, `term`, `text`, `logical` or `key` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
+                    "documentation": "Canonical unit of `numeric` or `origin`/`spacing`. Angles are DEGREES, per angle.value.degrees. V_eta's canonical units are PRACTICAL SI (T14), not strict SI: grams, liters, celsius, mmHg. Absent for a `term`, `text`, `logical` or `document` covariate, and for a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]). In the new numeric shape: the canonical unit of `numeric` or `origin`/`spacing` only; absent beside `count`, `term`, `text`, `logical` or `key` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
                     "constraints": {
                         "binding": {
                             "strength": "preferred",
@@ -383,85 +383,29 @@
                 },
                 {
                     "name": "origin",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Where REGULAR positions start: position k is origin + k * spacing, in `unit`. With `spacing` it is ONE value form (rule `covariate_one_value_form`), numeric, and only along exactly ONE dimension (rule `covariate_single_dimension_forms`). Its presence says the positions are regular (data_body plan AMENDMENT 6: the key's `regular` flag is deleted). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4): `origin` is a flat number in `unit`, with what the source wrote in `source_origin`. The {value, source_value} block declared here is the OLD SHAPE: the field keeps it until the readers drop it (section 9, step 4), because a field holds one type and DID-matlab reads the flat number beside the block (did2.schema.numericShapeFields).",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical value.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded value.",
-                            "constraints": {}
-                        }
-                    ]
+                    "documentation": "Where REGULAR positions start: position k is origin + k * spacing, in `unit`. With `spacing` it is ONE value form (rule `covariate_one_value_form`), numeric, and only along exactly ONE dimension (rule `covariate_single_dimension_forms`). Its presence says the positions are regular (data_body plan AMENDMENT 6: the key's `regular` flag is deleted). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4): `origin` is a flat number in `unit`, with what the source wrote in `source_origin`. The old {value, source_value} block is removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283).",
+                    "constraints": {}
                 },
                 {
                     "name": "spacing",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
+                    "type": "double",
+                    "blank_value": 0.0,
+                    "default_value": 0.0,
                     "mustBeNonEmpty": false,
                     "mustBeScalar": true,
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The step between regular positions, in `unit`. Present if and only if `origin` is. NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4): `spacing` is a flat number in `unit`, with what the source wrote in `source_spacing`. The {value, source_value} block declared here is the OLD SHAPE: the field keeps it until the readers drop it (section 9, step 4), because a field holds one type and DID-matlab reads the flat number beside the block (did2.schema.numericShapeFields).",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical value.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "double",
-                            "blank_value": 0.0,
-                            "default_value": 0.0,
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded value.",
-                            "constraints": {}
-                        }
-                    ]
+                    "documentation": "The step between regular positions, in `unit`. Present if and only if `origin` is. NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4): `spacing` is a flat number in `unit`, with what the source wrote in `source_spacing`. The old {value, source_value} block is removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283).",
+                    "constraints": {}
                 },
                 {
                     "name": "source_origin",
@@ -488,47 +432,6 @@
                     "ontology": null,
                     "documentation": "`spacing` as the source wrote it, in `source_unit`. Only with `origin`. (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4.)",
                     "constraints": {}
-                },
-                {
-                    "name": "quantity",
-                    "type": "structure",
-                    "blank_value": {},
-                    "default_value": {},
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: Numeric positions in `unit`: `value` the canonical numbers and `source_value` what the source wrote, each sized by the extents of the `along` dimensions, in that order. One value form (rule `covariate_one_value_form`). (`values {values, source_values}` until 2026-10-19.)",
-                    "constraints": {},
-                    "fields": [
-                        {
-                            "name": "value",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "Canonical values.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "source_value",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "As-recorded values.",
-                            "constraints": {}
-                        }
-                    ]
                 },
                 {
                     "name": "count",
@@ -617,19 +520,6 @@
                     "constraints": {}
                 },
                 {
-                    "name": "matrix",
-                    "type": "matrix",
-                    "blank_value": [],
-                    "default_value": [],
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": false,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: A whole numeric array AT EACH POSITION, in `unit` (absent for unitless numbers): its shape is the extents of the `along` dimensions followed by the array's own shape, row-major as JSON nested arrays (data_body AMENDMENT 4). The value's `dimensions` stay exactly its own axes; the array's extra axes are not dimensions ([matrix covariate], answer \"B\"). One value form (rule `covariate_one_value_form`).",
-                    "constraints": {}
-                },
-                {
                     "name": "key",
                     "type": "integer",
                     "blank_value": -1,
@@ -665,7 +555,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on an `origin`+`spacing` or a `quantity` covariate along exactly ONE dimension (rule `covariate_cyclic`; Jess Haley 2026-10-22 [covariate details], 5.1a: not on `count` or `matrix`). Absent = false.",
+                    "documentation": "True: after the last position comes the first (a closed outline's vertices). Only on an `origin`+`spacing` or a `numeric` covariate (`quantity` before the numeric shape) along exactly ONE dimension (rule `covariate_cyclic`; Jess Haley 2026-10-22 [covariate details], 5.1a: not on `count`, nor on a `numeric` holding an array at each position, `matrix` before). Absent = false.",
                     "constraints": {}
                 }
             ]
@@ -695,7 +585,6 @@
             "fields": [
                 "covariates.origin",
                 "covariates.spacing",
-                "covariates.quantity",
                 "covariates.numeric",
                 "covariates.source_numeric",
                 "covariates.tolerance",
@@ -705,11 +594,10 @@
                 "covariates.term",
                 "covariates.text",
                 "covariates.logical",
-                "covariates.matrix",
                 "covariates.key",
                 "covariates.index"
             ],
-            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `quantity`, `count`, `term`, `text`, `logical`, `matrix`, or `key` (0 or more; -1 is not used; `document` until 2026-11-01, [covariate key]). `index` is not a form: it is given only beside `key` (Jess Haley 2026-11-01 [key covariate index]). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.) NEW NUMERIC SHAPE ([one shape for measured numbers], Jess Haley 2026-11-17, did_v2_numeric_shape_plan.md sections 4 and 6): `numeric` is one form, and `origin` + `spacing` flat numbers are one form; `quantity` and `matrix` are the old shape, read until the readers drop it. `source_numeric` and `tolerance` appear only with `numeric`; `spacing`, `source_origin` and `source_spacing` only with `origin`; `unit` and `source_unit` only with `numeric` or `origin` (DID-matlab checks these under this rule's name)."
+            "statement": "A covariate carries EXACTLY ONE value form: `origin` and `spacing` together (one form; either without the other is none), `numeric`, `count`, `term`, `text`, `logical`, or `key` (0 or more; -1 is not used; `document` until 2026-11-01, [covariate key]). `index` is not a form: it is given only beside `key` (Jess Haley 2026-11-01 [key covariate index]). (data_body plan AMENDMENT 6; replaces `key_regular_origin_spacing` and `key_positions_one_form`.) NEW NUMERIC SHAPE ([one shape for measured numbers], Jess Haley 2026-11-17, did_v2_numeric_shape_plan.md sections 4 and 6): `numeric` is one form, and `origin` + `spacing` flat numbers are one form; `quantity` and `matrix`, the old shape, are removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283). `source_numeric` and `tolerance` appear only with `numeric`; `spacing`, `source_origin` and `source_spacing` only with `origin`; `unit` and `source_unit` only with `numeric` or `origin` (DID-matlab checks these under this rule's name)."
         },
         {
             "name": "covariate_along",
@@ -736,10 +624,9 @@
                 "covariates.along",
                 "covariates.origin",
                 "covariates.spacing",
-                "covariates.quantity",
                 "covariates.numeric"
             ],
-            "statement": "`cyclic` is true only on an `origin` + `spacing` or a `quantity` covariate whose `along` has exactly one index; never on `count`, `term`, `text`, `logical`, `matrix` or `key` (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate details], 5.1a). In the new numeric shape `numeric` takes the place of `quantity` here ([one shape for measured numbers], did_v2_numeric_shape_plan.md)."
+            "statement": "`cyclic` is true only on an `origin` + `spacing` or a `numeric` covariate whose `along` has exactly one index; never on `count`, `term`, `text`, `logical`, a `numeric` holding an array at each position, or `key` (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate details], 5.1a). `numeric` took the place of `quantity` and `matrix` here ([one shape for measured numbers], did_v2_numeric_shape_plan.md)."
         },
         {
             "name": "dimension_chunk_sampled_only",
@@ -753,16 +640,14 @@
             "fields": [
                 "covariates.along",
                 "dimensions.n",
-                "covariates.quantity",
                 "covariates.numeric",
                 "covariates.count",
                 "covariates.term",
                 "covariates.text",
                 "covariates.logical",
-                "covariates.matrix",
                 "covariates.index"
             ],
-            "statement": "A covariate's value (`quantity`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `matrix` covariate has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `key` covariate's document has exactly `n` entries, unless the covariate carries `index`: then `index` holds `n` integers >= 0, each below that document's number of entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; `index` 2026-11-01 [key covariate index]). In the new numeric shape `numeric` has the extents of its `along` dimensions, followed by the array's own shape when each position holds an array (`matrix` before; [one shape for measured numbers], did_v2_numeric_shape_plan.md section 4)."
+            "statement": "A covariate's value (`numeric`, `count`, `term`, `text` or `logical`) has the extents (`n`) of its `along` dimensions, in `along` order; a `numeric` that holds an array at each position has those extents followed by the array's own shape. `origin` + `spacing` give `n` positions and a `key` covariate's document has exactly `n` entries, unless the covariate carries `index`: then `index` holds `n` integers >= 0, each below that document's number of entries (data_body plan AMENDMENT 6; Jess Haley 2026-10-22 [covariate rules named], 6.1a; `index` 2026-11-01 [key covariate index]). (`quantity` and `matrix` until the numeric shape, [one shape for measured numbers], did_v2_numeric_shape_plan.md section 4.)"
         },
         {
             "name": "variable_once",

@@ -112,7 +112,7 @@ def test_a_method_block_that_drifts_is_refused(tree):
     def fn(d):
         m = next(x for x in d["fields"] if x["name"] == "method")
         par = next(x for x in m["fields"] if x["name"] == "parameters")
-        par["fields"] = [x for x in par["fields"] if x["name"] != "matrix"]
+        par["fields"] = [x for x in par["fields"] if x["name"] != "count"]
     _edit(_f(tree, "interaction.json"), fn)
     rc, out = _run(tree)
     assert rc == 1 and "method block shapes" in out and "entry list shapes" in out, out

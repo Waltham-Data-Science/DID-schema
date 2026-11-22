@@ -86,7 +86,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The run's settings, one entry each: which tool ran (DID-matlab), its exact commit, the source format (did_v1) and the target format (did_v2). The same entry list as an interaction's inline `method.parameters`: {variable, unit, source_unit, approximate} plus exactly ONE value form. NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, sections 4 and 6): the entry is flat -- a number is `numeric` (canonical, in `unit`; an array at each position adds dimensions; a single number is written as a plain number, [numeric shape details] (3)) with `unit`, `source_numeric`, `source_unit` and `tolerance` only beside it; `count`, `term`, `text`, `logical` are unchanged and carry no unit. `quantity` and `matrix` are the OLD SHAPE, read until the readers drop it (section 9, step 4). `source_numeric` holds what the source held, in the source's own type: a number where v1 stored a number, text where v1 stored text ([numeric shape details] (1)). A schema field holds one type, so it is not declared here yet: DID-matlab did2.schema.numericShapeFields declares it (text, or a number) until the old shape is removed.",
+                    "documentation": "The run's settings, one entry each: which tool ran (DID-matlab), its exact commit, the source format (did_v1) and the target format (did_v2). The same entry list as an interaction's inline `method.parameters`: {variable, unit, source_unit, approximate} plus exactly ONE value form. NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, sections 4 and 6): the entry is flat -- a number is `numeric` (canonical, in `unit`; an array at each position adds dimensions; a single number is written as a plain number, [numeric shape details] (3)) with `unit`, `source_numeric`, `source_unit` and `tolerance` only beside it; `count`, `term`, `text`, `logical` are unchanged and carry no unit. `quantity` and `matrix` (the old shape) are removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283). `source_numeric` holds what the source held, in the source's own type: a number where v1 stored a number, text where v1 stored text ([numeric shape details] (1)). It is declared here with type `number_or_text` ([source numeric is number or text]).",
                     "constraints": {},
                     "fields": [
                         {
@@ -157,7 +157,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]). In the new numeric shape: the canonical unit of `numeric` only; absent beside `count`, `term`, `text`, `logical` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
+                            "documentation": "Canonical unit of `numeric`, for the whole setting. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]). In the new numeric shape: the canonical unit of `numeric` only; absent beside `count`, `term`, `text`, `logical` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -377,47 +377,6 @@
                             ]
                         },
                         {
-                            "name": "quantity",
-                            "type": "structure",
-                            "blank_value": {},
-                            "default_value": {},
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": true,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: A numeric value, in `unit`, plus what the source wrote.",
-                            "constraints": {},
-                            "fields": [
-                                {
-                                    "name": "value",
-                                    "type": "double",
-                                    "blank_value": 0.0,
-                                    "default_value": 0.0,
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "Canonical value, in `unit`.",
-                                    "constraints": {}
-                                },
-                                {
-                                    "name": "source_value",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
-                                    "mustBeNonEmpty": false,
-                                    "mustBeScalar": true,
-                                    "mustNotHaveNaN": false,
-                                    "queryable": true,
-                                    "ontology": null,
-                                    "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
-                                    "constraints": {}
-                                }
-                            ]
-                        },
-                        {
                             "name": "count",
                             "type": "integer",
                             "blank_value": 0,
@@ -454,19 +413,6 @@
                             "queryable": true,
                             "ontology": null,
                             "documentation": "A true/false value (Jess Haley 2026-10-22 [logical entries]): whether a setting was on, whether a condition held. One value form.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "matrix",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Replaced by `numeric`. Was: A numeric N-D array value, in `unit` (absent for unitless numbers): row-major as JSON nested arrays, every dimension written: an n x 3 palette is [[r, g, b], ...], one inner array per row, and a vector is written with its dimension as one row [[a, b, c]] or one column [[a], [b], [c]], never a flat [a, b, c], which cannot say which (data_body plan AMENDMENT 4, corrected 2026-10-21). The whole array is ONE value of the entry's `variable`; it is not split into entries. (data_body AMENDMENT 4, 2026-10-21.)",
                             "constraints": {}
                         }
                     ]
