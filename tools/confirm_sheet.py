@@ -233,7 +233,10 @@ def classify(v1_class, entry):
 # performs each fold, because that fact lives in the other repository's code and
 # no artifact in this one carries it.
 _FOLDED_BY = {
-    "session_relative_reference": "did2.convert.resolveSessionAnchors",
+    # Nothing folds it now: pass 1 writes its replacement, a
+    # relative_time_reference on the session entity, in its final shape, and
+    # DID-matlab #512 (4a2c3c60) deleted the batch pass that used to fold it.
+    "session_relative_reference": "migrators_j/private/jSessionAnchor.m (same pass)",
     "epoch_bounded_reference":    "ndi.migrate.internal.epochAnchorFold",
     "daqreader":                  "migrators_j/daqreader.m (same pass)",
 }
