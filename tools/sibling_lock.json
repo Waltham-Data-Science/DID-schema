@@ -11,7 +11,7 @@
         "NDI-matlab": {
             "url": "https://github.com/VH-Lab/NDI-matlab.git",
             "head_ref": "V2",
-            "head": "4a828675f165bbdd180f60e200dffe5ca198500e",
+            "head": "1496049967c81e88bb097ea3066e40367bbe6450",
             "main": "73f46d19416e44f2f2dccaf05aef100d629d6656"
         },
         "NDIcalc-vis-matlab": {
