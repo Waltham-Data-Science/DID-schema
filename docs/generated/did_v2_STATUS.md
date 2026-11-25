@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 959 decision line(s) accepted, 2 rejected; 45 cited by a class, 914 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 966 decision line(s) accepted, 2 rejected; 45 cited by a class, 921 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1076,6 +1076,10 @@ field). If one decides a class's disposition, that class should cite it.
 - lab-made strain ids are an accepted loss too. "Decided by Jess Haley, 2026-11-19 [lab-made strain ids are" (did_v2_go_forward_class_audit.md:2312).
 - metadata editor graph compared with its form. "Decided by Jess Haley, 2026-11-20 [metadata editor graph" (did_v2_go_forward_class_audit.md:2314).
 - strain entities per dataset. "Decided by Jess Haley, 2026-11-22 [strain entities per" (did_v2_go_forward_class_audit.md:2316).
+- side said about its region. "Decided by Jess Haley, 2026-11-25 [side said about its" (did_v2_go_forward_class_audit.md:2318).
+- openMINDS graph with a carried form. "Decided by Jess Haley, 2026-11-25 [openMINDS graph with a" (did_v2_go_forward_class_audit.md:2320).
+- several metadata forms are malformed. "Decided by Jess Haley, 2026-11-25 [several metadata forms" (did_v2_go_forward_class_audit.md:2322).
+- carry-116 kept. "Decided by Jess Haley, 2026-11-25 [carry-116 kept]: (" (did_v2_go_forward_class_audit.md:2324).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1184,6 +1188,9 @@ field). If one decides a class's disposition, that class should cite it.
 - session folder wiring migrated. "Decided by Jess Haley, 2026-11-19 [session folder wiring" (did_v2_standing_wiring_plan.md:246).
 - stimulus log owned by its presentation. "Decided by Jess Haley, 2026-11-19 [stimulus log owned by" (did_v2_standing_wiring_plan.md:248).
 - rig device written by NDI writers. "Decided by Jess Haley, 2026-11-22 [rig device written by" (did_v2_standing_wiring_plan.md:250).
+- stimulus log fallback is a manipulation. "Decided by Jess Haley, 2026-11-25 [stimulus log fallback is" (did_v2_standing_wiring_plan.md:252).
+- unused split time channel kept. "Decided by Jess Haley, 2026-11-25 [unused split time" (did_v2_standing_wiring_plan.md:254).
+- time channels out of order are malformed. "Decided by Jess Haley, 2026-11-25 [time channels out of" (did_v2_standing_wiring_plan.md:256).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

@@ -707,9 +707,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 959,
+          "accepted_lines": 966,
           "accepted_lines_by_kind": {
-            "Decided by": 839,
+            "Decided by": 846,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6570,6 +6570,38 @@
               "anchor": "Decided by Jess Haley, 2026-11-22 [strain entities per"
             },
             {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2318,
+              "kind": "Decided by",
+              "tag": "side said about its region",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [side said about its"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2320,
+              "kind": "Decided by",
+              "tag": "openMINDS graph with a carried form",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [openMINDS graph with a"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2322,
+              "kind": "Decided by",
+              "tag": "several metadata forms are malformed",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [several metadata forms"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2324,
+              "kind": "Decided by",
+              "tag": "carry-116 kept",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [carry-116 kept]: ("
+            },
+            {
               "document": "did_v2_image_model_plan.md",
               "line": 226,
               "kind": "Decided by",
@@ -7432,6 +7464,30 @@
               "tag": "rig device written by NDI writers",
               "date": "2026-11-22",
               "anchor": "Decided by Jess Haley, 2026-11-22 [rig device written by"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 252,
+              "kind": "Decided by",
+              "tag": "stimulus log fallback is a manipulation",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [stimulus log fallback is"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 254,
+              "kind": "Decided by",
+              "tag": "unused split time channel kept",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [unused split time"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 256,
+              "kind": "Decided by",
+              "tag": "time channels out of order are malformed",
+              "date": "2026-11-25",
+              "anchor": "Decided by Jess Haley, 2026-11-25 [time channels out of"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
