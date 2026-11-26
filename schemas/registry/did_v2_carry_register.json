@@ -2720,6 +2720,67 @@
       "decides": "which of the form and the graph is right where they differ",
       "resolved_by": "the dataset map entry for that dataset (not yet written)",
       "kind_basis": "stated"
+    },
+    {
+      "id": "carry-175",
+      "v1_class": "measurement",
+      "fields": [
+        "measurement.value"
+      ],
+      "when": "a finite number whose quantity kind and unit the measurement does not state (DID-matlab measurement.m; the twin of carry-145). The generic stage no longer types it from label words ([generic stage does not guess from words], audit C3)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "a statement of the quantity kind the dataset map names for that measurement, in its unit"
+      ],
+      "decides": "what quantity the number is (the label alone does not say)",
+      "resolved_by": "the dataset map entry for that measurement"
+    },
+    {
+      "id": "carry-176",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.string_value"
+      ],
+      "when": "its `string_value` is a term (CURIE-shaped), which may be the site, what was given or a value; covers a ChEBI substance with one and a term that states its number's kind (DID-matlab treatment.m; [generic stage does not guess from words], audit C4)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "manipulation (dose at a site)",
+        "manipulation (exposure at a site)",
+        "a condition or value of the manipulation"
+      ],
+      "decides": "what the term in `string_value` is in its dataset",
+      "resolved_by": "the dataset map entry for that treatment term"
+    },
+    {
+      "id": "carry-177",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageStack.label",
+        "image.label"
+      ],
+      "when": "an imageStack (or v1 image) whose label says the raster is derived (a whole word such as derived, projection, average, maximum, ratio, normalized, filtered; DID-matlab image_stack.m; [generic stage does not guess from words], audit C16)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "calculation of what the raster computes",
+        "observation of intensity"
+      ],
+      "decides": "whether the raster is computed from other images and from what",
+      "resolved_by": "the dataset's import"
     }
   ]
 }

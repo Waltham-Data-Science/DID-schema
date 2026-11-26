@@ -551,11 +551,20 @@ class TestTheRenameJoin(unittest.TestCase):
         by = {r["v1_class"]: r for r in rows}
         self.assertIn("epochMint",
                       by["element_epoch"]["build_state"]["batch_pass_consumers"])
-        # The refusal, on real data: 36 rows emit `session_relative_reference`
-        # and not one of them may be credited to `resolveSessionAnchors` by it.
+        # The refusal, on real data: no row that emits
+        # `session_relative_reference` may be credited to
+        # `resolveSessionAnchors` by it. Once 36 rows emitted it; since
+        # DID-matlab #528 (measurement and subjectmeasurement carry their
+        # numbers) only `treatment` does, among a dozen other targets. The
+        # several-owner case is covered by
+        # test_a_target_claimed_by_several_rows_never_joins; this checks that
+        # the live emitters, however many, are not credited.
         emitters = [r["v1_class"] for r in rows
                     if "session_relative_reference" in (r.get("targets") or [])]
-        self.assertGreater(len(emitters), 1)
+        print(f"emitters of session_relative_reference: {len(emitters)}")
+        self.assertGreaterEqual(len(emitters), 1,
+                                "no row emits session_relative_reference: the "
+                                "check below would inspect nothing")
         for cn in emitters:
             self.assertNotIn(
                 "resolveSessionAnchors",

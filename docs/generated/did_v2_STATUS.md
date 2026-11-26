@@ -46,20 +46,20 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: V_eta migrator packages read | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass`, `DID-matlab:convert` |
 | build: &nbsp;&nbsp;-- of those, per-document migrator | `DID-matlab:migrators_j`, `NDI-matlab:ndi_second_pass` |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | `DID-matlab:convert` |
-| build: migrator files inspected | 502 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 224 |
+| build: migrator files inspected | 501 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 223 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 278 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 0 |
-| build: migrator lines inspected | 101299 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 51023 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 50276 |
+| build: migrator lines inspected | 101460 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 51119 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 50341 |
 | build: classes queried | 0 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a batch post-pass (rows overlap) | 0 |
 | build: of those, discounted (decision retires the class) | 0 |
-| build: `document_class` writes whose class name is a VARIABLE | 22 |
-| build: &nbsp;&nbsp;-- of those, in a per-document migrator | 3 |
+| build: `document_class` writes whose class name is a VARIABLE | 21 |
+| build: &nbsp;&nbsp;-- of those, in a per-document migrator | 2 |
 | build: &nbsp;&nbsp;-- of those, in a batch post-pass | 19 |
 | corpus: `*-summary.json` reports read | 0 |
 | corpus: reports carrying an `unconverted_count` | 0 |
@@ -143,8 +143,8 @@ is a batch post-pass, `DID-matlab:migrators_j/fitcurve.m:139` is not.
 | 2 | `b.document_class = classBlock('<class>', {supers})` | 0 | 0 | 0 |
 | 3 | `b.document_class.class_name = '<class>';` | 1 | 1 | 0 |
 | 4 | `did2.build.statement('<direction>', ..., 'ValueKind', '<kind>')`, `did2.build.document('<class>', ...)` or a fixed-class builder | 104 | 66 | 38 |
-| 5 | a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)` | 48 | 48 | 0 |
-| - | class name is a VARIABLE -- unresolved here | 22 | 3 | 19 |
+| 5 | a wrapper of idiom 4: `jStatement(preBody, '<class>', ...)` | 47 | 47 | 0 |
+| - | class name is a VARIABLE -- unresolved here | 21 | 2 | 19 |
 
 **THE THREE IDIOMS ARE RE-MEASURED IN THE NEW ROOTS, NOT ASSUMED TO CARRY
 OVER.** The per-group columns are counted per file, so which idioms the
@@ -203,11 +203,10 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/+roundtrip/subjectmeasurement.m:93` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncgraph.m:40` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncrule.m:160` | `CLASS` |
-| `DID-matlab:convert/resolveEpochProbemap.m:1298` | `kind.className` |
-| `DID-matlab:convert/resolveEpochProbemap.m:2129` | `entry.class` |
+| `DID-matlab:convert/resolveEpochProbemap.m:1299` | `kind.className` |
+| `DID-matlab:convert/resolveEpochProbemap.m:2130` | `entry.class` |
 | `DID-matlab:migrators_j/gene_list_mapping.m:184` | `valueClass` |
-| `DID-matlab:migrators_j/private/jMeasurementFold.m:112` | `observation + leaf` |
-| `DID-matlab:migrators_j/treatment.m:157` | `manipulation + kind` |
+| `DID-matlab:migrators_j/treatment.m:166` | `manipulation + kind` |
 
 **THE OTHER CATEGORIES ARE REPORTED SEPARATELY AND ARE NEVER SUMMED.** A
 migrator that WRITES a block of that name (`x.<class> = ...`), one that
