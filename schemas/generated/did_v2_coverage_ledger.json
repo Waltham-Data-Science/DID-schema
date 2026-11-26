@@ -708,9 +708,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 980,
+          "accepted_lines": 981,
           "accepted_lines_by_kind": {
-            "Decided by": 860,
+            "Decided by": 861,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6673,6 +6673,14 @@
               "tag": "corpus code bins closed",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [corpus code bins"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2344,
+              "kind": "Decided by",
+              "tag": "build state lives in issues",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [build state lives in"
             },
             {
               "document": "did_v2_image_model_plan.md",

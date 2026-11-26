@@ -340,7 +340,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 980 decision line(s) accepted, 2 rejected; 45 cited by a class, 935 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 981 decision line(s) accepted, 2 rejected; 45 cited by a class, 936 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1088,6 +1088,7 @@ field). If one decides a class's disposition, that class should cite it.
 - second pass carries labels and unknown clocks. "Decided by Jess Haley, 2026-11-26 [second pass carries" (did_v2_go_forward_class_audit.md:2338).
 - NewStim recipes applied by default. "Decided by Jess Haley, 2026-11-26 [NewStim recipes applied" (did_v2_go_forward_class_audit.md:2340).
 - corpus code bins closed. "Decided by Jess Haley, 2026-11-26 [corpus code bins" (did_v2_go_forward_class_audit.md:2342).
+- build state lives in issues. "Decided by Jess Haley, 2026-11-26 [build state lives in" (did_v2_go_forward_class_audit.md:2344).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
