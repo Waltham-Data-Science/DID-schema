@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 966 decision line(s) accepted, 2 rejected; 45 cited by a class, 921 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 968 decision line(s) accepted, 2 rejected; 45 cited by a class, 923 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1191,6 +1191,8 @@ field). If one decides a class's disposition, that class should cite it.
 - stimulus log fallback is a manipulation. "Decided by Jess Haley, 2026-11-25 [stimulus log fallback is" (did_v2_standing_wiring_plan.md:252).
 - unused split time channel kept. "Decided by Jess Haley, 2026-11-25 [unused split time" (did_v2_standing_wiring_plan.md:254).
 - time channels out of order are malformed. "Decided by Jess Haley, 2026-11-25 [time channels out of" (did_v2_standing_wiring_plan.md:256).
+- unnamed rig is malformed. "Decided by Jess Haley, 2026-11-26 [unnamed rig is" (did_v2_standing_wiring_plan.md:258).
+- no migration before the time-reading fix. "Decided by Jess Haley, 2026-11-26 [no migration before the" (did_v2_standing_wiring_plan.md:260).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).
