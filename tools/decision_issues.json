@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-26T15:24:44Z",
+    "fetched_at": "2026-11-26T17:41:31Z",
     "issues": {
         "vh-lab/did-matlab#484": {
             "author": "jesshaley",
@@ -21,6 +21,13 @@
             "state": "open",
             "state_reason": null,
             "title": "Ingested archives in DID's first pass and round trip"
+        },
+        "vh-lab/did-matlab#533": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Stimulus log fallback names the stimulator's own subject; several subjects malformed; no stimulator carried"
         },
         "vh-lab/ndi-matlab#1018": {
             "author": "jesshaley",

@@ -91,10 +91,10 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     assert len(rows) == 1 and rows[0]["class"] == "directed_relation", rows
     # Jess Haley 2026-11-19 [acquisition system is a device entity]
     # (did_v2_standing_wiring_plan.md): the wiring names the rig's device entity;
-    # the `acquisition_system` parent stays admitted until DID-matlab rewires and
-    # NDI-matlab reads probe -> device -> configuration (siblings first).
-    # (`acquisition_configuration`: [acquisition configuration renamed])
-    assert rows[0]["parent_types"] == ["acquisition_configuration", "device"] and rows[0]["timed"] is True
+    # the configuration parent was admitted until DID-matlab rewired (#532,
+    # aa9f25b9) and NDI-matlab wrote the device (#1311, 05829899), siblings
+    # first; now the device is the only parent.
+    assert rows[0]["parent_types"] == ["device"] and rows[0]["timed"] is True
     assert "device" in {t["type"] for t in reg["entity_type_bindings"]}
     # [acquisition configuration renamed] (Jess Haley 2026-11-19): a move, not a copy
     assert SP.class_path("acquisition_system") is None
@@ -112,10 +112,11 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     # directly, role-named, and no longer points at `acquisition_channels`.
     cac_edges = {e["name"]: e for e in cac["depends_on"]}
     assert "acquisition_channels_id" not in cac_edges
-    # Jess Haley 2026-11-19 [a rig's clock belongs to its device]: both ends may
-    # name the device entity; `acquisition_system` stays until the siblings move.
+    # Jess Haley 2026-11-19 [a rig's clock belongs to its device]: both ends
+    # name the device entity; the configuration target was admitted until the
+    # siblings moved (DID-matlab #532, NDI-matlab #1311).
     for name in ("input_id", "output_id"):
-        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_configuration,entity"
+        assert cac_edges[name]["must_refer_to_document_class"] == "entity"
     dev = next(e for e in rig["depends_on"] if e["name"] == "device_id")
     assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is True
     assert "[acquisition system is a device entity]" in dev["documentation"]
