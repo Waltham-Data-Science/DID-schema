@@ -5,7 +5,7 @@
         "DID-matlab": {
             "url": "https://github.com/VH-Lab/DID-matlab.git",
             "head_ref": "V2",
-            "head": "eb6682109163c254c316130cbb83c7b33fca19b8",
+            "head": "b8ae13490994cbaf5e2820bbdc6a38fded5bc4f7",
             "main": "e4493aaecbc9bd8ddeb08c9f8e8c2a1e41599db8"
         },
         "NDI-matlab": {

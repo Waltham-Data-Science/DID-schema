@@ -707,9 +707,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 976,
+          "accepted_lines": 980,
           "accepted_lines_by_kind": {
-            "Decided by": 856,
+            "Decided by": 860,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6640,6 +6640,38 @@
               "tag": "recording attribution only for recordings",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [recording attribution"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2336,
+              "kind": "Decided by",
+              "tag": "generic stage does not guess from words",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [generic stage does not"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2338,
+              "kind": "Decided by",
+              "tag": "second pass carries labels and unknown clocks",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [second pass carries"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2340,
+              "kind": "Decided by",
+              "tag": "NewStim recipes applied by default",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [NewStim recipes applied"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2342,
+              "kind": "Decided by",
+              "tag": "corpus code bins closed",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [corpus code bins"
             },
             {
               "document": "did_v2_image_model_plan.md",

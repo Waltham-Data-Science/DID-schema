@@ -50,9 +50,9 @@ decides a disposition -- it DERIVES, per class, how far the work has got.
 | build: &nbsp;&nbsp;-- of those, per-document migrator | 224 |
 | build: &nbsp;&nbsp;-- of those, batch post-pass | 278 |
 | build: V_zeta files DELIBERATELY EXCLUDED (`+migrators`, `+migrators_i`, `+migrators_e`) | 0 |
-| build: migrator lines inspected | 101196 |
-| build: &nbsp;&nbsp;-- of those, per-document migrator | 51014 |
-| build: &nbsp;&nbsp;-- of those, batch post-pass | 50182 |
+| build: migrator lines inspected | 101299 |
+| build: &nbsp;&nbsp;-- of those, per-document migrator | 51023 |
+| build: &nbsp;&nbsp;-- of those, batch post-pass | 50276 |
 | build: classes queried | 0 |
 | build: open classes MINTED as a document class | 0 |
 | build: &nbsp;&nbsp;-- open classes minted in a per-document migrator (rows overlap) | 0 |
@@ -203,8 +203,8 @@ artifact are therefore a FLOOR.
 | `DID-matlab:convert/+roundtrip/subjectmeasurement.m:93` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncgraph.m:40` | `CLASS` |
 | `DID-matlab:convert/+roundtrip/syncrule.m:160` | `CLASS` |
-| `DID-matlab:convert/resolveEpochProbemap.m:1289` | `kind.className` |
-| `DID-matlab:convert/resolveEpochProbemap.m:2120` | `entry.class` |
+| `DID-matlab:convert/resolveEpochProbemap.m:1298` | `kind.className` |
+| `DID-matlab:convert/resolveEpochProbemap.m:2129` | `entry.class` |
 | `DID-matlab:migrators_j/gene_list_mapping.m:184` | `valueClass` |
 | `DID-matlab:migrators_j/private/jMeasurementFold.m:112` | `observation + leaf` |
 | `DID-matlab:migrators_j/treatment.m:157` | `manipulation + kind` |
@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 976 decision line(s) accepted, 2 rejected; 45 cited by a class, 931 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 980 decision line(s) accepted, 2 rejected; 45 cited by a class, 935 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1085,6 +1085,10 @@ field). If one decides a class's disposition, that class should cite it.
 - dataset map lines belong to the imports. "Decided by Jess Haley, 2026-11-26 [dataset map lines belong" (did_v2_go_forward_class_audit.md:2330).
 - malformed cases cite carry-120. "Decided by Jess Haley, 2026-11-26 [malformed cases cite" (did_v2_go_forward_class_audit.md:2332).
 - recording attribution only for recordings. "Decided by Jess Haley, 2026-11-26 [recording attribution" (did_v2_go_forward_class_audit.md:2334).
+- generic stage does not guess from words. "Decided by Jess Haley, 2026-11-26 [generic stage does not" (did_v2_go_forward_class_audit.md:2336).
+- second pass carries labels and unknown clocks. "Decided by Jess Haley, 2026-11-26 [second pass carries" (did_v2_go_forward_class_audit.md:2338).
+- NewStim recipes applied by default. "Decided by Jess Haley, 2026-11-26 [NewStim recipes applied" (did_v2_go_forward_class_audit.md:2340).
+- corpus code bins closed. "Decided by Jess Haley, 2026-11-26 [corpus code bins" (did_v2_go_forward_class_audit.md:2342).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
