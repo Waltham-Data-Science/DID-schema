@@ -137,6 +137,17 @@ DECLARED_DIVERGENCES = {
         "harness (runCorpusDiscovery) writes no record, so the record is "
         "exercised by DID-matlab's and NDI's unit tests and NDI's e2e, not by "
         "the six-corpus gate."),
+    "carryElementSubject": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. "
+        "did2.convert.carryElementSubject records a migrated element's v1 "
+        "subject in the run's migration report as a one-field carry "
+        "(carry-172, [one-field carry in the migration report]); NDI's second "
+        "pass calls it in +ndi/+migrate/local.m for each element "
+        "ndi.migrate.internal.observesRetirement retires with its subject "
+        "carried (VH-Lab/NDI-matlab#1279). It transforms no document. "
+        "CONSEQUENCE: the corpus harness runs no NDI second pass, so the "
+        "carry is exercised by DID-matlab's and NDI's unit tests and NDI's "
+        "corpus tests (B, 20211116, Dab), not by the six-corpus gate."),
 }
 
 
