@@ -40,8 +40,8 @@ move a number.
 
 NOT CURRENTLY RUN BY CI, despite what this docstring said until 2026-08-10.
 `.github/workflows/tests.yml` invokes check_migrator_vocabulary, status_board,
-check_duplicate_field_declarations, check_vacuous_tests and
-check_signoff_header_staleness -- and not this one. The migrator sweep needs a
+check_duplicate_field_declarations and check_vacuous_tests (and, until its
+removal on 2026-11-26, check_signoff_header_staleness) -- and not this one. The migrator sweep needs a
 DID-matlab checkout the CI job does not have; the SCHEMA sweep needs nothing but
 this repo, so it can be wired up whenever someone edits the workflow (outside
 this tool's reach).

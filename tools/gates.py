@@ -401,9 +401,10 @@ STEPS = [
     Step("check_vacuous_tests", _t("check_vacuous_tests.py", "--enforce"), "gate",
          r"VACUOUS-TEST SWEEP: (\d+) test file\(s\) parsed", "test files parsed"),
 
-    Step("check_signoff_header_staleness",
-         _t("check_signoff_header_staleness.py", "--enforce"), "gate",
-         r"^DENOMINATOR: (\d+) markdown file\(s\)", "plan documents read"),
+    # check_signoff_header_staleness was removed 2026-11-26 ([staleness check
+    # removed], Jess Haley, did_v2_go_forward_class_audit.md): it read only the
+    # TEAM-SIGN-OFF form, so it could not see a `Decided by` line and could not
+    # fire; a plan's state is read from its decision lines.
 
     # ARMED ON ARRIVAL, 2026-08-15, and the reason is the opposite of the one
     # `check_prose_counts` records two steps down. That one landed report-only
@@ -688,12 +689,6 @@ EDGES = [
          "today's schema set.",
          "tools/status_board.py", r"did_v2_coverage_ledger\.json"),
 
-    Edge("status_board", "check_signoff_header_staleness",
-         "schemas/generated/did_v2_decisions.json",
-         "the staleness gate compares each plan document's header against the "
-         "signature state in did_v2_decisions.json, which status_board.py writes.",
-         "tools/check_signoff_header_staleness.py", r"did_v2_decisions\.json"),
-
     # NO EDGE FOR check_build_claims, DELIBERATELY, and the first attempt at one
     # is worth recording because it was wrong in KIND rather than in detail.
     # It declared `docs/did_v2_OPEN_WORK.md` as the artifact carrying an
@@ -704,7 +699,7 @@ EDGES = [
     # generate. Both were right. An Edge here means "step A writes X, step B
     # reads X"; this gate reads only HAND-MAINTAINED documents and the siblings'
     # comments, so it has no generated input and needs no edge. It sits after
-    # check_signoff_header_staleness by declaration order, which is the honest
+    # check_vacuous_tests by declaration order, which is the honest
     # expression of "related, not dependent".
 
     # ---- the prose-count checker ----------------------------------------

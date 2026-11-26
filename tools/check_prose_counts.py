@@ -32,7 +32,7 @@ The wrong number is load-bearing: it records what the error was and what it
 cost. A checker that fails on every correction note is a checker that gets
 disabled, so ASSERTED and QUOTED-AS-HISTORY must be told apart.
 
-`tools/check_signoff_header_staleness.py` solved its version of this with an
+`tools/check_signoff_header_staleness.py` (removed 2026-11-26) solved its version of this with an
 opt-in marker (`HISTORICAL-SIGNOFF-CLAIM`). THAT MECHANISM IS NOT AVAILABLE
 HERE, and the reason is structural, not stylistic: markers would have to be
 written into `CLAUDE.md` and into the documents (then `schemas/*.md`, now

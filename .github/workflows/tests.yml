@@ -173,9 +173,8 @@ jobs:
       #       denominator. Where enforcement should sit is a team call.
       #   check_vacuous_tests --enforce       a test that passes while checking
       #       nothing is the failure this project keeps paying for, one level up.
-      #   check_signoff_header_staleness --enforce   six plan documents carried
-      #       a header asserting "NO TEAM-SIGN-OFF LINE" while carrying that
-      #       line hundreds of lines below.
+      #   (check_signoff_header_staleness was removed 2026-11-26: it read only
+      #       the TEAM-SIGN-OFF form and could not fire.)
       #
       # NEW HERE, and the reason the driver is a superset rather than a
       # rearrangement: build_v_eta and regen_final_class_set now run and their
