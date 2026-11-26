@@ -83,10 +83,12 @@ def test_an_unresolved_superclass_is_refused(tree):
 
 
 def test_a_binding_on_a_non_term_field_is_refused(tree):
+    # was base.json's first char field, `name`; V2 `base.name` is deleted
+    # ([v1 name goes to the class's own name field]), so method.json's
     def fn(d):
         f = next(x for x in d["fields"] if x["type"] == "char")
         f["constraints"] = {"binding": {"strength": "preferred"}}
-    _edit(_f(tree, "base.json"), fn)
+    _edit(_f(tree, "method.json"), fn)
     rc, out = _run(tree)
     assert rc == 1 and "is bound but typed 'char'" in out, out
 
@@ -110,7 +112,7 @@ def test_a_method_block_that_drifts_is_refused(tree):
     def fn(d):
         m = next(x for x in d["fields"] if x["name"] == "method")
         par = next(x for x in m["fields"] if x["name"] == "parameters")
-        par["fields"] = [x for x in par["fields"] if x["name"] != "matrix"]
+        par["fields"] = [x for x in par["fields"] if x["name"] != "count"]
     _edit(_f(tree, "interaction.json"), fn)
     rc, out = _run(tree)
     assert rc == 1 and "method block shapes" in out and "entry list shapes" in out, out
@@ -152,7 +154,7 @@ def test_the_tree_holds_each_family_root_in_its_folder():
 def test_the_acquisition_classes_are_in_acquisition():
     """[acquisition folder] (Jess Haley, 2026-10-31)."""
     # acquisition_channels left 2026-11-01 ([probe wiring is a relation])
-    names = ("acquisition_system", "acquisition_reader",
+    names = ("acquisition_configuration", "acquisition_reader",
              "epoch_file_pattern", "epoch_parameter_reader", "ingestion_manifest")
     for name in names:
         assert V.SP.family(V.SP.class_path(name)) == "acquisition", name
@@ -355,15 +357,21 @@ def test_data_type_is_required_only_for_plain_array_bytes():
 # retiring/; no basename repeats under schemas/ (the siblings read every
 # non-class file by its basename).
 
+# Since 2026-11-19 ([retired classes leave V2] step 3) no retire class is left
+# and retiring/ is gone, so both tests below make their own: the rule still
+# holds for the next class the team retires.
+
 def test_a_retire_class_outside_retiring_is_refused(tree):
-    src = _f(tree, "app.json")
-    src.rename(tree / "app.json")
+    def retire_demo(d):
+        d["classes"]["demo"]["disposition"] = "retire"
+    _edit(_f(tree, "did_v2_class_dispositions.json"), retire_demo)
     rc, out = _run(tree)
-    assert rc == 1 and "app: disposition 'retire' but its file is in" in out, out
+    assert rc == 1 and "demo: disposition 'retire' but its file is in" in out, out
 
 
 def test_a_persist_class_in_retiring_is_refused(tree):
     src = _f(tree, "statement.json")
+    (tree / "retiring").mkdir(exist_ok=True)
     src.rename(tree / "retiring" / "statement.json")
     rc, out = _run(tree)
     assert rc == 1 and "statement: disposition 'persist' but its file is in" in out, out

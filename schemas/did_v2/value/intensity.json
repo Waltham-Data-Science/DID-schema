@@ -22,7 +22,7 @@
                         "node": "",
                         "name": ""
                     },
-                    "source_value": 0.0,
+                    "source_numeric": 0.0,
                     "approximate": false,
                     "tolerance": {}
                 }
@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A value cell for a dimensionless intensity (dF/F, fluorescence, ratios, amplitudes; arbitrary units) quantity (canonical + lossless source). It stays dimensionless: a measured physical light intensity (W/m^2) is an `irradiance` (Jess Haley 2026-10-22 [irradiance]). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise).",
+            "documentation": "A value cell for a dimensionless intensity (dF/F, fluorescence, ratios, amplitudes; arbitrary units) quantity (canonical + lossless source). It stays dimensionless: a measured physical light intensity (W/m^2) is an `irradiance` (Jess Haley 2026-10-22 [irradiance]). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 4): a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance`; the old shape (an array of cells of one number each, with `source_value`) is removed (section 9, step 4; did-schema#346).",
             "constraints": {},
             "fields": [
                 {
@@ -45,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical intensity value (dimensionless, so the slot is named for the quantity, T14; `arbitrary_units` until 2026-11-10, Jess Haley 2026-11-10 [intensity slot named for the quantity], did_v2_go_forward_class_audit.md): comparable across documents only when they share the statement's `variable`. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Canonical intensity value (dimensionless, so the slot is named for the quantity, T14; `arbitrary_units` until 2026-11-10, Jess Haley 2026-11-10 [intensity slot named for the quantity], did_v2_go_forward_class_audit.md): comparable across documents only when they share the statement's `variable`. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_numeric` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -101,7 +101,7 @@
                     ]
                 },
                 {
-                    "name": "source_value",
+                    "name": "source_numeric",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,
@@ -110,7 +110,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "documentation": "The number as given by the source, in `source_unit` (`source_value` renamed; did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 2). One number, as the canonical field is, except in a statement's own `value`: there a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance` (section 8 answer 4; [series readings share a source record]). A nested reference to this class (a time reference's `start`, a dose's `mass`) holds one number. The field is declared scalar because the two uses share this declaration; DID-matlab did2.schema.numericShapeFields marks the statement value's series.",
                     "constraints": {}
                 },
                 {
@@ -172,6 +172,15 @@
                     ]
                 }
             ]
+        }
+    ],
+    "canonical": [
+        {
+            "field": "intensity",
+            "unit": {
+                "node": "NCIT:C75765",
+                "name": "Arbitrary Unit"
+            }
         }
     ]
 }

@@ -162,7 +162,8 @@ CITATIONS = {
                          (_GFA, "spike-sorter output, amends the 2026-08-17 confirm sheet")],
     "ngrid": [("did_v2_image_model_plan.md", "image / ngrid")],
     "imageStack_parameters": [("did_v2_image_model_plan.md", "image / ngrid")],
-    "acquisition_epoch": [("did_v2_epoch_plan.md", "epoch")],
+    # `acquisition_epoch` left with its class file (2026-11-19, [retired
+    # classes leave V2] step 3): it is neither a v1 class nor a V2 class now.
     "element_epoch": [("did_v2_epoch_plan.md", "epoch")],
     "epochid": [("did_v2_epoch_plan.md", "epoch")],
     "epochfiles_ingested": [("did_v2_epoch_plan.md", "epoch"), _REC_2026_10_21],

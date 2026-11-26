@@ -22,7 +22,7 @@
                         "node": "",
                         "name": ""
                     },
-                    "source_value": 0.0,
+                    "source_numeric": 0.0,
                     "approximate": false,
                     "tolerance": {}
                 }
@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A value cell for a fraction: a part of a whole, such as the share of a test's time spent in an arm (Jess Haley 2026-10-26 [fraction value kind]; T12). Canonical as a plain ratio (1 = the whole; om:one), plus the lossless source: a percent is kept as written in `source_value` with `source_unit` om:percent. Not a `score`: a score is a rating on a named rubric, a fraction is a ratio that means the same in every dataset. Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise).",
+            "documentation": "A value cell for a fraction: a part of a whole, such as the share of a test's time spent in an arm (Jess Haley 2026-10-26 [fraction value kind]; T12). Canonical as a plain ratio (1 = the whole; om:one), plus the lossless source: a percent is kept as written in `source_numeric` with `source_unit` om:percent. Not a `score`: a score is a rating on a named rubric, a fraction is a ratio that means the same in every dataset. Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 4): a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance`; the old shape (an array of cells of one number each, with `source_value`) is removed (section 9, step 4; did-schema#346).",
             "constraints": {},
             "fields": [
                 {
@@ -45,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical fraction, as a plain ratio: 1 is the whole, 0.25 a quarter (om:one). Not bounded above: a part may exceed its reference whole. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Canonical fraction, as a plain ratio: 1 is the whole, 0.25 a quarter (om:one). Not bounded above: a part may exceed its reference whole. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_numeric` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -101,7 +101,7 @@
                     ]
                 },
                 {
-                    "name": "source_value",
+                    "name": "source_numeric",
                     "type": "double",
                     "blank_value": 0.0,
                     "default_value": 0.0,
@@ -110,7 +110,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The number as given by the source, in `source_unit`.",
+                    "documentation": "The number as given by the source, in `source_unit` (`source_value` renamed; did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 2). One number, as the canonical field is, except in a statement's own `value`: there a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance` (section 8 answer 4; [series readings share a source record]). A nested reference to this class (a time reference's `start`, a dose's `mass`) holds one number. The field is declared scalar because the two uses share this declaration; DID-matlab did2.schema.numericShapeFields marks the statement value's series.",
                     "constraints": {}
                 },
                 {
@@ -172,6 +172,15 @@
                     ]
                 }
             ]
+        }
+    ],
+    "canonical": [
+        {
+            "field": "fraction",
+            "unit": {
+                "node": "om:one",
+                "name": "one"
+            }
         }
     ]
 }

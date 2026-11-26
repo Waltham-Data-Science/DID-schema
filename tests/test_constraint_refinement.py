@@ -276,12 +276,20 @@ def test_agrees_with_the_duplicate_name_checker():
                 continue
             theirs.add((leaf, name))
     mine = {(r["child"], r["name"]) for r in FIELD_ROWS}
-    assert theirs, "the name-level tool reported no duplicate owners at all"
-    assert mine, (
-        "this tool found no redeclarations while the name-level tool did -- "
-        "one of them is reading a corpus it does not think it is")
     assert theirs <= mine, (
         f"seen by the name-level tool and NOT by this one: {sorted(theirs - mine)!r}")
+    # The shipped tree holds no redeclaration since V2 `base.name` was deleted
+    # (2026-11-19, [v1 name goes to the class's own name field]; the four were a
+    # class's own `name` beside it), so agreement on it alone is vacuous. Both
+    # tools are also run on one synthetic chain, where each must see the pair.
+    tree = _tree(_field("name"), _field("name", mustBeNonEmpty=True))
+    syn = {cn: schema for cn, (_, schema) in tree.items()}
+    theirs = {(leaf, name) for leaf, name, owners in dup.find_duplicates(syn)
+              if leaf in owners}
+    rows, _ = TOOL.sweep(tree, "fields")
+    mine = {(r["child"], r["name"]) for r in rows}
+    assert theirs == {("kid", "name")}, theirs
+    assert theirs <= mine, (theirs, mine)
 
 
 # ---------------------------------------------------------------------------
@@ -414,14 +422,22 @@ def test_enforcement_tags_track_what_the_validator_actually_switches_on():
 def test_non_constraint_differences_are_printed_not_only_counted():
     """They used to be summed into a headline and shown on IDENTICAL rows only,
     so a LOOSENED row's other differences were counted and never displayed --
-    a count without its evidence. The live case is
+    a count without its evidence. The case that showed it was
     `subjectmeasurement.datestamp`, which differs on `blank_value` (0.0, a
-    NUMBER, in a field typed `timestamp`) as well as on mustBeNonEmpty."""
+    NUMBER, in a field typed `timestamp`) as well as on mustBeNonEmpty. The
+    shipped tree holds no redeclaration since V2 `base.name` was deleted
+    (2026-11-19, [v1 name goes to the class's own name field]), so the section
+    is rendered for a synthetic LOOSENED row that also differs in its
+    documentation."""
     import contextlib
     import io
+    rows, stats = TOOL.sweep(_tree(_field(mustBeNonEmpty=True, documentation="a"),
+                                   _field(mustBeNonEmpty=False, documentation="b")),
+                             "fields")
+    assert [r["verdict"] for r in rows] == ["LOOSENED"], rows
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
-        TOOL.main([])
+        TOOL.print_section("FIELDS REDECLARED FROM AN ANCESTOR", rows, stats, False)
     out = buf.getvalue()
     assert "(non-constraint)" in out, (
         "no non-constraint difference was rendered anywhere")

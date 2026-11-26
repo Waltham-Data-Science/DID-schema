@@ -1,8 +1,8 @@
 {
  "classes_index": [
+  "acquisition_configuration",
   "acquisition_epoch",
   "acquisition_layout",
-  "acquisition_system",
   "app",
   "binaryseries_parameters",
   "binding_registry_meta",
@@ -64,9 +64,10 @@
   "zarr"
  ],
  "denominator": {
-  "classes_in_the_built_set": 25,
+  "classes_in_the_built_set": 22,
   "classes_that_are_v1_sources": 26,
   "classes_vouched_only_by_the_cited_plan": [
+   "acquisition_epoch",
    "acquisition_layout",
    "contrasttuning_calc",
    "dataset",
@@ -153,10 +154,10 @@
   },
   {
    "after": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_built": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_not_built": [],
    "before": [
@@ -170,9 +171,8 @@
     "quote": ">    and `session`. It is NOT `\u2282 subject`: T1's bare subject is the thing statements are"
    },
    "class_registers": {
-    "acquisition_system": [
-     "built",
-     "named_in_cited_plan"
+    "acquisition_configuration": [
+     "built"
     ],
     "daqsystem": [
      "v1_source",
@@ -312,11 +312,11 @@
   },
   {
    "after": [
-    "acquisition_system",
+    "acquisition_configuration",
     "software"
    ],
    "after_built": [
-    "acquisition_system"
+    "acquisition_configuration"
    ],
    "after_not_built": [
     "software"
@@ -333,13 +333,11 @@
     "quote": "earns subjecthood only when it is a thing-in-itself\") does not license minting one."
    },
    "class_registers": {
-    "acquisition_system": [
-     "built",
-     "named_in_cited_plan"
+    "acquisition_configuration": [
+     "built"
     ],
     "daqreader": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "daqsystem": [
@@ -434,11 +432,11 @@
     "acquisition_epoch"
    ],
    "after_built": [
-    "sampled_body",
-    "acquisition_epoch"
+    "sampled_body"
    ],
    "after_not_built": [
-    "voltage_observation"
+    "voltage_observation",
+    "acquisition_epoch"
    ],
    "before": [
     "element",
@@ -453,7 +451,6 @@
    },
    "class_registers": {
     "acquisition_epoch": [
-     "built",
      "named_in_cited_plan"
     ],
     "element": [
@@ -474,7 +471,8 @@
    },
    "note": "T7's two questions: whose value is this (subject_id) and what tool produced it (instrument_id). The electrode is a subject -- just not the subject of this statement.",
    "plan_only_classes": [
-    "voltage_observation"
+    "voltage_observation",
+    "acquisition_epoch"
    ],
    "tenet": "T7"
   },
@@ -817,7 +815,6 @@
    "class_registers": {
     "app": [
      "v1_source",
-     "built",
      "named_in_cited_plan"
     ],
     "software": [

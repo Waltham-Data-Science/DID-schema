@@ -471,7 +471,10 @@ class TestSupersclassOnlySourcesGetTheirEmissionCredited(unittest.TestCase):
         credited = [n for n, r in self.rows.items()
                     if (r.get("build_state") or {}).get(
                         "emitted_by_emits_decided_targets")]
-        self.assertEqual(credited, ["filter"])
+        # `epochclocktimes` joined 2026-11-19 ([epochclocktimes is pyraview's block],
+        # Jess Haley): its authored `emitted_by` names pyraview, which emits its
+        # decided `relative_time_reference` from the embedded block.
+        self.assertEqual(credited, ["epochclocktimes", "filter"])
 
 
 class TestTheUntouchedBucketCarriesItsReasons(unittest.TestCase):
@@ -808,7 +811,11 @@ class TestTheCommittedLedger(unittest.TestCase):
         # migrator.
         # `spatialGeneExpressionROI` LEFT on 2026-11-10: DID-matlab #436 (e97900f3) gave it a
         # migrator (a passthrough), which the sibling lock reached at DID-matlab 6faa80e8.
-        self.assertEqual(failed, ["ensemble", "epochclocktimes"])
+        # `epochclocktimes` LEFT on 2026-11-19 ([epochclocktimes is pyraview's block],
+        # Jess Haley): pyraview's migrator emits `relative_time_reference` from the
+        # block (DID-matlab +migrators_j/pyraview.m), credited through its authored
+        # `emitted_by` like `filter`.
+        self.assertEqual(failed, ["ensemble"])
         self.assertNotIn(
             "app", failed,
             "`app` is emitted by jSoftwareFromApp; if it is back here, the "

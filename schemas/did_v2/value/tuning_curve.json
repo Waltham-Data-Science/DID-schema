@@ -715,17 +715,134 @@
                                     ]
                                 },
                                 {
-                                    "name": "value",
+                                    "name": "numeric",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
-                                    "queryable": true,
+                                    "queryable": false,
                                     "ontology": null,
-                                    "documentation": "Its value.",
+                                    "documentation": "Its value, in `unit` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 5: a coefficient is an ordinary list item).",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "Canonical unit of `numeric`; empty when none is stated (a migrated fit: v1 states none). Bound as every entry's `unit` is (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 5).",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "source_numeric",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "Its value as the source wrote it, in `source_unit` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "The unit the source gave, as a registered unit term; blank when the source gives none (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17).",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 }
                             ]
                         },
@@ -790,17 +907,134 @@
                                     ]
                                 },
                                 {
-                                    "name": "value",
+                                    "name": "numeric",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
-                                    "queryable": true,
+                                    "queryable": false,
                                     "ontology": null,
-                                    "documentation": "Its value.",
+                                    "documentation": "Its value, in `unit` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 5: a coefficient is an ordinary list item).",
                                     "constraints": {}
+                                },
+                                {
+                                    "name": "unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "Canonical unit of `numeric`; empty when none is stated (a migrated fit: v1 states none). Bound as every entry's `unit` is (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 5).",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "source_numeric",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "Its value as the source wrote it, in `source_unit` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17).",
+                                    "constraints": {}
+                                },
+                                {
+                                    "name": "source_unit",
+                                    "type": "ontology_term",
+                                    "blank_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "default_value": {
+                                        "node": "",
+                                        "name": ""
+                                    },
+                                    "mustBeNonEmpty": false,
+                                    "mustBeScalar": true,
+                                    "mustNotHaveNaN": false,
+                                    "queryable": false,
+                                    "ontology": null,
+                                    "documentation": "The unit the source gave, as a registered unit term; blank when the source gives none (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17).",
+                                    "constraints": {
+                                        "binding": {
+                                            "strength": "preferred",
+                                            "node_form": "curie"
+                                        }
+                                    },
+                                    "fields": [
+                                        {
+                                            "name": "node",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The CURIE (prefix resolved via CURIE_lookups_meta.json).",
+                                            "constraints": {}
+                                        },
+                                        {
+                                            "name": "name",
+                                            "type": "char",
+                                            "blank_value": "",
+                                            "default_value": "",
+                                            "mustBeNonEmpty": false,
+                                            "mustBeScalar": true,
+                                            "mustNotHaveNaN": false,
+                                            "queryable": false,
+                                            "ontology": null,
+                                            "documentation": "The human-readable label.",
+                                            "constraints": {}
+                                        }
+                                    ]
                                 }
                             ]
                         },

@@ -12,7 +12,7 @@
         {
             "name": "referent_id",
             "mustBeNonEmpty": true,
-            "documentation": "What the time is measured against -- an epoch, a session, an interaction, another reference. REQUIRED (team call): a relative time with no referent is not interpretable. NOT fillable in pass 1: a migrator holds the v1 `base.session_id` string, and the edge needs the session DOCUMENT's `base.id`, which is a different, freshly minted uid (NDI-matlab +ndi/document.m:57-58). did2.convert.resolveSessionAnchors is the batch pass that resolves it.",
+            "documentation": "What the time is measured against -- an epoch, a session, an interaction, another reference. REQUIRED (team call): a relative time with no referent is not interpretable. NOT fillable in pass 1: a migrator holds the v1 `base.session_id` string, and the edge needs the session DOCUMENT's `base.id`, which is a different, freshly minted uid (NDI-matlab +ndi/document.m:57-58). did2.convert.resolveSessionAnchors is the batch pass that resolves it. A rig's per-epoch time reference names the rig's device entity (an `entity` of type device), not the `acquisition_system` configuration document (Jess Haley 2026-11-19 [a rig's clock belongs to its device], did_v2_standing_wiring_plan.md); `base` already admits both, so nothing here changes until DID-matlab's migration points the referent at the minted device (Build pending: DID-matlab, NDI-matlab).",
             "must_refer_to_document_class": "base"
         }
     ],
@@ -221,7 +221,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -243,7 +243,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -265,7 +265,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },

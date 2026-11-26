@@ -1,5 +1,5 @@
 {
-  "description": "The carry register (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (v2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the v2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (v2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
+  "description": "The carry register (Jess Haley, 2026-10-26, did_v2_go_forward_class_audit.md [carry register], with the kind `needs_mapping` from [one correct reading]): every reason the generic migration carries a v1 document whole as v1 is one row here, so that a carry is never read as \"V2 is missing a field\". A row names the v1 class (`*` for a reason that can hit any class, [renames carry is temporary]), its field(s), when the carry happens, its kind and the decision (document and tag). Kinds: `awaiting_home` (v2 should model it; `open_work` names the OPEN_WORK row, which must be open ([awaiting home is tracked]), and `home` says what the home is), `needs_mapping` (the v1 document admits several readings; `homes`, `decides`, `resolved_by` name the v2 homes, what decides between them and the dataset map entry that resolves it), `not_modelled` (v2 models it elsewhere or not at all, by design; `do_not` is the line a class must not contradict: `class` must not declare any of `fields`), `malformed` (input no writer produces). A row may carry `scope` (did_v2_standing_wiring_plan.md [one-field carry in the migration report], Jess Haley, 2026-11-19): absent or `document`, the document is carried whole as v1; `field`, the document converts and only the one field the row names is held in the run's migration report, in its carried-fields list {document_id, class, field, value, carry, reason}, citing the row; a field-scoped row is kind `needs_mapping` and names exactly one field. Checked by tools/check_carry_register.py. Every carry note a migrator writes is to cite its row (Build pending: DID-matlab, NDI-matlab). `kind_basis`: `stated` when the decision line gives the kind; `decided` when Claude read it from the line and the team confirmed it ([carry register kinds], [carry register kinds 2]); `proposed` when Claude read it and the team has not confirmed it (Proposed, not decided).",
   "kinds": [
     "awaiting_home",
     "needs_mapping",
@@ -27,7 +27,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "probe contact geometry carried"
       },
-      "open_work": 130,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "a v2 contact-geometry model (none yet)",
       "kind_basis": "stated"
     },
@@ -157,7 +157,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "small unread settings"
       },
-      "open_work": 131,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided for the all-pass: a filter method's `name` holds a differing label, but an all-pass builds no method",
       "kind_basis": "decided"
     },
@@ -243,7 +243,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "hartley leftovers checked"
       },
-      "open_work": 135,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "decided"
     },
@@ -944,7 +944,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "lossless first, homes after"
       },
-      "open_work": 143,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided (per tuning class)",
       "kind_basis": "decided"
     },
@@ -1146,14 +1146,17 @@
         "depends_on document_id"
       ],
       "when": "the image has a `document_id` edge (DID-matlab image_stack.m, which migrators_j.image routes a v1 `image` to; 'unplaced: depends_on document_id'); carry-052 is the same case for imageStack",
-      "kind": "awaiting_home",
+      "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "generic stage is lossless"
+        "tag": "image link needs mapping"
       },
-      "open_work": 139,
-      "home": "none decided",
-      "kind_basis": "proposed"
+      "kind_basis": "decided",
+      "homes": [
+        "whatever each dataset decides the edge means"
+      ],
+      "decides": "what the image's `document_id` edge means; it varies by writer",
+      "resolved_by": "each dataset's import (not yet written)"
     },
     {
       "id": "carry-068",
@@ -1288,7 +1291,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "session opener inputs"
       },
-      "open_work": 145,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "decided"
     },
@@ -1305,7 +1308,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "unread stimulus parameters are method parameters"
       },
-      "open_work": 146,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: per field, on the stimulus method or the item",
       "kind_basis": "decided"
     },
@@ -1360,7 +1363,7 @@
         "document": "did_v2_method_plan.md",
         "tag": "non-grating stimuli as methods"
       },
-      "open_work": 31,
+      "issue": "Waltham-Data-Science/did-schema#94",
       "home": "a stimulus method (recipe) for that kind",
       "kind_basis": "proposed"
     },
@@ -1466,11 +1469,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "strain leftovers wait for a dataset"
       },
-      "open_work": 149,
-      "home": "settled by [openMINDS strain leftovers] and [openMINDS strain leftovers settled] (NDI-matlab 3a8cd8ebb, 54ea656, #1104): digitalIdentifier, alternateIdentifier and a JAX, MMRRC or Bloomington stockNumber (as an RRID) go to the strain entity's global_identifier; any other stockNumber is a Catalog Number (NCIT:C99286) text assertion; breedingType a Breeding (NCIT:C42877) term assertion; diseaseModel a disease model (BAO:0010279) term assertion; lookupLabel is not stored. None decided for what NDI-matlab strainAssembly.m still carries here: a Strain field outside the openMINDS Strain fields it reads, a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType, a species or geneticStrainType reference not in the batch or to a fragment that states nothing, and a leftover strainLeftovers.m cannot place (not text, a reference not in the batch or stating no identifier, several stock numbers or breeding types)",
-      "kind_basis": "proposed"
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "settled by [openMINDS strain leftovers] and [openMINDS strain leftovers settled] (NDI-matlab 3a8cd8ebb, 54ea656, #1104): digitalIdentifier, alternateIdentifier and a JAX, MMRRC or Bloomington stockNumber (as an RRID) go to the strain entity's global_identifier; any other stockNumber is a Catalog Number (NCIT:C99286) text assertion; breedingType a Breeding (NCIT:C42877) term assertion; diseaseModel a disease model (BAO:0010279) term assertion; lookupLabel is not stored. None decided for what NDI-matlab strainAssembly.m still carries here: a Strain field outside the openMINDS Strain fields it reads, a second value of name, description, ontologyIdentifier, phenotype, laboratoryCode, species or geneticStrainType, a species or geneticStrainType reference not in the batch or to a fragment that states nothing, and a leftover strainLeftovers.m cannot place (not text, a reference not in the batch or stating no identifier, several stock numbers or breeding types); the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-093",
@@ -1501,11 +1504,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "partly placed is carried as v1"
+        "tag": "strain leftovers wait for a dataset"
       },
-      "open_work": 149,
-      "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain",
-      "kind_basis": "proposed"
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "settled by [openMINDS strain leftovers]: a Species or GeneticStrainType fragment's definition and synonyms are not stored (read back from the term), so a fragment holding only its name, one identifier, definition and synonyms is consumed (NDI-matlab strainAssembly.m fragmentFullyPlaced). None decided for what is still carried here: a fragment with any other field, or with two different identifiers (preferredOntologyIdentifier and ontologyIdentifier); a fragment no assembled strain references; and a fragment referenced by a Strain carried as v1, which stays with that Strain; the rest waits for a dataset that holds one ([strain leftovers wait for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-096",
@@ -1581,11 +1584,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "unbuilt spike classes carry as needs home"
+        "tag": "spike clusters wait for a dataset"
       },
-      "open_work": 153,
-      "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
-      "kind_basis": "proposed"
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "none now: designed from the first dataset that holds a `spike_clusters` ([spike clusters wait for a dataset]); its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-103",
@@ -1599,7 +1602,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "unbuilt spike classes carry as needs home"
       },
-      "open_work": 153,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided; its `app` block already has a v2 home ([run environment on interactions], [software_id is what produced the statement])",
       "kind_basis": "proposed"
     },
@@ -1615,7 +1618,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "simple_calc carries as needs home"
       },
-      "open_work": 154,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none: designed only if a real dataset ever holds one",
       "kind_basis": "proposed"
     },
@@ -1634,7 +1637,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "dataset form lists carried until homed"
       },
-      "open_work": 155,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided (the decision line names \"likely rebuilt from the subjects\")",
       "kind_basis": "proposed"
     },
@@ -1648,11 +1651,11 @@
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
-        "tag": "v1 name goes to the class's own name field"
+        "tag": "statement name waits for a dataset"
       },
-      "open_work": 156,
-      "home": "none decided; the number of such statements is counted in the next corpus run (DID-matlab)",
-      "kind_basis": "proposed"
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "none now: waits for a dataset that holds a statement with a real v1 name; that dataset's import decides ([statement name waits for a dataset])",
+      "kind_basis": "decided"
     },
     {
       "id": "carry-107",
@@ -1758,7 +1761,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "every v1 id survives"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
@@ -1788,7 +1791,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "axis letters derive from labels"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -1818,8 +1821,8 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "openMINDS subject leftovers"
       },
-      "open_work": 159,
-      "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
+      "issue": "Waltham-Data-Science/did-schema#212",
+      "home": "the term once its openMINDS instance is added to DID-matlab's list (did2.convert.openmindsInstanceNode) or the term is registered in the term registry ([carry-116 home is the instance list])",
       "kind_basis": "stated"
     },
     {
@@ -1834,7 +1837,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "fit classes kept; session list rebuilt"
       },
-      "open_work": 159,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "stated"
     },
@@ -2085,7 +2088,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a fit with no subject",
       "kind_basis": "proposed"
     },
@@ -2102,7 +2105,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a fit with no subject",
       "kind_basis": "proposed"
     },
@@ -2119,7 +2122,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "a fit is about its input's subject"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a calculation with no subject",
       "kind_basis": "proposed"
     },
@@ -2135,7 +2138,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2151,7 +2154,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "the stimulus model (not decided for this class)",
       "kind_basis": "proposed"
     },
@@ -2167,7 +2170,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2183,7 +2186,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2199,7 +2202,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "one folder, final classes only"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided",
       "kind_basis": "proposed"
     },
@@ -2445,7 +2448,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2461,7 +2464,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2477,7 +2480,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2493,7 +2496,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2509,7 +2512,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2525,7 +2528,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2541,7 +2544,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "classes without a migrator carry as v1"
       },
-      "open_work": 136,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a migrator for the class, which replaces this row",
       "kind_basis": "proposed"
     },
@@ -2557,7 +2560,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "v1 passthroughs accepted"
       },
-      "open_work": 164,
+      "issue": "Waltham-Data-Science/did-schema#234",
       "home": "none in the generic migration: a `purpose` is written only by a dataset's own map or import ([purpose written by the dataset map]); the Dabrowska map drops these labels as derivable (2026-10-21 decision 4)",
       "kind_basis": "proposed"
     },
@@ -2608,7 +2611,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
-      "open_work": 165,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },
@@ -2624,7 +2627,7 @@
         "document": "did_v2_go_forward_class_audit.md",
         "tag": "last rename-pass classes"
       },
-      "open_work": 165,
+      "issue": "Waltham-Data-Science/did-schema#286",
       "home": "none decided: a v2 class and a migrator for it (did-schema #260)",
       "kind_basis": "proposed"
     },
@@ -2662,6 +2665,122 @@
         "tag": "spike waveforms built now"
       },
       "kind_basis": "proposed"
+    },
+    {
+      "id": "carry-172",
+      "v1_class": "element",
+      "fields": [
+        "depends_on subject_id"
+      ],
+      "when": "a migrated stimulator whose v1 `subject_id` no stimulus presentation, bath manipulation or Stimulator manipulation names ([stimulator subject carried as needing information]), or a migrated recording probe with no recording observation, a session never ingested ([recording probe subject carried the same way]): the element converts and gets no `observes`; its v1 subject is held in the migration report's carried fields, written by NDI's second pass (`observesRetirement`). A DID-only run, with no second pass, keeps `observes` and holds nothing here.",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_standing_wiring_plan.md",
+        "tag": "one-field carry in the migration report"
+      },
+      "homes": [
+        "a statement that names the v1 subject: a stimulus presentation or bath manipulation for a stimulator, a recording observation for a recording probe"
+      ],
+      "decides": "what the dataset records about the element's subject",
+      "resolved_by": "the dataset's import (or the recording's observations once ingested)",
+      "kind_basis": "stated",
+      "scope": "field"
+    },
+    {
+      "id": "carry-173",
+      "v1_class": "SpikeInterfaceSortingOutputs",
+      "fields": [
+        "the whole document (no v2 class is built for it)"
+      ],
+      "when": "always, past its migrator's guards: a v1 `SpikeInterfaceSortingOutputs` (NDI template sorting/SpikeInterfaceSortingOutputs.json) is carried whole as v1, the untouched v1 source, with a `carried_as_v1` note in the migration report (DID-matlab +migrators_j/spike_interface_sorting_outputs.m, #495). A document with a field, block or edge outside the template carries under carry-100 instead.",
+      "kind": "awaiting_home",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "spike interface sorting carried as v1"
+      },
+      "issue": "Waltham-Data-Science/did-schema#286",
+      "home": "none now: it waits for a dataset that holds one; no NDI second pass is built for it ([spike interface sorting carried as v1])",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-174",
+      "v1_class": "openminds",
+      "fields": [
+        "the openMINDS dataset graph (the DatasetVersion and its citation closure)"
+      ],
+      "when": "a dataset holds both a `metadata_editor` form and an openMINDS dataset graph, and the graph's v2 documents differ from what the form produces (DID-matlab +convert/resolveOpenmindsCitations.m)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "metadata editor graph compared with its form"
+      },
+      "homes": [
+        "the dataset, person, organization, funding, publication and web_resource entities the form already produces"
+      ],
+      "decides": "which of the form and the graph is right where they differ",
+      "resolved_by": "the dataset map entry for that dataset (not yet written)",
+      "kind_basis": "stated"
+    },
+    {
+      "id": "carry-175",
+      "v1_class": "measurement",
+      "fields": [
+        "measurement.value"
+      ],
+      "when": "a finite number whose quantity kind and unit the measurement does not state (DID-matlab measurement.m; the twin of carry-145). The generic stage no longer types it from label words ([generic stage does not guess from words], audit C3)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "a statement of the quantity kind the dataset map names for that measurement, in its unit"
+      ],
+      "decides": "what quantity the number is (the label alone does not say)",
+      "resolved_by": "the dataset map entry for that measurement"
+    },
+    {
+      "id": "carry-176",
+      "v1_class": "treatment",
+      "fields": [
+        "treatment.string_value"
+      ],
+      "when": "its `string_value` is a term (CURIE-shaped), which may be the site, what was given or a value; covers a ChEBI substance with one and a term that states its number's kind (DID-matlab treatment.m; [generic stage does not guess from words], audit C4)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "manipulation (dose at a site)",
+        "manipulation (exposure at a site)",
+        "a condition or value of the manipulation"
+      ],
+      "decides": "what the term in `string_value` is in its dataset",
+      "resolved_by": "the dataset map entry for that treatment term"
+    },
+    {
+      "id": "carry-177",
+      "v1_class": "imageStack",
+      "fields": [
+        "imageStack.label",
+        "image.label"
+      ],
+      "when": "an imageStack (or v1 image) whose label says the raster is derived (a whole word such as derived, projection, average, maximum, ratio, normalized, filtered; DID-matlab image_stack.m; [generic stage does not guess from words], audit C16)",
+      "kind": "needs_mapping",
+      "decision": {
+        "document": "did_v2_go_forward_class_audit.md",
+        "tag": "generic stage does not guess from words"
+      },
+      "kind_basis": "proposed",
+      "homes": [
+        "calculation of what the raster computes",
+        "observation of intensity"
+      ],
+      "decides": "whether the raster is computed from other images and from what",
+      "resolved_by": "the dataset's import"
     }
   ]
 }

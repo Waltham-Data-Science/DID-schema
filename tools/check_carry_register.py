@@ -3,20 +3,35 @@
 did_v2_go_forward_class_audit.md [carry register] and [one correct reading]).
 
 schemas/registry/did_v2_carry_register.json lists every reason the generic migration
-carries a v1 document whole as v1, so that a carry is never read as "v2 is
-missing a field". This checks, and fails on any of:
+carries a v1 document whole as v1 (or, for a field-scoped row, holds one field
+of a converted document in the migration report), so that a carry is never
+read as "v2 is missing a field". This checks, and fails on any of:
 
   C1  the file's shape: `kinds` is exactly the four decided kinds
       (awaiting_home, needs_mapping, not_modelled, malformed); every row has
       a unique `id`, a `v1_class`, a non-empty `fields` list, `when`, a
       `kind` from `kinds`, a `kind_basis` (stated | decided | proposed) and a
       `decision` {document, tag}; and the keys its kind requires:
-        awaiting_home  `open_work` (an OPEN_WORK row number; null FAILS, so
-                       no home is awaited untracked) and `home`
+        awaiting_home  `home`, and exactly one citation of the tracked work:
+                       `open_work` (an OPEN_WORK row number; null FAILS, so
+                       no home is awaited untracked) or `issue` (a GitHub
+                       issue, `owner/repo#n` or
+                       `https://github.com/owner/repo/issues/n`; Jess Haley,
+                       2026-11-19, did_v2_go_forward_class_audit.md [awaiting
+                       carry rows cite an issue], since did_v2_OPEN_WORK.md is
+                       frozen). Neither, or both, FAILS.
         needs_mapping  `homes` (a non-empty list), `decides`, `resolved_by`
         not_modelled   `do_not` {line, class, fields}
         malformed      nothing more
-      and no other keys.
+      and no other keys, except `scope`. A row with no `scope`, or with
+      `scope: "document"`, carries the whole document. A row with
+      `scope: "field"` is a field-scoped carry
+      (did_v2_standing_wiring_plan.md [one-field carry in the migration
+      report], Jess Haley, 2026-11-19): the document converts, and only the
+      one field the row names is held in the run's migration report, in its
+      carried-fields list {document_id, class, field, value, carry, reason}.
+      A field-scoped row is kind `needs_mapping` (as the decision states) and
+      its `fields` is exactly one name; any other `scope` value FAILS.
   C2  a row's `v1_class` that is not a v1 source class of the coverage ledger
       (schemas/generated/did_v2_coverage_ledger.json), nor an NDIcalc-vis-matlab
       template class the ground truth read at the locked commit
@@ -39,7 +54,9 @@ missing a field". This checks, and fails on any of:
       the open work entry".) The row number stays the citation after the
       file was frozen ([open work lives in issues], 2026-11-03);
       `check_open_work_issues.py` checks that every OPEN row points at an
-      open GitHub issue, so a home a carry awaits is tracked by one.
+      open GitHub issue, so a home a carry awaits is tracked by one. A row
+      that cites an `issue` instead ([awaiting carry rows cite an issue]) has
+      no row number to check here; C1 checks the citation's form.
 
 It prints its denominator first. A `proposed` kind is reported, never
 failed: it is open, not wrong.
@@ -65,12 +82,24 @@ INDEX = os.path.join(ROOT, "schemas", "generated", "index.json")
 KINDS = ["awaiting_home", "needs_mapping", "not_modelled", "malformed"]
 BASES = ("stated", "decided", "proposed")
 COMMON = {"id", "v1_class", "fields", "when", "kind", "kind_basis", "decision"}
+SCOPES = ("document", "field")
+OPTIONAL = {"scope"}
 BY_KIND = {
-    "awaiting_home": {"open_work", "home"},
+    "awaiting_home": {"home"},
     "needs_mapping": {"homes", "decides", "resolved_by"},
     "not_modelled": {"do_not"},
     "malformed": set(),
 }
+# An awaiting_home row cites its tracked work by exactly one of these
+# ([awaiting carry rows cite an issue], Jess Haley, 2026-11-19).
+CITATIONS = {"awaiting_home": ("open_work", "issue")}
+ISSUE_RE = re.compile(r"(?:[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+#[1-9][0-9]*"
+                      r"|https://github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/issues/[1-9][0-9]*)")
+
+
+def is_issue(v):
+    """True when V cites one GitHub issue: `owner/repo#n` or its issue URL."""
+    return isinstance(v, str) and ISSUE_RE.fullmatch(v) is not None
 
 
 def _load(path):
@@ -107,9 +136,16 @@ def check_shape(reg):
             out.append(f"C1 {where}: kind {kind!r}, not one of {KINDS}")
             continue
         want = COMMON | BY_KIND[kind]
-        if set(r) != want:
-            missing, extra = sorted(want - set(r)), sorted(set(r) - want)
+        cites = CITATIONS.get(kind, ())
+        if not (want <= set(r) <= want | OPTIONAL | set(cites)):
+            missing = sorted(want - set(r))
+            extra = sorted(set(r) - want - OPTIONAL - set(cites))
             out.append(f"C1 {where}: keys for kind {kind}: missing {missing}, unexpected {extra}")
+            continue
+        if cites and sum(1 for c in cites if c in r) != 1:
+            given = [c for c in cites if c in r]
+            out.append(f"C1 {where}: an {kind} row cites exactly one of {list(cites)}, "
+                       f"not {given} ([awaiting carry rows cite an issue])")
             continue
         for k in ("v1_class", "when"):
             if not _text(r[k]):
@@ -117,6 +153,16 @@ def check_shape(reg):
         if not (isinstance(r["fields"], list) and r["fields"]
                 and all(_text(f) for f in r["fields"])):
             out.append(f"C1 {where}: `fields` is not a non-empty list of names")
+        scope = r.get("scope", "document")
+        if scope not in SCOPES:
+            out.append(f"C1 {where}: scope {scope!r}, not one of {SCOPES}")
+        elif scope == "field":
+            if kind != "needs_mapping":
+                out.append(f"C1 {where}: a field-scoped row is kind needs_mapping, "
+                           f"not {kind} ([one-field carry in the migration report])")
+            if not (isinstance(r["fields"], list) and len(r["fields"]) == 1):
+                out.append(f"C1 {where}: a field-scoped row names exactly one field, "
+                           f"not {r['fields']!r}")
         if r["kind_basis"] not in BASES:
             out.append(f"C1 {where}: kind_basis {r['kind_basis']!r}, not one of {BASES}")
         d = r["decision"]
@@ -124,9 +170,13 @@ def check_shape(reg):
                 and _text(d["document"]) and _text(d["tag"])):
             out.append(f"C1 {where}: `decision` is not {{document, tag}}")
         if kind == "awaiting_home":
-            ow = r["open_work"]
-            if not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
-                out.append(f"C1 {where}: `open_work` is {ow!r}, not an OPEN_WORK row number")
+            if "open_work" in r:
+                ow = r["open_work"]
+                if not (isinstance(ow, int) and not isinstance(ow, bool) and ow > 0):
+                    out.append(f"C1 {where}: `open_work` is {ow!r}, not an OPEN_WORK row number")
+            elif not is_issue(r["issue"]):
+                out.append(f"C1 {where}: `issue` is {r['issue']!r}, not a GitHub issue "
+                           f"(owner/repo#n or https://github.com/owner/repo/issues/n)")
             if not _text(r["home"]):
                 out.append(f"C1 {where}: `home` is empty")
         elif kind == "needs_mapping":
@@ -243,6 +293,8 @@ def check_open_work(rows, known):
     for r in rows:
         if not (isinstance(r, dict) and r.get("kind") == "awaiting_home"):
             continue
+        if "open_work" not in r:
+            continue  # cites an issue instead ([awaiting carry rows cite an issue])
         ow = r.get("open_work")
         if not isinstance(ow, int) or isinstance(ow, bool):
             continue  # C1 reports it
@@ -262,6 +314,8 @@ def main():
     by_kind = {k: sum(1 for r in rows if isinstance(r, dict) and r.get("kind") == k)
                for k in KINDS}
     print("  by kind: " + ", ".join(f"{k} {n}" for k, n in by_kind.items()))
+    n_field = sum(1 for r in rows if isinstance(r, dict) and r.get("scope") == "field")
+    print(f"  by scope: whole document {len(rows) - n_field}, one field {n_field}")
     ledger = _load(LEDGER)
     v1 = {r.get("v1_class") for r in ledger.get("rows", [])}
     n_ledger = len(v1)
@@ -284,8 +338,11 @@ def main():
     with open(OPEN_WORK, encoding="utf-8") as f:
         known = open_rows(f.read())
     ofail, n_ow = check_open_work(rows, known)
+    n_issue = sum(1 for r in rows if isinstance(r, dict)
+                  and r.get("kind") == "awaiting_home" and "issue" in r)
     print(f"C5: {n_ow} awaiting_home open_work number(s) checked against "
-          f"{len(known)} OPEN row(s) of did_v2_OPEN_WORK.md")
+          f"{len(known)} OPEN row(s) of did_v2_OPEN_WORK.md; "
+          f"{n_issue} awaiting_home row(s) cite a GitHub issue instead")
     failures += ofail
     n_prop = sum(1 for r in rows if isinstance(r, dict) and r.get("kind_basis") == "proposed")
     print(f"  kinds proposed by Claude, not stated by the decision: {n_prop} of {len(rows)}")

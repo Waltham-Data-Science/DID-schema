@@ -100,12 +100,28 @@ def test_the_reuse_is_announced_on_stdout_and_not_written_into_the_artifact():
         reused = [ln for ln in lines if "REUSED from the committed snapshot" in ln]
         print(f"DENOMINATOR: {len(lines)} stdout line(s), "
               f"{len(reused)} announcing a reused snapshot")
-        assert any("batch post-pass evidence" in ln for ln in reused), (
-            "the batch post-pass sweep read no files and said so nowhere. "
-            "A fallback that is not announced is indistinguishable from a "
-            "measurement, which is the failure `silentLoss` and this whole "
-            "evidence log exist to prevent.\n"
+        assert reused, (
+            "nothing was announced as reused, although no sibling was read.\n"
             f"--- board stdout ---\n{p.stdout}")
+        # The batch post-pass sweep runs only over the `retire` rows with no
+        # migrator yet. Since 2026-11-19 ([retired classes leave V2] step 3)
+        # there are none, so the sweep does not run and must say nothing --
+        # neither a reuse nor a NONE that would read as a measured absence.
+        board0 = (root / "docs" / "generated" / "did_v2_STATUS.md").read_text(encoding="utf-8")
+        m = re.search(r"\*\*`retire` with no migrator YET\*\* \| \*\*(\d+)\*\*", board0)
+        assert m, "the board no longer prints the no-migrator-yet count"
+        batch = [ln for ln in lines if ln.startswith("batch post-pass evidence")]
+        if int(m.group(1)) == 0:
+            assert batch == [], (
+                "the batch post-pass sweep reported on an empty row set.\n"
+                f"--- board stdout ---\n{p.stdout}")
+        else:
+            assert any("batch post-pass evidence" in ln for ln in reused), (
+                "the batch post-pass sweep read no files and said so nowhere. "
+                "A fallback that is not announced is indistinguishable from a "
+                "measurement, which is the failure `silentLoss` and this whole "
+                "evidence log exist to prevent.\n"
+                f"--- board stdout ---\n{p.stdout}")
 
         board = (root / "docs" / "generated" / "did_v2_STATUS.md").read_text(encoding="utf-8")
         assert "REUSED from the committed snapshot" not in board, (

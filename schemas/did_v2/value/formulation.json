@@ -115,7 +115,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -137,7 +137,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -159,7 +159,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -204,7 +204,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -228,7 +228,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -256,7 +256,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },

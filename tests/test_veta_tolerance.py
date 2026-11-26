@@ -14,36 +14,20 @@ from _class_count import CLASS_COUNT  # the derived denominator (2026-11-03)
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "schemas", "did_v2")
 
-# group 4 of the 2026-10-02 audit: `approximate` there applies to a whole axis key
-# or condition descriptor (its spacing, origin, coordinates, or quantity), not to a
-# value, so a bound would mean something new. Left out by decision, not omission.
-NOT_VALUES = {
-    # data_body plan AMENDMENT 6 (2026-10-22): the axis key's descriptors are now a
-    # covariate's (`keys` -> `dimensions` + `covariates`); same decision, new name.
-    "acquisition_epoch.covariates",
-    "data.covariates",
-    "data_body.conditions",
-    "statement.conditions",
-    # 2026-11-01 ([probe wiring is a relation], Jess Haley): a probe's wiring
-    # relation carries one condition per channel type, the same entry.
-    "directed_relation.conditions",
-    # 2026-10-19 (data_body AMENDMENT 3): a method parameter is the condition's entry,
-    # so it takes the condition's `approximate` and, like it, no tolerance.
-    # Since 2026-10-21 the list is `method.parameters` (one `method` block,
-    # did_v2_method_plan.md), which `relation` now carries too.
-    "clock_alignment_configuration.method.parameters",
-    "interaction.method.parameters",
-    "method.parameters",
-    "relation.method.parameters",
-    # 2026-11-01 ([migration record], Jess Haley): a `migration` document's
-    # `method` is the same {term, parameters} block, so its parameter entries take
-    # the condition's `approximate` and, like it, no tolerance.
-    "migration.method.parameters",
-    # 2026-11-01 ([compression block and empty levels] (1), Jess Haley,
-    # 2026-10-26): a body's `compression` is the same {term, parameters} block,
-    # so its setting entries take the condition's `approximate` and no tolerance.
-    "data_body.compression.parameters",
-}
+# group 4 of the 2026-10-02 audit left the axis keys and condition descriptors
+# (covariates, conditions, method / compression parameters) without a tolerance:
+# their `approximate` applied to a whole entry, not to a value. SUPERSEDED
+# 2026-11-17 by did_v2_numeric_shape_plan.md [one shape for measured numbers]
+# (Jess Haley): every list item is flat, and `numeric` comes with `unit`,
+# `source_numeric`, `source_unit` and `tolerance` (sections 4 and 6). So every
+# place that declares `approximate` now declares a tolerance, and a new one
+# without it fails here. The eleven lists that were exempt, for the record:
+# acquisition_epoch.covariates, data.covariates, data_body.conditions,
+# statement.conditions, directed_relation.conditions,
+# clock_alignment_configuration.method.parameters, interaction.method.parameters,
+# method.parameters, relation.method.parameters, migration.method.parameters,
+# data_body.compression.parameters.
+NOT_VALUES = set()
 
 
 def _load(path):

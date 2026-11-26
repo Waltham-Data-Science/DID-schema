@@ -400,8 +400,14 @@ class TestTheCommittedLedger(unittest.TestCase):
     def test_declared_names_that_are_not_v1_classes_are_reported(self):
         """Reported, not dropped: a silent non-match hides a typo."""
         names = {e["name"] for e in self.bp["declared_matching_no_row"]}
-        self.assertEqual(
-            names, {"session_relative_reference", "session_bounded_reference"})
+        # `acquisition_epoch` joined when the sibling lock moved to DID-matlab
+        # f79dd21a: epochMint and resolveEpochProbemap still declare they
+        # consume it (they read either shape, DID-matlab #481), but
+        # element_epoch is handed on as v1 there, so no v1 row targets it.
+        # `session_relative_reference` and `session_bounded_reference` left when
+        # the lock moved to DID-matlab 9ff1afe5: DID-matlab 1a61a1a4 (#397)
+        # deleted did2.convert.resolveSessionAnchors, the pass that declared them.
+        self.assertEqual(names, {"acquisition_epoch"})
 
     def test_the_moved_rows_carry_the_channel_in_their_own_why(self):
         rows = {r["v1_class"]: r for r in _ledger()["rows"]}
@@ -545,11 +551,20 @@ class TestTheRenameJoin(unittest.TestCase):
         by = {r["v1_class"]: r for r in rows}
         self.assertIn("epochMint",
                       by["element_epoch"]["build_state"]["batch_pass_consumers"])
-        # The refusal, on real data: 36 rows emit `session_relative_reference`
-        # and not one of them may be credited to `resolveSessionAnchors` by it.
+        # The refusal, on real data: no row that emits
+        # `session_relative_reference` may be credited to
+        # `resolveSessionAnchors` by it. Once 36 rows emitted it; since
+        # DID-matlab #528 (measurement and subjectmeasurement carry their
+        # numbers) only `treatment` does, among a dozen other targets. The
+        # several-owner case is covered by
+        # test_a_target_claimed_by_several_rows_never_joins; this checks that
+        # the live emitters, however many, are not credited.
         emitters = [r["v1_class"] for r in rows
                     if "session_relative_reference" in (r.get("targets") or [])]
-        self.assertGreater(len(emitters), 1)
+        print(f"emitters of session_relative_reference: {len(emitters)}")
+        self.assertGreaterEqual(len(emitters), 1,
+                                "no row emits session_relative_reference: the "
+                                "check below would inspect nothing")
         for cn in emitters:
             self.assertNotIn(
                 "resolveSessionAnchors",

@@ -113,7 +113,7 @@ TENET_MAP = [
         "bare subject is the thing statements are ABOUT and a rig is what does "
         "the recording.",
         ["daqsystem"],
-        ["acquisition_system"],
+        ["acquisition_configuration"],
         "did_v2_daq_family_decisions.md",
         "T1's bare subject is the thing statements are",
         "The tenet is doing negative work here -- it is the reason a class was "
@@ -154,7 +154,7 @@ TENET_MAP = [
         "class name, so there is no hardware fact in the document to attach to "
         "a device-subject, and T5 declines to mint one.",
         ["daqsystem", "daqreader"],
-        ["acquisition_system", "software"],
+        ["acquisition_configuration", "software"],
         "did_v2_daq_family_decisions.md",
         "does not license minting one",
         "Path S in its refusing mode -- the test is whether the structure is a "

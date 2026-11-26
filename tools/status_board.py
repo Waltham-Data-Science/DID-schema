@@ -1816,6 +1816,18 @@ def gather_evidence(open_work, schemas, rows, args, log):
             mig = prior
             mig_src = snap_src.get("migrator", mig_src)
             log.append(f'migrator evidence: REUSED from the committed snapshot ({len(prior)} class(es)); no V_eta migrator package under {args.did} or {args.ndi}')
+        elif not open_work and (snap_src.get("migrator") or {}).get("available"):
+            # NO OPEN CLASS, AND THE SWEEP'S REACH WAS MEASURED (since
+            # 2026-11-19, [retired classes leave V2] step 3, the open set is
+            # empty). There is no per-class row to reuse, but the measured
+            # reach -- packages, files and lines read, unresolved mint sites --
+            # is what the artifact prints, so it is reused, and announced, as
+            # the per-class rows are. Without this a run with no sibling
+            # rendered the reach as NONE and the board could not be current
+            # in a CI job that checks out only this repository.
+            mig = {}
+            mig_src = snap_src["migrator"]
+            log.append(f'migrator evidence: REUSED from the committed snapshot (0 open classes; the sweep\'s reach as last measured); no V_eta migrator package under {args.did} or {args.ndi}')
         else:
             log.append("migrator evidence: UNAVAILABLE and never snapshotted "
                        f"(looked under {args.did} and {args.ndi}). Every open class renders as "

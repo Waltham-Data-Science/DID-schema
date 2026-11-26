@@ -397,7 +397,12 @@ class DestinationsAndUnreadTargetsCase(unittest.TestCase):
 
     def test_the_folding_pass_is_named(self):
         _, inter, _ = cs.destinations(["session_relative_reference"], self.DISP)
-        self.assertIn("resolveSessionAnchors", inter[0][2])
+        # The pass that folded it, did2.convert.resolveSessionAnchors, was
+        # deleted by DID-matlab #512; pass 1 writes the session anchor whole.
+        self.assertIn("jSessionAnchor", inter[0][2])
+        self.assertNotIn("resolveSessionAnchors", inter[0][2])
+        _, inter, _ = cs.destinations(["daqreader"], self.DISP)
+        self.assertIn("daqreader.m", inter[0][2])
 
     def test_an_unknown_class_is_NEITHER_not_assumed_final(self):
         # Assuming final is the reassuring direction, on the sheet the team

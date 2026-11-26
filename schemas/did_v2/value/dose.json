@@ -50,7 +50,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -72,7 +72,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -94,7 +94,7 @@
                             "node": "",
                             "name": ""
                         },
-                        "source_value": 0.0,
+                        "source_numeric": 0.0,
                         "approximate": false,
                         "tolerance": {}
                     },
@@ -228,7 +228,7 @@
                             ]
                         },
                         {
-                            "name": "source_value",
+                            "name": "source_numeric",
                             "type": "double",
                             "blank_value": 0.0,
                             "default_value": 0.0,
@@ -237,7 +237,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The number as given, in `source_unit`.",
+                            "documentation": "The number(s) as given by the source, in `source_unit` (`source_value` renamed; did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 2). In a statement's own value a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance` ([series readings share a source record]).",
                             "constraints": {}
                         },
                         {
@@ -323,7 +323,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -345,7 +345,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -367,7 +367,7 @@
                                     "node": "",
                                     "name": ""
                                 },
-                                "source_value": 0.0,
+                                "source_numeric": 0.0,
                                 "approximate": false,
                                 "tolerance": {}
                             },
@@ -501,7 +501,7 @@
                                     ]
                                 },
                                 {
-                                    "name": "source_value",
+                                    "name": "source_numeric",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
@@ -510,7 +510,7 @@
                                     "mustNotHaveNaN": false,
                                     "queryable": true,
                                     "ontology": null,
-                                    "documentation": "The number as given, in `source_unit`.",
+                                    "documentation": "The number(s) as given by the source, in `source_unit` (`source_value` renamed; did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 2). In a statement's own value a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance` ([series readings share a source record]).",
                                     "constraints": {}
                                 },
                                 {

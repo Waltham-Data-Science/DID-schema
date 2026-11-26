@@ -1,17 +1,17 @@
 {
     "why": "The chain regenerates committed artifacts against NDI-matlab and DID-matlab. Their refs move without any change here (NDI origin/main gained .m files twice on 2026-10-23), so the chain builds and checks against these exact commits. Moving them is a deliberate commit (tools/sibling_lock.py --update). Decided by Jess Haley, 2026-10-23, in conversation. NDIcalc-vis-matlab joins the lock at the commit the tuning templates are read from (Jess Haley's decision of 2026-10-27, did_v2_go_forward_class_audit.md [lock NDIcalc-vis-matlab]); it has no V2 line, so its head and main are the same commit.",
-    "date": "2026-11-10",
+    "date": "2026-11-26",
     "siblings": {
         "DID-matlab": {
             "url": "https://github.com/VH-Lab/DID-matlab.git",
             "head_ref": "V2",
-            "head": "6faa80e8ffc578a518e763029a834e639e593955",
+            "head": "a4a1f32a983f82c0358d606a6ae62205e16d3bed",
             "main": "e4493aaecbc9bd8ddeb08c9f8e8c2a1e41599db8"
         },
         "NDI-matlab": {
             "url": "https://github.com/VH-Lab/NDI-matlab.git",
             "head_ref": "V2",
-            "head": "39d8603c3944462ae7bd34b0dd02590af8121afe",
+            "head": "b3df09691a87c6a3360c08735cc8e5ab00bac3fb",
             "main": "73f46d19416e44f2f2dccaf05aef100d629d6656"
         },
         "NDIcalc-vis-matlab": {

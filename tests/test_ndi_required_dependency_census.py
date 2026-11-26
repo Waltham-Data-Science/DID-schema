@@ -133,6 +133,75 @@ def _run_stamp_with_causes(extra_classes=None):
                       deleted_phase8=_phase8_set(), targets_path=REPO_ROOT)
 
 
+# THE LAST REAL CASES LEFT THE TREE 2026-11-19 ([retired classes leave V2]
+# step 3, did_v2_go_forward_class_audit.md). Until then two retire tombstones
+# still matched an NDI class -- `daqreader_epochdata_ingested` by name and
+# `acquisition_epoch` through RENAME (`element_epoch`) -- and the tests below
+# read their markers in the built tree. Both classes are deleted (handed on
+# as v1 since DID-matlab #374/#480/#481, checked against NDI's own template),
+# so no V2 class resolves to an NDI class any more and the real tree carries
+# no marker (test_the_real_tree_now_resolves_no_ndi_class). The mechanism is
+# still the stamp's, so these tests restore the two classes as they stood --
+# NDI's edge names, each relaxed to `mustBeNonEmpty: false` as the tombstones
+# had them -- in a COPY of the tree, with the old rename row passed in.
+FIXTURE_RENAME = {"element_epoch": "acquisition_epoch"}
+
+
+def _fixture_class(name, edges):
+    return {"document_class": {"class_name": name, "superclasses": []},
+            "depends_on": [{"name": e, "mustBeNonEmpty": False,
+                            "must_refer_to_document_class": ""} for e in edges],
+            "fields": []}
+
+
+FIXTURE_CLASSES = [
+    _fixture_class("daqreader_epochdata_ingested", ["daqreader_id"]),
+    _fixture_class("acquisition_epoch", ["element_id"]),
+]
+
+
+def _stamped_fixture(tmp_name, strip_markers=False, **kw):
+    """Stamp a copy of the tree holding FIXTURE_CLASSES, with FIXTURE_RENAME
+    added to the rename map; return (denominators, {class_name: doc})."""
+    tmp = os.path.join(REPO_ROOT, "schemas", tmp_name)
+    if os.path.exists(tmp):
+        shutil.rmtree(tmp)
+    shutil.copytree(VETA, tmp)
+    try:
+        for doc in FIXTURE_CLASSES:
+            with open(os.path.join(tmp, doc["document_class"]["class_name"] + ".json"), "w") as f:
+                json.dump(doc, f, indent=4)
+        rename = dict(_rename_map(), **FIXTURE_RENAME)
+        d = NRS.stamp_ndi_required(tmp, GT_PATH, rename, TIERS, META_FILES, **kw)
+        docs = {}
+        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
+            if os.path.basename(p) in META_FILES:
+                continue
+            with open(p) as f:
+                doc = json.load(f)
+            if "document_class" in doc:
+                docs[doc["document_class"]["class_name"]] = doc
+        return d, docs
+    finally:
+        shutil.rmtree(tmp)
+
+
+def test_the_real_tree_now_resolves_no_ndi_class():
+    """The state since 2026-11-19, said as itself rather than left to read as
+    a clean census: no V2 class resolves to an NDI class, so the stamp
+    compares nothing on the real tree and writes no marker. That zero is
+    "nothing left to compare" (every NDI class folds, is carried as v1, or was
+    deleted by a completed migrator), not "no divergence".
+
+    MUTATION: restore a tombstone that matches an NDI class -> fails.
+    """
+    d = _run_stamp()
+    assert d["edges_matched_by_name"] == 0, d["edges_matched_by_name"]
+    markers = [(cn, n) for cn, doc in _veta().items()
+               for n, dep in _deps(doc).items() if NRS.MARKER in dep]
+    assert markers == [], markers
+
+
 # ---------------------------------------------------------------- ground truth
 
 
@@ -220,12 +289,14 @@ def test_the_motivating_case_is_marked():
     deleted 2026-11-01 (carried as v1 in DID-matlab pass 1, carry-152), and in
     `epochfiles_ingested.filenavigator_id` until that class was deleted
     2026-11-03 ([handed-on are v1 as written], Jess Haley: handed on as v1 in
-    pass 1). It survives in `daqreader_epochdata_ingested.daqreader_id`: NDI
-    requires it (`ndi_mustBeNonEmpty`), V_eta relaxes it.
+    pass 1). It survived in `daqreader_epochdata_ingested.daqreader_id` until
+    that class was deleted 2026-11-19; it is read from FIXTURE_CLASSES now:
+    NDI requires it (`ndi_mustBeNonEmpty`), the class relaxes it.
 
-    MUTATION: remove the marker from the built schema -> fails.
+    MUTATION: skip the stamp's by-name match -> fails.
     """
-    dep = _deps(_veta()["daqreader_epochdata_ingested"])["daqreader_id"]
+    _d, docs = _stamped_fixture(".V_eta_motivating")
+    dep = _deps(docs["daqreader_epochdata_ingested"])["daqreader_id"]
     assert dep["ndi_mustBeNonEmpty"] is True
     assert dep["mustBeNonEmpty"] is False, (
         "REPORT ONLY -- this census must never tighten the edge it counts")
@@ -238,9 +309,14 @@ def test_the_marker_resolves_through_the_rename_map():
 
     MUTATION: drop the rename lookups from stamp_ndi_required's candidate list
     -> acquisition_epoch loses its marker and this test fails.
+
+    Since 2026-11-19 the rename row and the class are gone (element_epoch is
+    handed on as v1, DID-matlab #481), so both come from FIXTURE_RENAME /
+    FIXTURE_CLASSES.
     """
-    assert _rename_map().get("element_epoch") == "acquisition_epoch"
-    dep = _deps(_veta()["acquisition_epoch"])["element_id"]
+    assert "element_epoch" not in _rename_map()
+    _d, docs = _stamped_fixture(".V_eta_rename")
+    dep = _deps(docs["acquisition_epoch"])["element_id"]
     assert dep["ndi_mustBeNonEmpty"] is True
 
 
@@ -398,7 +474,10 @@ def test_the_two_buckets_never_overlap():
     (dropping `&& ~mustBeNonEmpty`) and the buckets overlap by 24 edges here.
     """
     ours, theirs = set(), set()
-    for cn, doc in _veta().items():
+    # on the stamped FIXTURE copy since 2026-11-19: the real tree carries no
+    # marker (test_the_real_tree_now_resolves_no_ndi_class)
+    _d, docs = _stamped_fixture(".V_eta_buckets")
+    for cn, doc in docs.items():
         for name, dep in _deps(doc).items():
             if "#" in name:
                 continue          # a family: a missing member is not a blank one
@@ -419,7 +498,9 @@ def test_the_divergence_set_is_non_empty_and_names_the_planning_cases():
     MUTATION: skip the stamp entirely -> fails with an empty set.
     """
     rows = set()
-    for cn, doc in _veta().items():
+    # on the stamped FIXTURE copy since 2026-11-19 (see FIXTURE_CLASSES)
+    _d, docs = _stamped_fixture(".V_eta_divergence")
+    for cn, doc in docs.items():
         for name, dep in _deps(doc).items():
             if dep.get(NRS.MARKER) is True and not dep.get("mustBeNonEmpty"):
                 rows.add(f"{cn}.{name}")
@@ -428,8 +509,10 @@ def test_the_divergence_set_is_non_empty_and_names_the_planning_cases():
     # control_stimulus_ids.stimulus_presentation_id with its class (2026-11-01),
     # epochfiles_ingested.filenavigator_id with its class (2026-11-03,
     # [handed-on are v1 as written]); the daqreader ingested-epoch caches stay
-    # on the hand-on path and in the tree ([handed-on are v1 as written] (2))
+    # on the hand-on path ([handed-on are v1 as written] (2)) and left the
+    # tree 2026-11-19; the fixture restores it as it stood
     assert "daqreader_epochdata_ingested.daqreader_id" in rows
+    assert "acquisition_epoch.element_id" in rows
 
 
 @pytest.mark.parametrize("counter", NRS.COUNTERS)
@@ -630,12 +713,18 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
     stamps and not of intentions.
 
     THIS TEST DOES NOT PROVE THE FOLD WRITES NOTHING, and the docstring says so
-    because a first draft claimed it did. On today's data the single followed
-    fold lands on `daqreader_epochdata_ingested.daqreader_id`, which its OWN
-    NDI class already stamps with the same verdict, so stamping it a second
-    time changes no count and this test stays green through that mutation.
+    because a first draft claimed it did. Until the sibling lock moved to
+    DID-matlab f79dd21a the single followed fold landed on
+    `daqreader_epochdata_ingested.daqreader_id`, which its OWN NDI class
+    already stamps with the same verdict; since DID-matlab #480 hands
+    `daqreader_mfdaq_epochdata_ingested` on as v1, no v1 class names a
+    target, so no fold is followed on today's data at all.
     `test_a_followed_fold_is_compared_but_never_stamped` is the one that
-    proves the negative, on a fixture built to be able to fail.
+    proves the negative, on a fixture built to be able to fail. This test
+    asserts only what it can: a non-empty compared set, and exactly that many
+    markers. Since 2026-11-19 the real tree compares nothing
+    (test_the_real_tree_now_resolves_no_ndi_class), so the compared set is
+    FIXTURE_CLASSES' two edges, stamped in a copy.
 
     MUTATION: helpfully stamp the `<name>_#` family member of a renamed edge
     (3 real cases) -> the marker count exceeds `edges_matched_by_name` and this
@@ -643,38 +732,15 @@ def test_the_marker_is_written_on_exactly_the_compared_set():
     because `edges_inherited_not_stamped` is 0 on today's data and that branch
     never runs -- another negative this tree cannot currently exercise.
     """
-    tmp = os.path.join(REPO_ROOT, "schemas", ".V_eta_fold_test")
-    if os.path.exists(tmp):
-        shutil.rmtree(tmp)
-    shutil.copytree(VETA, tmp)
-    try:
-        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
-            with open(p) as f:
-                doc = json.load(f)
-            if "document_class" not in doc:
-                continue
-            changed = False
-            for e in doc.get("depends_on", []):
-                changed |= e.pop(NRS.MARKER, None) is not None
-            if changed:
-                with open(p, "w") as f:
-                    json.dump(doc, f, indent=4)
-                    f.write("\n")
-        d = NRS.stamp_ndi_required(tmp, GT_PATH, _rename_map(), TIERS,
-                                   META_FILES, deleted_phase8=_phase8_set(),
-                                   targets_path=TARGETS_PATH)
-        assert d["fold_followed"] > 0, (
-            "no fold was followed, so this test asserted nothing about the "
-            "negative it exists to prove")
-        markers = 0
-        for p in glob.glob(os.path.join(tmp, "**", "*.json"), recursive=True):
-            with open(p) as f:
-                doc = json.load(f)
-            markers += sum(1 for e in doc.get("depends_on", [])
-                           if NRS.MARKER in e)
-        assert markers == d["edges_matched_by_name"]
-    finally:
-        shutil.rmtree(tmp)
+    d, docs = _stamped_fixture(".V_eta_fold_test",
+                               deleted_phase8=_phase8_set(),
+                               targets_path=TARGETS_PATH)
+    assert d["edges_matched_by_name"] > 0, (
+        "no edge was compared by name, so the marker count below would "
+        "be checked against an empty set")
+    markers = sum(1 for doc in docs.values() for e in doc.get("depends_on", [])
+                  if NRS.MARKER in e)
+    assert markers == d["edges_matched_by_name"]
 
 
 def _synthetic_fold_case(tmp_path, targets, target_docs):

@@ -18,14 +18,14 @@
         {
             "name": "input_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps (its input): v1 `daqsystem1` (named `from_acquisition_system_id` until 2026-11-11, Jess Haley 2026-11-10 [sync configuration edges are input and output]; Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], did_v2_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order).",
-            "must_refer_to_document_class": "acquisition_system"
+            "documentation": "The rig whose clock this rule maps (its input): v1 `daqsystem1` (named `from_acquisition_system_id` until 2026-11-11, Jess Haley 2026-11-10 [sync configuration edges are input and output]; Jess Haley 2026-10-27 [sync configuration links its rigs], [sync rule direction is recorded], did_v2_go_forward_class_audit.md: the configuration links directly to the two `acquisition_system` documents, role-named, because a `filefind` rule maps daqsystem1's clock to daqsystem2's and swapping them inverts the alignment, NDI `+time/+syncrule/filefind.m` `apply`). A rule's trigger channels are method parameters, not `acquisition_channels` documents. Optional: a rule that names no rig pair (v1 `filematch`, whose only parameter is `number_fullpath_matches`) has neither edge. The configuration has no `acquisition_channels_id` edge (removed 2026-10-29 after DID-matlab #276 wrote only these edges and NDI-matlab #1092 read them, CLAUDE.md section 3 order). Admits the rig's device entity (an `entity` of type device) as well: a rig's clock is its device's (Jess Haley 2026-11-19 [a rig's clock belongs to its device], did_v2_standing_wiring_plan.md), so this edge is to name the device once DID-matlab's migration points it at the minted device and NDI-matlab's sync graph finds a rig's clock through its device; the `acquisition_system` target stays admitted until then.",
+            "must_refer_to_document_class": "acquisition_configuration,entity"
         },
         {
             "name": "output_id",
             "mustBeNonEmpty": false,
-            "documentation": "The rig whose clock this rule maps onto (its output): v1 `daqsystem2` (named `to_acquisition_system_id` until 2026-11-11). See `input_id`.",
-            "must_refer_to_document_class": "acquisition_system"
+            "documentation": "The rig whose clock this rule maps onto (its output): v1 `daqsystem2` (named `to_acquisition_system_id` until 2026-11-11). See `input_id`. Admits the rig's device entity (an `entity` of type device) as well: a rig's clock is its device's (Jess Haley 2026-11-19 [a rig's clock belongs to its device], did_v2_standing_wiring_plan.md), so this edge is to name the device once DID-matlab's migration points it at the minted device and NDI-matlab's sync graph finds a rig's clock through its device; the `acquisition_system` target stays admitted until then.",
+            "must_refer_to_document_class": "acquisition_configuration,entity"
         }
     ],
     "file": [],
@@ -177,7 +177,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`, filefind's `daqsystem1`...) are the from/to rig edges, not entries; the trigger channel strings (`daqsystem_ch1`, `daqsystem_ch2`) are entries by their own names ([sync configuration links its rigs]). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `quantity` {value, source_value}, `count`, `text`, `logical` or `matrix` (a numeric N-D array, data_body AMENDMENT 4) -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6).",
+                    "documentation": "The rule's settings. v1 sources: `number_fullpath_matches`, `syncfilename`, `minEmbeddedFileOverlap`, `errorOnFailure` -- one entry each, present only when the source carries it. The v1 device NAMES (`daqsystem1_name`, filefind's `daqsystem1`...) are the from/to rig edges, not entries; the trigger channel strings (`daqsystem_ch1`, `daqsystem_ch2`) are entries by their own names ([sync configuration links its rigs]). `method_parameters` until 2026-10-21. Each entry is {variable, unit, source_unit, approximate} plus exactly ONE value form -- `term`, `numeric`, `count`, `text` or `logical` -- the same entry as a covariate's, holding one value where a covariate holds one per position along its dimensions (2026-10-19; data_body plan AMENDMENT 6). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, sections 4 and 6): the entry is flat -- a number is `numeric` (canonical, in `unit`; an array at each position adds dimensions; a single number is written as a plain number, [numeric shape details] (3)) with `unit`, `source_numeric`, `source_unit` and `tolerance` only beside it; `count`, `term`, `text`, `logical` are unchanged and carry no unit. `quantity` and `matrix` (the old shape) are removed (did_v2_numeric_shape_plan.md section 9, step 4: removed by did-schema once the readers refused the old shape, DID-matlab #511, NDI-matlab #1283). `source_numeric` holds what the source held, in the source's own type: a number where v1 stored a number, text where v1 stored text ([numeric shape details] (1)). It is declared here with type `number_or_text` ([source numeric is number or text]).",
                     "constraints": {},
                     "fields": [
                         {
@@ -248,7 +248,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "Canonical unit of `quantity.value`, for the whole setting. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]).",
+                            "documentation": "Canonical unit of `numeric`, for the whole setting. Absent for a non-numeric value or a unitless number. A registered unit term (schemas/registry/did_v2_term_registry.json), the canonical unit of the variable's quantity: the list is tools/canonical_units.py, read by tools/check_term_registry.py (Jess Haley 2026-10-22 [units bound]). In the new numeric shape: the canonical unit of `numeric` only; absent beside `count`, `term`, `text`, `logical` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -300,7 +300,7 @@
                             "mustNotHaveNaN": false,
                             "queryable": true,
                             "ontology": null,
-                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit.",
+                            "documentation": "The unit the source gave the value in, as a term: the unit's registered term (schemas/registry/did_v2_term_registry.json), its label as the name (did_v2_source_unit_plan.md). Blank when the source gives no unit. In the new numeric shape: only with `numeric` (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 6).",
                             "constraints": {
                                 "binding": {
                                     "strength": "preferred",
@@ -397,43 +397,73 @@
                             ]
                         },
                         {
-                            "name": "quantity",
+                            "name": "numeric",
+                            "type": "matrix",
+                            "blank_value": [],
+                            "default_value": [],
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": false,
+                            "mustNotHaveNaN": false,
+                            "queryable": false,
+                            "ontology": null,
+                            "documentation": "The canonical number(s), in `unit`: one per position along the `along` dimensions on a covariate, one value on a condition or parameter; an array at each position adds dimensions (replaces `quantity.value` and `matrix`). A single number is written as a plain number, an array keeps its dimensions (did_v2_numeric_shape_plan.md [numeric shape details] (3)). Has a `unit` unless the variable is unitless or the run's report lists a gap. One value form. (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 4.)",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "source_numeric",
+                            "type": "number_or_text",
+                            "blank_value": "",
+                            "default_value": "",
+                            "mustBeNonEmpty": false,
+                            "mustBeScalar": true,
+                            "mustNotHaveNaN": false,
+                            "queryable": true,
+                            "ontology": null,
+                            "documentation": "What the source wrote for the number, in the source's own type: a number where v1 stored a number, text where v1 stored text, kept verbatim (v1 writes a threshold as the string \"0.030\", and the trailing zero is the stated precision). Filled only for a number written by v1. In `source_unit`.",
+                            "constraints": {}
+                        },
+                        {
+                            "name": "tolerance",
                             "type": "structure",
                             "blank_value": {},
                             "default_value": {},
                             "mustBeNonEmpty": false,
                             "mustBeScalar": true,
                             "mustNotHaveNaN": false,
-                            "queryable": true,
+                            "queryable": false,
                             "ontology": null,
-                            "documentation": "A numeric value, in `unit`, plus what the source wrote.",
+                            "documentation": "The bound on the number(s): the true value lies between `numeric - minus` and `numeric + plus`, in `unit`. One for the whole entry (did_v2_numeric_shape_plan.md [series readings share a source record]). ABSENT means no tolerance is stated. A bound, not a standard deviation. Only with `numeric` (did_v2_numeric_shape_plan.md section 6). (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17.)",
                             "constraints": {},
                             "fields": [
                                 {
-                                    "name": "value",
+                                    "name": "minus",
                                     "type": "double",
                                     "blank_value": 0.0,
                                     "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
-                                    "queryable": true,
+                                    "queryable": false,
                                     "ontology": null,
-                                    "documentation": "Canonical value, in `unit`.",
-                                    "constraints": {}
+                                    "documentation": "How far BELOW the stated number the true value may lie, in `unit`. Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
                                 },
                                 {
-                                    "name": "source_value",
-                                    "type": "char",
-                                    "blank_value": "",
-                                    "default_value": "",
+                                    "name": "plus",
+                                    "type": "double",
+                                    "blank_value": 0.0,
+                                    "default_value": 0.0,
                                     "mustBeNonEmpty": false,
                                     "mustBeScalar": true,
                                     "mustNotHaveNaN": false,
-                                    "queryable": true,
+                                    "queryable": false,
                                     "ontology": null,
-                                    "documentation": "As-recorded value, VERBATIM in `source_unit` (v1 writes a threshold as the string \"0.030\", and the string is kept).",
-                                    "constraints": {}
+                                    "documentation": "How far ABOVE the stated number the true value may lie, in `unit`. Non-negative.",
+                                    "constraints": {
+                                        "minimum": 0
+                                    }
                                 }
                             ]
                         },
@@ -474,19 +504,6 @@
                             "queryable": true,
                             "ontology": null,
                             "documentation": "A true/false value (Jess Haley 2026-10-22 [logical entries]): whether a setting was on, whether a condition held. One value form.",
-                            "constraints": {}
-                        },
-                        {
-                            "name": "matrix",
-                            "type": "matrix",
-                            "blank_value": [],
-                            "default_value": [],
-                            "mustBeNonEmpty": false,
-                            "mustBeScalar": false,
-                            "mustNotHaveNaN": false,
-                            "queryable": true,
-                            "ontology": null,
-                            "documentation": "A numeric N-D array value, in `unit` (absent for unitless numbers): row-major as JSON nested arrays, every dimension written: an n x 3 palette is [[r, g, b], ...], one inner array per row, and a vector is written with its dimension as one row [[a, b, c]] or one column [[a], [b], [c]], never a flat [a, b, c], which cannot say which (data_body plan AMENDMENT 4, corrected 2026-10-21). The whole array is ONE value of the entry's `variable`; it is not split into entries. (data_body AMENDMENT 4, 2026-10-21.)",
                             "constraints": {}
                         }
                     ]

@@ -1,6 +1,6 @@
 {
     "document_class": {
-        "class_name": "acquisition_system",
+        "class_name": "acquisition_configuration",
         "class_version": "1.0.0",
         "superclasses": [
             {
@@ -38,8 +38,8 @@
         },
         {
             "name": "device_id",
-            "mustBeNonEmpty": false,
-            "documentation": "Optional: the device that produced the files this system reads (a digitizer, a camera, a computer), an entity of type device; the same entity as an interaction's `instrument_id` when one device does both, with no rule tying the two (Jess Haley 2026-10-22 [instrument and device]). Filled when known (the Haley import's camera, `instrumentFor` in sessionDocuments.m). The acquisition system itself is configuration -- which software reads which files -- not a thing in the world. An epoch reaches its system through the recording interaction's `acquisition_system_id` (Jess Haley 2026-10-22 [epoch to system link], no `recorded_by` relation; amended 2026-11-01 [probe wiring is a relation], which retired the `acquisition_channels` document in between); a probe's channels on the system are its `connected to` directed_relation to it.",
+            "mustBeNonEmpty": true,
+            "documentation": "REQUIRED (Jess Haley 2026-11-19 [device id required and named by the rig] (1), did_v2_standing_wiring_plan.md: required once DID-matlab #498 and NDI-matlab #1278 merged and every corpus fills it; and Jess Haley 2026-11-22 [rig device written by NDI writers]: NDI's own v2 writers create the rig device and fill this edge, NDI-matlab #1299): the device this configuration reads the files of -- the rig itself (a digitizer, a camera, a computer), an entity of type device. Jess Haley 2026-11-19 [acquisition system is a device entity] (did_v2_standing_wiring_plan.md): the digitizer is the device entity, and this document is the separate configuration (v1 navigator, reader and parameter reader) that points at it by this edge; a probe's `connected to` wiring and a rig's clock ([a rig's clock belongs to its device]) name the device, not this document. Migration fills it with the device it mints per rig per session, named by the v1 rig name ([migration mints the device by name], [one device per session]; DID-matlab #498). the same entity as an interaction's `instrument_id` when one device does both, with no rule tying the two (Jess Haley 2026-10-22 [instrument and device]). Filled when known (the Haley import's camera, `instrumentFor` in sessionDocuments.m). The acquisition system itself is configuration -- which software reads which files -- not a thing in the world. An epoch reaches its system through the recording interaction's `acquisition_system_id` (Jess Haley 2026-10-22 [epoch to system link], no `recorded_by` relation; amended 2026-11-01 [probe wiring is a relation], which retired the `acquisition_channels` document in between); a probe's channels on the system are its `connected to` directed_relation to the device (to this document until DID-matlab rewires, [acquisition system is a device entity]).",
             "must_refer_to_document_class": "entity"
         }
     ],
@@ -55,7 +55,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "The rig's name (v1 `daqsystem.base.name`, #73 item 54). NDI finds an acquisition system by this name (session.m daqsystem_load; a syncrule's daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
+            "documentation": "The rig's name (v1 `daqsystem.base.name`, #73 item 54). An acquisition_configuration is how a device's recordings are read: its reader (`reader_id`), epoch file pattern (`epoch_file_pattern_id`), epoch parameter readers (`epoch_parameter_reader_id`), software (`software_id`) and device (`device_id`); `acquisition_system` until Jess Haley's decision of 2026-11-19 [acquisition configuration renamed] (did_v2_standing_wiring_plan.md). NDI finds an acquisition configuration by this name (session.m daqsystem_load; a syncrule's daqsystem1_name / daqsystem2_name name it), so migrators must carry it.",
             "constraints": {}
         }
     ]

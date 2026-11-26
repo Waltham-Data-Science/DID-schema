@@ -12,7 +12,12 @@ data, and tools/check_term_registry.py reads it (rule R11) to check that:
   * every unit term named here with a node is in the term registry under that
     node and that name;
   * every entry `unit` (covariates, conditions, method parameters) and every
-    `response_unit` / fit-entry `unit` is a bound term.
+    `response_unit` / fit-entry `unit` is a bound term;
+  * every value class listed below declares its canonical field(s) and unit(s)
+    in its top-level `canonical` list, exactly as listed here, in this order
+    (Jess Haley 2026-11-17, did_v2_numeric_shape_plan.md [one shape for measured
+    numbers], section 2: "each class declaring its canonical field and unit"),
+    and no other class declares one.
 
 A slot whose unit has no registered term yet carries node "". It is LISTED by
 R11, never failed and never filled in here: choosing a unit's CURIE is a
@@ -69,13 +74,22 @@ BOUND_UNIT_FIELDS = [
     ("interaction", "method.parameters.unit"), ("method", "parameters.unit"),
     ("relation", "method.parameters.unit"),
     ("clock_alignment_configuration", "method.parameters.unit"),
-    ("data", "covariates.unit"), ("acquisition_epoch", "covariates.unit"),
+    # `acquisition_epoch`'s copy left with the class (2026-11-19, [retired
+    # classes leave V2] step 3)
+    ("data", "covariates.unit"),
     ("tuning_curve", "value.response_unit"), ("contrast_sensitivity", "value.response_unit"),
     ("model_fit", "value.independent_variables.unit"), ("model_fit", "value.dependent_variable.unit"),
     ("tuning_curve", "value.model_fit.independent_variables.unit"),
     ("tuning_curve", "value.model_fit.dependent_variable.unit"),
     ("contrast_sensitivity", "value.model_fit.independent_variables.unit"),
     ("contrast_sensitivity", "value.model_fit.dependent_variable.unit"),
+    # a fit coefficient or constraint is an ordinary list item, its unit bound as
+    # every entry's is ([one shape for measured numbers], section 8 answer 5)
+    ("model_fit", "value.coefficients.unit"), ("model_fit", "value.constraints.unit"),
+    ("tuning_curve", "value.model_fit.coefficients.unit"),
+    ("tuning_curve", "value.model_fit.constraints.unit"),
+    ("contrast_sensitivity", "value.model_fit.coefficients.unit"),
+    ("contrast_sensitivity", "value.model_fit.constraints.unit"),
 ]
 
 
@@ -123,6 +137,18 @@ def check(classes, terms):
             elif t["name"] != name:
                 fails.append(f"R11 {kind}.{slot}: unit {node} is registered as "
                              f"{t['name']!r}, the list says {name!r}")
+    n_declared = 0
+    for cn, d in sorted(classes.items()):
+        declared = d.get("canonical")
+        if cn not in CANONICAL_UNITS:
+            if declared is not None:
+                fails.append(f"R11 {cn}: declares `canonical` but is not in the canonical-unit list")
+            continue
+        n_declared += 1
+        want = [{"field": s, "unit": {"node": node, "name": name}}
+                for s, name, node in CANONICAL_UNITS[cn]]
+        if declared != want:
+            fails.append(f"R11 {cn}: `canonical` is {declared!r}, the list says {want!r}")
     for cn, path in BOUND_UNIT_FIELDS:
         d = classes.get(cn)
         f = dict(_walk(d.get("fields"))).get(path) if d else None
@@ -130,7 +156,7 @@ def check(classes, terms):
             fails.append(f"R11 {cn}.{path}: no such field")
         elif f.get("type") != "ontology_term" or not (f.get("constraints") or {}).get("binding"):
             fails.append(f"R11 {cn}.{path}: not a bound term")
-    return fails, listed, {"cells": n_cells, "units": n_units,
+    return fails, listed, {"cells": n_cells, "units": n_units, "declared": n_declared,
                            "bound_unit_fields": len(BOUND_UNIT_FIELDS)}
 
 

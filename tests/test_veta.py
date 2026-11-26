@@ -77,31 +77,48 @@ def test_channel_wiring_is_a_relation_and_the_recording_names_its_system():
     assert "channels" not in {f["name"] for f in si["fields"]}
     si_edges = {e["name"]: e for e in si["depends_on"]}
     assert "acquisition_channels_id" not in si_edges
+    # the edge keeps its name; the class it names is `acquisition_configuration`
+    # (Jess Haley 2026-11-19 [acquisition configuration renamed])
     assert si_edges["acquisition_system_id"]["must_refer_to_document_class"] == \
-        "acquisition_system"
+        "acquisition_configuration"
     assert si_edges["acquisition_system_id"]["mustBeNonEmpty"] is False
     dr = _load(SP.class_path("directed_relation"))
     assert "conditions" in {f["name"] for f in dr["fields"]}
     parent = next(e for e in dr["depends_on"] if e["name"] == "parent_id")
-    assert "acquisition_system" in parent["must_refer_to_document_class"].split(",")
+    assert "acquisition_configuration" in parent["must_refer_to_document_class"].split(",")
     reg = _load(os.path.join(os.path.dirname(VETA), "registry", "binding_registry_meta.json"))
     rows = [r for r in reg["relation_bindings"] if r["relation"]["node"] == "RO:0002170"]
     assert len(rows) == 1 and rows[0]["class"] == "directed_relation", rows
-    assert rows[0]["parent_types"] == ["acquisition_system"] and rows[0]["timed"] is True
-    rig = _load(SP.class_path("acquisition_system"))
+    # Jess Haley 2026-11-19 [acquisition system is a device entity]
+    # (did_v2_standing_wiring_plan.md): the wiring names the rig's device entity;
+    # the `acquisition_system` parent stays admitted until DID-matlab rewires and
+    # NDI-matlab reads probe -> device -> configuration (siblings first).
+    # (`acquisition_configuration`: [acquisition configuration renamed])
+    assert rows[0]["parent_types"] == ["acquisition_configuration", "device"] and rows[0]["timed"] is True
+    assert "device" in {t["type"] for t in reg["entity_type_bindings"]}
+    # [acquisition configuration renamed] (Jess Haley 2026-11-19): a move, not a copy
+    assert SP.class_path("acquisition_system") is None
+    rig = _load(SP.class_path("acquisition_configuration"))
     # Jess Haley 2026-10-22 [required acquisition edges]: ndi.daq.system cannot be
     # built without its reader and file pattern, so those two are required; the
     # rest stay optional (a minimal rig is a name, a reader and a file pattern)
+    # ... and Jess Haley 2026-11-19 [device id required and named by the rig] (1):
+    # the device it reads the files of is required too
     req = {e["name"] for e in rig["depends_on"] if e["mustBeNonEmpty"]}
-    assert req == {"reader_id", "epoch_file_pattern_id"}, req
+    assert req == {"reader_id", "epoch_file_pattern_id", "device_id"}, req
     cac = _load(SP.class_path("clock_alignment_configuration"))
     # Jess Haley 2026-10-27 [sync configuration links its rigs]
     # (did_v2_go_forward_class_audit.md): the configuration links its two rigs
     # directly, role-named, and no longer points at `acquisition_channels`.
     cac_edges = {e["name"]: e for e in cac["depends_on"]}
     assert "acquisition_channels_id" not in cac_edges
+    # Jess Haley 2026-11-19 [a rig's clock belongs to its device]: both ends may
+    # name the device entity; `acquisition_system` stays until the siblings move.
     for name in ("input_id", "output_id"):
-        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_system"
+        assert cac_edges[name]["must_refer_to_document_class"] == "acquisition_configuration,entity"
+    dev = next(e for e in rig["depends_on"] if e["name"] == "device_id")
+    assert dev["must_refer_to_document_class"] == "entity" and dev["mustBeNonEmpty"] is True
+    assert "[acquisition system is a device entity]" in dev["documentation"]
 INDEX = _load(SP.INDEX)
 
 
@@ -368,9 +385,10 @@ def test_entity_genus():
     # ... and, as a parent only, the acquisition system a probe is wired to
     # (Jess Haley 2026-11-01 [probe wiring is a relation], `connected to`)
     assert dr["parent_id"]["must_refer_to_document_class"].split(",") == [
-        "entity", "statement", "value", "acquisition_system"], dr["parent_id"]
-    # acquisition_system is configuration, not an entity (sec. 8)
-    assert "entity" not in _chain("acquisition_system")
+        "entity", "statement", "value", "acquisition_configuration"], dr["parent_id"]
+    # acquisition_configuration (acquisition_system until [acquisition
+    # configuration renamed]) is configuration, not an entity (sec. 8)
+    assert "entity" not in _chain("acquisition_configuration")
 
 
 def _local_id(cls):
@@ -391,9 +409,12 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     # rows keyed by the stored type, the ontology label since 2026-10-22 (Jess
     # Haley [vocabulary nodes] L2): group, material, session, epoch / dataset,
     # person, funding, strain
-    for t in ("organism", "cell culture", "tissue", "cell", "Group", "device", "material entity",
-              "Session", "recording epoch"):
+    for t in ("organism", "Session", "recording epoch"):
         assert "local_identifier" in req[t], t
+    # Jess Haley 2026-11-19 [local identifier required only where looked up]:
+    # the other dataset-local kinds require `name`; `local_identifier` is optional
+    for t in ("cell culture", "tissue", "cell", "Group", "device", "material entity"):
+        assert req[t] == ["name"], t
     for t in ("Data Set", "Person", "publication", "Grant",
               "software", "Organism Strain"):
         assert req[t] == ["name"], t
@@ -402,14 +423,16 @@ def test_local_identifier_required_on_subject_and_session_optional_elsewhere():
     org = next(r for r in reg["entity_type_bindings"] if r["type"] == "organization")
     assert org["requires"] == [], org
     assert org["requires_one_of"] == [["name", "global_identifier"]], org
-    # each configuration class with a name declares `name`; base.name is did_v1-only
-    for e in ("entity", "acquisition_system", "method"):
+    # each configuration class with a name declares `name`; V2 `base.name` is
+    # deleted (Jess Haley, [v1 name goes to the class's own name field] and
+    # [base.name kept until retire classes leave], did_v2_go_forward_class_audit.md)
+    for e in ("entity", "acquisition_configuration", "method"):
         names = [f["name"] for f in RECORDS[e][1]["fields"]]
         assert "name" in names, f"{e} should declare its own `name` (#73 item 54)"
         assert not {"full_name", "title", "label"} & set(names), names
-    base_name = next(f for f in RECORDS["base"][1]["fields"] if f["name"] == "name")
-    assert base_name["mustBeNonEmpty"] is False
-    assert "did_v1 ONLY" in base_name["documentation"]
+    base_fields = [f["name"] for f in RECORDS["base"][1]["fields"]]
+    assert base_fields, "base declares no fields -- the check would be vacuous"
+    assert "name" not in base_fields, base_fields
 
 
 def test_demo_family_collapsed_to_one_class():
@@ -443,7 +466,10 @@ def test_demo_family_collapsed_to_one_class():
         assert gone not in RECORDS, f"{gone} should have collapsed into `demo`"
 
     fields = {f["name"]: f for f in RECORDS["demo"][1]["fields"]}
-    assert set(fields) == {"value", "mock"}, set(fields)
+    # `name` added 2026-11-19 by [demo keeps its name]: a demo document's v1 name
+    # goes to the class's own field, not `base.name`.
+    assert set(fields) == {"name", "value", "mock"}, set(fields)
+    assert fields["name"]["type"] == "char"
     # Typed from the WRITER, not the template: the did_v1 template says char, but
     # ndi.calc.example.simple sets 5/10 and queries with exact_number.
     assert fields["value"]["type"] == "double"
@@ -503,8 +529,9 @@ def test_conditions_on_statement():
     """statement carries a `conditions` list (D10 qualifiers, renamed from
     `parameters`). Since 2026-10-19 each entry is the ONE single-value entry shared
     with `method_parameters`: {variable, unit, source_unit, approximate} plus exactly
-    one value form -- `term`, `quantity` {value, source_value}, `count` or `text`.
-    A condition holds ONE value, so every form is scalar."""
+    one value form -- `term`, `numeric`, `count`, `text` or `logical` (`quantity`
+    {value, source_value} and `matrix` until the numeric shape removed them).
+    A condition holds ONE value, so every form but `numeric` is scalar."""
     ft = _flat_field_types("statement")
     assert ft.get("conditions") == "structure"
     assert ft.get("parameters") is None, "old `parameters` name must be gone"
@@ -513,23 +540,36 @@ def test_conditions_on_statement():
     # a list (non-scalar), not a single struct
     assert params["mustBeScalar"] is False
     sub = {f["name"]: f for f in params["fields"]}
-    # 9 -> 10 on 2026-10-22: the `logical` form (Jess Haley [logical entries])
-    assert len(sub) == 10, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    # 9 -> 10 on 2026-10-22: the `logical` form (Jess Haley [logical entries]);
+    # 10 -> 12 on 2026-11-17: the new numeric shape's `numeric` and `tolerance`
+    # (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, step 3; `quantity` and `matrix` stay until the readers drop the old
+    # shape, section 9)
+    # 12 -> 13 on 2026-11-19: `source_numeric`, type `number_or_text` ([source
+    # numeric is number or text], Jess Haley 2026-11-19, DID-matlab ded029f4 #510)
+    # 13 -> 11 on 2026-11-21: `quantity` and `matrix` removed, the old shape (plan
+    # section 9 step 4, after DID-matlab #511 and NDI-matlab #1283 refused it)
+    assert len(sub) == 11, f"read {len(sub)} entry field(s): {sorted(sub)}"
+    assert sub["numeric"]["type"] == "matrix" and sub["numeric"]["mustBeScalar"] is False
+    assert sub["source_numeric"]["type"] == "number_or_text"
+    assert sub["source_numeric"]["mustBeScalar"] is True
+    assert sub["source_numeric"]["mustBeNonEmpty"] is False
+    assert [x["name"] for x in sub["tolerance"]["fields"]] == ["minus", "plus"]
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is True
     assert sub["variable"]["type"] == "ontology_term"
     assert sub["term"]["type"] == "ontology_term"
     assert sub["count"]["type"] == "integer" and sub["text"]["type"] == "char"
-    assert {f["name"] for f in sub["quantity"]["fields"]} == {"value", "source_value"}
-    for form in ("term", "quantity", "count", "text"):
+    for form in ("term", "count", "text", "logical"):
         assert sub[form]["mustBeScalar"] is True, f"a condition holds ONE {form}"
-    # data_body AMENDMENT 4 (2026-10-21, proposal): ONE numeric N-D array value
-    assert sub["matrix"]["type"] == "matrix" and sub["matrix"]["mustBeScalar"] is False
-    assert sub["matrix"]["blank_value"] == []
+    # the old shape is gone: `numeric` holds one number or one N-D array
+    # (data_body AMENDMENT 4's `matrix`), `source_numeric` what the source wrote
+    for gone in ("quantity", "matrix"):
+        assert gone not in sub, gone
+    assert sub["numeric"]["blank_value"] == []
 
 
 def test_conditions_and_method_parameters_are_one_entry():
     """2026-10-19 (Jess): conditions and method parameters are the SAME entry, at
-    every mount, and a key is that entry holding n positions (`term`, `quantity`).
+    every mount, and a key is that entry holding n positions (`term`, `numeric`).
     Since 2026-10-21 the method parameters are `method.parameters` (one `method`
     block, did_v2_method_plan.md), and `relation` carries them too."""
     shapes = {}
@@ -553,11 +593,24 @@ def test_conditions_and_method_parameters_are_one_entry():
     assert "labels" not in ks and "values" not in ks
     assert {n for n, _ in shapes[("statement", "conditions")]} <= set(ks), sorted(ks)
     # `logical` is on the condition entry too since 2026-10-22 ([logical entries])
+    # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17): a covariate's `source_numeric` is a number
+    # array, declared here; a condition's holds a number or text ([numeric shape
+    # details] (1)), declared as `number_or_text` since [source numeric is number
+    # or text] (Jess Haley, 2026-11-19, DID-matlab ded029f4 #510); `source_origin` /
+    # `source_spacing` go with `origin`
     assert set(ks) - {n for n, _ in shapes[("statement", "conditions")]} == {
-        "along", "cyclic", "origin", "spacing", "key", "index"}, sorted(ks)
+        "along", "cyclic", "origin", "spacing", "key", "index",
+        "source_origin", "source_spacing"}, sorted(ks)
+    cond = dict(shapes[("statement", "conditions")])
+    assert cond["source_numeric"] == "number_or_text"
+    assert ks["source_numeric"]["type"] == "matrix"
     assert ks["term"]["mustBeScalar"] is False
     assert ks["count"]["mustBeScalar"] is False and ks["text"]["mustBeScalar"] is False
-    assert {x["name"] for x in ks["quantity"]["fields"]} == {"value", "source_value"}
+    # the old shape is gone (plan section 9 step 4): regular positions are flat numbers
+    for gone in ("quantity", "matrix"):
+        assert gone not in ks, gone
+    for flat in ("origin", "spacing"):
+        assert ks[flat]["type"] == "double" and "fields" not in ks[flat], flat
 
 
 def test_session_bounded_reference():
@@ -889,10 +942,17 @@ def test_phase1_source_cleanup_and_dep_typing():
     # and `epochid` is a SUPERCLASS contributing a block that holds the epoch-id
     # STRING. This test was asserting the invented shape. See the correction in
     # did_v2_6_7_walkthrough_STATE.md.
-    assert not any(d["name"] == "epochid"
-                   for d in RECORDS["daqreader_epochdata_ingested"][1]["depends_on"]), \
+    # CHANGED 2026-11-19 ([retired classes leave V2] step 3): the
+    # `daqreader_epochdata_ingested` tombstone is deleted (handed on as v1 since
+    # DID-matlab #374; the epoch_id lift keeps its source as v1 since #491), so
+    # the same fact is pinned on NDI's template, which the v1 document is
+    # checked against: one edge, daqreader_id, and `epochid` a superclass.
+    assert "daqreader_epochdata_ingested" not in RECORDS
+    assert "daqreader_epochdata_ingested" in veta_record.RETIRED_CLASSES
+    gt_dei = _ndi_ground_truth()["classes"]["daqreader_epochdata_ingested"]
+    assert gt_dei["depends_on"] == ["daqreader_id"], \
         "did_v1 has no epochid dependency -- epochid is a superclass block"
-    assert _dep("daqreader_epochdata_ingested", "daqreader_id") is not None
+    assert "epochid" in gt_dei["superclasses"]
     # #60, INVERTED: this asserted that `epochfiles_ingested` carried an `epochid`
     # edge typed to acquisition_epoch. Both halves were wrong. NDI writes
     # `filenavigator_id` and V_eta had DROPPED it, declaring the invented `epochid`
@@ -966,9 +1026,19 @@ def test_daqreader_ndr_de_encoded():
     """Chunk c: daqreader_ndr encoded a reader subtype in the CLASS NAME. It
     dissolves; its distinguishing fields de-encode onto the generic daqreader as
     OPTIONAL (the subtype is discriminated by ndi_daqreader_class), and the
-    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string."""
+    subtype-prefixed field name (ndr_reader_string) is dropped -> reader_string.
+
+    CHANGED 2026-11-19 ([retired classes leave V2] step 3): `daqreader` was an
+    intermediate name (migrators_j/daqreader_ndr.m hands the de-encoded body to
+    migrators_j/daqreader.m, which folds it to `acquisition_reader` + a
+    software entity, or carries it, carry-100/130), and its retire tombstone is
+    deleted. The de-encoded field lives on `acquisition_reader`, so that is
+    what is read now."""
+    import veta_record
     assert "daqreader_ndr" not in RECORDS
-    dr = {f["name"]: f for f in RECORDS["daqreader"][1]["fields"]}
+    assert "daqreader" not in RECORDS
+    assert "daqreader" in veta_record.RETIRED_CLASSES
+    dr = {f["name"]: f for f in RECORDS["acquisition_reader"][1]["fields"]}
     assert dr.get("reader_string", {}).get("mustBeNonEmpty") is False
     # INVERTED 2026-08-10, not updated. This asserted that `file_extension` is
     # CARRIED onto daqreader -- the behaviour the signed daq-configuration
@@ -991,11 +1061,21 @@ def test_mfdaq_ingested_de_encoded():
     """Chunk c: daqreader_mfdaq_epochdata_ingested encoded the reader subtype
     (`mfdaq`) in its CLASS NAME. It dissolves onto the generic
     daqreader_epochdata_ingested -- its only distinguishing content, `parameters`,
-    becomes an OPTIONAL field (empty for readers that do not slice by segment)."""
+    becomes an OPTIONAL field (empty for readers that do not slice by segment).
+
+    INVERTED 2026-11-19 on a changed premise ([retired classes leave V2] step
+    1 then step 3): since DID-matlab #480 (181eb168) the mfdaq archive is handed
+    on exactly as v1 wrote it, not renamed onto the retired generic class, and
+    that tombstone is deleted. `parameters` stays on the v1 document (NDI's
+    template), where ndi.migrate.internal.ingestedArchiveBodies reads the
+    segment lengths."""
+    import veta_record
     assert "daqreader_mfdaq_epochdata_ingested" not in RECORDS
-    dri = {f["name"]: f for f in RECORDS["daqreader_epochdata_ingested"][1]["fields"]}
-    assert "parameters" in dri
-    assert dri["parameters"].get("mustBeNonEmpty") is False
+    assert "daqreader_epochdata_ingested" not in RECORDS
+    assert "daqreader_epochdata_ingested" in veta_record.RETIRED_CLASSES
+    gt = _ndi_ground_truth()["classes"]["daqreader_mfdaq_epochdata_ingested"]
+    assert gt["fields"] == ["parameters"]
+    assert "daqreader_epochdata_ingested" in gt["superclasses"]
 
 
 def test_ingested_caches_epochid_dep_only():
@@ -1009,12 +1089,24 @@ def test_ingested_caches_epochid_dep_only():
     writers. Dropping the mixin left the epoch identity with nowhere to land,
     and the same false premise shipped as an rmfield() in the mfdaq migrator
     that deleted it outright. The assertion is inverted here so the superclass
-    is required, not forbidden."""
-    img = RECORDS["daqreader_image_epochdata_ingested"][1]
-    supers = {s.get("class_name") for s in img["document_class"]["superclasses"]}
-    assert "epochid" in supers, \
-        "epochid is a did_v1 superclass of the ingest caches, not a dependency"
+    is required, not forbidden.
+
+    CHANGED 2026-11-19 ([retired classes leave V2] step 3): both cache
+    tombstones and `epochid` are deleted (handed on as v1, DID-matlab
+    HAND_ON_CLASSES), so the superclass chain is pinned on NDI's templates,
+    which the v1 documents are checked against: the image cache inherits the
+    generic cache, which carries `epochid`."""
+    import veta_record
+    for gone in ("daqreader_image_epochdata_ingested",
+                 "daqreader_epochdata_ingested", "epochid"):
+        assert gone not in RECORDS, gone
+        assert gone in veta_record.RETIRED_CLASSES, gone
+    gt = _ndi_ground_truth()["classes"]
+    supers = set(gt["daqreader_image_epochdata_ingested"]["superclasses"])
     assert "daqreader_epochdata_ingested" in supers
+    assert "epochid" in gt["daqreader_epochdata_ingested"]["superclasses"], \
+        "epochid is a did_v1 superclass of the ingest caches, not a dependency"
+    assert "epochid" not in gt["daqreader_epochdata_ingested"]["depends_on"]
     # the caches are NOT collapsed into the data_body genus
     assert "sampled_body" not in supers
 
@@ -1351,17 +1443,21 @@ def test_ndi_class_handles_marked_needs_ndi():
     # Haley: pass 1 hands it on exactly as v1 wrote it, never validated against
     # V2, so its `ndi_syncrule_class` is NDI's template's). The classes still in
     # the tree keep the marker.
+    # daqreader and filenavigator, the last two carriers of the marker, were
+    # deleted 2026-11-19 ([retired classes leave V2] step 3): DID-matlab folds
+    # each to its V2 home (acquisition_reader / epoch_file_pattern, with the
+    # handle as a software entity) or carries it whole as v1, so their
+    # `ndi_<x>_class` handles are NDI's templates'. No class in the tree
+    # carries the marker now; the meta-schema still declares it, and the sweep
+    # below still refuses over-marking should one return.
     import veta_record
-    assert "syncrule" not in RECORDS and "syncrule" in veta_record.RETIRED_CLASSES
-    expected = {
-        "daqreader": "ndi_daqreader_class",
-        "filenavigator": "ndi_filenavigator_class",
-    }
-    for cls, fname in expected.items():
-        d = RECORDS[cls][1]
-        f = next(f for f in d["fields"] if f["name"] == fname)
-        assert f.get("needs_ndi") is True, f"{cls}.{fname} not marked needs_ndi"
+    for gone in ("syncrule", "daqreader", "filenavigator"):
+        assert gone not in RECORDS and gone in veta_record.RETIRED_CLASSES, gone
+    gt = _ndi_ground_truth()["classes"]
+    assert "ndi_daqreader_class" in gt["daqreader"]["fields"]
+    assert "ndi_filenavigator_class" in gt["filenavigator"]["fields"]
     # every needs_ndi field is an ndi_<x>_class handle (no over-marking)
+    assert len(RECORDS) == CLASS_COUNT, (len(RECORDS), CLASS_COUNT)   # denominator
     for _tier, d in RECORDS.values():
         for f in d.get("fields", []):
             if f.get("needs_ndi"):
@@ -1456,7 +1552,8 @@ def test_method_is_the_inline_block_plus_an_identity():
     entry = sub["parameters"]
     assert entry["mustBeScalar"] is False, "the settings are a LIST of entries"
     subs = {s["name"] for s in entry["fields"]}
-    assert {"variable", "quantity", "term", "count", "text", "matrix"} <= subs
+    assert {"variable", "numeric", "term", "count", "text", "logical"} <= subs
+    assert not ({"quantity", "matrix"} & subs), "the old numeric shape is removed"
     # identity is the bound variable; no value field. `unit` IS declared since
     # #73 audit 2 D4 (amending the signed "no unit field", as data_body Amendment 1
     # did for keys): the canonical value is in it.
@@ -1924,9 +2021,11 @@ def test_named_composite_cells_declare_their_layout():
     # scalar string (the validator accepts it on the char branch), so it has no
     # internals to declare and is not the kind of thing this test is about --
     # which is named COMPOSITE cells whose layout would otherwise be opaque.
+    # `number_or_text` (2026-11-19, [source numeric is number or text], DID-matlab
+    # ded029f4 #510) is a scalar number or one row of text: no internals either.
     named = set(META["$defs"]["field_definition"]["properties"]["type"]["enum"]) - {
         "did_uid", "char", "string", "integer", "double", "matrix", "timestamp",
-        "date", "boolean", "structure"}
+        "date", "boolean", "structure", "number_or_text"}
     # A nested quantity that names its value class declares its layout THERE
     # ([quantity reference type], Jess Haley 2026-10-27, did-schema #66): the
     # validators expand that class's `value` cell, so the reference is not
@@ -1955,8 +2054,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # documented exceptions: a count has no dimensional scaling, a score is
     # scale-relative, a term is an identity.)
     exempt = {"count", "score", "ontology_term"}
-    # `date` has no unit to convert from: {instant, precision, source_value,
-    # approximate} (#73 audit 2 D10, the T14 value-cell rule's declared-precision case).
+    # `date` has no unit to convert from: {instant, precision, source_value (the
+    # source's text, which the numeric shape plan keeps), approximate} (#73 audit 2
+    # D10, the T14 value-cell rule's declared-precision case).
     exempt_classes = {"date"}
     # AND THE AXIS ENTRY, which hoists the triple RATHER THAN DROPPING IT
     # (2026-08-14, AMENDMENT 1 + 2 to the data_body plan). An axis carries
@@ -2000,8 +2100,11 @@ def test_dimensioned_cells_carry_source_provenance():
             if f["name"] in hoisted_field_names:
                 continue
             subs = {sf["name"] for sf in f["fields"]}
-            if ("source_unit" in subs or "source_value" in subs) and not {
-                    "source_unit", "source_value", "approximate"} <= subs:
+            # `source_numeric` is `source_value` renamed, and the old name is
+            # removed from the value cells (did_v2_numeric_shape_plan.md [one
+            # shape for measured numbers], section 9 step 4, did-schema#346)
+            if ("source_unit" in subs or "source_numeric" in subs) and not {
+                    "source_unit", "source_numeric", "approximate"} <= subs:
                 bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
     assert not bad, f"dimensioned cells missing the source triple: {bad!r}"
 
@@ -2062,10 +2165,20 @@ def test_duplicate_field_fidelity_split_is_derived_from_the_ground_truth():
         f"ground truth artifact not read ({gt_stats['error']}) -- this check "
         "would pass while classifying nothing")
     assert gt_stats["classes"] > 0 and gt_stats["field_names"] > 0, gt_stats
+    assert classes, "no V_eta classes were read -- the check would pass vacuously"
     rows = mod.find_duplicates(classes)
-    assert rows, "no duplicate rows at all -- the check would pass vacuously"
+    # The tree holds no duplicate row since V2 `base.name` was deleted
+    # ([v1 name goes to the class's own name field], [base.name kept until
+    # retire classes leave], 2026-11-19). The classifier is tested on rows of
+    # each kind built from the v1 truth: did_v1 declares `name` in both base and
+    # stimulus_parameter (V1-FIDELITY), and `entity` has no did_v1 class
+    # (NOT-DERIVABLE; the row the tree held until 2026-11-19).
+    assert rows == [], rows
+    rows = [("stimulus_parameter", "name", ("base", "stimulus_parameter")),
+            ("entity", "name", ("base", "entity"))]
 
     classified, _ = mod.classify(rows, gt_index, gt_stats)
+    assert {r["derived"] for r in classified} == {mod.V1_FIDELITY, mod.NOT_DERIVABLE}, classified
     assert len(classified) == len(rows)
 
     # Independent re-derivation: read the raw artifact, not the tool's index.
@@ -2121,6 +2234,13 @@ def test_duplicate_field_overrides_cannot_outvote_ndi_and_cannot_go_stale():
     if not any(r["derived"] != mod.NOT_DERIVABLE
                for r in mod.classify(rows, gt_index, gt_stats)[0]):
         rows = rows + [("stimulus_parameter", "name", ("base", "stimulus_parameter"))]
+    # Nor any NOT-DERIVABLE row since V2 `base.name` was deleted (2026-11-19,
+    # [v1 name goes to the class's own name field]): the four were a class's
+    # own `name` beside it. `entity` has no did_v1 class, so its former row is
+    # one the ground truth cannot answer.
+    if not any(r["derived"] == mod.NOT_DERIVABLE
+               for r in mod.classify(rows, gt_index, gt_stats)[0]):
+        rows = rows + [("entity", "name", ("base", "entity"))]
     derivable = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
                  if r["derived"] != mod.NOT_DERIVABLE]
     undecided = [r for r in mod.classify(rows, gt_index, gt_stats)[0]
@@ -2974,16 +3094,19 @@ def test_sampled_body_axes_now_has_the_coordinate_slot_ngrid_needs():
     assert len(sub) >= 4, (
         f"only {len(sub)} axis sub-field(s) read ({sub!r}) -- too few to conclude "
         "anything about a coordinate slot")
-    assert "quantity" in sub, (
-        f"`sampled_body.axes[]` declares {sub!r} with no `quantity`. The signed axis "
+    # The numeric shape (did_v2_numeric_shape_plan.md [one shape for measured
+    # numbers]) moved the slot from `quantity` {value, source_value} to `numeric`
+    # beside `source_numeric`; `quantity` was removed on 2026-11-21 (section 9 step 4).
+    assert "numeric" in sub, (
+        f"`sampled_body.axes[]` declares {sub!r} with no `numeric`. The signed axis "
         "entry carries the coordinates for an irregular axis; without it the ngrid "
         "carry has nowhere to land and jNgridBody's refusal becomes permanent.")
     # and the slot has to be able to hold BOTH halves of a coordinate array
-    vals = [f for f in axes[0]["fields"] if f["name"] == "quantity"]
-    got = sorted(x["name"] for x in vals[0].get("fields", []))
-    assert got == ["source_value", "value"], (
-        f"`axes[].quantity` declares {got!r}; the canonical + as-recorded pair is what "
-        "lets a fold carry coordinates without silently normalising them")
+    assert "source_numeric" in sub, (
+        f"`axes[]` declares {sub!r} with no `source_numeric`; the canonical + "
+        "as-recorded pair is what lets a fold carry coordinates without silently "
+        "normalising them")
+    assert "quantity" not in sub
 
 
 def test_all_axes_declarations_are_the_one_entry():
@@ -3042,8 +3165,11 @@ def test_all_axes_declarations_are_the_one_entry():
     # DENOMINATOR FIRST. Without it a walker that silently found nothing would
     # pass by vacuous agreement -- the `silentLoss` defect, inside a test.
     # #73 item 65 (2026-09-29): value's and data_body's mounts merged into ONE
-    # declaration on `data`, so the floor is 2 (data, acquisition_epoch).
-    assert len(found) >= 2, (
+    # declaration on `data`, so the floor was 2 (data, acquisition_epoch).
+    # 2026-11-19 ([retired classes leave V2] step 3): `acquisition_epoch` is
+    # deleted, so `data` is the one mount left -- pinned by name rather than
+    # by a floor of 1, so a walker that stopped reaching `data` still fails.
+    assert sorted(found) == ["data"], (
         f"only {len(found)} `axes` declaration(s) found across {len(RECORDS)} "
         f"classes ({sorted(found)!r}). The plan counts three that must fold plus "
         "zarr; finding fewer means the walker is not reaching them, not that the "
@@ -3302,11 +3428,24 @@ def test_acquisition_epoch_declares_the_vhsb_payload():
     The plan files this under "repairs, not decisions, and true under either
     option", which is why it lands while the dissolution stays blocked on
     #65 -> #67/#32.
+
+    INVERTED 2026-11-19 on a changed premise ([retired classes leave V2] step
+    1 then step 3): since DID-matlab #481 (71a83a26) an `element_epoch` is
+    handed on exactly as v1 wrote it, never renamed to `acquisition_epoch`,
+    and that tombstone is deleted. The payload travels on the v1 document,
+    checked against NDI's template, and resolveEpochProbemap makes the .vhsb
+    the data body of the epoch's observation. So the file is pinned on NDI's
+    template, and the retired name must stay out of the tree.
     """
-    files = [f["name"] for f in RECORDS["acquisition_epoch"][1].get("file", [])]
+    import veta_record
+    assert "acquisition_epoch" not in RECORDS
+    assert "acquisition_epoch" in veta_record.RETIRED_CLASSES
+    assert "element_epoch" not in veta_record.RENAME, (
+        "element_epoch is no longer renamed: it is handed on as v1")
+    files = _ndi_ground_truth()["classes"]["element_epoch"]["files"]
     assert files == ["epoch_binary_data.vhsb"], (
-        "acquisition_epoch must declare NDI's element_epoch file_list entry "
-        f"verbatim -- its documents all carry it; got {files!r}")
+        "NDI's element_epoch template must still declare the file_list entry "
+        f"every handed-on document carries; got {files!r}")
 
 
 # test_oneepoch_and_acquisition_epoch_agree_about_the_payload: removed 2026-10-30; oneepoch was deleted with
@@ -3495,19 +3634,29 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     assert not comp["document_class"].get("abstract")
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["value"]
 
-    # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a
-    # cell. The cell it replaced was `{value: boolean}`, i.e. `value.value`: a
-    # wrapper around nothing. The composites that nest do so to carry provenance
-    # (canonical + source_unit + source_value, or count's semantic unit); a truth
-    # value has no unit, no source unit and cannot be approximate. `term.value`
-    # is the precedent -- typed `ontology_term` directly.
+    # T14: ONE payload slot, `value`. Until 2026-11-17 it was a BARE boolean array
+    # (the cell it replaced, `{value: boolean}`, was a wrapper around nothing).
+    # did_v2_numeric_shape_plan.md [one shape for measured numbers] (Decided by
+    # Jess Haley, 2026-11-17, section 3: "logical.value.logical makes sense next
+    # to voltage.value.volts") makes it the block {logical}, named for its
+    # canonical field as every value class's cell is; the bare true/false is the
+    # old shape, removed by section 9 step 4 (did-schema#346). The block carries
+    # no provenance triple: a truth value has no unit, no source unit and cannot
+    # be approximate.
     assert [f["name"] for f in comp["fields"]] == ["value"]
     val = comp["fields"][0]
-    assert val["type"] == "boolean", (
+    assert val["type"] == "structure", (
+        "`logical.value` is the block {logical}; a bare boolean is the removed old shape")
+    assert val["mustBeScalar"] is False and val["blank_value"] == []
+    assert [sf["name"] for sf in val["fields"]] == ["logical"], (
+        "the block holds the truth value(s) and nothing else: no source triple")
+    inner = val["fields"][0]
+    assert inner["type"] == "boolean", (
         "the team asked for true/false. A term-valued 'valid'/'garbage' pair "
         "would encode a boolean as a vocabulary (T13) and would make the "
         "invalid half unreachable the same way the CLASS NAME did in v1")
-    assert val["mustBeScalar"] is False and val["blank_value"] == []
+    assert inner["mustBeScalar"] is False, (
+        "a series is ONE block whose `logical` is an array (section 8 answer 4)")
     # A logical with no value still says nothing at all -- the hollow document
     # silentLoss and isFragment exist to catch. Since data_body AMENDMENT 5
     # (2026-10-21, decided, not signed) the parent `value` rule
@@ -3515,9 +3664,6 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     # body-backed logical is legal.
     assert val["mustBeNonEmpty"] is False
     assert "value_inline_or_body" in {r["name"] for r in RECORDS["value"][1]["rules"]}
-    assert "fields" not in val, (
-        "`logical.value` grew a nested cell again. `value.value` is a wrapper "
-        "around nothing; provenance is what earns a cell and a boolean has none")
     # And the class name is NOT a field type: `boolean` is the field type, and it
     # is a validator primitive, so `logical` must stay out of the meta enum.
     assert "logical" not in META["$defs"]["field_definition"]["properties"]["type"]["enum"]
@@ -3832,9 +3978,13 @@ def test_inline_method_has_the_document_shape():
     params = inline["fields"][1]
     # #73 audit 2 D4, then 2026-10-19: the one single-value entry, shared with
     # `conditions` (data_body AMENDMENT 3).
+    # `numeric` and `tolerance`: the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
+    # `source_numeric` since 2026-11-19 ([source numeric is number or text])
+    # `quantity` and `matrix` removed 2026-11-21 (the old shape; plan section 9 step 4)
     assert [s["name"] for s in params["fields"]] == [
         "variable", "unit", "source_unit", "approximate",
-        "term", "quantity", "count", "text", "logical", "matrix"]
+        "term", "numeric", "source_numeric", "tolerance", "count", "text",
+        "logical"]
     assert params["mustBeScalar"] is False and inline["mustBeScalar"] is True
     assert inline == shape("clock_alignment_configuration")
     assert inline == shape("relation")
@@ -3843,7 +3993,9 @@ def test_inline_method_has_the_document_shape():
 def test_conditions_have_amendment_2_shape():
     """data_body AMENDMENT 2 (signed 2026-08-14), built #73 item 23: the four
     descriptors sit at the top of each condition, `count` flattens, and `quantity`
-    holds {value, source_value}. No per-element unit or approximate remains."""
+    held {value, source_value} until the numeric shape flattened it into `numeric`
+    and `source_numeric` (removed 2026-11-21). No per-element unit or approximate
+    remains."""
     f = next(x for x in RECORDS["statement"][1]["fields"]
              if x["name"] == "conditions")
     names = [x["name"] for x in f["fields"]]
@@ -3851,7 +4003,8 @@ def test_conditions_have_amendment_2_shape():
     sub = {x["name"]: x for x in f["fields"]}
     # AMENDMENT 3 (2026-10-19): the value forms flatten to one value each.
     assert sub["count"]["type"] == "integer" and "fields" not in sub["count"]
-    assert [x["name"] for x in sub["quantity"]["fields"]] == ["value", "source_value"]
+    assert "fields" not in sub["numeric"] and "fields" not in sub["source_numeric"]
+    assert "quantity" not in sub
 
 
 def test_bodies_split_by_who_lays_out_the_bytes():
@@ -4066,11 +4219,17 @@ def test_a_matrix_covariate_holds_an_array_at_each_position():
     left a key whose positions are vectors undecided). data_body plan AMENDMENT 6
     decided it: a `matrix` covariate holds a whole array at each position, and the
     value's dimensions stay exactly its own axes (Jess Haley, 2026-10-22 [matrix
-    covariate], answer "B")."""
+    covariate], answer "B"). The numeric shape (did_v2_numeric_shape_plan.md [one
+    shape for measured numbers], section 4) folds it into `numeric`: "an array at
+    each position adds dimensions"; `matrix` was removed 2026-11-21 (section 9
+    step 4)."""
     cov = next(x for x in RECORDS["data"][1]["fields"] if x["name"] == "covariates")
-    m = next(x for x in cov["fields"] if x["name"] == "matrix")
+    assert not any(x["name"] == "matrix" for x in cov["fields"])
+    m = next(x for x in cov["fields"] if x["name"] == "numeric")
     assert m["type"] == "matrix" and m["mustBeScalar"] is False
-    assert "followed by the array's own shape" in m["documentation"]
+    assert "an array at each position adds dimensions" in m["documentation"]
+    rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
+    assert "followed by the array's own shape" in rules["covariate_shape"]["statement"]
 
 
 # ---------------------------------------------------------------------------
@@ -4080,8 +4239,9 @@ def test_a_matrix_covariate_holds_an_array_at_each_position():
 # [epoch covariates]; [control as covariate] in the stimulus-response plan.
 # ---------------------------------------------------------------------------
 
-_VALUE_FORMS = ("origin", "quantity", "count", "term", "text", "logical", "matrix",
-                "key")
+# `quantity` and `matrix` until 2026-11-21: the numeric shape's `numeric` holds both
+# (did_v2_numeric_shape_plan.md [one shape for measured numbers], section 9 step 4)
+_VALUE_FORMS = ("origin", "numeric", "count", "term", "text", "logical", "key")
 
 
 def _a6_fields(cls, name):
@@ -4102,17 +4262,25 @@ def test_a6_dimension_entry_is_term_n_chunk():
 
 def test_a6_covariate_entry_shape():
     _cov, sub = _a6_fields("data", "covariates")
+    # `numeric`, `source_numeric`, `tolerance`, `source_origin`, `source_spacing`:
+    # the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17), where DID-matlab
+    # did2.schema.numericShapeFields puts them; `quantity` and `matrix` removed
+    # 2026-11-21 (the old shape, plan section 9 step 4)
     assert list(sub) == ["variable", "along", "unit", "source_unit", "approximate",
-                         "origin", "spacing", "quantity", "count", "term", "text",
-                         "logical", "matrix", "key", "index", "cyclic"]
+                         "numeric", "source_numeric", "tolerance",
+                         "origin", "spacing", "source_origin", "source_spacing",
+                         "count", "term", "text",
+                         "logical", "key", "index", "cyclic"]
     assert sub["variable"]["mustBeNonEmpty"] is True
     assert sub["variable"]["constraints"]["binding"]["node_form"] == "curie"
     along = sub["along"]
     assert (along["type"], along["mustBeScalar"], along["mustBeNonEmpty"]) == (
         "integer", False, True)
     assert "0-based" in along["documentation"] and "NON-EMPTY" in along["documentation"]
-    for pair in ("origin", "spacing", "quantity"):
-        assert [x["name"] for x in sub[pair]["fields"]] == ["value", "source_value"], pair
+    # flat numbers since the old {value, source_value} block was removed (2026-11-21)
+    for flat in ("origin", "spacing", "source_origin", "source_spacing"):
+        assert sub[flat]["type"] == "double" and sub[flat]["mustBeScalar"] is True, flat
+        assert "fields" not in sub[flat], flat
     assert sub["logical"]["type"] == "boolean" and sub["logical"]["mustBeScalar"] is False
     assert sub["key"]["type"] == "integer" and sub["key"]["blank_value"] == -1
     # removed with the key entry; `document` renamed `key` ([covariate key])
@@ -4137,8 +4305,11 @@ def test_a6_rules_replace_the_key_rules():
     for r in rules.values():
         assert set(r["fields"]) <= declared, (r["name"], set(r["fields"]) - declared)
     # `index` is named because it goes only beside `key` ([key covariate index])
+    # the new numeric shape's fields go with their form (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17, section 6)
     assert {f"covariates.{x}" for x in _VALUE_FORMS} | {"covariates.spacing",
-                                                          "covariates.index"} == set(
+                                                          "covariates.index"} | {
+        f"covariates.{x}" for x in ("source_numeric", "tolerance",
+                                    "source_origin", "source_spacing")} == set(
         rules["covariate_one_value_form"]["fields"])
     assert "exactly one" in rules["covariate_single_dimension_forms"]["statement"]
     assert "non-empty" in rules["covariate_along"]["statement"]
@@ -4168,10 +4339,12 @@ def _covariate_problems(dimensions, covariate):
         out.append("along out of range")
     if ("origin" in forms or "key" in forms) and len(along) != 1:
         out.append("single-dimension form along several")
-    # [covariate details] 5.1a: `cyclic` only on origin+spacing or quantity
+    # [covariate details] 5.1a: `cyclic` only on origin+spacing or a numeric of one
+    # number per position (`quantity`, not `matrix`, before the numeric shape)
     if covariate.get("cyclic") and (
-            len(along) != 1 or not {"origin", "quantity"} & set(forms)):
-        out.append("cyclic not origin+spacing or quantity along one")
+            len(along) != 1 or not {"origin", "numeric"} & set(forms)
+            or ("numeric" in forms and len(_nested_shape(covariate["numeric"])) != 1)):
+        out.append("cyclic not origin+spacing or numeric along one")
     # rule `covariate_shape` ([covariate rules named] 6.1a); a key's `index`:
     # n integers >= 0 ([key covariate index])
     if forms == ["key"] and index is not None and not out:
@@ -4180,11 +4353,10 @@ def _covariate_problems(dimensions, covariate):
             out.append(f"index {index}, along extent {n}")
     if len(forms) == 1 and not out and forms[0] not in ("origin", "key"):
         form = forms[0]
-        v = covariate[form]["value"] if form == "quantity" else covariate[form]
         want = [dimensions[k]["n"] for k in along]
-        got = _nested_shape(v)
-        if got[:len(want)] != want or (form != "matrix" and len(got) != len(want)) or (
-                form == "matrix" and len(got) == len(want)):
+        got = _nested_shape(covariate[form])
+        # a `numeric` may hold an array at each position: its own axes follow
+        if got[:len(want)] != want or (form != "numeric" and len(got) != len(want)):
             out.append(f"shape {got}, along extents {want}")
     return out
 
@@ -4230,9 +4402,9 @@ def test_a6_the_stimulus_presentation_example_satisfies_the_rules():
     dims = [{"term": {"node": "OBI:0000807", "name": "presentation of stimulus"}, "n": 3}]
     covs = [
         {"variable": {"node": "EMPTY:0000368", "name": "onset time"}, "along": [0],
-         "quantity": {"value": [0.0, 2.0, 4.0], "source_value": [0.0, 2.0, 4.0]}},
+         "numeric": [0.0, 2.0, 4.0], "source_numeric": [0.0, 2.0, 4.0]},
         {"variable": {"node": "EMPTY:0000369", "name": "offset time"}, "along": [0],
-         "quantity": {"value": [1.0, 3.0, 5.0], "source_value": [1.0, 3.0, 5.0]}},
+         "numeric": [1.0, 3.0, 5.0], "source_numeric": [1.0, 3.0, 5.0]},
         {"variable": {"node": "XCO:0000099", "name": "control condition"}, "along": [0],
          "logical": [False, True, False]},
     ]
@@ -4247,31 +4419,34 @@ def test_a6_rule_counterexamples_are_refused():
         "along repeats": {"variable": {}, "along": [0, 0], "count": [1]},
         "along out of range": {"variable": {}, "along": [2], "count": [1]},
         "value forms": {"variable": {}, "along": [0], "count": [1], "text": ["a"]},
-        "origin without spacing": {"variable": {}, "along": [0], "origin": {"value": 0}},
+        "origin without spacing": {"variable": {}, "along": [0], "origin": 0},
         "single-dimension form along several": {
-            "variable": {}, "along": [0, 1], "origin": {"value": 0}, "spacing": {"value": 1}},
-        "cyclic not origin+spacing or quantity along one": {
+            "variable": {}, "along": [0, 1], "origin": 0, "spacing": 1},
+        "cyclic not origin+spacing or numeric along one": {
             "variable": {}, "along": [0], "term": [{"name": "a"}] * 4, "cyclic": True},
         # INVERTED 2026-10-22 ([covariate details] 5.1a): `count` and `matrix` were
-        # allowed `cyclic`; only origin+spacing and quantity are now
-        "cyclic not origin+spacing or quantity along one (count)": {
+        # allowed `cyclic`; only origin+spacing and quantity are now (`numeric` of
+        # one number per position since the numeric shape)
+        "cyclic not origin+spacing or numeric along one (count)": {
             "variable": {}, "along": [0], "count": [1, 2, 3, 4], "cyclic": True},
-        "cyclic not origin+spacing or quantity along one (matrix)": {
-            "variable": {}, "along": [0], "matrix": [[0, 0]] * 4, "cyclic": True},
+        "cyclic not origin+spacing or numeric along one (array per position)": {
+            "variable": {}, "along": [0], "numeric": [[0, 0]] * 4, "cyclic": True},
         "shape": {"variable": {}, "along": [0], "count": [1, 2, 3]},
         "shape (order)": {"variable": {}, "along": [1, 0], "logical": [[True] * 5] * 4},
-        "shape (matrix has its own axes)": {
-            "variable": {}, "along": [0], "matrix": [1, 2, 3, 4]},
+        "shape (numeric along its dimension)": {
+            "variable": {}, "along": [0], "numeric": [1, 2, 3]},
+        "value forms (the old shape is no form)": {
+            "variable": {}, "along": [0], "quantity": {"value": [1, 2, 3, 4]}},
     }
     for why, c in bad.items():
         got = _covariate_problems(two, c)
         assert any(g.startswith(why.split(" (")[0]) for g in got), (why, got)
-    # the shape rule's positive cases: along order, a matrix's own axes after them
+    # the shape rule's positive cases: along order, an array's own axes after them
     ok = [{"variable": {}, "along": [1, 0], "logical": [[True] * 4] * 5},
-          {"variable": {}, "along": [0], "matrix": [[0.0, 1.0]] * 4},
-          {"variable": {}, "along": [0], "quantity": {"value": [0.0, 1.0, 2.0, 3.0]},
+          {"variable": {}, "along": [0], "numeric": [[0.0, 1.0]] * 4},
+          {"variable": {}, "along": [0], "numeric": [0.0, 1.0, 2.0, 3.0],
            "cyclic": True},
-          {"variable": {}, "along": [1], "origin": {"value": 0}, "spacing": {"value": 1},
+          {"variable": {}, "along": [1], "origin": 0, "spacing": 1,
            "cyclic": True}]
     for c in ok:
         assert _covariate_problems(two, c) == [], c
@@ -4310,19 +4485,12 @@ def test_key_covariate_index():
                                       "index": [0, 1, 2]}) != []
 
 
-def test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable():
-    for name in ("dimensions", "covariates"):
-        _e, ep = _a6_fields("acquisition_epoch", name)
-        _d, da = _a6_fields("data", name)
-        # [covariate details] 5.3a: an epoch's dimensions carry no `chunk`
-        assert list(ep) == [k for k in da if not (name == "dimensions" and k == "chunk")], name
-    _e, ep_dims = _a6_fields("acquisition_epoch", "dimensions")
-    assert "chunk" not in ep_dims
-    _e, ep = _a6_fields("acquisition_epoch", "covariates")
-    assert ep["key"]["documentation"].startswith("NOT USABLE HERE")   # `document` until [covariate key]
-    names = {f["name"] for f in RECORDS["acquisition_epoch"][1]["fields"]}
-    assert not {"keys", "complete"} & names, names
-    assert "key_id" not in {e["name"] for e in RECORDS["acquisition_epoch"][1]["depends_on"]}
+# test_a6_epoch_copy_is_the_same_entry_and_says_document_is_unusable: removed
+# 2026-11-19; `acquisition_epoch`, which held the epoch's copy of the
+# dimensions/covariates entry, was deleted with the last retire classes
+# ([retired classes leave V2] step 3): an element_epoch is handed on as v1
+# (DID-matlab #481) and dissolved by resolveEpochProbemap, so `data` holds the
+# one copy (test_all_axes_declarations_are_the_one_entry pins that).
 
 
 def test_a6_no_class_declares_the_removed_fields():
@@ -4370,13 +4538,17 @@ def test_a6_control_condition_term_is_registered_under_the_xco_prefix():
 def test_a6_cyclic_only_on_origin_spacing_or_quantity():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     r = rules["covariate_cyclic"]
+    # `numeric` takes `quantity`'s place in the new numeric shape (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley 2026-11-17)
+    # `quantity` removed with the old shape (2026-11-21, plan section 9 step 4)
     assert set(r["fields"]) == {"covariates.cyclic", "covariates.along", "covariates.origin",
-                                "covariates.spacing", "covariates.quantity"}, r["fields"]
+                                "covariates.spacing", "covariates.numeric"}, r["fields"]
     assert "[covariate details]" in r["statement"]
-    for cls in ("data", "acquisition_epoch"):
+    # `acquisition_epoch`'s copy left with the class (2026-11-19, [retired
+    # classes leave V2] step 3); `data` holds the one entry.
+    for cls in ("data",):
         _c, cov = _a6_fields(cls, "covariates")
         doc = cov["cyclic"]["documentation"]
-        assert "`origin`+`spacing` or a `quantity`" in doc and "not on `count` or `matrix`" in doc, cls
+        assert "`origin`+`spacing` or a `numeric` covariate" in doc and "not on `count`" in doc, cls
 
 
 def test_a6_covariate_shape_and_variable_once_are_named_rules():
@@ -4384,7 +4556,7 @@ def test_a6_covariate_shape_and_variable_once_are_named_rules():
     rules = {r["name"]: r for r in RECORDS["data"][1]["rules"]}
     shape, once = rules["covariate_shape"], rules["variable_once"]
     assert "covariates.along" in shape["fields"] and "dimensions.n" in shape["fields"]
-    assert "covariates.matrix" in shape["fields"]
+    assert "covariates.numeric" in shape["fields"] and "covariates.matrix" not in shape["fields"]
     assert "in `along` order" in shape["statement"]
     assert "followed by the array's own shape" in shape["statement"]
     assert once["fields"] == ["covariates.variable", "covariates.along", "covariates.key"]

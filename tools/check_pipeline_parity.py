@@ -74,9 +74,16 @@ NDI_MIGRATE = os.path.join("src", "ndi", "+ndi", "+migrate")
 # `epochIndex` is named on the NDI side only through its static key helper
 # (did2.convert.epochIndex.pairKey, in +internal/expectedEpochPairs.m), which
 # builds a lookup key and is not a pass.
+# `mintId` and `mintKey` are the deterministic-id helpers of [migration
+# reliability practices] (b) (DID-matlab +did2/+convert/mintId.m, mintKey.m):
+# mintId returns the id of a document the migration mints, mintKey the key a
+# v1 source's minted ids derive from; v1_to_v2 opens the context for each
+# source. NDI's second pass calls them by name (e.g. +internal/strainAssembly.m,
+# +internal/sessionCohort.m at NDI-matlab V2 d135bdc7); they transform no
+# document, so they are helpers, not passes.
 NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
               "migrators_e", "migrators_i", "migrators_j", "v",
-              "migrationTime", "roundtrip", "epochIndex"}
+              "migrationTime", "roundtrip", "epochIndex", "mintId", "mintKey"}
 
 # ---------------------------------------------------------------------------
 # THE DECLARED DIVERGENCES. Each entry is a pass that one side runs and the
@@ -89,6 +96,15 @@ NOT_A_PASS = {"v1_to_v2", "universalRenames", "readers", "migrators",
 # buried.
 # ---------------------------------------------------------------------------
 DECLARED_DIVERGENCES = {
+    "regionPartIds": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. did2.convert.regionPartIds "
+        "computes a region part's document ids ([region part ids computed]); "
+        "NDI-matlab V2 0b287a75 calls it in "
+        "+ndi/+migrate/+internal/pathSPromotion.m (NDI-matlab #1285), and both "
+        "sides now run did2.convert.resolveRegionParts as a pass, which calls "
+        "it too. CONSEQUENCE: the function is corpus-exercised inside "
+        "resolveRegionParts; NDI's pathSPromotion call site is exercised by "
+        "NDI's unit tests and e2e, not by the six-corpus gate."),
     "resolveDeferredBaths": (
         "HARNESS ONLY. NDI deliberately substitutes "
         "ndi.migrate.internal.stimulusBathToBath, which its own source calls "
@@ -121,6 +137,17 @@ DECLARED_DIVERGENCES = {
         "harness (runCorpusDiscovery) writes no record, so the record is "
         "exercised by DID-matlab's and NDI's unit tests and NDI's e2e, not by "
         "the six-corpus gate."),
+    "carryElementSubject": (
+        "NDI ONLY AS A NAMED CALL, NOT A BATCH PASS. "
+        "did2.convert.carryElementSubject records a migrated element's v1 "
+        "subject in the run's migration report as a one-field carry "
+        "(carry-172, [one-field carry in the migration report]); NDI's second "
+        "pass calls it in +ndi/+migrate/local.m for each element "
+        "ndi.migrate.internal.observesRetirement retires with its subject "
+        "carried (VH-Lab/NDI-matlab#1279). It transforms no document. "
+        "CONSEQUENCE: the corpus harness runs no NDI second pass, so the "
+        "carry is exercised by DID-matlab's and NDI's unit tests and NDI's "
+        "corpus tests (B, 20211116, Dab), not by the six-corpus gate."),
 }
 
 
