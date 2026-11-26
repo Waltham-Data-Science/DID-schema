@@ -707,9 +707,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 966,
+          "accepted_lines": 968,
           "accepted_lines_by_kind": {
-            "Decided by": 846,
+            "Decided by": 848,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -7488,6 +7488,22 @@
               "tag": "time channels out of order are malformed",
               "date": "2026-11-25",
               "anchor": "Decided by Jess Haley, 2026-11-25 [time channels out of"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 258,
+              "kind": "Decided by",
+              "tag": "unnamed rig is malformed",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [unnamed rig is"
+            },
+            {
+              "document": "did_v2_standing_wiring_plan.md",
+              "line": 260,
+              "kind": "Decided by",
+              "tag": "no migration before the time-reading fix",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [no migration before the"
             },
             {
               "document": "did_v2_stimulus_model_plan.md",
