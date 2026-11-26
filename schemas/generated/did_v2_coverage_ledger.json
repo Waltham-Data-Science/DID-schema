@@ -708,9 +708,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 991,
+          "accepted_lines": 993,
           "accepted_lines_by_kind": {
-            "Decided by": 871,
+            "Decided by": 873,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6761,6 +6761,22 @@
               "tag": "staleness check removed",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [staleness check"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2366,
+              "kind": "Decided by",
+              "tag": "unwired channel data kept as the rig's",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [unwired channel data"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2368,
+              "kind": "Decided by",
+              "tag": "ingested channel list is the header",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [ingested channel list is"
             },
             {
               "document": "did_v2_image_model_plan.md",
