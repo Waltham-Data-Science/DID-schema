@@ -46,17 +46,20 @@ person's.)*
 
   `<name>` is a team member's full name. `<tag>` is short and unique among that
   document's `Decided by` lines; a class cites the decision by document and tag.
-  *(2026-10-22, Jess Haley.)* When the build lives in another repository, the
-  line is committed at once and ends `Build pending: <repo> (<what>)`; when the
-  build lands, that becomes `Built: <repo> <commit>`. Never hold a decision
-  line in an uncommitted tree waiting for a sibling. A `Build pending` line
-  may reach `main` once the team has decided it. Before a PR merges, every
-  `Build pending` line it adds or changes must name a repository and what is
-  left to build there. A build that lands marks its line `Built:` in the same
-  or the next did-schema PR. `python3 tools/decision_citations.py --pending`
-  lists what is still open. *(2026-10-26, Jess Haley: replaces "`--pending
-  --strict` must report 0", which no PR could meet while builds wait on
-  later work.)* `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
+  *(2026-11-26, Jess Haley, [build state lives in issues]; replaces the
+  `Build pending` / `Built` bookkeeping of 2026-10-22 and 2026-10-26.)* A
+  decision line records the decision and does not change once written. Whether
+  its build is done lives in the issue tracker: a line with a build left ends
+  `Tracked in: <owner/repo>#<n>`, naming the issue (in the repository where the
+  build is) that the building PR closes. The line is committed at once; never
+  hold it in an uncommitted tree waiting for a sibling. What is left to build is
+  the list of open issues that decision lines name.
+  `python3 tools/check_decision_issues.py` is the gate: a line that still says a
+  build is left (`Build pending`) must name an issue, and at least one issue it
+  names must be open in the committed snapshot `tools/decision_issues.json`
+  (`--refresh` rewrites it from GitHub, `--live` compares it with GitHub now).
+  The `Built:` lines already written stay as history.
+  `tools/decision_citations.py` keeps the team list (`TEAM`, the one place it is
   kept) and reports, without counting, a line by anyone else or a line with no
   tag.
 - **Never upgrade a proposal.** Anything the team has not explicitly decided is
@@ -160,9 +163,6 @@ Other tools worth knowing:
   `schemas/*.md` that the tree no longer holds. It is a gate.
 - `python3 tools/check_citations.py --document <file>`: checks `file:line`
   citations still point at what they claim.
-- `python3 tools/check_signoff_header_staleness.py`: finds a plan document whose
-  header says "unsigned" while it carries a signature. A correction note that
-  quotes old wording is exempted by the marker `HISTORICAL-SIGNOFF-CLAIM`.
 - `python3 tools/propose_terms.py`: checks a batch of new terms against the term
   registry and prints the rows to add. It writes nothing.
 
@@ -453,8 +453,8 @@ or the status board.
   failure.
 - **A test written from the same premise as the code cannot catch the code.**
   Several tests had to be inverted, not updated.
-- **A plan's header is not its state.** Read the sign-off lines
-  (`check_signoff_header_staleness.py`).
+- **A plan's header is not its state.** Read its decision lines, or the status
+  board.
 - **Citations into files under active edit decay in hours.** Cite by searchable
   content (a function name, a grep pattern, a marker); treat a line number as a
   hint (`check_citations.py`).
@@ -504,8 +504,11 @@ or the status board.
   `readtimeseries` read on the Haley dataset has not been timed after
   migration; NDI-matlab #1018 stays open for it.
 - **Migrated `element` name and reference are stored together** as
-  `'%s (ref %s)'` in `local_identifier`, without escaping
-  (NDI `+vintage/elementFields.m`).
+  `'<name> | <reference>'` in `local_identifier` (DID-matlab
+  `+did2/+convert/elementHandle.m`; NDI `+vintage/elementLocalIdentifier.m`,
+  NDI-matlab 332c1371a). Readers split at the last `' | '` (the reference
+  holds none) and still read the old `'<name> (ref X)'` form and a bare name
+  (`elementNameReference.m` in both).
 - **`imageStack_parameters` and the demo-series classes have no target and no
   dissolution recorded.** See the coverage ledger's no-target census.
 - **`binnedspikeratevm`'s firing rate is in Hz** (spikes per second): its
