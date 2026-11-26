@@ -283,6 +283,15 @@
             ]
         },
         {
+            "class_name": "logical",
+            "canonicals": [
+                "logical"
+            ],
+            "has_source_unit": false,
+            "source_unit_values": null,
+            "named_by": []
+        },
+        {
             "class_name": "mass",
             "canonicals": [
                 "grams"

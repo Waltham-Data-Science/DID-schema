@@ -2054,8 +2054,9 @@ def test_dimensioned_cells_carry_source_provenance():
     # documented exceptions: a count has no dimensional scaling, a score is
     # scale-relative, a term is an identity.)
     exempt = {"count", "score", "ontology_term"}
-    # `date` has no unit to convert from: {instant, precision, source_value,
-    # approximate} (#73 audit 2 D10, the T14 value-cell rule's declared-precision case).
+    # `date` has no unit to convert from: {instant, precision, source_value (the
+    # source's text, which the numeric shape plan keeps), approximate} (#73 audit 2
+    # D10, the T14 value-cell rule's declared-precision case).
     exempt_classes = {"date"}
     # AND THE AXIS ENTRY, which hoists the triple RATHER THAN DROPPING IT
     # (2026-08-14, AMENDMENT 1 + 2 to the data_body plan). An axis carries
@@ -2099,8 +2100,11 @@ def test_dimensioned_cells_carry_source_provenance():
             if f["name"] in hoisted_field_names:
                 continue
             subs = {sf["name"] for sf in f["fields"]}
-            if ("source_unit" in subs or "source_value" in subs) and not {
-                    "source_unit", "source_value", "approximate"} <= subs:
+            # `source_numeric` is `source_value` renamed, and the old name is
+            # removed from the value cells (did_v2_numeric_shape_plan.md [one
+            # shape for measured numbers], section 9 step 4, did-schema#346)
+            if ("source_unit" in subs or "source_numeric" in subs) and not {
+                    "source_unit", "source_numeric", "approximate"} <= subs:
                 bad.append(f"{name}.{f['name']} ({t}): {sorted(subs)}")
     assert not bad, f"dimensioned cells missing the source triple: {bad!r}"
 
@@ -3630,19 +3634,29 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     assert not comp["document_class"].get("abstract")
     assert [s["class_name"] for s in comp["document_class"]["superclasses"]] == ["value"]
 
-    # T14: ONE payload slot, `value` -- and it is a BARE boolean array, not a
-    # cell. The cell it replaced was `{value: boolean}`, i.e. `value.value`: a
-    # wrapper around nothing. The composites that nest do so to carry provenance
-    # (canonical + source_unit + source_value, or count's semantic unit); a truth
-    # value has no unit, no source unit and cannot be approximate. `term.value`
-    # is the precedent -- typed `ontology_term` directly.
+    # T14: ONE payload slot, `value`. Until 2026-11-17 it was a BARE boolean array
+    # (the cell it replaced, `{value: boolean}`, was a wrapper around nothing).
+    # did_v2_numeric_shape_plan.md [one shape for measured numbers] (Decided by
+    # Jess Haley, 2026-11-17, section 3: "logical.value.logical makes sense next
+    # to voltage.value.volts") makes it the block {logical}, named for its
+    # canonical field as every value class's cell is; the bare true/false is the
+    # old shape, removed by section 9 step 4 (did-schema#346). The block carries
+    # no provenance triple: a truth value has no unit, no source unit and cannot
+    # be approximate.
     assert [f["name"] for f in comp["fields"]] == ["value"]
     val = comp["fields"][0]
-    assert val["type"] == "boolean", (
+    assert val["type"] == "structure", (
+        "`logical.value` is the block {logical}; a bare boolean is the removed old shape")
+    assert val["mustBeScalar"] is False and val["blank_value"] == []
+    assert [sf["name"] for sf in val["fields"]] == ["logical"], (
+        "the block holds the truth value(s) and nothing else: no source triple")
+    inner = val["fields"][0]
+    assert inner["type"] == "boolean", (
         "the team asked for true/false. A term-valued 'valid'/'garbage' pair "
         "would encode a boolean as a vocabulary (T13) and would make the "
         "invalid half unreachable the same way the CLASS NAME did in v1")
-    assert val["mustBeScalar"] is False and val["blank_value"] == []
+    assert inner["mustBeScalar"] is False, (
+        "a series is ONE block whose `logical` is an array (section 8 answer 4)")
     # A logical with no value still says nothing at all -- the hollow document
     # silentLoss and isFragment exist to catch. Since data_body AMENDMENT 5
     # (2026-10-21, decided, not signed) the parent `value` rule
@@ -3650,9 +3664,6 @@ def test_logical_is_a_boolean_valued_statement_leaf():
     # body-backed logical is legal.
     assert val["mustBeNonEmpty"] is False
     assert "value_inline_or_body" in {r["name"] for r in RECORDS["value"][1]["rules"]}
-    assert "fields" not in val, (
-        "`logical.value` grew a nested cell again. `value.value` is a wrapper "
-        "around nothing; provenance is what earns a cell and a boolean has none")
     # And the class name is NOT a field type: `boolean` is the field type, and it
     # is a validator primitive, so `logical` must stay out of the meta enum.
     assert "logical" not in META["$defs"]["field_definition"]["properties"]["type"]["enum"]

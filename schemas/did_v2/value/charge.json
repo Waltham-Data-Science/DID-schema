@@ -32,7 +32,7 @@
             "mustNotHaveNaN": false,
             "queryable": true,
             "ontology": null,
-            "documentation": "A value cell for a C quantity (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 4): a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance`; an array of cells of one number each, with `source_value`, is the OLD SHAPE, read until the readers drop it (section 9, step 4).",
+            "documentation": "A value cell for a C quantity (canonical + lossless source). Series-as-cardinality: an array of the cell; per-sample timing is a time covariate along a time dimension (`dimensions` / `covariates`: the statement's when inline, each body's otherwise). NEW NUMERIC SHAPE (did_v2_numeric_shape_plan.md [one shape for measured numbers], Jess Haley, 2026-11-17, section 8 answer 4): a series is ONE cell whose canonical field and `source_numeric` are arrays, with one `source_unit`, one `approximate` and one `tolerance`; the old shape (an array of cells of one number each, with `source_value`) is removed (section 9, step 4; did-schema#346).",
             "constraints": {},
             "fields": [
                 {
@@ -45,7 +45,7 @@
                     "mustNotHaveNaN": false,
                     "queryable": true,
                     "ontology": null,
-                    "documentation": "Canonical charge value -- the normalised, cross-document comparable number. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_value` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
+                    "documentation": "Canonical charge value -- the normalised, cross-document comparable number. Absent only when the run's migration report lists it as a gap ([gap accepted when the report lists it]; the source gave no unit, or a unit with no conversion; `source_numeric` and `source_unit` keep what the source wrote) -- Jess Haley 2026-10-30 [canonical absent only as needs info].",
                     "constraints": {}
                 },
                 {
@@ -99,19 +99,6 @@
                             "constraints": {}
                         }
                     ]
-                },
-                {
-                    "name": "source_value",
-                    "type": "double",
-                    "blank_value": 0.0,
-                    "default_value": 0.0,
-                    "mustBeNonEmpty": false,
-                    "mustBeScalar": true,
-                    "mustNotHaveNaN": false,
-                    "queryable": true,
-                    "ontology": null,
-                    "documentation": "OLD SHAPE: read until the readers drop it (did_v2_numeric_shape_plan.md section 9, step 4), then removed by did-schema ([one shape for measured numbers]). The writers write the new shape (DID-matlab #473, NDI-matlab #1258). Was: The number as given by the source, in `source_unit`.",
-                    "constraints": {}
                 },
                 {
                     "name": "source_numeric",
