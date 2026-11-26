@@ -277,24 +277,31 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(bad, [], "a citation names no decision line")
         self.assertEqual(self.gov["census"]["citations_unresolved"], [])
 
-    def test_the_counts_are_pinned(self):
-        # Measured 2026-10-21 when the families were removed: 57 rows were
-        # `signed` under the family join, 69 are `decided` under citations.
-        # The 57 are all still decided at the same document:line; the 12 added
-        # each cite a signed line that names the class (see
-        # tools/decision_citations.py, the ADDED block). 69 -> 70 the same day:
-        # `daqreader_mfdaq_epochdata_ingested` cites Jess's 2026-10-21 recording
-        # decision ("Decided by Jess Haley", which names the
-        # `daqreader_*_epochdata_ingested` archives). 70 -> 71 and DISPUTED
-        # 1 -> 0 on 2026-10-23: `ngrid` resolved by [ngrid block into
-        # sampled_body]. 71 -> 72 on 2026-11-09: `spatialGeneExpressionROI`,
-        # new with [lock moved to NDI main], cites [spatial ROI is an outline].
-        # Re-derive, do not bump.
-        st = self.gov["by_state"]
-        self.assertEqual(st[coverage.G_SIGNED], 72)
-        self.assertEqual(st[coverage.G_DISPUTED], 0)
-        self.assertEqual(st[coverage.G_UNSIGNED], 0)
-        self.assertEqual(st[coverage.G_NOT_FOUND], 44)
+    def test_the_states_are_derived_from_the_rule(self):
+        # REPLACES test_the_counts_are_pinned (2026-11-26, Jess Haley: tests
+        # that pin decision-line counts go; tests that check a rule stay). It
+        # asserted `decided == 72` and `proposed == 44`, numbers that moved
+        # every time a class gained a citation. The property those numbers
+        # protected is that each state is what the rule gives: every row this
+        # file's own parser (or a checked transcription) decides is `decided`,
+        # every other row is `proposed`, and nothing is left `UNRESOLVED`
+        # (test_every_citation_resolves). Counted here from the rows, in this
+        # run, never from a stored number.
+        decided = _decided_names()
+        want = {coverage.G_SIGNED: 0, coverage.G_DISPUTED: 0,
+                coverage.G_UNSIGNED: 0, coverage.G_NOT_FOUND: 0}
+        for r in self.rows:
+            if r.get("no_target_reason") == coverage.NO_TARGET_DISPUTED:
+                want[coverage.G_DISPUTED] += 1
+            elif (r.get("decided_signoff") or r.get("no_target_signoff")
+                  or any(n in decided for n in (r["v1_class"], r.get("veta_class"))
+                         if n)):
+                want[coverage.G_SIGNED] += 1
+            else:
+                want[coverage.G_NOT_FOUND] += 1
+        self.assertGreater(want[coverage.G_SIGNED], 0,
+                           "no row is decided -- the derivation read nothing")
+        self.assertEqual(dict(self.gov["by_state"]), want)
 
     def test_a_resolved_dispute_reads_as_decided(self):
         # `ngrid` was the last DISPUTED row; the team ruled on it 2026-10-23.
@@ -323,7 +330,13 @@ class TestTheCommittedLedger(unittest.TestCase):
             self.assertIn("({}:{})".format(e["document"], e["line"]), md)
 
     def test_the_census_reports_its_denominator(self):
-        c = self.gov["census"]
+        # The census is taken LIVE, in this run (dc.decision_census()), and
+        # compared with this file's own parser over the same documents. It
+        # used to read the census stored in the committed ledger, so a new
+        # decision line committed without regenerating the ledger failed here
+        # ("983 != 986") although no rule was broken; that staleness is the
+        # chain's job (gates.py regenerates the ledger), not this rule's.
+        c = dc.decision_census()
         docs = sorted(os.path.basename(p) for p in doc_paths.record_documents()
                       if os.path.basename(p) not in dc.GENERATED_MARKDOWN)
         outside = sorted({d for v in dc.CITATIONS.values() for d, _t in v
@@ -333,6 +346,8 @@ class TestTheCommittedLedger(unittest.TestCase):
         for d in docs + outside:
             with open(_path(d)) as fh:
                 mine += len(_scan_text(fh.read()))
+        self.assertGreater(c["documents_read"], 0, "the census read nothing")
+        self.assertGreater(mine, 0, "no decision line found -- vacuous")
         self.assertEqual(c["accepted_lines"] + len(c["rejected_lines"]), mine,
                          "accepted + rejected must equal every decision line")
         self.assertEqual(c["lines_cited"] + len(c["uncited_lines"]),
@@ -348,8 +363,15 @@ class TestTheCommittedLedger(unittest.TestCase):
         self.assertEqual(tagged, [])
         # The `<modality>_observation` signature is visible, not merely not
         # rejected (an empty list is also what a scanner reading nothing gives).
-        self.assertEqual(_resolve("did_v2_recording_observation_plan.md",
-                                  "raw recording observation"), 99)
+        # Located by content, not by a line number that moves whenever the
+        # document is edited above it.
+        n = _resolve("did_v2_recording_observation_plan.md",
+                     "raw recording observation")
+        self.assertIsNotNone(n)
+        with open(_path("did_v2_recording_observation_plan.md")) as fh:
+            line = fh.read().splitlines()[n - 1]
+        self.assertTrue(line.lstrip().startswith(
+            "TEAM-SIGN-OFF [raw recording observation]"), line[:80])
 
     def test_the_generated_markdown_list_matches_what_gates_declares(self):
         with open(os.path.join(REPO_ROOT, "tools", "gates.py")) as fh:
@@ -366,20 +388,21 @@ class TestTheReconciliation(unittest.TestCase):
         self.assertEqual(fails, [])
         den = [ln for ln in lines if "own decision citations" in ln]
         self.assertEqual(len(den), 1)
-        # 10 -> 13 on 2026-10-28: the three classes carried whole as v1
-        # (tools/veta_record.py CARRIED_AS_V1) each transcribe
-        # [carried v1 validates against NDI templates]
-        self.assertIn("13 transcription(s)", den[0])
-        # 8 -> 9 on 2026-10-21: `stimulus_bath` now cites the bath line its
-        # transcription quotes (did_v2_go_forward_class_audit.md, "Decided by
-        # Jess Haley, 2026-10-21"), so every transcription is reconciled.
-        # 9 -> 10 on 2026-10-22: `control_stimulus_ids` dissolves ([control as
-        # covariate], did_v2_stimulus_response_model_plan.md), and its citation
-        # names the same line.
-        # 10 -> 13 on 2026-10-28: the three classes carried as v1 cite the
-        # line they transcribe ([carried v1 validates against NDI templates]).
-        self.assertIn("13 cite the same document", den[0],
-                      "a reconciliation that matches nothing proves nothing")
+        # Was pinned at "13 transcription(s)" / "13 cite the same document",
+        # bumped by hand each time a transcription was added. The rule it
+        # protected: the reconciliation reads every transcription, reads at
+        # least one, and every one cites the same document as the class's own
+        # decision citation.
+        m = re.search(r"DENOMINATOR: (\d+) transcription\(s\) .*? (\d+) cite "
+                      r"the same document, (\d+) cite no decision line", den[0])
+        self.assertIsNotNone(m, den[0])
+        total, same, none = (int(g) for g in m.groups())
+        n_checked = (len(coverage.NO_TARGET_BY_DECISION)
+                     + len(coverage.DECIDED_TARGETS_BY_SIGNOFF))
+        self.assertEqual(total, n_checked)
+        self.assertGreater(total, 0, "a reconciliation that reads nothing")
+        self.assertEqual((same, none), (total, 0),
+                         "a reconciliation that matches nothing proves nothing")
 
     def test_the_table_still_carries_what_the_join_cannot(self):
         self.assertTrue(coverage.DECIDED_TARGETS_BY_SIGNOFF)
