@@ -163,9 +163,6 @@ Other tools worth knowing:
   `schemas/*.md` that the tree no longer holds. It is a gate.
 - `python3 tools/check_citations.py --document <file>`: checks `file:line`
   citations still point at what they claim.
-- `python3 tools/check_signoff_header_staleness.py`: finds a plan document whose
-  header says "unsigned" while it carries a signature. A correction note that
-  quotes old wording is exempted by the marker `HISTORICAL-SIGNOFF-CLAIM`.
 - `python3 tools/propose_terms.py`: checks a batch of new terms against the term
   registry and prints the rows to add. It writes nothing.
 
@@ -456,8 +453,8 @@ or the status board.
   failure.
 - **A test written from the same premise as the code cannot catch the code.**
   Several tests had to be inverted, not updated.
-- **A plan's header is not its state.** Read the sign-off lines
-  (`check_signoff_header_staleness.py`).
+- **A plan's header is not its state.** Read its decision lines, or the status
+  board.
 - **Citations into files under active edit decay in hours.** Cite by searchable
   content (a function name, a grep pattern, a marker); treat a line number as a
   hint (`check_citations.py`).
