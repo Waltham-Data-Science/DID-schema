@@ -1815,7 +1815,7 @@
       "fields": [
         "openminds.openminds_id"
       ],
-      "when": "a controlled term's openminds_id does not rebuild through the term registry's `equivalent` list",
+      "when": "a controlled term's openminds_id rebuilds neither through the term registry's `equivalent` list nor from an openMINDS instance node (DID-matlab did2.convert.openmindsIdRebuilds, did2.convert.openmindsInstanceNode)",
       "kind": "awaiting_home",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",

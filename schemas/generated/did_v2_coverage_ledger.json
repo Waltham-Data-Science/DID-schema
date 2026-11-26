@@ -708,9 +708,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 985,
+          "accepted_lines": 986,
           "accepted_lines_by_kind": {
-            "Decided by": 865,
+            "Decided by": 866,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6713,6 +6713,14 @@
               "tag": "instrument of an epoch interaction is a link",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [instrument of an epoch"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2354,
+              "kind": "Decided by",
+              "tag": "decision tests check rules, not counts",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [decision tests check"
             },
             {
               "document": "did_v2_image_model_plan.md",
@@ -17933,7 +17941,7 @@
         "resolved": true,
         "line": 657,
         "kind": "Decided by",
-        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+        "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator). Tracked in: Waltham-Data-Science/DID-schema#286.",
         "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
         "matches": 1,
         "why": null,
@@ -17947,7 +17955,7 @@
           "resolved": true,
           "line": 657,
           "kind": "Decided by",
-          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator). Tracked in: Waltham-Data-Science/DID-schema#286.",
           "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
           "matches": 1,
           "why": null,
@@ -17964,7 +17972,7 @@
           "resolved": true,
           "line": 657,
           "kind": "Decided by",
-          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator).",
+          "decision": "(\"A\", to Claude's question on `spatialGeneExpressionROI`, a v1 class NDI-matlab added on `main` on 2026-11-02, after the sibling lock; NDI Cloud dataset 6af091807a7d768be9ae22e6 holds 3) the ROI's outline (`vertices_x`, `vertices_y`, in `coord_space` \"gef_base_pixel\") becomes a position calculation over [vertex] whose key is `cyclic: true` (a closed loop), in the section's coordinate system, as item 11 does for boundaries; `n_records_in` becomes a count calculation about the same region; the ROI's `label` goes in `notes`. Build pending (waits for a dataset holding the family, [spatial transcriptomics waits for a dataset], #286): did-schema (the coverage ledger's target row, after [lock moved to NDI main] brings the class in), DID-matlab (the spatial-transcriptomics migrator). Tracked in: Waltham-Data-Science/DID-schema#286.",
           "anchor": "Decided by Jess Haley, 2026-11-09 [spatial ROI is an",
           "matches": 1,
           "why": null,
