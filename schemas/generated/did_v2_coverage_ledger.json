@@ -708,9 +708,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 981,
+          "accepted_lines": 985,
           "accepted_lines_by_kind": {
-            "Decided by": 861,
+            "Decided by": 865,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6681,6 +6681,38 @@
               "tag": "build state lives in issues",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [build state lives in"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2346,
+              "kind": "Decided by",
+              "tag": "element whose probe maps name another subject is malformed",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [element whose probe maps"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2348,
+              "kind": "Decided by",
+              "tag": "presentation clock read from its time file",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [presentation clock read"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2350,
+              "kind": "Decided by",
+              "tag": "Dab map re-parents region parts under slices",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [Dab map re-parents"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2352,
+              "kind": "Decided by",
+              "tag": "instrument of an epoch interaction is a link",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [instrument of an epoch"
             },
             {
               "document": "did_v2_image_model_plan.md",
