@@ -460,12 +460,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 4105,
+        "line": 4108,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'name') ..."
        },
        {
-        "line": 4182,
+        "line": 4185,
         "spelling": "base",
         "text": "if isstruct(b) && isfield(b, 'base') && isstruct(b.base) && isfield(b.base, name)"
        }
@@ -477,17 +477,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1502,
+        "line": 1504,
         "spelling": "base",
         "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base)"
        },
        {
-        "line": 1583,
+        "line": 1585,
         "spelling": "base",
         "text": "if isstruct(s) && isfield(s, 'base') && isstruct(s.base) && isfield(s.base, name) ..."
        },
        {
-        "line": 1676,
+        "line": 1678,
         "spelling": "base",
         "text": "if ~isstruct(body) || ~isfield(body, 'base') || ~isstruct(body.base)"
        }
@@ -596,42 +596,42 @@
       "site_count": 8,
       "sites": [
        {
-        "line": 1251,
+        "line": 1267,
         "spelling": "base",
         "text": "if isstruct(body) && isscalar(body) && isfield(body, 'base') ..."
        },
        {
-        "line": 1295,
+        "line": 1311,
         "spelling": "base",
         "text": "skip = {'base', 'document_class', 'depends_on', 'files', 'file', 'statement'};"
        },
        {
-        "line": 1326,
+        "line": 1342,
         "spelling": "base",
         "text": "if isstruct(b) && isscalar(b) && isfield(b, 'base') && isstruct(b.base) ..."
        },
        {
-        "line": 1349,
+        "line": 1365,
         "spelling": "base",
         "text": "&& isfield(body, 'base') && ~did2.convert.isEmptyBlock(body.ndi_document);"
        },
        {
-        "line": 1537,
+        "line": 1553,
         "spelling": "base",
         "text": "if ~isfield(body, 'base') || ~isstruct(body.base) || ~isscalar(body.base)"
        },
        {
-        "line": 1768,
+        "line": 1784,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'session_id') ..."
        },
        {
-        "line": 1993,
+        "line": 2011,
         "spelling": "base",
         "text": "if isfield(body, 'base') && isstruct(body.base) && isfield(body.base, 'session_id')"
        },
        {
-        "line": 2002,
+        "line": 2020,
         "spelling": "base",
         "text": "if ~isfield(m, 'base') || ~isstruct(m.base) || ~isfield(m.base, 'session_id') ..."
        }
@@ -1148,7 +1148,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1853,
+        "line": 1871,
         "spelling": "control_stimulus_ids",
         "text": "'control_stimulus_ids', 'openminds_stimulus'};"
        }
@@ -1327,7 +1327,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 587,
+        "line": 588,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "if strcmp(classOf{k}, 'daqmetadatareader_epochdata_ingested')"
        }
@@ -1339,7 +1339,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1852,
+        "line": 1870,
         "spelling": "daqmetadatareader_epochdata_ingested",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }
@@ -1464,7 +1464,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 2225,
+        "line": 2226,
         "spelling": "daqreader_epochdata_ingested",
         "text": "if isfield(b, 'daqreader_epochdata_ingested') && isstruct(b.daqreader_epochdata_ingested) ..."
        }
@@ -1861,6 +1861,23 @@
         "text": "'daqsystem', ..."
        }
       ]
+     },
+     {
+      "pass": "v1_to_v2",
+      "path": "src/did/+did2/+convert/v1_to_v2.m",
+      "site_count": 2,
+      "sites": [
+       {
+        "line": 922,
+        "spelling": "daqsystem",
+        "text": "if carried && strcmp(className, 'daqsystem')"
+       },
+       {
+        "line": 955,
+        "spelling": "daqsystem",
+        "text": "srcIsRig(k) = strcmp(className, 'daqsystem') && ~srcTarget(k);"
+       }
+      ]
      }
     ],
     "per_class_migrators": [
@@ -1998,17 +2015,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 1984,
+        "line": 2002,
         "spelling": "dataset_session_info",
         "text": "isList = cellfun(@(c) ischar(c) && strcmp(c, 'dataset_session_info'), cls);"
        },
        {
-        "line": 1988,
+        "line": 2006,
         "spelling": "dataset_session_info",
         "text": "if isfield(body, 'dataset_session_info') && isstruct(body.dataset_session_info) ..."
        },
        {
-        "line": 1989,
+        "line": 2007,
         "spelling": "dataset_session_info",
         "text": "&& isfield(body.dataset_session_info, 'dataset_session_info')"
        }
@@ -2615,12 +2632,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 2987,
+        "line": 2990,
         "spelling": "element",
         "text": "'element', depValueOf(b, 'stimulus_element_id')); %#ok<AGROW>"
        },
        {
-        "line": 3062,
+        "line": 3065,
         "spelling": "element",
         "text": "held{end+1} = struct('id', docIds{k}, 'element', el); %#ok<AGROW>"
        }
@@ -2632,7 +2649,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1703,
+        "line": 1719,
         "spelling": "element",
         "text": "e = find(done & strcmp(ids, elementId) & strcmp(cls, 'element'), 1);"
        }
@@ -2799,7 +2816,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 4321,
+        "line": 4324,
         "spelling": "element_epoch",
         "text": "tf = strcmp(className, 'acquisition_epoch') || (strcmp(className, 'element_epoch') ..."
        }
@@ -2902,7 +2919,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1218,
+        "line": 1219,
         "spelling": "ensemble",
         "text": "if strcmp(elType, 'ensemble')"
        }
@@ -2919,7 +2936,7 @@
         "text": "LATER_STEP_CLASSES = {'ensemble', 'generic_file'};"
        },
        {
-        "line": 1434,
+        "line": 1450,
         "spelling": "ensemble",
         "text": "if strcmp(r.class_name, 'ensemble')"
        }
@@ -3107,27 +3124,27 @@
       "site_count": 5,
       "sites": [
        {
-        "line": 761,
+        "line": 762,
         "spelling": "epochfiles_ingested",
         "text": "if ~strcmp(classOf{k}, 'epochfiles_ingested'); continue; end"
        },
        {
-        "line": 2464,
+        "line": 2465,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2707,
+        "line": 2710,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2726,
+        "line": 2729,
         "spelling": "epochfiles_ingested",
         "text": "if ~isstruct(body) || ~isfield(body, 'epochfiles_ingested') ..."
        },
        {
-        "line": 2999,
+        "line": 3002,
         "spelling": "epochfiles_ingested",
         "text": "case 'epochfiles_ingested'"
        }
@@ -3314,17 +3331,17 @@
       "site_count": 3,
       "sites": [
        {
-        "line": 2730,
+        "line": 2733,
         "spelling": "epochid",
         "text": "es = charField(body.epochfiles_ingested, {'epoch_id', 'epochId', 'epochid'});"
        },
        {
-        "line": 4057,
+        "line": 4060,
         "spelling": "epochid",
         "text": "if isfield(b, 'epochid') && isstruct(b.epochid)"
        },
        {
-        "line": 4058,
+        "line": 4061,
         "spelling": "epochid",
         "text": "es = charField(b.epochid, {'epochid', 'epoch_id'});"
        }
@@ -4407,12 +4424,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 528,
+        "line": 535,
         "spelling": "jrclust_clusters",
         "text": "if strcmp(className, 'jrclust_clusters')"
        },
        {
-        "line": 1285,
+        "line": 1301,
         "spelling": "jrclust_clusters",
         "text": "tf = any(strcmp(className, {'jrclust_clusters'}));"
        }
@@ -4932,7 +4949,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 820,
+        "line": 822,
         "spelling": "metadata_editor",
         "text": "if ~strcmp(char(so(k).class_name), 'metadata_editor') || ~so(k).done"
        }
@@ -4944,7 +4961,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1760,
+        "line": 1776,
         "spelling": "metadata_editor",
         "text": "isForm = cellfun(@(c) ischar(c) && strcmp(c, 'metadata_editor'), cls);"
        }
@@ -5177,12 +5194,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 554,
+        "line": 561,
         "spelling": "ngrid",
         "text": "|| strcmp(rawClass, 'ngrid')"
        },
        {
-        "line": 575,
+        "line": 582,
         "spelling": "ngrid",
         "text": "if strcmp(rawClass, 'ngrid')"
        }
@@ -5661,27 +5678,27 @@
         "text": "if strcmp(classNameOf(b), 'openminds')"
        },
        {
-        "line": 667,
+        "line": 669,
         "spelling": "openminds",
         "text": "did2.convert.reportNote('carried_as_v1', 'openminds', idOf{a}, detail);"
        },
        {
-        "line": 700,
+        "line": 702,
         "spelling": "openminds",
         "text": "notMigrated(end+1) = struct('id', idOf{a}, 'class_name', 'openminds', ..."
        },
        {
-        "line": 726,
+        "line": 728,
         "spelling": "openminds",
         "text": "did2.convert.reportNote('carried_as_v1', 'openminds', idOf{a}, detail);"
        },
        {
-        "line": 1293,
+        "line": 1295,
         "spelling": "openminds",
         "text": "if ~isstruct(s) || ~isfield(s, 'openminds') || ~isstruct(s.openminds); return; end"
        },
        {
-        "line": 1325,
+        "line": 1327,
         "spelling": "openminds",
         "text": "if isstruct(s) && isfield(s, 'openminds') && isstruct(s.openminds) ..."
        }
@@ -5850,7 +5867,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1853,
+        "line": 1871,
         "spelling": "openminds_stimulus",
         "text": "'control_stimulus_ids', 'openminds_stimulus'};"
        }
@@ -6750,12 +6767,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 680,
+        "line": 681,
         "spelling": "session",
         "text": "&& ~any(strcmp(classOf{k}, {'session', 'dataset', 'software', ..."
        },
        {
-        "line": 4172,
+        "line": 4175,
         "spelling": "session",
         "text": "% \"Session\"; [vocabulary nodes] L1, L2), the handle is 'epoch', 'session'"
        }
@@ -6864,12 +6881,12 @@
       "site_count": 2,
       "sites": [
        {
-        "line": 1998,
+        "line": 2016,
         "spelling": "session_in_a_dataset",
         "text": "if ~strcmp(cls{j}, 'session_in_a_dataset')"
        },
        {
-        "line": 2004,
+        "line": 2022,
         "spelling": "session_in_a_dataset",
         "text": "|| ~isfield(m, 'session_in_a_dataset') || ~isstruct(m.session_in_a_dataset)"
        }
@@ -8460,7 +8477,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 2980,
+        "line": 2983,
         "spelling": "stimulus_presentation",
         "text": "case 'stimulus_presentation'"
        }
@@ -8516,7 +8533,7 @@
       "site_count": 1,
       "sites": [
        {
-        "line": 1852,
+        "line": 1870,
         "spelling": "stimulus_presentation",
         "text": "handedOn = {'stimulus_presentation', 'daqmetadatareader_epochdata_ingested', ..."
        }
