@@ -56,12 +56,23 @@ def test_coverage_citation_reader_applies_the_same_two_rules():
                         if ln.startswith("TEAM-SIGN-OFF [spatial_transcriptomics_family]"))
     assert sup_line not in gf
     mp = [n for n, _ in cv._signoff_lines("did_v2_method_parameters_plan.md")]
-    # The real signature at :32 is accepted and the fenced QUOTATION at :708 is not.
-    # (:18 and :694 until the 2026-10-19 amendment note was added at the top; :24
-    # and :700 until the 2026-10-21 `method` amendment note, did_v2_method_plan.md.)
-    # Asserted as membership, not `== [18]`: a later genuine signature appended to
-    # the document (the #73 audit 2 D4 amendment) must not break this test.
-    assert 32 in mp and 708 not in mp
+    # The real signature is accepted and the fenced QUOTATION of the [epoch]
+    # signature is not. Both are located by content: the old `32 in mp and 708
+    # not in mp` moved every time a note was added above them (it was :18 and
+    # :694, then :24 and :700).
+    with open(os.path.join(REPO, "docs", "plans", "did_v2_method_parameters_plan.md")) as fh:
+        lines = fh.read().splitlines()
+    real = [i for i, ln in enumerate(lines, 1)
+            if ln.startswith("TEAM-SIGN-OFF [spike processing parameters]")]
+    fence, quoted = False, []
+    for i, ln in enumerate(lines, 1):
+        if ln.lstrip().startswith("```"):
+            fence = not fence
+        elif fence and ln.lstrip().startswith("TEAM-SIGN-OFF [epoch]"):
+            quoted.append(i)
+    assert len(real) == 1 and quoted, (real, quoted)
+    assert real[0] in mp
+    assert not set(quoted) & set(mp), quoted
 
 
 def test_rule_4_catches_an_in_text_not_signed_in_the_tenets(tmp_path):
