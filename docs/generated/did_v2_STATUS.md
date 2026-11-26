@@ -341,7 +341,7 @@ what remains for them is MIGRATOR work, not schema work.
 
 ## Decision lines no class cites
 
-DENOMINATOR: 126 document(s) read (3 generated copies excluded); 968 decision line(s) accepted, 2 rejected; 45 cited by a class, 923 cited by none.
+DENOMINATOR: 126 document(s) read (3 generated copies excluded); 976 decision line(s) accepted, 2 rejected; 45 cited by a class, 931 cited by none.
 
 An uncited line is a decision the record holds that no class points at.
 Most decide something that is not one class (a tenet, a naming rule, a
@@ -1080,6 +1080,11 @@ field). If one decides a class's disposition, that class should cite it.
 - openMINDS graph with a carried form. "Decided by Jess Haley, 2026-11-25 [openMINDS graph with a" (did_v2_go_forward_class_audit.md:2320).
 - several metadata forms are malformed. "Decided by Jess Haley, 2026-11-25 [several metadata forms" (did_v2_go_forward_class_audit.md:2322).
 - carry-116 kept. "Decided by Jess Haley, 2026-11-25 [carry-116 kept]: (" (did_v2_go_forward_class_audit.md:2324).
+- carry-116 home is the instance list. "Decided by Jess Haley, 2026-11-26 [carry-116 home is the" (did_v2_go_forward_class_audit.md:2326).
+- Haley B2 and B6 leave too. "Decided by Jess Haley, 2026-11-26 [Haley B2 and B6 leave" (did_v2_go_forward_class_audit.md:2328).
+- dataset map lines belong to the imports. "Decided by Jess Haley, 2026-11-26 [dataset map lines belong" (did_v2_go_forward_class_audit.md:2330).
+- malformed cases cite carry-120. "Decided by Jess Haley, 2026-11-26 [malformed cases cite" (did_v2_go_forward_class_audit.md:2332).
+- recording attribution only for recordings. "Decided by Jess Haley, 2026-11-26 [recording attribution" (did_v2_go_forward_class_audit.md:2334).
 - ngrid block into sampled_body. "Decided by Jess Haley, 2026-10-23 [ngrid block into" (did_v2_image_model_plan.md:226).
 - 2026-10-09. "TEAM-SIGN-OFF: jess / 2026-10-09 -- membership of a session" (did_v2_linked_session_plan.md:95).
 - linked_session withdrawn. "Decided by Jess Haley, 2026-10-25 [linked_session" (did_v2_linked_session_plan.md:97).
@@ -1104,6 +1109,7 @@ field). If one decides a class's disposition, that class should cite it.
 - numeric step 3 leftovers. "Decided by Jess Haley, 2026-11-19 [numeric step 3" (did_v2_numeric_shape_plan.md:291).
 - om Time is seconds. "Decided by Jess Haley, 2026-11-19 [om Time is seconds]: (" (did_v2_numeric_shape_plan.md:293).
 - source numeric is number or text. "Decided by Jess Haley, 2026-11-19 [source numeric is number" (did_v2_numeric_shape_plan.md:295).
+- logical value declared like the rest. "Decided by Jess Haley, 2026-11-26 [logical value declared" (did_v2_numeric_shape_plan.md:297).
 - 2026-08-05. "TEAM-SIGN-OFF: jess, 2026-08-05 -- strain is an entity with" (did_v2_openminds_family_record.md:20).
 - subject keeps only its own strain. "Decided by Jess Haley, 2026-10-21 [subject keeps only its" (did_v2_openminds_family_record.md:1329).
 - shared entities at dataset level. "Decided by Jess Haley, 2026-10-21 [shared entities at" (did_v2_openminds_family_record.md:1333).
@@ -1193,6 +1199,8 @@ field). If one decides a class's disposition, that class should cite it.
 - time channels out of order are malformed. "Decided by Jess Haley, 2026-11-25 [time channels out of" (did_v2_standing_wiring_plan.md:256).
 - unnamed rig is malformed. "Decided by Jess Haley, 2026-11-26 [unnamed rig is" (did_v2_standing_wiring_plan.md:258).
 - no migration before the time-reading fix. "Decided by Jess Haley, 2026-11-26 [no migration before the" (did_v2_standing_wiring_plan.md:260).
+- no observes relation in v2. "Decided by Jess Haley, 2026-11-26 [no observes relation in" (did_v2_standing_wiring_plan.md:262).
+- epochs added after migration read as v1. "Decided by Jess Haley, 2026-11-26 [epochs added after" (did_v2_standing_wiring_plan.md:264).
 - stimulus -- visual_grating_manipulation reconciliation. "TEAM-SIGN-OFF [stimulus -- visual_grating_manipulation" (did_v2_stimulus_model_plan.md:304).
 - onsets on the sequence, #73 audit 2 D11. "TEAM-SIGN-OFF [onsets on the sequence, #73 audit 2 D11]" (did_v2_stimulus_model_plan.md:372).
 - presentation with no subject. "Decided by Jess Haley, 2026-10-21 [presentation with no" (did_v2_stimulus_model_plan.md:396).

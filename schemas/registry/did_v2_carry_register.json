@@ -1822,7 +1822,7 @@
         "tag": "openMINDS subject leftovers"
       },
       "issue": "Waltham-Data-Science/did-schema#212",
-      "home": "the term registry's `equivalent` list ([term equivalents recorded]), once filled",
+      "home": "the term once its openMINDS instance is added to DID-matlab's list (did2.convert.openmindsInstanceNode) or the term is registered in the term registry ([carry-116 home is the instance list])",
       "kind_basis": "stated"
     },
     {
