@@ -708,9 +708,9 @@
             "did_v2_final_class_set.md"
           ],
           "markers_inside_excluded_documents": 0,
-          "accepted_lines": 987,
+          "accepted_lines": 993,
           "accepted_lines_by_kind": {
-            "Decided by": 867,
+            "Decided by": 873,
             "TEAM-SIGN-OFF": 120
           },
           "rejected_lines": [
@@ -6729,6 +6729,54 @@
               "tag": "stimulus log fallback names the stimulator's subject",
               "date": "2026-11-26",
               "anchor": "Decided by Jess Haley, 2026-11-26 [stimulus log fallback"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2358,
+              "kind": "Decided by",
+              "tag": "event channel on several devices observes the rig",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [event channel on several"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2360,
+              "kind": "Decided by",
+              "tag": "digital Data Type is the header's",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [digital Data Type is the"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2362,
+              "kind": "Decided by",
+              "tag": "segments disagreeing on format are malformed",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [segments disagreeing on"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2364,
+              "kind": "Decided by",
+              "tag": "staleness check removed",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [staleness check"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2366,
+              "kind": "Decided by",
+              "tag": "unwired channel data kept as the rig's",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [unwired channel data"
+            },
+            {
+              "document": "did_v2_go_forward_class_audit.md",
+              "line": 2368,
+              "kind": "Decided by",
+              "tag": "ingested channel list is the header",
+              "date": "2026-11-26",
+              "anchor": "Decided by Jess Haley, 2026-11-26 [ingested channel list is"
             },
             {
               "document": "did_v2_image_model_plan.md",

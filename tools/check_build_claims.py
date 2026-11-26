@@ -3,8 +3,8 @@
 
 WHY THIS EXISTS
 ---------------
-`check_signoff_header_staleness.py` polices build claims in the tail of a
-`TEAM-SIGN-OFF` line (its rule 3). Every claim it can see lives in a markdown
+`check_signoff_header_staleness.py` (removed 2026-11-26) policed build claims in
+the tail of a `TEAM-SIGN-OFF` line (its rule 3). Every claim it can see lives in a markdown
 document in THIS repository. The five defects that prompted this tool all lived
 somewhere else entirely -- in MATLAB comments, in the sibling repositories:
 

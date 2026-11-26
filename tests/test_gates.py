@@ -77,13 +77,13 @@ def test_the_four_orderings_this_repo_gets_wrong_by_hand():
       ndi_ground_truth -> validate_v_eta the validator stamps ndi_mustBeNonEmpty from it
       validate_v_eta   -> coverage      the ledger grades V_eta/index.json
       coverage         -> status_board  the board joins the ledger JSON
-      status_board     -> the signoff gate, which reads did_v2_decisions.json
+      status_board     -> check_web_assets_fresh, which compares the served copies
     """
     pos = {n: i for i, n in enumerate(g.ORDER)}
     pairs = [("ndi_ground_truth", "validate_v_eta"),
              ("validate_v_eta", "coverage"),
              ("coverage", "status_board"),
-             ("status_board", "check_signoff_header_staleness")]
+             ("status_board", "check_web_assets_fresh")]
     assert len(pairs) == 4
     for before, after in pairs:
         assert pos[before] < pos[after], f"{before} must run before {after}"
@@ -148,8 +148,10 @@ def test_every_gate_ci_used_to_run_by_hand_is_still_in_the_chain():
     listed."""
     was_in_ci = ["ruff", "pytest", "check_migrator_vocabulary", "status_board",
                  "check_duplicate_field_declarations", "check_constraint_refinement",
-                 "check_vacuous_tests", "check_signoff_header_staleness"]
-    assert len(was_in_ci) == 8
+                 "check_vacuous_tests"]
+    # check_signoff_header_staleness left deliberately, 2026-11-26 ([staleness
+    # check removed], Jess Haley): it could not see a `Decided by` line.
+    assert len(was_in_ci) == 7
     missing = [n for n in was_in_ci if n not in g.BY_NAME]
     assert not missing, f"the driver dropped a gate CI used to run: {missing}"
 
@@ -287,13 +289,13 @@ def test_a_failed_generator_skips_its_dependents_and_still_exits_non_zero():
     step, saved = _stub("coverage", 1, "(101 v1 classes\n")
     try:
         rc, out = _run(["--only", "coverage", "--only", "status_board",
-                        "--only", "check_signoff_header_staleness"])
+                        "--only", "check_web_assets_fresh"])
     finally:
         step.argv = saved
     assert rc != 0, out
     assert "SKIPPED" in out
     assert "status_board" in out
-    assert "check_signoff_header_staleness" in out
+    assert "check_web_assets_fresh" in out
 
 
 # --------------------------------------------------------------------------
