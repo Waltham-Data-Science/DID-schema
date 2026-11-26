@@ -387,6 +387,13 @@ STEPS = [
     Step("check_open_work_issues", _t("check_open_work_issues.py"), "gate",
          r"^OPEN rows read: (\d+)", "OPEN_WORK rows read"),
 
+    # [build state lives in issues] (Jess Haley, 2026-11-26,
+    # did_v2_go_forward_class_audit.md): a decision line with a build left
+    # names an open issue (`Tracked in:`). Offline: issue state is the
+    # committed snapshot tools/decision_issues.json (`--refresh` rewrites it).
+    Step("check_decision_issues", _t("check_decision_issues.py"), "gate",
+         r"^decision lines with a build left: (\d+)", "decision lines with a build left"),
+
     Step("check_empty_ontology_nodes", _t("check_empty_ontology_nodes.py"), "gate",
          r"V_eta schema files inspected\s+: (\d+)", "schema files inspected",
          requires=["DID-matlab"]),
