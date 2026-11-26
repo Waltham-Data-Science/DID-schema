@@ -1,0 +1,230 @@
+{
+    "fetched_at": "2026-11-26T15:24:44Z",
+    "issues": {
+        "vh-lab/did-matlab#484": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "resolveEpochProbemap: wiring, owners and observes"
+        },
+        "vh-lab/did-matlab#486": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Keep the term check on during migration; readers of obsoleted assay terms"
+        },
+        "vh-lab/did-matlab#487": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Ingested archives in DID's first pass and round trip"
+        },
+        "vh-lab/ndi-matlab#1018": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "readtimeseries on ndi.element.timeseries hangs in element-doc search, then fails opening vhsb with 'r'"
+        },
+        "vh-lab/ndi-matlab#1041": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "V2 import for Dabrowska from source (publication quality), and refine the generic V2 import pipeline"
+        },
+        "vh-lab/ndi-matlab#1264": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "v2 writers for NDI's makers and the other remaining v1 writers"
+        },
+        "vh-lab/ndi-matlab#1265": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Port the Kilosort importer to a v2 pipeline"
+        },
+        "vh-lab/ndi-matlab#1266": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Reading a migrated session must be as fast as v1"
+        },
+        "vh-lab/ndi-matlab#1267": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "The dataset-map step and what each per-dataset import must do"
+        },
+        "vh-lab/ndi-matlab#1269": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Second-pass conversion of ingested archives: what is left"
+        },
+        "vh-lab/ndi-matlab#1270": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Make the v2 ingest write v2 directly"
+        },
+        "vh-lab/ndi-matlab#1275": {
+            "author": "jesshaley",
+            "closed_at": "2026-11-26T05:03:36Z",
+            "state": "closed",
+            "state_reason": "not_planned",
+            "title": "NDI-compress ephys header may store original_format as characters (unverified)"
+        },
+        "vh-lab/ndi-matlab#1276": {
+            "author": "jesshaley",
+            "closed_at": "2026-11-26T05:03:38Z",
+            "state": "closed",
+            "state_reason": "not_planned",
+            "title": "v1 ingest may keep only the first code of a multi-code marker event (unverified)"
+        },
+        "vh-lab/ndi-matlab#1282": {
+            "author": "jesshaley",
+            "closed_at": "2026-11-26T05:03:33Z",
+            "state": "closed",
+            "state_reason": "not_planned",
+            "title": "NDI-compress reads a UTF-8 text entry back one byte per character"
+        },
+        "vh-lab/ndi-matlab#1308": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "recordingAttribution: only recordings are candidates"
+        },
+        "vh-lab/ndi-matlab#1309": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Audit batch 2: carry labels and clock-less baths; cite carry-120"
+        },
+        "vh-lab/ndi-matlab#1312": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "No observes relation in v2: readers read statements and the carried subject"
+        },
+        "vh-lab/ndi-matlab#1313": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Audit batch 2, recording attribution and the 2026-11-26 Dab answers (#1309, #1308)"
+        },
+        "vh-lab/ndi-matlab#1314": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "A device named as instrument of an epoch interaction reads as an element"
+        },
+        "waltham-data-science/did-schema#212": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for the carries recorded 2026-10-28 (carry-112, carry-114, carry-116, carry-117, carry-118)"
+        },
+        "waltham-data-science/did-schema#234": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Homes for the retire classes now carried as v1 (carry-136..146)"
+        },
+        "waltham-data-science/did-schema#286": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Carried v1 fields whose v2 home waits for a dataset that holds them (carry-001, carry-015, carry-075; OPEN_WORK #130, #135, #145)"
+        },
+        "waltham-data-science/did-schema#306": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Time model: one time per record, with its clock readings"
+        },
+        "waltham-data-science/did-schema#308": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "cellTypeLabels migrator: homes for its fields, including taxonomy_level and assignment_method"
+        },
+        "waltham-data-science/did-schema#344": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Registry rows still to add: assay labels, compressor settings, hartley columns"
+        },
+        "waltham-data-science/did-schema#345": {
+            "author": "jesshaley",
+            "closed_at": "2026-11-19T18:28:17Z",
+            "state": "closed",
+            "state_reason": "completed",
+            "title": "Delete the remaining retire classes and base.name"
+        },
+        "waltham-data-science/did-schema#347": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Move the frozen v1 schema set into did-schema"
+        },
+        "waltham-data-science/did-schema#350": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Acquisition system as a device entity: wiring, clocks, epoch ids (walkthrough Q1-Q8)"
+        },
+        "waltham-data-science/did-schema#386": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Build state lives in issues: convert the Build pending lines"
+        },
+        "waltham-data-science/did-schema#89": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Bindings become required: `variable` on every statement, and a node on every term (OPEN_WORK #129, #32)"
+        },
+        "waltham-data-science/empty-ontology#50": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Assay label terms: new general terms, and the old ones obsolete with consider"
+        },
+        "waltham-data-science/ndi-compress-matlabp#6": {
+            "author": "jesshaley",
+            "closed_at": null,
+            "state": "open",
+            "state_reason": null,
+            "title": "Rebuild the .p files from NDI-compress V2 f235447 (needs NDI_COMPRESS_READ_TOKEN)"
+        }
+    },
+    "why": "The state of the GitHub issues that decision lines with a build left name in `Tracked in:`, read offline by tools/check_decision_issues.py. Written by `--refresh` (network); moved deliberately and committed. [build state lives in issues], Jess Haley, 2026-11-26."
+}
