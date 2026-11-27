@@ -1516,7 +1516,7 @@
       "fields": [
         "depends_on document_id"
       ],
-      "when": "the labelled document has no subject (e.g. an E. coli plate image) or no time reference, so no term observation of a subject can carry the label (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m, blocked_target_has_no_subject, unresolved_target_no_time_reference)",
+      "when": "any label the generic stage reads: the label fills a slot of the labelled document, and the v1 document does not say which. This holds whether or not the labelled document has a subject and a time reference; the generic stage writes no term observation for a label (NDI-matlab +migrate/+internal/ontologyLabelSubjects.m since #1309, counted as blocked_target_has_no_subject, unresolved_target_no_time_reference or carried_target_has_subject_and_time)",
       "kind": "needs_mapping",
       "decision": {
         "document": "did_v2_go_forward_class_audit.md",
