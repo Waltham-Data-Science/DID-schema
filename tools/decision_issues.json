@@ -1,5 +1,5 @@
 {
-    "fetched_at": "2026-11-26T17:41:31Z",
+    "fetched_at": "2026-11-27T03:06:04Z",
     "issues": {
         "vh-lab/did-matlab#484": {
             "author": "jesshaley",
@@ -21,13 +21,6 @@
             "state": "open",
             "state_reason": null,
             "title": "Ingested archives in DID's first pass and round trip"
-        },
-        "vh-lab/did-matlab#533": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Stimulus log fallback names the stimulator's own subject; several subjects malformed; no stimulator carried"
         },
         "vh-lab/ndi-matlab#1018": {
             "author": "jesshaley",
@@ -112,13 +105,6 @@
             "state": "open",
             "state_reason": null,
             "title": "recordingAttribution: only recordings are candidates"
-        },
-        "vh-lab/ndi-matlab#1309": {
-            "author": "jesshaley",
-            "closed_at": null,
-            "state": "open",
-            "state_reason": null,
-            "title": "Audit batch 2: carry labels and clock-less baths; cite carry-120"
         },
         "vh-lab/ndi-matlab#1312": {
             "author": "jesshaley",
